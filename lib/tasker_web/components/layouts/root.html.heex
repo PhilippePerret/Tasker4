@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" class="[scrollbar-gutter:stable]">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content={get_csrf_token()} />
+    <.live_title suffix=" · Phoenix Framework">
+      <%= assigns[:page_title] || "Tasker" %>
+    </.live_title>
+    <link phx-track-static rel="stylesheet" href={~p"/assets/css/app.css"} />
+    <script defer phx-track-static type="text/javascript" src={~p"/assets/app.js"}></script>
+
+    <script defer src="https://www.atelier-icare.net/js-libraries/dom.js"></script>
+    <script defer src="https://www.atelier-icare.net/js-libraries/lib_testor.js"></script>
+    <script defer src="https://www.atelier-icare.net/js-libraries/alors/alors_install.js"></script>
+
+  </head>
+  <body>
+    <header><div class="content"><a href={~p"/"}>
+        LOGO APPLICATION
+    </a></div></header>
+    <.flash_group flash={@flash} />
+    <%= @inner_content %>
+    <footer><div class="content">FOOTER APPLICATION</div></footer>
+  </body>
+</html>
