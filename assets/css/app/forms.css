@@ -1,1 +1,61 @@
 /* Spécialement pour les formulaires */
+
+textarea, input[type="text"], input[type="password"], select, select option {
+  font-size:inherit;
+  font-family:inherit;
+  font-style: inherit;
+}
+
+form {
+  border: 8px solid #EEEEEE;
+  border-radius: 1em;
+  padding: 2em 2.4em 2em 1.5em;
+  margin: 2em 0;
+}
+form:not(.max) {
+  max-width: 680px
+}
+form.max {max-width: 100%}
+
+div.bloc-form {
+
+}
+
+div.bloc-form > div > label {
+  display:inline-block;
+  width: 180px;
+  color: #999999;
+  font-style:italic;
+}
+
+div.bloc-form > div {
+  padding:0.4em 0;
+}
+
+div.actions {
+  text-align: right;
+  margin-top: 2em;
+}
+
+.btn {
+  font-family: Arial, Helvetica, Geneva;
+  font-size: inherit;
+  border: 1px solid;
+  padding: 0.35em 1.5em;
+  background-color: #EEEEEE;
+  border-radius: 8px
+}
+div.actions .btn {
+  background-color: #76d276;
+  color:white;
+  border:2px solid rgb(44, 179, 44);
+}
+.btn:not(.big) {
+  font-size: 16pt;
+}
+
+form p.error {
+  font-style: italic;
+  text-align: left;
+  margin-left: 180px;
+}

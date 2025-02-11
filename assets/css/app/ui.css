@@ -29,3 +29,32 @@ div.content {
   padding: 12px 1em;
 }
 a, a:link, a:visited, a:hover {text-decoration: none}
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+}
+/* Titre de page */
+h2 { 
+  font-size: 2em;
+}
+/* Grand sous-division de page */
+h3 {
+  font-size: 1.8;
+  border-bottom: 1px solid #777777;
+}
+
+p {
+  margin:0; padding:0;
+}
+
+.error {color: red;}
+
+section.content {
+  margin-left: 4em;
+}
+section.content:not(.max) {
+  max-width: 840px;
+}
+section.content.max {
+  max-width: 100%;
+}
