@@ -1,6 +1,6 @@
 /* Spécialement pour les formulaires */
 
-textarea, input[type="text"], input[type="password"], select, select option {
+textarea, input[type="text"], input[type="password"], input[type="email"], select, select option {
   font-size:inherit;
   font-family:inherit;
   font-style: inherit;
