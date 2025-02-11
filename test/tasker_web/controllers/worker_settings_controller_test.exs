@@ -56,6 +56,7 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
       response = html_response(old_password_conn, 200)
       assert response =~ "Settings"
       assert response =~ "should be at least 12 character(s)"
+      # assert response =~ "doivent faire au moins 12 caractère(s)"
       assert response =~ "does not match password"
       assert response =~ "is not valid"
 

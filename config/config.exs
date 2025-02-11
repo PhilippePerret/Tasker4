@@ -7,6 +7,7 @@
 # General application configuration
 import Config
 
+
 config :tasker,
   ecto_repos: [Tasker.Repo],
   generators: [timestamp_type: :utc_datetime, binary_id: true]
@@ -48,6 +49,8 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :tasker, TaskerWeb.Gettext, default_locale: "fr"
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

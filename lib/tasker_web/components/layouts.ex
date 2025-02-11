@@ -10,5 +10,8 @@ defmodule TaskerWeb.Layouts do
   """
   use TaskerWeb, :html
 
+  # import TaskerWeb.Gettext
+  use Gettext, backend: TaskerWeb.Gettext
+
   embed_templates "layouts/*"
 end

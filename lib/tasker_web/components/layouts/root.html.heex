@@ -19,7 +19,7 @@
     <ul class="relative z-10 flex items-center gap-4 px-4 sm:px-6 lg:px-8 justify-end">
       <%= if @current_worker do %>
         <li class="text-[0.8125rem] leading-6 text-zinc-900">
-          {@current_worker.email}
+          {@current_worker.pseudo}
         </li>
         <li>
           <.link
@@ -44,7 +44,7 @@
             href={~p"/workers/register"}
             class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
           >
-            Register
+            <%= gettext("Register") %>
           </.link>
         </li>
         <li>
@@ -52,7 +52,7 @@
             href={~p"/workers/log_in"}
             class="text-[0.8125rem] leading-6 text-zinc-900 font-semibold hover:text-zinc-700"
           >
-            Log in
+          <%= gettext("Log in") %>
           </.link>
         </li>
       <% end %>

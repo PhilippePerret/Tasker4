@@ -115,6 +115,4 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 
-  config :tasker, TaskerWeb.Gettext, default_locale: "fr"
-  
 end

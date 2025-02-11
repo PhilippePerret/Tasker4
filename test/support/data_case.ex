@@ -16,11 +16,12 @@ defmodule Tasker.DataCase do
 
   use ExUnit.CaseTemplate
 
+
   using do
     quote do
       alias Tasker.Repo
       alias Tasker.Factory
-
+      
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
