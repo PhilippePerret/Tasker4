@@ -55,7 +55,7 @@ defmodule TaskerWeb.WorkerControllerTest do
       assert redirected_to(conn) == ~p"/workers/#{worker}"
 
       conn = get(conn, ~p"/workers/#{worker}")
-      assert html_response(conn, 200) =~ "some updated password"
+      assert html_response(conn, 200) =~ "Email"
     end
 
     test "renders errors when data is invalid", %{conn: conn, worker: worker} do

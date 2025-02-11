@@ -1,7 +1,4 @@
-<.header>
-  Edit Worker {@worker.id}
-  <:subtitle>Use this form to manage worker records in your database.</:subtitle>
-</.header>
+<h2>Édition du travailleur {@worker.pseudo}</h2>
 
 <.worker_form changeset={@changeset} action={~p"/workers/#{@worker}"} />
 

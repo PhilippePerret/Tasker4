@@ -1,5 +1,3 @@
-Code.require_file("test/support/factory.ex")
-
 defmodule Tasker.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring

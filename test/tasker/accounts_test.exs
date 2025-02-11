@@ -24,7 +24,8 @@ defmodule Tasker.AccountsTest do
       valid_attrs = %{password: "some password", pseudo: "some pseudo", email: "some email"}
 
       assert {:ok, %Worker{} = worker} = Accounts.create_worker(valid_attrs)
-      assert worker.password == "some password"
+      # assert worker.password == "some password"
+      assert Bcrypt.verify_pass("some password", worker.password)
       assert worker.pseudo == "some pseudo"
       assert worker.email == "some email"
     end
@@ -38,7 +39,8 @@ defmodule Tasker.AccountsTest do
       update_attrs = %{password: "some updated password", pseudo: "some updated pseudo", email: "some updated email"}
 
       assert {:ok, %Worker{} = worker} = Accounts.update_worker(worker, update_attrs)
-      assert worker.password == "some updated password"
+      # assert worker.password == "some updated password"
+      assert Bcrypt.verify_pass("some updated password", worker.password)
       assert worker.pseudo == "some updated pseudo"
       assert worker.email == "some updated email"
     end

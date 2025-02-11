@@ -1,11 +1,7 @@
-<.header>
-  Listing Workers
-  <:actions>
-    <.link href={~p"/workers/new"}>
-      <.button>New Worker</.button>
-    </.link>
-  </:actions>
-</.header>
+<h2>Liste des travailleurs</h2>
+<.link href={~p"/workers/new"}>
+  <.button>Créer un nouveau travailleur</.button>
+</.link>
 
 <.table id="workers" rows={@workers} row_click={&JS.navigate(~p"/workers/#{&1}")}>
   <:col :let={worker} label="Pseudo">{worker.pseudo}</:col>

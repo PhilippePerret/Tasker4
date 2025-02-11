@@ -1,7 +1,8 @@
 defmodule Tasker.Factory do
 
-  alias Tasker.{Repo, Worker}
-  import Ecto.Changeset
+  # alias Tasker.Repo
+  alias Tasker.Accounts.Worker
+  # import Ecto.Changeset
 
   @default_attrs %{
     worker: %{
@@ -13,7 +14,7 @@ defmodule Tasker.Factory do
 
   def changeset(:worker, attrs) do
     attrs = Map.merge(attributes(:worker), attrs)
-    %Tasker.Worker{}
+    %Tasker.Accounts.Worker{}
     |> Worker.changeset(attrs)
   end
 

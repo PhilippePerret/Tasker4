@@ -1,4 +1,4 @@
-defmodule Tasker.Worker do
+defmodule Tasker.Accounts.Worker do
   use Ecto.Schema
   import Ecto.Changeset
 
