@@ -1,0 +1,25 @@
+<.header>
+  Listing Workers
+  <:actions>
+    <.link href={~p"/workers/new"}>
+      <.button>New Worker</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="workers" rows={@workers} row_click={&JS.navigate(~p"/workers/#{&1}")}>
+  <:col :let={worker} label="Pseudo">{worker.pseudo}</:col>
+  <:col :let={worker} label="Email">{worker.email}</:col>
+  <:col :let={worker} label="Password">{worker.password}</:col>
+  <:action :let={worker}>
+    <div class="sr-only">
+      <.link navigate={~p"/workers/#{worker}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/workers/#{worker}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={worker}>
+    <.link href={~p"/workers/#{worker}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>

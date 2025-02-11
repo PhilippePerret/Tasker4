@@ -1,0 +1,17 @@
+<.header>
+  Worker {@worker.id}
+  <:subtitle>This is a worker record from your database.</:subtitle>
+  <:actions>
+    <.link href={~p"/workers/#{@worker}/edit"}>
+      <.button>Edit worker</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.list>
+  <:item title="Pseudo">{@worker.pseudo}</:item>
+  <:item title="Email">{@worker.email}</:item>
+  <:item title="Password">{@worker.password}</:item>
+</.list>
+
+<.back navigate={~p"/workers"}>Back to workers</.back>

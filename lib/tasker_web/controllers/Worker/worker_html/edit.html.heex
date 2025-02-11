@@ -1,0 +1,8 @@
+<.header>
+  Edit Worker {@worker.id}
+  <:subtitle>Use this form to manage worker records in your database.</:subtitle>
+</.header>
+
+<.worker_form changeset={@changeset} action={~p"/workers/#{@worker}"} />
+
+<.back navigate={~p"/workers"}>Back to workers</.back>

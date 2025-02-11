@@ -1,3 +1,5 @@
+Code.require_file("test/support/factory.ex")
+
 defmodule Tasker.DataCase do
   @moduledoc """
   This module defines the setup for tests requiring
@@ -19,6 +21,7 @@ defmodule Tasker.DataCase do
   using do
     quote do
       alias Tasker.Repo
+      alias Tasker.Factory
 
       import Ecto
       import Ecto.Changeset

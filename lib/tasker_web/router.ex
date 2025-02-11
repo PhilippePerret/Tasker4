@@ -18,6 +18,10 @@ defmodule TaskerWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+
+    # Pour la gestion des workes
+    resources "/workers", WorkerController
+
   end
 
   # Other scopes may use custom stacks.
