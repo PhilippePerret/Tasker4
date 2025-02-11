@@ -35,4 +35,30 @@ defmodule TaskerWeb.ConnCase do
     Tasker.DataCase.setup_sandbox(tags)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
+
+  @doc """
+  Setup helper that registers and logs in workers.
+
+      setup :register_and_log_in_worker
+
+  It stores an updated connection and a registered worker in the
+  test context.
+  """
+  def register_and_log_in_worker(%{conn: conn}) do
+    worker = Tasker.AccountsFixtures.worker_fixture()
+    %{conn: log_in_worker(conn, worker), worker: worker}
+  end
+
+  @doc """
+  Logs the given `worker` into the `conn`.
+
+  It returns an updated `conn`.
+  """
+  def log_in_worker(conn, worker) do
+    token = Tasker.Accounts.generate_worker_session_token(worker)
+
+    conn
+    |> Phoenix.ConnTest.init_test_session(%{})
+    |> Plug.Conn.put_session(:worker_token, token)
+  end
 end

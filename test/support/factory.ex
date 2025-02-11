@@ -15,7 +15,7 @@ defmodule Tasker.Factory do
   def changeset(:worker, attrs) do
     attrs = Map.merge(attributes(:worker), attrs)
     %Tasker.Accounts.Worker{}
-    |> Worker.changeset(attrs)
+    |> Worker.registration_changeset(attrs)
   end
 
   def attributes(table, attrs \\ %{}) do

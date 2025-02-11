@@ -2,22 +2,23 @@ defmodule TaskerWeb.WorkerControllerTest do
   use TaskerWeb.ConnCase
 
   import Tasker.AccountsFixtures
-
-  @create_attrs %{password: "some password", pseudo: "some pseudo", email: "some email"}
-  @update_attrs %{password: "some updated password", pseudo: "some updated pseudo", email: "some updated email"}
+  @uniq_email "worker#{System.unique_integer()}@example.com"
+  @updated_email  "worker#{System.unique_integer()}@example.com"
+  @create_attrs %{password: "some password", pseudo: "Some pseudo", email: @uniq_email}
+  @update_attrs %{password: "some updated password", pseudo: "some updated pseudo", email: @updated_email}
   @invalid_attrs %{password: nil, pseudo: nil, email: nil}
 
   describe "index" do
     test "lists all workers", %{conn: conn} do
       conn = get(conn, ~p"/workers")
-      assert html_response(conn, 200) =~ "Listing Workers"
+      assert html_response(conn, 200) =~ "travailleurs"
     end
   end
 
   describe "new worker" do
     test "renders form", %{conn: conn} do
       conn = get(conn, ~p"/workers/new")
-      assert html_response(conn, 200) =~ "New Worker"
+      assert html_response(conn, 200) =~ "Nouveau travailleur"
     end
   end
 
@@ -29,12 +30,12 @@ defmodule TaskerWeb.WorkerControllerTest do
       assert redirected_to(conn) == ~p"/workers/#{id}"
 
       conn = get(conn, ~p"/workers/#{id}")
-      assert html_response(conn, 200) =~ "Worker #{id}"
+      assert html_response(conn, 200) =~ "Travailleur #{@create_attrs.pseudo}"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, ~p"/workers", worker: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Worker"
+      assert html_response(conn, 200) =~ "Nouveau travailleur"
     end
   end
 
@@ -43,7 +44,7 @@ defmodule TaskerWeb.WorkerControllerTest do
 
     test "renders form for editing chosen worker", %{conn: conn, worker: worker} do
       conn = get(conn, ~p"/workers/#{worker}/edit")
-      assert html_response(conn, 200) =~ "Edit Worker"
+      assert html_response(conn, 200) =~ "Édition du travailleur #{worker.pseudo}"
     end
   end
 
@@ -60,7 +61,7 @@ defmodule TaskerWeb.WorkerControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, worker: worker} do
       conn = put(conn, ~p"/workers/#{worker}", worker: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Worker"
+      assert html_response(conn, 200) =~ "Édition du travailleur #{worker.pseudo}"
     end
   end
 
