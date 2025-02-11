@@ -58,3 +58,16 @@ section.content:not(.max) {
 section.content.max {
   max-width: 100%;
 }
+
+header ul#worker-mail-tools {
+  position: absolute;
+  right: 1em;
+  top:0;
+  list-style:none
+}
+header ul#worker-mail-tools li {
+  display: inline-block;
+  margin-left:1em;
+  font-family: Arial, Helvetica;
+  font-size: 11pt;
+}

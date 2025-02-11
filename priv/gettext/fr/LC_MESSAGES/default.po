@@ -55,9 +55,19 @@ msgstr "fermeture"
 #: lib/tasker_web/components/layouts/root.html.heex:47
 #, elixir-autogen, elixir-format
 msgid "Register"
-msgstr "S'inscrire"
+msgstr "Inscription"
 
 #: lib/tasker_web/components/layouts/root.html.heex:55
 #, elixir-autogen, elixir-format
 msgid "Log in"
-msgstr "S'identifier"
+msgstr "Identification"
+
+#: lib/tasker_web/components/layouts/root.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Log out"
+msgstr "Déconnexion"
+
+#: lib/tasker_web/components/layouts/root.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr "Réglages"

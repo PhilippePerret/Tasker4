@@ -61,3 +61,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Log in"
 msgstr ""
+
+#: lib/tasker_web/components/layouts/root.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Log out"
+msgstr ""
+
+#: lib/tasker_web/components/layouts/root.html.heex:29
+#, elixir-autogen, elixir-format
+msgid "Settings"
+msgstr ""

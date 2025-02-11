@@ -3,8 +3,7 @@ defmodule TaskerWeb.PageController do
 
   
   def home(conn, _params) do
-    IO.inspect(Gettext.get_locale(TaskerWeb.Gettext), label: "LOCALE")
-
+    # IO.inspect(Gettext.get_locale(TaskerWeb.Gettext), label: "LOCALE")
     render(conn, :home)
   end
 end
