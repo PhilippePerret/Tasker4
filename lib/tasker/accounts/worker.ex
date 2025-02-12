@@ -42,7 +42,16 @@ defmodule Tasker.Accounts.Worker do
     |> cast(attrs, [:email, :password, :pseudo])
     |> validate_email(opts)
     |> validate_password(opts)
+    |> validate_pseudo(opts)
   end
+
+  defp validate_pseudo(changeset, opts) do
+    changeset
+    |> validate_required([:pseudo])
+    |> validate_length(:pseudo, min: 3, max: 100)
+    |> unsafe_validate_unique(:pseudo, Tasker.Repo)
+    |> unique_constraint(:pseudo)
+end
 
   defp validate_email(changeset, opts) do
     changeset

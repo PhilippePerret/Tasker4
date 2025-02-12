@@ -160,7 +160,7 @@ defmodule Tasker.AccountsTest do
   describe "change_worker_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Accounts.change_worker_registration(%Worker{})
-      assert changeset.required == [:password, :email]
+      assert changeset.required == [:pseudo, :password, :email]
     end
 
     test "allows fields to be set" do
@@ -568,4 +568,18 @@ defmodule Tasker.AccountsTest do
       refute inspect(%Worker{password: "123456"}) =~ "password: \"123456\""
     end
   end
+
+  describe "le pseudo" do
+
+    test "doit être unique" do
+      # %Worker{pseudo: "Phil", email: "emaildephil@chez.lui"} |> Repo.insert!()
+      attrs = valid_worker_attributes(%{pseudo: "Phil"})
+      Worker.registration_changeset(%Worker{}, attrs)
+      |> Repo.insert!()
+      # Test avec un autre
+      changeset = Worker.registration_changeset(%Worker{}, %{pseudo: "Phil"})
+      assert {:error, _} = Repo.insert(changeset) # S'assure que l'insert échoue
+    end
+
+  end #/describe "le pseudo"
 end

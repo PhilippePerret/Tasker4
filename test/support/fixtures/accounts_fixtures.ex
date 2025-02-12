@@ -6,11 +6,12 @@ defmodule Tasker.AccountsFixtures do
 
 
   def unique_worker_email, do: "worker#{System.unique_integer()}@example.com"
+  def unique_worker_pseudo, do: "Worker #{System.unique_integer()}"
   def valid_worker_password, do: "hello world!"
 
   def valid_worker_attributes(attrs \\ %{}) do
     Enum.into(attrs, %{
-      pseudo: "Some pseudo",
+      pseudo: unique_worker_pseudo(),
       email: unique_worker_email(),
       password: valid_worker_password()
     })
