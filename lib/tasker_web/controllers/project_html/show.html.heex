@@ -1,0 +1,15 @@
+<h2>
+  <%= dgettext("tasker", "Project") %> {@project.title}
+  <div class="actions">
+    <.link href={~p"/projects/#{@project}/edit"}>
+      <.button><%= dgettext("tasker", "Edit project") %></.button>
+    </.link>
+  </div>
+</h2>
+
+<.list>
+  <:item title="Title">{@project.title}</:item>
+  <:item title="Details">{@project.details}</:item>
+</.list>
+
+<.back navigate={~p"/projects"}>Back to projects</.back>

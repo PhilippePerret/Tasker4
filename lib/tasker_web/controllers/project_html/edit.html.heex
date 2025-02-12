@@ -1,0 +1,7 @@
+<h2>
+  <%= dgettext("tasker", "Edit Project") %> {@project.title}
+</h2>
+
+<.project_form changeset={@changeset} action={~p"/projects/#{@project}"} />
+
+<.back navigate={~p"/projects"}><%= dgettext("tasker", "Back to projects") %></.back>

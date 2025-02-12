@@ -72,6 +72,8 @@ defmodule TaskerWeb.Router do
     post "/workers/confirm/:token", WorkerConfirmationController, :update
 
 
+    # Pour la gestion des projets
+    resources "/projects", ProjectController
     # Pour la gestion des workers
     resources "/workers", WorkerController
   end
