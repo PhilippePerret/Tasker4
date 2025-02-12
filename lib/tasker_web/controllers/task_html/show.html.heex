@@ -1,0 +1,15 @@
+<h2>
+  <%= dgettext("tasker", "Task") %> <span class="small">{@task.id}</span>
+  <div class="actions">
+    <.link href={~p"/tasks/#{@task}/edit"}>
+      <.button>Edit task</.button>
+    </.link>
+  </div>
+</h2>
+
+<div><strong><%= dgettext("tasker", "Task ID") %>:</strong> <%= @task.id %></div>
+<%= if @task.project do %>
+  <div><strong><%= dgettext("tasker", "Project") %>:</strong> <%= @task.project.id %></div>
+<% end %>
+
+<.back navigate={~p"/tasks"}><%= dgettext("tasker", "Back to tasks") %></.back>

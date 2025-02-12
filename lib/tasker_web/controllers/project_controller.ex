@@ -4,9 +4,6 @@ defmodule TaskerWeb.ProjectController do
   alias Tasker.Projet
   alias Tasker.Projet.Project
 
-  use Gettext, backend: TaskerWeb.Gettext
-
-
   def index(conn, _params) do
     projects = Projet.list_projects()
     render(conn, :index, projects: projects)
