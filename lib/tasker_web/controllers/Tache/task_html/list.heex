@@ -14,10 +14,10 @@
     <%= task.title %>
   </:col>
   <:col :let={task} label={dgettext("tasker", "Created at")}>
-    <%= task.inserted_at %>
+    <%= TFormat.to_s(task.inserted_at) %>
   </:col>
   <:col :let={task} label={dgettext("tasker", "Updated at")}>
-    <%= task.updated_at %>
+    <%= TFormat.to_s(task.updated_at) %>
   </:col>
   <:action :let={task}>
     <.link navigate={~p"/tasks/#{task}/edit"}><%= dgettext("tasker", "Edit") %></.link>

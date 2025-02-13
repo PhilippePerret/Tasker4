@@ -6,7 +6,7 @@ defmodule TaskerWeb.TaskController do
 
   def index(conn, _params) do
     tasks = Tache.list_tasks() |> Repo.preload(:project)
-    render(conn, :index, tasks: tasks)
+    render(conn, :list, tasks: tasks)
   end
 
   defp common_render(conn, action, task_id) do
