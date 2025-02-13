@@ -129,7 +129,7 @@ msgstr "ID Tâche"
 #: lib/tasker_web/controllers/Tache/task_html/index.html.heex:13
 #, elixir-autogen, elixir-format
 msgid "Task Title"
-msgstr "Titre"
+msgstr "Titre de la tâche"
 
 #: lib/tasker_web/controllers/Tache/task_controller.ex:93
 #, elixir-autogen, elixir-format

@@ -449,6 +449,7 @@ defmodule TaskerWeb.CoreComponents do
 
   slot :col, required: true do
     attr :label, :string
+    attr :class, :string
   end
 
   slot :action, doc: "the slot for showing user actions in the last table column"
@@ -464,10 +465,8 @@ defmodule TaskerWeb.CoreComponents do
       <table>
         <thead>
           <tr>
-            <th :for={col <- @col}><%= col[:label] %></th>
-            <th :if={@action != []}>
-              <span class="sr-only"><%= gettext("Actions") %></span>
-            </th>
+            <th :for={col <- @col} class={col[:class]||""}><%= col[:label] %></th>
+            <th :if={@action != []}></th>
           </tr>
         </thead>
         <tbody

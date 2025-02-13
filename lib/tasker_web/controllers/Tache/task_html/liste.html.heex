@@ -7,22 +7,20 @@
 </h2>
 
 <.table id="tasks" rows={@tasks} row_click={&JS.navigate(~p"/tasks/#{&1}")}>
-  <:col :let={task} label={dgettext("tasker", "Project")}>
+  <:col class={"titre-projet"} :let={task} label={dgettext("tasker", "Project")}>
     <%= if task.project, do: task.project.title, else: dgettext("tasker", "No Project") %>
   </:col>
   <:col :let={task} label={dgettext("tasker", "Task Title")}>
     <%= task.title %>
   </:col>
   <:col :let={task} label={dgettext("tasker", "Created at")}>
-    <%= TFormat.to_s(task.inserted_at) %>
+    <%= TFormat.to_s(task.inserted_at, [time: true]) %>
   </:col>
   <:col :let={task} label={dgettext("tasker", "Updated at")}>
-    <%= TFormat.to_s(task.updated_at) %>
+    <%= TFormat.to_s(task.updated_at, [time: true]) %>
   </:col>
   <:action :let={task}>
     <.link navigate={~p"/tasks/#{task}/edit"}><%= dgettext("tasker", "Edit") %></.link>
-  </:action>
-  <:action :let={task}>
     <.link href={~p"/tasks/#{task}"} method="delete" data-confirm={dgettext("tasker", "Are you sure?")}>
       <%= dgettext("tasker", "Remove") %>
     </.link>

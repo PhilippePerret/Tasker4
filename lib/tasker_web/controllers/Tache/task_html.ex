@@ -12,12 +12,4 @@ defmodule TaskerWeb.TaskHTML do
 
   def task_form(assigns)
 
-  @doc """
-  Renders a task_spec form.
-  """
-  attr :changeset, Ecto.Changeset, required: true
-  attr :action, :string, required: true
-
-  def task_spec_form(assigns)
-
 end

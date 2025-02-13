@@ -2,6 +2,11 @@ body {
   font-size:16pt;
   margin-top: 100px;
 }
+
+table {
+  width: 100%
+}
+
 footer {
   position:fixed;
   bottom:0; left:0; width: 100%;
@@ -52,8 +57,12 @@ p {
 section.content {
   margin-left: 4em;
 }
-section.content:not(.max) {
+section.content:not(.paysage) {
   max-width: 840px;
+}
+section.content.paysage {
+  max-width: 90%;
+  width: 90%;
 }
 section.content.max {
   max-width: 100%;
@@ -70,4 +79,9 @@ header ul#worker-mail-tools li {
   margin-left:1em;
   font-family: Arial, Helvetica;
   font-size: 11pt;
+}
+
+th.titre-projet {
+  width: 240px;
+  background-color: #DDD;
 }

@@ -13,6 +13,20 @@
     <.input field={fp[:details]} type="text" label="Details" />
   </.inputs_for>
 
+  <.inputs_for :let={ft} field={f[:task_time]}>
+    <.input field={ft[:should_start_at]} type="datetime-local" label={dgettext("tasker", "Should start at")} />
+    <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
+    <.input field={ft[:started_at]} type="datetime-local" label="Started at" />
+    <.input field={ft[:ended_at]} type="datetime-local" label="Ended at" />
+    <.input field={ft[:given_up_at]} type="datetime-local" label="Given up at" />
+    <.input field={ft[:priority]} type="number" label="Priority" />
+    <.input field={ft[:urgence]} type="number" label="Urgence" />
+    <.input field={ft[:recurrence]} type="text" label="Recurrence" />
+    <.input field={ft[:expect_duration]} type="number" label="Expect duration" />
+    <.input field={ft[:execution_time]} type="number" label="Execution time" />  
+  </.inputs_for>
+
+
 
   <:actions>
     <.button><%= dgettext("tasker", "Save Task") %></.button>

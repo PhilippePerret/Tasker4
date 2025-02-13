@@ -8,12 +8,6 @@ defmodule TaskerWeb.TaskTimeController do
     task_times = Tache.list_task_times()
     render(conn, :index, task_times: task_times)
   end
-
-  def new(conn, _params) do
-    changeset = Tache.change_task_time(%TaskTime{})
-    render(conn, :new, changeset: changeset)
-  end
-
   def create(conn, %{"task_time" => task_time_params}) do
     case Tache.create_task_time(task_time_params) do
       {:ok, task_time} ->
@@ -29,12 +23,6 @@ defmodule TaskerWeb.TaskTimeController do
   def show(conn, %{"id" => id}) do
     task_time = Tache.get_task_time!(id)
     render(conn, :show, task_time: task_time)
-  end
-
-  def edit(conn, %{"id" => id}) do
-    task_time = Tache.get_task_time!(id)
-    changeset = Tache.change_task_time(task_time)
-    render(conn, :edit, task_time: task_time, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "task_time" => task_time_params}) do
