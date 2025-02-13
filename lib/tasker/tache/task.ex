@@ -8,6 +8,7 @@ defmodule Tasker.Tache.Task do
 
     field :title, :string
     belongs_to :project, Tasker.Projet.Project, type: :binary_id
+    has_one :task_spec, Tasker.Tache.TaskSpec
 
     timestamps(type: :utc_datetime)
   end
@@ -16,6 +17,7 @@ defmodule Tasker.Tache.Task do
   def changeset(task, attrs) do
     task
     |> cast(attrs, [:title, :project_id])
+    |> cast_assoc(:task_spec)
     |> validate_required([:title])
     |> validate_length(:title, min: 10, max: 255)
   end

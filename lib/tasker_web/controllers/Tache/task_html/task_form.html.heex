@@ -9,6 +9,11 @@
   
   <.input field={f[:new_project]} label={ dgettext("tasker", "New Project") } />
 
+  <.inputs_for :let={fp} field={f[:task_spec]}>
+    <.input field={fp[:details]} type="text" label="Details" />
+  </.inputs_for>
+
+
   <:actions>
     <.button><%= dgettext("tasker", "Save Task") %></.button>
   </:actions>

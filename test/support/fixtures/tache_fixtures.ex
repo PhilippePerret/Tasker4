@@ -17,4 +17,18 @@ defmodule Tasker.TacheFixtures do
 
     task
   end
+
+  @doc """
+  Generate a task_spec.
+  """
+  def task_spec_fixture(attrs \\ %{}) do
+    {:ok, task_spec} =
+      attrs
+      |> Enum.into(%{
+        details: "some details"
+      })
+      |> Tasker.Tache.create_task_spec()
+
+    task_spec
+  end
 end

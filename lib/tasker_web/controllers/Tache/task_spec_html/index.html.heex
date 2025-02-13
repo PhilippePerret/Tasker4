@@ -1,0 +1,23 @@
+<.header>
+  Listing Task specs
+  <:actions>
+    <.link href={~p"/task_specs/new"}>
+      <.button>New Task spec</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="task_specs" rows={@task_specs} row_click={&JS.navigate(~p"/task_specs/#{&1}")}>
+  <:col :let={task_spec} label="Details">{task_spec.details}</:col>
+  <:action :let={task_spec}>
+    <div class="sr-only">
+      <.link navigate={~p"/task_specs/#{task_spec}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/task_specs/#{task_spec}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={task_spec}>
+    <.link href={~p"/task_specs/#{task_spec}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
