@@ -6,6 +6,10 @@ textarea, input[type="text"], input[type="password"], input[type="email"], selec
   font-style: inherit;
 }
 
+select, select option {
+  background: bottom;
+}
+
 form {
   border: 8px solid #EEEEEE;
   border-radius: 1em;

@@ -6,6 +6,7 @@ defmodule Tasker.Tache.Task do
   @foreign_key_type :binary_id
   schema "tasks" do
 
+    field :title, :string
     belongs_to :project, Tasker.Projet.Project, type: :binary_id
 
     timestamps(type: :utc_datetime)
@@ -14,7 +15,8 @@ defmodule Tasker.Tache.Task do
   @doc false
   def changeset(task, attrs) do
     task
-    |> cast(attrs, [:project_id])
-    |> validate_required([])
+    |> cast(attrs, [:title, :project_id])
+    |> validate_required([:title])
+    |> validate_length(:title, min: 10, max: 255)
   end
 end

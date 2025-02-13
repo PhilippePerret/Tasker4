@@ -44,7 +44,10 @@ defmodule TaskerWeb do
         layouts: [html: TaskerWeb.Layouts]
 
       import Plug.Conn
-      import TaskerWeb.Gettext
+      # import TaskerWeb.Gettext
+      use Gettext, backend: TaskerWeb.Gettext
+
+
 
       unquote(verified_routes())
     end

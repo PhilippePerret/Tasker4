@@ -1,5 +1,5 @@
 <h2><%= dgettext("tasker", "Edit Task") %>  <span class="small">{@task.id}</span></h2>
 
-<.task_form changeset={@changeset} action={~p"/tasks/#{@task}"} />
+<.task_form changeset={@changeset} action={~p"/tasks/#{@task}"} projects={@projects} />
 
 <.back navigate={~p"/tasks"}><%= dgettext("tasker", "Back to tasks") %></.back>

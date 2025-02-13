@@ -8,6 +8,8 @@ defmodule TaskerWeb.TaskHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
+  attr :projects, :list, required: true
 
   def task_form(assigns)
+
 end
