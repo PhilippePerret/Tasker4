@@ -1,0 +1,8 @@
+<.header>
+  Edit Task time {@task_time.id}
+  <:subtitle>Use this form to manage task_time records in your database.</:subtitle>
+</.header>
+
+<.task_time_form changeset={@changeset} action={~p"/task_times/#{@task_time}"} />
+
+<.back navigate={~p"/task_times"}>Back to task_times</.back>

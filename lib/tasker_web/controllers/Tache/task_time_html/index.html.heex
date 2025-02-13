@@ -1,0 +1,32 @@
+<.header>
+  Listing Task times
+  <:actions>
+    <.link href={~p"/task_times/new"}>
+      <.button>New Task time</.button>
+    </.link>
+  </:actions>
+</.header>
+
+<.table id="task_times" rows={@task_times} row_click={&JS.navigate(~p"/task_times/#{&1}")}>
+  <:col :let={task_time} label="Should start at">{task_time.should_start_at}</:col>
+  <:col :let={task_time} label="Should end at">{task_time.should_end_at}</:col>
+  <:col :let={task_time} label="Started at">{task_time.started_at}</:col>
+  <:col :let={task_time} label="Ended at">{task_time.ended_at}</:col>
+  <:col :let={task_time} label="Given up at">{task_time.given_up_at}</:col>
+  <:col :let={task_time} label="Priority">{task_time.priority}</:col>
+  <:col :let={task_time} label="Urgence">{task_time.urgence}</:col>
+  <:col :let={task_time} label="Recurrence">{task_time.recurrence}</:col>
+  <:col :let={task_time} label="Expect duration">{task_time.expect_duration}</:col>
+  <:col :let={task_time} label="Execution time">{task_time.execution_time}</:col>
+  <:action :let={task_time}>
+    <div class="sr-only">
+      <.link navigate={~p"/task_times/#{task_time}"}>Show</.link>
+    </div>
+    <.link navigate={~p"/task_times/#{task_time}/edit"}>Edit</.link>
+  </:action>
+  <:action :let={task_time}>
+    <.link href={~p"/task_times/#{task_time}"} method="delete" data-confirm="Are you sure?">
+      Delete
+    </.link>
+  </:action>
+</.table>
