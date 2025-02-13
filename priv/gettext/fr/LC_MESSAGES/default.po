@@ -52,22 +52,22 @@ msgstr "Je ne parviens pas à me connecter à internet…"
 msgid "close"
 msgstr "fermeture"
 
-#: lib/tasker_web/components/layouts/root.html.heex:47
+#: lib/tasker_web/components/layouts/root.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "Register"
 msgstr "Inscription"
 
-#: lib/tasker_web/components/layouts/root.html.heex:55
+#: lib/tasker_web/components/layouts/root.html.heex:43
 #, elixir-autogen, elixir-format
 msgid "Log in"
 msgstr "Identification"
 
-#: lib/tasker_web/components/layouts/root.html.heex:38
+#: lib/tasker_web/components/layouts/root.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: lib/tasker_web/components/layouts/root.html.heex:29
+#: lib/tasker_web/components/layouts/root.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Réglages"
