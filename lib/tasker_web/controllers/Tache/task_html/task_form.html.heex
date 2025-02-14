@@ -3,30 +3,28 @@
     <%= dgettext("tasker", "Oops, something went wrong! Please check the errors below.") %>
   </.error>
 
-  <.input field={f[:title]} label={dgettext("tasker", "Title")} />
+  <.input field={f[:title]} label={dgettext("tasker", "Task Title")} />
 
-  <.input field={f[:project_id]} type="select" label={dgettext("tasker", "Choose Project (optional)")} options={Enum.map(@projects, &{&1.title, &1.id})} />
+  <.input field={f[:project_id]} type="select" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
   
   <.input field={f[:new_project]} label={ dgettext("tasker", "New Project") } />
 
   <.inputs_for :let={fp} field={f[:task_spec]}>
-    <.input field={fp[:details]} type="text" label="Details" />
+    <.input field={fp[:details]} type="textarea" class="details" label={dgettext("tasker", "Details")} />
   </.inputs_for>
 
   <.inputs_for :let={ft} field={f[:task_time]}>
-    <.input field={ft[:should_start_at]} type="datetime-local" label={dgettext("tasker", "Should start at")} />
+    <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Should start at")} />
     <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
-    <.input field={ft[:started_at]} type="datetime-local" label="Started at" />
-    <.input field={ft[:ended_at]} type="datetime-local" label="Ended at" />
-    <.input field={ft[:given_up_at]} type="datetime-local" label="Given up at" />
-    <.input field={ft[:priority]} type="number" label="Priority" />
-    <.input field={ft[:urgence]} type="number" label="Urgence" />
-    <.input field={ft[:recurrence]} type="text" label="Recurrence" />
-    <.input field={ft[:expect_duration]} type="number" label="Expect duration" />
-    <.input field={ft[:execution_time]} type="number" label="Execution time" />  
+    <.input field={ft[:started_at]} type="datetime-local" label={dgettext("tasker", "Started at")} />
+    <.input field={ft[:ended_at]} type="datetime-local" label={dgettext("tasker", "Ended at")} />
+    <.input field={ft[:given_up_at]} type="datetime-local" label={dgettext("tasker", "Given up at")} />
+    <.input field={ft[:priority]} type="number" label={dgettext("tasker", "Priority")} />
+    <.input field={ft[:urgence]} type="number" label={dgettext("tasker", "Urgence")} />
+    <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+    <.input field={ft[:expect_duration]} type="number" label={dgettext("tasker", "Expect duration")} />
+    <.input field={ft[:execution_time]} type="number" label={dgettext("tasker", "Execution time")} />  
   </.inputs_for>
-
-
 
   <:actions>
     <.button><%= dgettext("tasker", "Save Task") %></.button>

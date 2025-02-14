@@ -53,7 +53,7 @@ p {
   margin:0; padding:0;
 }
 
-.error {color: red;}
+.warning {color: red;}
 
 section.content {
   margin-left: 4em;

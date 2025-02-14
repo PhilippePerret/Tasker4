@@ -13,12 +13,20 @@ defmodule TaskerWeb.TaskController do
   end
 
   defp common_render(conn, action, task_id) do
-    changeset_task = 
+    # changeset_task = 
+    #   if action == :new do
+    #     Tache.change_task(%Task{})
+    #   else
+    #     Tache.get_task!(task_id) |> Tache.change_task()
+    #   end
+
+    changeset_task =
       if action == :new do
-        Tache.change_task(%Task{})
+        %Task{} |> Ecto.Changeset.change()  # Pas de validations appliquées
       else
         Tache.get_task!(task_id) |> Tache.change_task()
       end
+
     changeset_spec = 
       if action == :new do
         Tache.change_task_spec(%TaskSpec{})
