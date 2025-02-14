@@ -1,6 +1,7 @@
 body {
   font-size:16pt;
   margin-top: 100px;
+  font-family: Common;
 }
 
 table {
@@ -84,4 +85,23 @@ header ul#worker-mail-tools li {
 th.titre-projet {
   width: 240px;
   background-color: #DDD;
+}
+
+div#flash-group {
+  position: fixed;
+  background-color: white;
+  width: 450px;
+  border: 1px solid;
+  padding: 0.5em 1em;
+  right: 1em;
+  top: 60px;
+  max-width: 450px;
+  font-family: PPOptima;
+  z-index: 1500;
+}
+div#flash-group p.close-box {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  content: "X";
 }

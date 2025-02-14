@@ -1,0 +1,83 @@
+/* Les fonts à charger */
+
+@font-face {
+  font-family: "PPOptima";
+  src: url("/fonts/Optima-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PPOptima";
+  src: url("/fonts/Optima-Bold.ttf") format("ttf");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "PPOptima";
+  src: url("/fonts/Optima-Italic.ttf") format("ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PPOptima";
+  src: url("/fonts/Optima-BoldItalic.ttf") format("ttf");
+  font-weight: bold;
+  font-style: italic;
+}
+@font-face {
+  font-family: "PPOptima";
+  src: url("/fonts/Optima-ExtraBlack.ttf") format("ttf");
+  font-weight: black;
+  font-style: normal;
+}
+
+
+@font-face {
+  font-family: "AvenirN";
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Regular.ttf") format("ttf");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "AvenirN";
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Medium.ttf") format("ttf");
+  font-weight: 500;
+  font-style: medium;
+}
+@font-face {
+  font-family: "AvenirN";
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Italic.ttf") format("ttf");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "AvenirN";
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-UltraLight.ttf") format("ttf");
+  font-weight: 200;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Common";
+  src: url("/fonts/Pt-Serif/pt-serif-v11-latin-regular.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Common";
+  src: url("/fonts/Pt-Serif/pt-serif-v11-latin-700.woff2") format("woff2");
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Common";
+  src: url("/fonts/Pt-Serif/pt-serif-v11-latin-italic.woff2") format("woff2");
+  font-weight: normal;
+  font-style: italic;
+}
+@font-face {
+  font-family: "Common";
+  src: url("/fonts/Pt-Serif/pt-serif-v11-latin-700Italic.woff2") format("woff2");
+  font-weight: bold;
+  font-style: italic;
+}

@@ -154,19 +154,28 @@ defmodule Tasker.TacheTest do
     end
 
     test "update_task_time/2 with invalid data returns error changeset" do
+      # Note à propos des possibilités étranges
+      # 
+      #   On peut avoir une date de fin (ended_at) sans date de début
+      #   (si on en a besoin, le programme "invente" la date de début)
       task_time = task_time_fixture()
+      now = NaiveDateTime.utc_now()
       started_at = random_time(:before, 1_000_000)
       # Une date de fin ne peut être avant la date de début
       bad_end_from_start = %{started_at: started_at, ended_at: random_time(:before, started_at)}
       # Une date de désir de fin ne peut être avant une date de désir de début
       should_start_at = random_time()
       bad_should_end_from_should_start = %{should_start_at: should_start_at, should_end_at: random_time(:before, should_start_at)}
+      # Une date d'abandon ne peut co-exister avec une date de fin
+      bad_end_and_given_up = %{ended_at: random_time(:between, started_at, now), given_up_at: random_time(:between, started_at, now) }
 
       # On passe ne revue chaque impossibilité
       [
         bad_end_from_start,
-        bad_should_end_from_should_start
+        bad_should_end_from_should_start,
+        bad_end_and_given_up
       ] |> Enum.each(fn bad_attrs -> 
+        # IO.inspect(bad_attrs, label: "\nMAUVAIS ATTRIBUTS")
         # La tâche ne peut pas être actualisée
         assert {:error, %Ecto.Changeset{}} = Tache.update_task_time(task_time, bad_attrs)
         # La tâche n'a pas changé

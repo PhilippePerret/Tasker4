@@ -186,7 +186,7 @@ defmodule Tasker.TacheFixtures do
   # en minute
   def random_time(:before, ref_time, max_laps) do
     ref_time
-    |> NaiveDateTime.add(Enum.random((max_laps..-1)), :minute)
+    |> NaiveDateTime.add(Enum.random((-max_laps..-1)), :minute)
   end
   # APRÈS une date de référence fournie, dans un intervalle donné
   # en minute
