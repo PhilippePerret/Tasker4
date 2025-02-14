@@ -2,57 +2,57 @@
 
 @font-face {
   font-family: "PPOptima";
-  src: url("/fonts/Optima-Regular.ttf") format("ttf");
+  src: url("/fonts/Optima/Optima-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "PPOptima";
-  src: url("/fonts/Optima-Bold.ttf") format("ttf");
+  src: url("/fonts/Optima/Optima-Bold.ttf") format("truetype");
   font-weight: bold;
   font-style: normal;
 }
 @font-face {
   font-family: "PPOptima";
-  src: url("/fonts/Optima-Italic.ttf") format("ttf");
+  src: url("/fonts/Optima/Optima-Italic.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
 }
 @font-face {
   font-family: "PPOptima";
-  src: url("/fonts/Optima-BoldItalic.ttf") format("ttf");
+  src: url("/fonts/Optima/Optima-BoldItalic.ttf") format("truetype");
   font-weight: bold;
   font-style: italic;
 }
 @font-face {
   font-family: "PPOptima";
-  src: url("/fonts/Optima-ExtraBlack.ttf") format("ttf");
-  font-weight: black;
+  src: url("/fonts/Optima/Optima-ExtraBlack.ttf") format("truetype");
+  font-weight: 900;
   font-style: normal;
 }
 
 
 @font-face {
   font-family: "AvenirN";
-  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Regular.ttf") format("ttf");
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 @font-face {
   font-family: "AvenirN";
-  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Medium.ttf") format("ttf");
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Medium.ttf") format("truetype");
   font-weight: 500;
-  font-style: medium;
+  font-style: normal;
 }
 @font-face {
   font-family: "AvenirN";
-  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Italic.ttf") format("ttf");
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-Italic.ttf") format("truetype");
   font-weight: normal;
   font-style: italic;
 }
 @font-face {
   font-family: "AvenirN";
-  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-UltraLight.ttf") format("ttf");
+  src: url("/fonts/AvenirNextCondensed/AvenirNextCondensed-UltraLight.ttf") format("truetype");
   font-weight: 200;
   font-style: normal;
 }

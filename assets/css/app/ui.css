@@ -91,7 +91,7 @@ div#flash-group {
   position: fixed;
   background-color: white;
   width: 450px;
-  border: 1px solid;
+  border: 1px solid transparent;
   padding: 0.5em 1em;
   right: 1em;
   top: 60px;
@@ -99,9 +99,49 @@ div#flash-group {
   font-family: PPOptima;
   z-index: 1500;
 }
-div#flash-group p.close-box {
+div#flash-group > div {
+  padding:  0.5em 1em;
+}
+div#flash-group > div > p {
+  font-family: PPOptima!important;
+  font-style: normal!important;
+  font-weight: normal!important;
+}
+div#flash-group div#flash-error {
+  position:relative;
+  border-color: red!important;
+  background-color: #FFEEEE;
+}
+div#flash-group div#flash-error button.close-btn {
+  background-color: red;
+}
+div#flash-group div#flash-info {
+  position:relative;
+  border-color: green!important;
+  background-color: #CCFFCC;
+  color: green;
+}
+div#flash-group div#flash-info button.close-btn {
+  background-color: green;
+}
+div#flash-group div#flash-notice {
+  position:relative;
+  border-color: blue!important;
+  background-color: #CCCCFF;
+  color:blue;
+}
+div#flash-group div#flash-notice button.close-btn {
+  background-color: blue;
+}
+div#flash-group button.close-btn {
+  all: unset;
   position: absolute;
-  top: 12px;
-  right: 12px;
+  top: 8px;
+  right: 8px;
   content: "X";
+  border:1px solid inherit;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  cursor: pointer;
 }
