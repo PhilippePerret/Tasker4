@@ -21,7 +21,7 @@ defmodule Tasker.TacheTest do
     end
 
     test "create_task/1 with valid data creates a task" do
-      valid_attrs = %{}
+      valid_attrs = %{title: "Tâche du #{NaiveDateTime.utc_now()}"}
 
       assert {:ok, %Task{} = _task} = Tache.create_task(valid_attrs)
     end
@@ -62,7 +62,9 @@ defmodule Tasker.TacheTest do
     end
 
     test "create_task_spec/1 with valid data creates a task_spec" do
-      valid_attrs = %{details: "some details"}
+      {:ok, task} = Tache.create_task(%{title: "Une tâche à associer à sa fiche spec"})
+
+      valid_attrs = %{details: "some details", task_id: task.id}
 
       assert {:ok, %TaskSpec{} = task_spec} = Tache.create_task_spec(valid_attrs)
       assert task_spec.details == "some details"
@@ -103,7 +105,7 @@ defmodule Tasker.TacheTest do
 
     import Tasker.TacheFixtures
 
-    @invalid_attrs %{priority: nil, started_at: nil, should_start_at: nil, should_end_at: nil, ended_at: nil, given_up_at: nil, urgence: nil, recurrence: nil, expect_duration: nil, execution_time: nil}
+    @invalid_attrs %{}
 
     test "list_task_times/0 returns all task_times" do
       task_time = task_time_fixture()
@@ -116,19 +118,18 @@ defmodule Tasker.TacheTest do
     end
 
     test "create_task_time/1 with valid data creates a task_time" do
-      valid_attrs = %{priority: 42, started_at: ~N[2025-02-12 16:25:00], should_start_at: ~N[2025-02-12 16:25:00], should_end_at: ~N[2025-02-12 16:25:00], ended_at: ~N[2025-02-12 16:25:00], given_up_at: ~N[2025-02-12 16:25:00], urgence: 42, recurrence: "some recurrence", expect_duration: 42, execution_time: 42}
-
+      valid_attrs = task_time_valid_attrs()
       assert {:ok, %TaskTime{} = task_time} = Tache.create_task_time(valid_attrs)
-      assert task_time.priority == 42
-      assert task_time.started_at == ~N[2025-02-12 16:25:00]
-      assert task_time.should_start_at == ~N[2025-02-12 16:25:00]
-      assert task_time.should_end_at == ~N[2025-02-12 16:25:00]
-      assert task_time.ended_at == ~N[2025-02-12 16:25:00]
-      assert task_time.given_up_at == ~N[2025-02-12 16:25:00]
-      assert task_time.urgence == 42
-      assert task_time.recurrence == "some recurrence"
-      assert task_time.expect_duration == 42
-      assert task_time.execution_time == 42
+      assert task_time.priority == valid_attrs.priority
+      assert are_same_time(task_time.started_at, valid_attrs.started_at)
+      assert are_same_time(task_time.should_start_at, valid_attrs.should_start_at)
+      assert are_same_time(task_time.should_end_at, valid_attrs.should_end_at)
+      assert are_same_time(task_time.ended_at, valid_attrs.ended_at)
+      assert are_same_time(task_time.given_up_at, valid_attrs.given_up_at)
+      assert task_time.urgence == valid_attrs.urgence
+      assert task_time.recurrence == valid_attrs.recurrence
+      assert task_time.expect_duration == valid_attrs.expect_duration
+      assert task_time.execution_time == valid_attrs.execution_time
     end
 
     test "create_task_time/1 with invalid data returns error changeset" do
@@ -137,25 +138,40 @@ defmodule Tasker.TacheTest do
 
     test "update_task_time/2 with valid data updates the task_time" do
       task_time = task_time_fixture()
-      update_attrs = %{priority: 43, started_at: ~N[2025-02-13 16:25:00], should_start_at: ~N[2025-02-13 16:25:00], should_end_at: ~N[2025-02-13 16:25:00], ended_at: ~N[2025-02-13 16:25:00], given_up_at: ~N[2025-02-13 16:25:00], urgence: 43, recurrence: "some updated recurrence", expect_duration: 43, execution_time: 43}
+      update_attrs = task_time_valid_attrs()
 
       assert {:ok, %TaskTime{} = task_time} = Tache.update_task_time(task_time, update_attrs)
-      assert task_time.priority == 43
-      assert task_time.started_at == ~N[2025-02-13 16:25:00]
-      assert task_time.should_start_at == ~N[2025-02-13 16:25:00]
-      assert task_time.should_end_at == ~N[2025-02-13 16:25:00]
-      assert task_time.ended_at == ~N[2025-02-13 16:25:00]
-      assert task_time.given_up_at == ~N[2025-02-13 16:25:00]
-      assert task_time.urgence == 43
-      assert task_time.recurrence == "some updated recurrence"
-      assert task_time.expect_duration == 43
-      assert task_time.execution_time == 43
+      assert task_time.priority == update_attrs.priority
+      assert are_same_time(task_time.started_at, update_attrs.started_at)
+      assert are_same_time(task_time.should_start_at, update_attrs.should_start_at)
+      assert are_same_time(task_time.should_end_at, update_attrs.should_end_at)
+      assert are_same_time(task_time.ended_at, update_attrs.ended_at)
+      assert are_same_time(task_time.given_up_at, update_attrs.given_up_at)
+      assert task_time.urgence == update_attrs.urgence
+      assert task_time.recurrence == update_attrs.recurrence
+      assert task_time.expect_duration == update_attrs.expect_duration
+      assert task_time.execution_time == update_attrs.execution_time
     end
 
     test "update_task_time/2 with invalid data returns error changeset" do
       task_time = task_time_fixture()
-      assert {:error, %Ecto.Changeset{}} = Tache.update_task_time(task_time, @invalid_attrs)
-      assert task_time == Tache.get_task_time!(task_time.id)
+      started_at = random_time(:before, 1_000_000)
+      # Une date de fin ne peut être avant la date de début
+      bad_end_from_start = %{started_at: started_at, ended_at: random_time(:before, started_at)}
+      # Une date de désir de fin ne peut être avant une date de désir de début
+      should_start_at = random_time()
+      bad_should_end_from_should_start = %{should_start_at: should_start_at, should_end_at: random_time(:before, should_start_at)}
+
+      # On passe ne revue chaque impossibilité
+      [
+        bad_end_from_start,
+        bad_should_end_from_should_start
+      ] |> Enum.each(fn bad_attrs -> 
+        # La tâche ne peut pas être actualisée
+        assert {:error, %Ecto.Changeset{}} = Tache.update_task_time(task_time, bad_attrs)
+        # La tâche n'a pas changé
+        assert task_time == Tache.get_task_time!(task_time.id)
+      end)
     end
 
     test "delete_task_time/1 deletes the task_time" do

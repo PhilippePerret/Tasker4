@@ -3,7 +3,7 @@ defmodule TaskerWeb.TaskControllerTest do
 
   import Tasker.TacheFixtures
 
-  @create_attrs %{}
+  @create_attrs %{title: "Titre de la tâche"}
   @update_attrs %{}
   # @invalid_attrs %{}
 

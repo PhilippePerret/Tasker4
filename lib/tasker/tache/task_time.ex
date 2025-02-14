@@ -25,5 +25,34 @@ defmodule Tasker.Tache.TaskTime do
     task_time
     |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :priority, :urgence, :recurrence, :expect_duration, :execution_time])
     |> validate_required([:task_id])
+    |> validate_end_at()
+    |> validate_should_end_at()
   end
+
+  defp validate_end_at(changeset) do
+    changeset
+    |> validate_change(:ended_at, fn :ended_at, ended_at ->
+      started_at = get_field(changeset, :started_at)
+      if started_at && ended_at && NaiveDateTime.compare(ended_at, started_at) == :lt do
+        add_error(changeset, :ended_at, "cannot be before started_at")
+      else
+        []
+      end
+    end)
+  end
+
+  defp validate_should_end_at(changeset) do
+    changeset
+    |> validate_change(:should_end_at, fn :should_end_at, should_end_at ->
+      should_start_at = get_field(changeset, :should_start_at)
+      if should_start_at && should_end_at && NaiveDateTime.compare(should_end_at, should_start_at) == :lt do
+        add_error(changeset, :should_end_at, "cannot be before should_start_at")
+      else
+        []
+      end
+    end)
+  end
+
+
+
 end

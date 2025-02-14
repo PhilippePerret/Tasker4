@@ -11,14 +11,14 @@ defmodule TaskerWeb.WorkerControllerTest do
   describe "index" do
     test "lists all workers", %{conn: conn} do
       conn = get(conn, ~p"/workers")
-      assert html_response(conn, 200) =~ "travailleurs"
+      assert html_response(conn, 200) =~ "Workers"
     end
   end
 
   describe "new worker" do
     test "renders form", %{conn: conn} do
       conn = get(conn, ~p"/workers/new")
-      assert html_response(conn, 200) =~ "Nouveau travailleur"
+      assert html_response(conn, 200) =~ "New Worker"
     end
   end
 
@@ -30,12 +30,12 @@ defmodule TaskerWeb.WorkerControllerTest do
       assert redirected_to(conn) == ~p"/workers/#{id}"
 
       conn = get(conn, ~p"/workers/#{id}")
-      assert html_response(conn, 200) =~ "Travailleur #{@create_attrs.pseudo}"
+      assert html_response(conn, 200) =~ "Worker #{@create_attrs.pseudo}"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, ~p"/workers", worker: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Nouveau travailleur"
+      assert html_response(conn, 200) =~ "New Worker"
     end
   end
 
@@ -44,7 +44,7 @@ defmodule TaskerWeb.WorkerControllerTest do
 
     test "renders form for editing chosen worker", %{conn: conn, worker: worker} do
       conn = get(conn, ~p"/workers/#{worker}/edit")
-      assert html_response(conn, 200) =~ "Édition du travailleur #{worker.pseudo}"
+      assert html_response(conn, 200) =~ "Edit Worker #{worker.pseudo}"
     end
   end
 
@@ -61,7 +61,7 @@ defmodule TaskerWeb.WorkerControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, worker: worker} do
       conn = put(conn, ~p"/workers/#{worker}", worker: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Édition du travailleur #{worker.pseudo}"
+      assert html_response(conn, 200) =~ "Edit workder #{worker.pseudo}"
     end
   end
 
