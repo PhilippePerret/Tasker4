@@ -14,14 +14,20 @@
   </.inputs_for>
 
   <.inputs_for :let={ft} field={f[:task_time]}>
-    <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Should start at")} />
-    <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
-    <.input field={ft[:started_at]} type="datetime-local" label={dgettext("tasker", "Started at")} />
-    <.input field={ft[:ended_at]} type="datetime-local" label={dgettext("tasker", "Ended at")} />
+    <div class="inline-fields">
+      <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Should start at")} />
+      <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
+    </div>
+    <div class="inline-fields">
+      <.input field={ft[:started_at]} type="datetime-local" label={dgettext("tasker", "Started at")} />
+      <.input field={ft[:ended_at]} type="datetime-local" label={dgettext("tasker", "Ended at")} />
+    </div>
     <.input field={ft[:given_up_at]} type="datetime-local" label={dgettext("tasker", "Given up at")} />
-    <.input field={ft[:priority]} type="number" label={dgettext("tasker", "Priority")} />
-    <.input field={ft[:urgence]} type="number" label={dgettext("tasker", "Urgence")} />
-    <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+    <div class="inline-fields fields-3">
+      <.input field={ft[:priority]} type="number" label={dgettext("tasker", "Priority")} />
+      <.input field={ft[:urgence]} type="number" label={dgettext("tasker", "Urgence")} />
+      <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+    </div>
     <.input field={ft[:expect_duration]} type="number" label={dgettext("tasker", "Expect duration")} />
     <.input field={ft[:execution_time]} type="number" label={dgettext("tasker", "Execution time")} />  
   </.inputs_for>
