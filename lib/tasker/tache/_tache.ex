@@ -35,7 +35,11 @@ defmodule Tasker.Tache do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task!(id), do: Repo.get!(Task, id)
+  def get_task!(id) do
+    Repo.get!(Task, id)
+    |> Repo.preload(:task_spec)
+    |> Repo.preload(:task_time)
+  end
 
   @doc """
   Creates a task.
@@ -131,7 +135,10 @@ defmodule Tasker.Tache do
       ** (Ecto.NoResultsError)
 
   """
-  def get_task_spec!(id), do: Repo.get!(TaskSpec, id)
+  def get_task_spec!(id) do 
+    Repo.get!(TaskSpec, id)
+    |> Repo.preload(:notes)
+  end
 
   @doc """
   Creates a task_spec.

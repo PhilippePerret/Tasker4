@@ -12,31 +12,25 @@ defmodule TaskerWeb.TaskController do
     |> render(:liste)
   end
 
+  defp common_render(conn, :new) do
+    changeset_task = %Task{} |> Ecto.Changeset.change()
+    changeset_spec = %TaskSpec{} |> Repo.preload(:notes) |> Tache.change_task_spec()
+    common_conn_render(conn, :new, changeset_task, changeset_spec)
+  end
+
   defp common_render(conn, action, task_id) do
-    # changeset_task = 
-    #   if action == :new do
-    #     Tache.change_task(%Task{})
-    #   else
-    #     Tache.get_task!(task_id) |> Tache.change_task()
-    #   end
-
-    changeset_task =
-      if action == :new do
-        %Task{} |> Ecto.Changeset.change()  # Pas de validations appliquées
-      else
-        Tache.get_task!(task_id) |> Tache.change_task()
-      end
-
+    changeset_task = Tache.get_task!(task_id) |> Tache.change_task()
     changeset_spec = 
-      if action == :new do
-        Tache.change_task_spec(%TaskSpec{})
-      else
-        Tache.get_task_spec_by_task_id!(task_id) |> Tache.change_task_spec()
-      end
+      task_id
+      |> Tache.get_task_spec_by_task_id!() 
+      |> Tache.change_task_spec()
+    common_conn_render(conn, action, changeset_task, changeset_spec)
+  end
+  defp common_conn_render(conn, action, changeset_task, changeset_spec) do
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
     |> assign(:changeset, changeset_task)
-    # |> assign(:changeset_spec, changeset_spec)
+    |> assign(:changeset_spec, changeset_spec)
     |> render(action)
   end
 
@@ -54,7 +48,7 @@ defmodule TaskerWeb.TaskController do
   # ---- Méthodes d'action -----
 
   def new(conn, _params) do
-    common_render(conn, :new, nil)
+    common_render(conn, :new)
   end
   
   def edit(conn, %{"id" => id}) do

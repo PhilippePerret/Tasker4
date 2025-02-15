@@ -59,6 +59,9 @@ defmodule TaskerWeb.TaskHTML do
   attr :changeset, Ecto.Changeset, required: true
 
   def current_state(assigns) do
+    changeset = assigns.changeset
+    IO.inspect(changeset, label: "\nCHANGESET dans current_state")
+
     faux_depart = 
       NaiveDateTime.utc_now()
       |> NaiveDateTime.add(-123 * 60)
@@ -96,8 +99,19 @@ defmodule TaskerWeb.TaskHTML do
   attr :changeset, Ecto.Changeset, required: true
 
   def blocnotes(assigns) do
+    changeset = assigns.changeset
+    IO.inspect(changeset, label: "\nASSIGNS.CHANGESET dans blocnotes")
+    notes = changeset.data.task_spec
+    |> IO.inspect(label: "\nTASK SPEC")
     ~H"""
-    [Bloc-note]
+    <div id="blocnotes-container">
+      <div id="blocnotes-note-list">
+
+      </div>
+      <div class="buttons">
+        <button class="btn btn-add">＋</button>
+      </div>
+    </div>
     """
   end
 
