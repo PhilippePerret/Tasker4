@@ -37,6 +37,11 @@
     <div class="current-state">
       <.current_state changeset={@changeset} />
     </div>
+    
+    <div class="current-state">
+      <h3><%= dgettext("tasker", "Bloc-notes de la tâche") %></h3>
+      <.blocnotes changeset={@changeset} />
+    </div>
 
   <:actions>
     <.button><%= dgettext("tasker", "Save Task") %></.button>

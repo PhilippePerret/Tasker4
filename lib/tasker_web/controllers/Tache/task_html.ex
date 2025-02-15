@@ -89,8 +89,22 @@ defmodule TaskerWeb.TaskHTML do
   end
 
 
+  @doc """
+  Composant HEX pour composer le bloc-note de la tâche, mais aussi 
+  des autres propriétaires qui peuvent en posséder.
+  """
+  attr :changeset, Ecto.Changeset, required: true
 
-  # ---- Sous-méthodes des exposants ---- 
+  def blocnotes(assigns) do
+    ~H"""
+    [Bloc-note]
+    """
+  end
+
+
+
+  # ---- Sous-méthodes des composants ---- 
+
   defp define_mark_givenup_at(nil), do: ""
   defp define_mark_givenup_at(task_time) do
     if task_time[:given_up_at] do
