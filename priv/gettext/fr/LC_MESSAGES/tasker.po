@@ -24,9 +24,8 @@ msgstr "Liste des projets"
 
 #: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:7
 #: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:9
-#: lib/tasker_web/controllers/Tache/task_html/new.html.heex:14
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:15
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:34
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:55
 #, elixir-autogen, elixir-format
 msgid "Back to tasks"
 msgstr "Liste des tâches"
@@ -68,7 +67,6 @@ msgstr "Tâches"
 
 #: lib/tasker_web/controllers/Projet/project_html/index.html.heex:5
 #: lib/tasker_web/controllers/Projet/project_html/new.html.heex:2
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:10
 #, elixir-autogen, elixir-format
 msgid "New Project"
 msgstr "Nouveau projet"
@@ -89,7 +87,7 @@ msgstr "Nouveau travailleur"
 msgid "No Project"
 msgstr "Hors projets"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:3
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Un problème est survenu. Vérifiez les points ci-dessous."
@@ -97,7 +95,7 @@ msgstr "Un problème est survenu. Vérifiez les points ci-dessous."
 #: lib/tasker_web/controllers/Projet/project_html/show.html.heex:2
 #: lib/tasker_web/controllers/Tache/task_html/liste.html.heex:10
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:12
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:8
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:12
 #, elixir-autogen, elixir-format
 msgid "Project"
 msgstr "Projet"
@@ -107,7 +105,7 @@ msgstr "Projet"
 msgid "Remove"
 msgstr "Détruire"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:30
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr "Enregistrer la tâche"
@@ -123,27 +121,17 @@ msgid "Task ID"
 msgstr "ID Tâche"
 
 #: lib/tasker_web/controllers/Tache/task_html/liste.html.heex:13
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:6
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:9
 #, elixir-autogen, elixir-format
 msgid "Task Title"
 msgstr "Titre de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:104
+#: lib/tasker_web/controllers/Tache/task_controller.ex:120
 #, elixir-autogen, elixir-format
 msgid "Task deleted successfully."
 msgstr "Tâche supprimée."
 
-#: lib/tasker_web/controllers/Tache/task_html/new.html.heex:3
-#, elixir-autogen, elixir-format
-msgid "Task generalities"
-msgstr "Généralités"
-
-#: lib/tasker_web/controllers/Tache/task_html/new.html.heex:7
-#, elixir-autogen, elixir-format
-msgid "Task specs"
-msgstr "Spécifications"
-
-#: lib/tasker_web/controllers/Tache/task_controller.ex:91
+#: lib/tasker_web/controllers/Tache/task_controller.ex:107
 #, elixir-autogen, elixir-format
 msgid "Task updated successfully."
 msgstr "Tâche modifiée."
@@ -153,57 +141,62 @@ msgstr "Tâche modifiée."
 msgid "Updated at"
 msgstr "Modifié le"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:13
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Details"
 msgstr "Détails"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:20
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "Ended at"
 msgstr "Finie à"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:26
-#, elixir-autogen, elixir-format
-msgid "Execution time"
-msgstr "Temps d'exécution"
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:25
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:39
 #, elixir-autogen, elixir-format
 msgid "Expect duration"
 msgstr "Durée estimée"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:21
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:30
 #, elixir-autogen, elixir-format
 msgid "Given up at"
 msgstr "Abandonnée le"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:22
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "Priority"
 msgstr "Priorité"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:24
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Recurrence"
 msgstr "Récurrence"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:18
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "Should end at"
 msgstr "Fin voulue"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:17
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Should start at"
 msgstr "Début espéré"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:19
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Commencée le"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:23
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Urgence"
 msgstr "Urgence"
+
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:13
+#, elixir-autogen, elixir-format
+msgid "New"
+msgstr "Nouveau"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:72
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Task Current State"
+msgstr "État courant de la tâche"

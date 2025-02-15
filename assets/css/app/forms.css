@@ -15,7 +15,11 @@ input[type="number"] {width: 80px}
 
 select, select option {
   background: bottom;
+  color: #666666;
+  border-color: #CCCCCC;
 }
+
+input.long { width: 75% }
 
 form {
   border: 8px solid #EEEEEE;
@@ -47,17 +51,16 @@ div.bloc-form > div {
 div.bloc-form div.inline-fields > div {
   display:inline-block;
 }
-div.bloc-form div.inline-fields > div {
-  width: 45%;
+div.bloc-form div.inline-fields > div + div {
+  margin-left: 2em
 }
-div.bloc-form div.inline-fields.fields-3 > div {
-  width: 30%;
-}
+
 div.bloc-form div.inline-fields > div label {
   display: inline;
+  margin-right: 0.3em;
 }
-div.bloc-form div.inline-fields > div label {
-  margin-right: 1em;
+div.bloc-form div.inline-fields > div label:after {
+  content: ":"
 }
 div.bloc-form div.inline-fields.fields-3 > div label {
   margin-right: 0.5em;
@@ -100,4 +103,10 @@ textarea {
 textarea:focus {
   height: 200px;
   font-size: 1em;
+}
+textarea.details {
+  height: 100px;
+}
+textarea.details:focus {
+  height: 400px;
 }

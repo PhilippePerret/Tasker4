@@ -279,6 +279,7 @@ defmodule TaskerWeb.CoreComponents do
   attr :prompt, :string, default: nil, doc: "the prompt for select inputs"
   attr :options, :list, doc: "the options to pass to Phoenix.HTML.Form.options_for_select/2"
   attr :multiple, :boolean, default: false, doc: "the multiple flag for select inputs"
+  attr :class, :list, default: []
 
   attr :rest, :global,
     include: ~w(accept autocomplete capture cols disabled form list max maxlength min minlength
@@ -311,7 +312,10 @@ defmodule TaskerWeb.CoreComponents do
           name={@name}
           value="true"
           checked={@checked}
-          class="input-checkbox"
+          class={[
+            "input-checkbox",
+            @class
+          ]}
           {@rest}
         />
         <%= @label %>
@@ -328,7 +332,10 @@ defmodule TaskerWeb.CoreComponents do
       <select
         id={@id}
         name={@name}
-        class="input-select"
+        class={[
+          "input-select",
+          @class
+        ]}
         multiple={@multiple}
         {@rest}
       >
@@ -348,7 +355,8 @@ defmodule TaskerWeb.CoreComponents do
         id={@id}
         name={@name}
         class={[
-          @errors == [] && "error",
+          @errors != [] && "error",
+          @class
         ]}
         {@rest}
       ><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
@@ -368,8 +376,8 @@ defmodule TaskerWeb.CoreComponents do
         id={@id}
         value={Phoenix.HTML.Form.normalize_value(@type, @value)}
         class={[
-          @errors == [] && "error",
-          @errors != [] && "rose"
+          @class,
+          @errors != [] && "error"
         ]}
         {@rest}
       />

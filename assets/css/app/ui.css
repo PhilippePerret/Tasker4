@@ -145,3 +145,8 @@ div#flash-group button.close-btn {
   border-radius: 50%;
   cursor: pointer;
 }
+
+/* Un div présentant un état courant (comme dans la fiche d'édition de la tâche) */
+div.current-state {
+  opacity: 0.6;
+}

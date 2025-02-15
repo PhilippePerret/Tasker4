@@ -40,6 +40,19 @@ defmodule TaskerWeb.TaskController do
     |> render(action)
   end
 
+  defp convert_string_values_to_real_values(attrs) do
+    attrs
+    |> convert_nil_string_values()
+  end
+  defp convert_nil_string_values(attrs) do
+    Enum.into(attrs, %{}, fn 
+      {k, "nil"} -> {k, nil}
+      pair -> pair
+    end)
+  end
+
+  # ---- Méthodes d'action -----
+
   def new(conn, _params) do
     common_render(conn, :new, nil)
   end
@@ -50,6 +63,8 @@ defmodule TaskerWeb.TaskController do
 
   def create(conn, %{"task" => task_params}) do
     # IO.inspect(task_params, label: "Task Params")
+    task_params = convert_string_values_to_real_values(task_params)
+
     project_id =
     case task_params["new_project"] do
       "" -> task_params["project_id"]  # Rien n'est saisi, on garde project_id normal
@@ -83,6 +98,7 @@ defmodule TaskerWeb.TaskController do
 
 
   def update(conn, %{"id" => id, "task" => task_params}) do
+    task_params = convert_string_values_to_real_values(task_params)
     task = Tache.get_task!(id)
 
     case Tache.update_task(task, task_params) do

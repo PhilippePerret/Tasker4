@@ -16,11 +16,13 @@ defmodule Tasker.Tache.Task do
 
   @doc false
   def changeset(task, attrs) do
-    task
+    task 
     |> cast(attrs, [:title, :project_id])
     |> cast_assoc(:task_spec)
     |> cast_assoc(:task_time)
     |> validate_required([:title])
     |> validate_length(:title, min: 10, max: 255)
   end
+
+  
 end

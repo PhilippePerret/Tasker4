@@ -56,3 +56,28 @@ msgstr "Déconnexion"
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr "Réglages"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:76
+#, elixir-autogen, elixir-format
+msgid "Not started yet"
+msgstr "Pas encore commencé"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:78
+#, elixir-autogen, elixir-format
+msgid "Started at"
+msgstr "Commencé le"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:84
+#, elixir-autogen, elixir-format
+msgid "ended at"
+msgstr "fini le"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:83
+#, elixir-autogen, elixir-format
+msgid "not finished yet"
+msgstr "pas encore fini"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:80
+#, elixir-autogen, elixir-format
+msgid "thus not finished"
+msgstr "donc non fini"

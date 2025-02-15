@@ -5,12 +5,12 @@ defmodule Tasker.Tache.TaskTime do
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "task_times" do
-    field :priority, :integer
     field :started_at, :naive_datetime
     field :should_start_at, :naive_datetime
     field :should_end_at, :naive_datetime
     field :ended_at, :naive_datetime
     field :given_up_at, :naive_datetime
+    field :priority, :integer
     field :urgence, :integer
     field :recurrence, :string
     field :expect_duration, :integer
@@ -27,6 +27,10 @@ defmodule Tasker.Tache.TaskTime do
   # 
   @doc false
   def changeset(task_time, attrs) do
+    attrs = 
+      attrs
+      |> convert_expect_duration()
+
     task_time
     |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :priority, :urgence, :recurrence, :expect_duration, :execution_time])
     |> validate_required([:task_id])
@@ -35,6 +39,21 @@ defmodule Tasker.Tache.TaskTime do
     |> validate_end_or_given_up()
   end
 
+  # --- Méthodes de conversion des attributs (avant validation) ---
+
+  defp convert_expect_duration(attrs) do
+    case {Map.get(attrs, "expect_duration"), Map.get(attrs, "expect_duration_unit")} do
+      {value, unit} when is_binary(value) and is_binary(unit) ->
+        case Integer.parse(value) do
+          {num, ""} -> Map.put(attrs, "expect_duration", num * String.to_integer(unit))
+          _ -> attrs
+        end
+      _ -> attrs
+    end
+  end
+
+  # --- Méthodes de validations des attributs ---
+  
   defp validate_end_or_given_up(changeset) do
     changeset
     |> validate_change(:ended_at, fn :ended_at, ended ->

@@ -1,0 +1,47 @@
+## "msgid"s in this file come from POT (.pot) files.
+###
+### Do not add, change, or remove "msgid"s manually here as
+### they're tied to the ones in the corresponding POT file
+### (with the same domain).
+###
+### Use "mix gettext.extract --merge" or "mix gettext.merge"
+### to merge POT files into PO files.
+msgid ""
+msgstr ""
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n>1);\n"
+
+#: lib/tasker/helper.ex:31
+#, elixir-autogen, elixir-format
+msgid "%{duration} ago"
+msgstr "il y a %{duration}"
+
+#: lib/tasker/helper.ex:40
+#, elixir-autogen, elixir-format
+msgid "day"
+msgstr "jour"
+
+#: lib/tasker/helper.ex:43
+#, elixir-autogen, elixir-format
+msgid "hour"
+msgstr "heure"
+
+#: lib/tasker/helper.ex:46
+#, elixir-autogen, elixir-format
+msgid "minute"
+msgstr "minute"
+
+#: lib/tasker/helper.ex:17
+#, elixir-autogen, elixir-format
+msgid "right now"
+msgstr "maintenant"
+
+#: lib/tasker/helper.ex:37
+#, elixir-autogen, elixir-format
+msgid "week"
+msgstr "semaine"
+
+#: lib/tasker/helper.ex:29
+#, elixir-autogen, elixir-format
+msgid "%{items}, and %{last}"
+msgstr "%{items} et %{last}"

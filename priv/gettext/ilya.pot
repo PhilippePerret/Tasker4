@@ -1,0 +1,47 @@
+## This file is a PO Template file.
+##
+## "msgid"s here are often extracted from source code.
+## Add new messages manually only if they're dynamic
+## messages that can't be statically extracted.
+##
+## Run "mix gettext.extract" to bring this file up to
+## date. Leave "msgstr"s empty as changing them here has no
+## effect: edit them in PO (.po) files instead.
+#
+msgid ""
+msgstr ""
+
+#: lib/tasker/helper.ex:31
+#, elixir-autogen, elixir-format
+msgid "%{duration} ago"
+msgstr ""
+
+#: lib/tasker/helper.ex:40
+#, elixir-autogen, elixir-format
+msgid "day"
+msgstr ""
+
+#: lib/tasker/helper.ex:43
+#, elixir-autogen, elixir-format
+msgid "hour"
+msgstr ""
+
+#: lib/tasker/helper.ex:46
+#, elixir-autogen, elixir-format
+msgid "minute"
+msgstr ""
+
+#: lib/tasker/helper.ex:17
+#, elixir-autogen, elixir-format
+msgid "right now"
+msgstr ""
+
+#: lib/tasker/helper.ex:37
+#, elixir-autogen, elixir-format
+msgid "week"
+msgstr ""
+
+#: lib/tasker/helper.ex:29
+#, elixir-autogen, elixir-format
+msgid "%{items}, and %{last}"
+msgstr ""

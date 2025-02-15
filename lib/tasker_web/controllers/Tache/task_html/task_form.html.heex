@@ -1,13 +1,17 @@
+<%
+  IO.inspect(assigns, label: "\nASSIGNS DANS FORMULAIRE")
+%>
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     <%= dgettext("tasker", "Oops, something went wrong! Please check the errors below.") %>
   </.error>
 
-  <.input field={f[:title]} label={dgettext("tasker", "Task Title")} />
+  <.input field={f[:title]} label={dgettext("tasker", "Task Title")} class="long" />
 
-  <.input field={f[:project_id]} type="select" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
-  
-  <.input field={f[:new_project]} label={ dgettext("tasker", "New Project") } />
+  <div class="inline-fields">
+    <.input field={f[:project_id]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
+    <.input field={f[:new_project]} label={ dgettext("tasker", "New") } />
+  </div>
 
   <.inputs_for :let={fp} field={f[:task_spec]}>
     <.input field={fp[:details]} type="textarea" class="details" label={dgettext("tasker", "Details")} />
@@ -19,22 +23,26 @@
       <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
     </div>
     <div class="inline-fields">
-      <.input field={ft[:started_at]} type="datetime-local" label={dgettext("tasker", "Started at")} />
-      <.input field={ft[:ended_at]} type="datetime-local" label={dgettext("tasker", "Ended at")} />
+      <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={[{"Non définie", "nil"}, {"Absolue", 5}, {"Forte", 4}, {"Secondaire", 3}, {"Normal", 2}, {"Faible", 1}, {"Très faible", 0}]} label={dgettext("tasker", "Priority")} />
+      <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={[{"Non définie", "nil"}, {"Très urgente", 5}, {"Urgente", 4}, {"Pressée", 3}, {"ASAP…", 2}, {"Quand possible", 1}]} label={dgettext("tasker", "Urgence")} />
     </div>
-    <.input field={ft[:given_up_at]} type="datetime-local" label={dgettext("tasker", "Given up at")} />
-    <div class="inline-fields fields-3">
-      <.input field={ft[:priority]} type="number" label={dgettext("tasker", "Priority")} />
-      <.input field={ft[:urgence]} type="number" label={dgettext("tasker", "Urgence")} />
-      <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+    <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+    <div class="inline-fields no-dim">
+      <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
+      <.input name="exp_duree_valu" value={exp_duree_valu} type="number" label={dgettext("tasker", "Expect duration")} />
+      <.input name="exp_duree_unit" value={exp_duree_unit} type="select" options={options_duree()} />
+      <label for="">Durée exécutée</label>
+      <span ><%= TFormat.to_duree(ft[:execution_time].value || 0) %></span>
     </div>
-    <.input field={ft[:expect_duration]} type="number" label={dgettext("tasker", "Expect duration")} />
-    <.input field={ft[:execution_time]} type="number" label={dgettext("tasker", "Execution time")} />  
-  </.inputs_for>
+    </.inputs_for>
+
+    <div class="current-state">
+      <.current_state changeset={@changeset} />
+    </div>
 
   <:actions>
     <.button><%= dgettext("tasker", "Save Task") %></.button>
   </:actions>
 </.simple_form>
 
-<.back navigate={~p"/tasks"}><%= dgettext("tasker", "Back to tasks") %></.back>
+<.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>

@@ -15,6 +15,6 @@ defmodule Tasker.Tache.TaskSpec do
   def changeset(task_spec, attrs) do
     task_spec
     |> cast(attrs, [:details, :task_id])
-    |> validate_required([:details, :task_id])
+    |> validate_required([:task_id])
   end
 end
