@@ -25,7 +25,7 @@ msgstr ""
 #: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:7
 #: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:9
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:15
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:55
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:46
 #, elixir-autogen, elixir-format
 msgid "Back to tasks"
 msgstr ""
@@ -105,7 +105,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:51
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr ""
@@ -146,27 +146,17 @@ msgstr ""
 msgid "Details"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
-#, elixir-autogen, elixir-format
-msgid "Ended at"
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:39
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Expect duration"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:30
-#, elixir-autogen, elixir-format
-msgid "Given up at"
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:33
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "Priority"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:36
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "Recurrence"
 msgstr ""
@@ -181,12 +171,7 @@ msgstr ""
 msgid "Should start at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:26
-#, elixir-autogen, elixir-format
-msgid "Started at"
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:34
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "Urgence"
 msgstr ""
@@ -196,7 +181,17 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:72
+#: lib/tasker_web/controllers/Tache/task_html.ex:79
+#, elixir-autogen, elixir-format
+msgid "Execution time"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:83
 #, elixir-autogen, elixir-format, fuzzy
-msgid "Task Current State"
+msgid "Task Current Status"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:97
+#, elixir-autogen, elixir-format, fuzzy
+msgid "given up at"
 msgstr ""

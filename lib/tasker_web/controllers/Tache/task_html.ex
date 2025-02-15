@@ -62,7 +62,7 @@ defmodule TaskerWeb.TaskHTML do
     faux_depart = 
       NaiveDateTime.utc_now()
       |> NaiveDateTime.add(-123 * 60)
-    task_time = @changeset[:task_time] || %{started_at: faux_depart, ended_at: nil}
+    task_time = @changeset[:task_time] || %{started_at: faux_depart, ended_at: nil, execution_time: 1000}
 
     assigns = assigns
     |> assign(:mark_start, define_mark_started_at(task_time))
@@ -72,14 +72,25 @@ defmodule TaskerWeb.TaskHTML do
 
     segment_fin =
       if task_time[:given_up_at], do: mark_giveup, else: mark_end
+    
+    execution_time =
+      case task_time[:execution_time] do
+      nil -> ""
+      extime -> dgettext("tasker", "Execution time") <> " : " <> TFormat.to_duree(extime)
+      end
 
     ~H"""
-    <h3><%= dgettext("tasker", "Task Current State") %></h3>
-    {@mark_start}, {segment_fin}.
-    Durée d'exécution : TODO
+    <h3><%= dgettext("tasker", "Task Current Status") %></h3>
+    <div>
+      {@mark_start}, {segment_fin}.
+    </div>
+    <div>{execution_time}</div>
     """
   end
 
+
+
+  # ---- Sous-méthodes des exposants ---- 
   defp define_mark_givenup_at(nil), do: ""
   defp define_mark_givenup_at(task_time) do
     if task_time[:given_up_at] do

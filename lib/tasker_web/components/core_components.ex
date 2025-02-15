@@ -328,7 +328,9 @@ defmodule TaskerWeb.CoreComponents do
   def input(%{type: "select"} = assigns) do
     ~H"""
     <div class="input-select-container">
-      <.label for={@id}><%= @label %></.label>
+      <%= if @label do %>
+        <.label for={@id}><%= @label %></.label>
+      <% end %>
       <select
         id={@id}
         name={@name}
@@ -369,7 +371,9 @@ defmodule TaskerWeb.CoreComponents do
   def input(assigns) do
     ~H"""
     <div class={"input-#{@type}-container"}>
-      <.label for={@id}><%= @label %></.label>
+      <%= if @label do %>
+        <.label for={@id}><%= @label %></.label>
+      <% end %>
       <input
         type={@type}
         name={@name}

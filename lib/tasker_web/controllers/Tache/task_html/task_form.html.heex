@@ -29,10 +29,8 @@
     <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
     <div class="inline-fields no-dim">
       <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
-      <.input name="exp_duree_valu" value={exp_duree_valu} type="number" label={dgettext("tasker", "Expect duration")} />
-      <.input name="exp_duree_unit" value={exp_duree_unit} type="select" options={options_duree()} />
-      <label for="">Durée exécutée</label>
-      <span ><%= TFormat.to_duree(ft[:execution_time].value || 0) %></span>
+      <.input name="exp_duree_valu" value={exp_duree_valu} type="text" class="small-number" label={dgettext("tasker", "Expect duration")} />
+      <.input name="exp_duree_unit" value={exp_duree_unit} type="select" options={options_duree()} label={nil} />
     </div>
     </.inputs_for>
 

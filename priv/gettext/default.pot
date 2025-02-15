@@ -57,27 +57,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:76
+#: lib/tasker_web/controllers/Tache/task_html.ex:100
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:78
+#: lib/tasker_web/controllers/Tache/task_html.ex:102
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:84
+#: lib/tasker_web/controllers/Tache/task_html.ex:108
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:83
+#: lib/tasker_web/controllers/Tache/task_html.ex:107
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:80
+#: lib/tasker_web/controllers/Tache/task_html.ex:104
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
