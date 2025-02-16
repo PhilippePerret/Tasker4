@@ -60,34 +60,30 @@ defmodule TaskerWeb.TaskHTML do
 
   def current_state(assigns) do
     changeset = assigns.changeset
-    IO.inspect(changeset, label: "\nCHANGESET dans current_state")
 
-    faux_depart = 
-      NaiveDateTime.utc_now()
-      |> NaiveDateTime.add(-123 * 60)
-    task_time = @changeset[:task_time] || %{started_at: faux_depart, ended_at: nil, execution_time: 1000}
-
+    task_time = changeset.data.task_time
     assigns = assigns
-    |> assign(:mark_start, define_mark_started_at(task_time))
+    |> assign(:mark_start, define_mark_started_at(task_time.started_at))
 
-    mark_end    = define_mark_ended_at(task_time)
-    mark_giveup = define_mark_givenup_at(task_time)
+    mark_end    = define_mark_ended_at(task_time.ended_at)
+    mark_giveup = define_mark_givenup_at(task_time.given_up_at)
 
     segment_fin =
-      if task_time[:given_up_at], do: mark_giveup, else: mark_end
+      if task_time.given_up_at, do: mark_giveup, else: mark_end
     
     execution_time =
-      case task_time[:execution_time] do
+      case task_time.execution_time do
       nil -> ""
       extime -> dgettext("tasker", "Execution time") <> " : " <> TFormat.to_duree(extime)
       end
+    assigns = assigns |> assign(:exec_time, execution_time)
 
     ~H"""
     <h3><%= dgettext("tasker", "Task Current Status") %></h3>
     <div>
       {@mark_start}, {segment_fin}.
     </div>
-    <div>{execution_time}</div>
+    <div>{@exec_time}</div>
     """
   end
 
@@ -100,13 +96,19 @@ defmodule TaskerWeb.TaskHTML do
 
   def blocnotes(assigns) do
     changeset = assigns.changeset
-    IO.inspect(changeset, label: "\nASSIGNS.CHANGESET dans blocnotes")
-    notes = changeset.data.task_spec
-    |> IO.inspect(label: "\nTASK SPEC")
+    task_spec = changeset.data.task_spec
+    |> IO.inspect(label: "\nTASK_SPEC")
+
     ~H"""
     <div id="blocnotes-container">
       <div id="blocnotes-note-list">
-
+        <%= for note <- task_spec.notes do %>
+          <div class="task-note">
+            <span class="tiny-buttons fright">[edit][remove]</span>
+            <div class="title">{note.title}</div>
+            <div class="details">{note.details}</div>
+          </div>
+        <% end %>
       </div>
       <div class="buttons">
         <button class="btn btn-add">＋</button>
@@ -120,20 +122,20 @@ defmodule TaskerWeb.TaskHTML do
   # ---- Sous-méthodes des composants ---- 
 
   defp define_mark_givenup_at(nil), do: ""
-  defp define_mark_givenup_at(task_time) do
-    if task_time[:given_up_at] do
-      dgettext("tasker", "given up at") <> " " <> TFormat.to_s(task_time.given_up_at, time: true)
+  defp define_mark_givenup_at(given_up_at) do
+    if given_up_at do
+      dgettext("tasker", "given up at") <> " " <> TFormat.to_s(given_up_at, time: true)
     else "" end
   end
   defp define_mark_started_at(nil), do: gettext("Not started yet")
-  defp define_mark_started_at(task_time) when is_map(task_time) do
-    gettext("Started at") <> " " <> TFormat.to_s(task_time.started_at, time: true) <> H.ilya(task_time.started_at, prefix: " (", suffix: ")")
+  defp define_mark_started_at(started_at) do
+    gettext("Started at") <> " " <> TFormat.to_s(started_at, time: true) <> H.ilya(started_at, prefix: " (", suffix: ")")
   end
   defp define_mark_ended_at(nil), do: gettext("thus not finished")
-  defp define_mark_ended_at(task_time) when is_map(task_time) do
-    case task_time.ended_at do
+  defp define_mark_ended_at(ended_at) do
+    case ended_at do
     nil -> gettext("not finished yet")
-    _ -> gettext("ended at") <> " " <> TFormat.to_s(task_time.ended_at, time: true)
+    _ -> gettext("ended at") <> " " <> TFormat.to_s(ended_at, time: true)
     end
   end
 

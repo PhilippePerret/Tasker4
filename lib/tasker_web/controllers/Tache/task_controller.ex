@@ -2,7 +2,7 @@ defmodule TaskerWeb.TaskController do
   use TaskerWeb, :controller
 
   alias Tasker.{Repo, Tache}
-  alias Tasker.Tache.{Task, TaskSpec}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime}
 
   def index(conn, _params) do
     tasks = Tache.list_tasks() |> Repo.preload(:project)
@@ -13,24 +13,22 @@ defmodule TaskerWeb.TaskController do
   end
 
   defp common_render(conn, :new) do
-    changeset_task = %Task{} |> Ecto.Changeset.change()
-    changeset_spec = %TaskSpec{} |> Repo.preload(:notes) |> Tache.change_task_spec()
-    common_conn_render(conn, :new, changeset_task, changeset_spec)
+    task_changeset = %Task{
+      task_spec: %TaskSpec{notes: []},
+      task_time: %TaskTime{}
+    } |> Ecto.Changeset.change()
+    common_conn_render(conn, :new, task_changeset)
   end
 
   defp common_render(conn, action, task_id) do
-    changeset_task = Tache.get_task!(task_id) |> Tache.change_task()
-    changeset_spec = 
-      task_id
-      |> Tache.get_task_spec_by_task_id!() 
-      |> Tache.change_task_spec()
-    common_conn_render(conn, action, changeset_task, changeset_spec)
+    task_changeset = Tache.get_task!(task_id) |> Tache.change_task()
+    common_conn_render(conn, action, task_changeset)
   end
-  defp common_conn_render(conn, action, changeset_task, changeset_spec) do
+
+  defp common_conn_render(conn, action, task_changeset) do
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
-    |> assign(:changeset, changeset_task)
-    |> assign(:changeset_spec, changeset_spec)
+    |> assign(:changeset, task_changeset)
     |> render(action)
   end
 

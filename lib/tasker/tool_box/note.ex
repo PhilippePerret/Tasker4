@@ -9,7 +9,6 @@ defmodule Tasker.ToolBox.Note do
     field :title, :string
     field :details, :string
     belongs_to :author, Tasker.Worker
-    # many_to_many :task_specs, Tasker.Tache.TaskSpec, join_through: "notes_tasks"
     many_to_many :task_specs, Tasker.Tache.TaskSpec, join_through: NoteTaskSpec
 
     timestamps(type: :utc_datetime)

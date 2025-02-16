@@ -1,6 +1,3 @@
-<%
-  IO.inspect(assigns, label: "\nASSIGNS DANS FORMULAIRE")
-%>
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     <%= dgettext("tasker", "Oops, something went wrong! Please check the errors below.") %>
