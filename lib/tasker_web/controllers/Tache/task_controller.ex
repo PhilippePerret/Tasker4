@@ -24,24 +24,11 @@ defmodule TaskerWeb.TaskController do
 
   def create(conn, %{"task" => task_params}) do
     # IO.inspect(task_params, label: "Task Params")
-    task_params = convert_string_values_to_real_values(task_params)
-
-    project_id =
-    case task_params["new_project"] do
-      "" -> task_params["project_id"]  # Rien n'est saisi, on garde project_id normal
-      new_title ->
-        case Tasker.Projet.create_project(%{title: new_title}) do
-          {:ok, project} -> project.id
-          {:error, changeset} ->
-            projects = Tasker.Projet.list_projects() || []
-            render(conn, :new, changeset: changeset, projects: projects)
-            throw(:abort)  # On interrompt l'exécution ici
-        end
-    end  
-    updated_params = Map.put(task_params, "project_id", project_id)
-    # |> IO.inspect(label: "UPDATED_PARAMS")
+    task_params = task_params
+    |> convert_string_values_to_real_values()
+    |> create_project_if_needed(conn)
   
-    case Tache.create_task(updated_params) do
+    case Tache.create_task(task_params) do
     {:ok, task} ->
       conn
       |> put_flash(:info, dgettext("tasker", "Task created successfully."))
@@ -63,14 +50,17 @@ defmodule TaskerWeb.TaskController do
 
 
   def update(conn, %{"id" => id, "task" => task_params}) do
-    task_params = convert_string_values_to_real_values(task_params)
+    task_params = task_params
+    |> convert_string_values_to_real_values()
+    |> create_project_if_needed(conn)
+
     task = Tache.get_task!(id)
 
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
         conn
         |> put_flash(:info, dgettext("tasker", "Task updated successfully."))
-        |> redirect(to: ~p"/tasks/#{task}")
+        |> redirect(to: ~p"/tasks/#{task}/edit")
 
       {:error, %Ecto.Changeset{} = changeset} ->
         common_conn_render(conn, :edit, changeset)
@@ -89,6 +79,24 @@ defmodule TaskerWeb.TaskController do
 
   # ----- Functional Methods -----
 
+  def create_project_if_needed(task_params, conn) do
+    project_id =
+      case task_params["new_project"] do
+        "" -> 
+          # Pas de nouveau titre
+          task_params["project_id"]
+        new_title ->
+          # Un nouveau titre
+          case Tasker.Projet.create_project(%{title: new_title}) do
+            {:ok, project} -> project.id
+            {:error, changeset} ->
+              projects = Tasker.Projet.list_projects() || []
+              new(conn, nil)
+              throw(:abort)  # On interrompt l'exécution ici
+          end
+      end  
+    Map.put(task_params, "project_id", project_id)
+  end
 
   defp common_render(conn, :new) do
     task_changeset = %Task{
@@ -118,6 +126,7 @@ defmodule TaskerWeb.TaskController do
   defp convert_nil_string_values(attrs) do
     Enum.into(attrs, %{}, fn 
       {k, "nil"} -> {k, nil}
+      {k, %{} = map} -> {k, convert_nil_string_values(map)}
       pair -> pair
     end)
   end
