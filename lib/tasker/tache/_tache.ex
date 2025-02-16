@@ -59,8 +59,10 @@ defmodule Tasker.Tache do
     {:ok, task} ->
       %TaskSpec{} |> TaskSpec.changeset(%{task_id: task.id}) |> Repo.insert!()
       %TaskTime{} |> TaskTime.changeset(%{task_id: task.id}) |> Repo.insert!()
+      res
+    {:error, _} -> 
+      res
     end
-    res
   end
 
   @doc """

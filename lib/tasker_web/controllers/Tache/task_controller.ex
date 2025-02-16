@@ -12,38 +12,6 @@ defmodule TaskerWeb.TaskController do
     |> render(:liste)
   end
 
-  defp common_render(conn, :new) do
-    task_changeset = %Task{
-      task_spec: %TaskSpec{notes: []},
-      task_time: %TaskTime{}
-    } |> Ecto.Changeset.change()
-    common_conn_render(conn, :new, task_changeset)
-  end
-
-  defp common_render(conn, action, task_id) do
-    task_changeset = Tache.get_task!(task_id) |> Tache.change_task()
-    common_conn_render(conn, action, task_changeset)
-  end
-
-  defp common_conn_render(conn, action, task_changeset) do
-    conn
-    |> assign(:projects, Tasker.Projet.list_projects())
-    |> assign(:task, (action == :new) && nil || task_changeset.data)
-    |> assign(:changeset, task_changeset)
-    |> render(action)
-  end
-
-  defp convert_string_values_to_real_values(attrs) do
-    attrs
-    |> convert_nil_string_values()
-  end
-  defp convert_nil_string_values(attrs) do
-    Enum.into(attrs, %{}, fn 
-      {k, "nil"} -> {k, nil}
-      pair -> pair
-    end)
-  end
-
   # ---- Méthodes d'action -----
 
   def new(conn, _params) do
@@ -71,17 +39,21 @@ defmodule TaskerWeb.TaskController do
         end
     end  
     updated_params = Map.put(task_params, "project_id", project_id)
+    # |> IO.inspect(label: "UPDATED_PARAMS")
   
     case Tache.create_task(updated_params) do
-      {:ok, task} ->
-        conn
-        |> put_flash(:info, dgettext("tasker", "Task created successfully."))
-        |> redirect(to: ~p"/tasks/#{task}/edit")
-  
-      {:error, %Ecto.Changeset{} = changeset} ->
-        projects = Tasker.Projet.list_projects() || []
-        render(conn, :new, changeset: changeset, projects: projects)
-    end
+    {:ok, task} ->
+      conn
+      |> put_flash(:info, dgettext("tasker", "Task created successfully."))
+      |> redirect(to: ~p"/tasks/#{task}/edit")
+
+    {:error, %Ecto.Changeset{} = changeset} ->
+      # On passe ici quand la création n'a pas pu se faire
+      projects = Tasker.Projet.list_projects() || []
+      conn = conn 
+      |> put_flash(:error, dgettext("tasker", "Please enter at least a title for the task!"))
+      new(conn, nil)
+  end
   end
   
   def show(conn, %{"id" => id}) do
@@ -112,6 +84,42 @@ defmodule TaskerWeb.TaskController do
     conn
     |> put_flash(:info, dgettext("tasker", "Task deleted successfully."))
     |> redirect(to: ~p"/tasks")
+  end
+
+
+  # ----- Functional Methods -----
+
+
+  defp common_render(conn, :new) do
+    task_changeset = %Task{
+      task_spec: %TaskSpec{notes: []},
+      task_time: %TaskTime{}
+    } |> Ecto.Changeset.change()
+    common_conn_render(conn, :new, task_changeset)
+  end
+
+  defp common_render(conn, action, task_id) do
+    task_changeset = Tache.get_task!(task_id) |> Tache.change_task()
+    common_conn_render(conn, action, task_changeset)
+  end
+
+  defp common_conn_render(conn, action, task_changeset) do
+    conn
+    |> assign(:projects, Tasker.Projet.list_projects())
+    |> assign(:task, (action == :new) && nil || task_changeset.data)
+    |> assign(:changeset, task_changeset)
+    |> render(action)
+  end
+
+  defp convert_string_values_to_real_values(attrs) do
+    attrs
+    |> convert_nil_string_values()
+  end
+  defp convert_nil_string_values(attrs) do
+    Enum.into(attrs, %{}, fn 
+      {k, "nil"} -> {k, nil}
+      pair -> pair
+    end)
   end
 
 end

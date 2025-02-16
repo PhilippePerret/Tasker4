@@ -15,13 +15,13 @@ defmodule Tasker.Repo.Migrations.CreateNotes do
 
     create table(:notes_tasks, primary_key: false) do
       add :note_id, :binary_id
-      add :task_id, :binary_id
+      add :task_spec_id, :binary_id
       add :read_at, :naive_datetime
 
       timestamps(type: :utc_datetime)
     end
 
-    create index(:notes_tasks, [:task_id])
+    create index(:notes_tasks, [:task_spec_id])
 
   end
 end

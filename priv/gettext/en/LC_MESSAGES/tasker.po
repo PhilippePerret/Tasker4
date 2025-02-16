@@ -23,9 +23,8 @@ msgid "Back to projects"
 msgstr ""
 
 #: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:7
-#: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:9
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:15
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:48
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:50
 #, elixir-autogen, elixir-format
 msgid "Back to tasks"
 msgstr ""
@@ -105,7 +104,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:44
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:46
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr ""
@@ -126,12 +125,12 @@ msgstr ""
 msgid "Task Title"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:112
+#: lib/tasker_web/controllers/Tache/task_controller.ex:85
 #, elixir-autogen, elixir-format
 msgid "Task deleted successfully."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:99
+#: lib/tasker_web/controllers/Tache/task_controller.ex:72
 #, elixir-autogen, elixir-format
 msgid "Task updated successfully."
 msgstr ""
@@ -141,37 +140,37 @@ msgstr ""
 msgid "Updated at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:14
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Details"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:29
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Expect duration"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:23
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "Priority"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:26
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "Recurrence"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:20
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Should end at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:19
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Should start at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:24
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "Urgence"
 msgstr ""
@@ -181,22 +180,32 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:101
+#: lib/tasker_web/controllers/Tache/task_html.ex:95
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:106
+#: lib/tasker_web/controllers/Tache/task_html.ex:102
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:151
+#: lib/tasker_web/controllers/Tache/task_html.ex:160
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:39
+#: lib/tasker_web/controllers/Tache/task_controller.ex:54
 #, elixir-autogen, elixir-format
-msgid "Bloc-notes de la tâche"
+msgid "Please enter at least a title for the task."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:47
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Task created successfully."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "Task notepad"
 msgstr ""

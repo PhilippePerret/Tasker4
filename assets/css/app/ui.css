@@ -109,7 +109,8 @@ div#flash-group > div > p {
 }
 div#flash-group div#flash-error {
   position:relative;
-  border-color: red!important;
+  color: red!important;
+  /* border-color: red!important; */
   background-color: #FFEEEE;
 }
 div#flash-group div#flash-error button.close-btn {

@@ -9,7 +9,6 @@ defmodule Tasker.Tache.TaskSpec do
   schema "task_specs" do
     field :details, :string
     belongs_to :task, Tasker.Tache.Task
-    # many_to_many :notes, Tasker.ToolBox.Note, join_through: "notes_tasks"
     many_to_many :notes, Tasker.ToolBox.Note, join_through: NoteTaskSpec
 
     timestamps(type: :utc_datetime)
