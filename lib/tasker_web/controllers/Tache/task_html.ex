@@ -21,15 +21,39 @@ defmodule TaskerWeb.TaskHTML do
     {"60", 60},        # Heures
     {"1", 1}           # Minutes
   ]
-  @duree_unit_name [
-    {"mois", 43200},
-    {"sems", 10080},
-    {"jrs", 1440},
-    {"hrs", 60},
-    {"mns", 1},
-  ]
   
-  def options_duree, do: @duree_unit_name
+  def options_duree do
+    [
+      {dgettext("ilya", "months"), 43200},
+      {dgettext("ilya", "weeks"), 10080},
+      {dgettext("ilya", "days"), 1440},
+      {dgettext("ilya", "hours"), 60},
+      {dgettext("ilya", "minutes"), 1},
+    ]
+  end
+
+  def options_priority do
+    [
+      {gettext("not defined"), "nil"}, 
+      {gettext("absolute (priority)"), 5}, 
+      {gettext("high (priority)"), 4}, 
+      {gettext("secondary (priority)"), 3}, 
+      {gettext("normal (priority)"), 2}, 
+      {gettext("low (priority)"), 1}, 
+      {gettext("very low (priority)"), 0}      
+    ]
+  end
+  def options_urgence do
+    [
+      {gettext("not defined"), "nil"}, 
+      {gettext("Critical (urgency)"), 5}, # Très urgente
+      {gettext("Urgent (urgency)"), 4},   # Urgente
+      {gettext("Time-sensitive (urgency)"), 3},     # Pressée
+      {gettext("As soon as possible (urgency)"), 2}, # Dès que possible
+      {gettext("Can wait (urgency)"), 1} # Peut attendre
+    ]
+  end
+
  
   defp format_expect_duration(nil), do: {nil, "1"}
   defp format_expect_duration(minutes) when is_integer(minutes) do
@@ -138,20 +162,5 @@ defmodule TaskerWeb.TaskHTML do
     _ -> gettext("ended at") <> " " <> TFormat.to_s(ended_at, time: true)
     end
   end
-
-  # def current_state(assigns) do
-  #   task_time = @changeset[:task_time] || %{started_at: nil, ended_at: nil}
-
-  #   assigns = assigns
-  #   |> assign(:mark_start, task_time.started_at && dgettext("tasker", "Started at") <> task_time.started_at)
-  #   |> assign(:mark_end,   task_time.ended_at && dgettext("tasker", "ended at") <> task_time.ended_at)
-
-  #   ~H"""
-  #   <h3><%= dgettext("tasker", "Current State") %></h3>
-  #   [Construire ici l'état courant.]
-  #   #{task_time.started_at && @mark_start)}, #{task_time.ended_at && @mark_end}
-
-  #   """
-  # end
 
 end

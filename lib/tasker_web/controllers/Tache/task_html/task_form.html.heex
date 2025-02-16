@@ -20,8 +20,8 @@
       <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
     </div>
     <div class="inline-fields">
-      <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={[{"Non définie", "nil"}, {"Absolue", 5}, {"Forte", 4}, {"Secondaire", 3}, {"Normal", 2}, {"Faible", 1}, {"Très faible", 0}]} label={dgettext("tasker", "Priority")} />
-      <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={[{"Non définie", "nil"}, {"Très urgente", 5}, {"Urgente", 4}, {"Pressée", 3}, {"ASAP…", 2}, {"Quand possible", 1}]} label={dgettext("tasker", "Urgence")} />
+      <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
+      <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
     </div>
     <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
     <div class="inline-fields no-dim">

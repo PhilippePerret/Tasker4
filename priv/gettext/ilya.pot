@@ -45,3 +45,28 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "%{items}, and %{last}"
 msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:29
+#, elixir-autogen, elixir-format
+msgid "days"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:30
+#, elixir-autogen, elixir-format
+msgid "hours"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:31
+#, elixir-autogen, elixir-format
+msgid "minutes"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:27
+#, elixir-autogen, elixir-format
+msgid "months"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:28
+#, elixir-autogen, elixir-format
+msgid "weeks"
+msgstr ""
