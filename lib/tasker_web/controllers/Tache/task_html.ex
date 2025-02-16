@@ -126,6 +126,14 @@ defmodule TaskerWeb.TaskHTML do
           </div>
         <% end %>
       </div>
+      <div id="blocnotes-note-form">
+        <div>
+          <input type="text" value="" name="note[title]" style="border:1px solid #999;" class="long" placeholder="Titre de la note" />
+        </div>
+        <div style="margin-top:12px;">
+          <textarea name="note[details]" placeholder="Détail de la note" style="height:120px;"></textarea>
+        </div>
+      </div>
       <div class="buttons">
         <button class="btn btn-add">＋</button>
       </div>
