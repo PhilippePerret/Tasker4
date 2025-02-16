@@ -25,7 +25,8 @@ defmodule TaskerWeb.Router do
   end
 
   scope "/tools", TaskerWeb do
-    pipe_through :browser
+    pipe_through [:browser, :require_authenticated_worker]
+    
     post "/:script", ToolsController, :run_script
   end
 
@@ -75,13 +76,18 @@ defmodule TaskerWeb.Router do
     post "/workers/confirm", WorkerConfirmationController, :create
     get "/workers/confirm/:token", WorkerConfirmationController, :edit
     post "/workers/confirm/:token", WorkerConfirmationController, :update
-
+    
+    # Pour la gestion des workers
+    resources "/workers", WorkerController
+  end
+  
+  scope "/", TaskerWeb do
+    pipe_through [:browser, :require_authenticated_worker]
+        
     # Pour la gestion des tâches (Tache.Task)
     resources "/tasks", TaskController
     resources "/task_specs", TaskSpecController
     # Pour la gestion des projets
     resources "/projects", ProjectController
-    # Pour la gestion des workers
-    resources "/workers", WorkerController
   end
 end
