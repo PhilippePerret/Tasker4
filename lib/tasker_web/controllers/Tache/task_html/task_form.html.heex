@@ -28,8 +28,19 @@
       <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
       <div class="inline-fields no-dim">
         <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
-        <.input name="exp_duree_valu" value={exp_duree_valu} type="text" class={["small-number"]} label={dgettext("tasker", "Expect duration")} />
-        <.input name="exp_duree_unit" value={exp_duree_unit} type="select" options={options_duree()} />
+        <label><%= dgettext("tasker", "Expect duration") %></label>
+        <input type="number" name="task[task_time][exp_duree_value]" class="small-number right" value={exp_duree_valu} />
+        <select name="task[task_time][exp_duree_unite]" value={exp_duree_unit}>
+          <%= for {titre, valeur} <- options_duree() do %>
+            <% 
+              attribs = %{value: valeur}
+              attribs = if valeur == exp_duree_unit do
+                Map.merge(attribs, %{selected: "SELECTED"})
+              else attribs end
+            %>
+            <option {attribs}><%= titre %></option>
+          <% end %>
+        </select>
       </div>
     </.inputs_for>
     

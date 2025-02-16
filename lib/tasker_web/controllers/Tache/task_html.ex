@@ -14,20 +14,19 @@ defmodule TaskerWeb.TaskHTML do
 
   def task_form(assigns)
 
-  @duree_units [
-    {"43200", 43200},  # Mois
-    {"10080", 10080},  # Semaines
-    {"1440", 1440},    # Jours
-    {"60", 60},        # Heures
-    {"1", 1}           # Minutes
-  ]
+  @hour   60          # heure   = 60 minutes
+  @day    7 * @hour   # journée = 7 heures
+  @week   5 * @day    # semaine = 5 jours ouvrés pour 7 heures
+  @month  4 * @week   # mois    = 4 semaines ouvrées
+
+  @duree_units [ @month, @week, @day, @hour, 1 ]
   
   def options_duree do
     [
-      {dgettext("ilya", "months"), 43200},
-      {dgettext("ilya", "weeks"), 10080},
-      {dgettext("ilya", "days"), 1440},
-      {dgettext("ilya", "hours"), 60},
+      {dgettext("ilya", "months"), @month},
+      {dgettext("ilya", "weeks"), @week},
+      {dgettext("ilya", "days"), @day},
+      {dgettext("ilya", "hours"), @hour},
       {dgettext("ilya", "minutes"), 1},
     ]
   end
@@ -57,9 +56,9 @@ defmodule TaskerWeb.TaskHTML do
  
   defp format_expect_duration(nil), do: {nil, "1"}
   defp format_expect_duration(minutes) when is_integer(minutes) do
-    Enum.find_value(@duree_units, {minutes, "1"}, fn {unit_str, unit_val} ->
+    Enum.find_value(@duree_units,{1, "1"}, fn unit_val ->
       if rem(minutes, unit_val) == 0 do
-        {div(minutes, unit_val), unit_str}
+        { div(minutes, unit_val), unit_val }
       else
         nil
       end
@@ -117,7 +116,7 @@ defmodule TaskerWeb.TaskHTML do
   def blocnotes(assigns) do
     changeset = assigns.changeset
     task_spec = changeset.data.task_spec
-    |> IO.inspect(label: "\nTASK_SPEC")
+    # |> IO.inspect(label: "\nTASK_SPEC")
 
     assigns = assigns 
     |> assign(all_notes: task_spec.notes)

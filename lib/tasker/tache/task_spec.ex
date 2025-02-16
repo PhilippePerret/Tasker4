@@ -20,4 +20,5 @@ defmodule Tasker.Tache.TaskSpec do
     |> cast(attrs, [:details, :task_id])
     |> validate_required([:task_id])
   end
+
 end

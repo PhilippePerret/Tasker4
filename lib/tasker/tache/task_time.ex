@@ -27,9 +27,8 @@ defmodule Tasker.Tache.TaskTime do
   # 
   @doc false
   def changeset(task_time, attrs) do
-    attrs = 
-      attrs
-      |> convert_expect_duration()
+    attrs = attrs
+    |> convert_expect_duration()
 
     task_time
     |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :priority, :urgence, :recurrence, :expect_duration, :execution_time])
@@ -42,7 +41,7 @@ defmodule Tasker.Tache.TaskTime do
   # --- Méthodes de conversion des attributs (avant validation) ---
 
   defp convert_expect_duration(attrs) do
-    case {Map.get(attrs, "expect_duration"), Map.get(attrs, "expect_duration_unit")} do
+    case {Map.get(attrs, "exp_duree_value"), Map.get(attrs, "exp_duree_unite")} do
       {value, unit} when is_binary(value) and is_binary(unit) ->
         case Integer.parse(value) do
           {num, ""} -> Map.put(attrs, "expect_duration", num * String.to_integer(unit))
