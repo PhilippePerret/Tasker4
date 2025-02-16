@@ -57,15 +57,7 @@ defmodule TaskerWeb.TaskHTML do
  
   defp format_expect_duration(nil), do: {nil, "1"}
   defp format_expect_duration(minutes) when is_integer(minutes) do
-    units = [
-      {"43200", 43200},  # Mois
-      {"10080", 10080},  # Semaines
-      {"1440", 1440},    # Jours
-      {"60", 60},        # Heures
-      {"1", 1}           # Minutes (fallback)
-    ]
-  
-    Enum.find_value(units, {minutes, "1"}, fn {unit_str, unit_val} ->
+    Enum.find_value(@duree_units, {minutes, "1"}, fn {unit_str, unit_val} ->
       if rem(minutes, unit_val) == 0 do
         {div(minutes, unit_val), unit_str}
       else
