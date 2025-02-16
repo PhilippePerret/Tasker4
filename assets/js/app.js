@@ -14,7 +14,7 @@
 //
 //     import "some-package"
 //
+import "./server_talk.js";
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
-import "phoenix_html"
-import "../vendor/server_talk.js"
+import "phoenix_html";

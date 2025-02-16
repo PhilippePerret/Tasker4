@@ -24,6 +24,11 @@ defmodule TaskerWeb.Router do
 
   end
 
+  scope "/tools", TaskerWeb do
+    pipe_through :browser
+    post "/:script", ToolsController, :run_script
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TaskerWeb do
   #   pipe_through :api

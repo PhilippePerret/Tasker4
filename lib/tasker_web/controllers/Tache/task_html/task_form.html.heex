@@ -1,37 +1,38 @@
-<script type="text/javascript" src={~p"/assets/js/task_edition.js"}></script>
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
     <%= dgettext("tasker", "Oops, something went wrong! Please check the errors below.") %>
   </.error>
-
+  
   <.input field={f[:title]} label={dgettext("tasker", "Task Title")} class="long" />
-
+  
   <div class="inline-fields">
     <.input field={f[:project_id]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
-    <.input field={f[:new_project]} label={ dgettext("tasker", "New") } />
+    <.input field={f[:new_project]} style="width:200px;" label={ dgettext("tasker", "New") } />
   </div>
+  
+  <%= if @changeset.data.task_spec.id do %>
 
-  <.inputs_for :let={fp} field={f[:task_spec]}>
-    <.input field={fp[:details]} type="textarea" class="details" label={dgettext("tasker", "Details")} />
-  </.inputs_for>
-
-  <.inputs_for :let={ft} field={f[:task_time]}>
-    <div class="inline-fields">
-      <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Should start at")} />
-      <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
-    </div>
-    <div class="inline-fields">
-      <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
-      <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
-    </div>
-    <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
-    <div class="inline-fields no-dim">
-      <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
-      <.input name="exp_duree_valu" value={exp_duree_valu} type="text" class="small-number" label={dgettext("tasker", "Expect duration")} />
-      <.input name="exp_duree_unit" value={exp_duree_unit} type="select" options={options_duree()} label={nil} />
-    </div>
+    <.inputs_for :let={fp} field={f[:task_spec]}>
+      <.input field={fp[:details]} type="textarea" class="details" label={dgettext("tasker", "Details")} />
     </.inputs_for>
-
+    
+    <.inputs_for :let={ft} field={f[:task_time]}>
+      <div class="inline-fields">
+        <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Should start at")} />
+        <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
+      </div>
+      <div class="inline-fields">
+        <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
+        <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
+      </div>
+      <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+      <div class="inline-fields no-dim">
+        <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
+        <.input name="exp_duree_valu" value={exp_duree_valu} type="text" class="small-number" label={dgettext("tasker", "Expect duration")} />
+        <.input name="exp_duree_unit" value={exp_duree_unit} type="select" options={options_duree()} label={nil} />
+      </div>
+    </.inputs_for>
+    
     <div class="current-state">
       <.current_state changeset={@changeset} />
     </div>
@@ -40,10 +41,12 @@
       <h3><%= dgettext("tasker", "Bloc-notes de la tâche") %></h3>
       <.blocnotes changeset={@changeset} />
     </div>
-
+  <% end %>
   <:actions>
     <.button><%= dgettext("tasker", "Save Task") %></.button>
-  </:actions>
-</.simple_form>
-
-<.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+    </:actions>
+  </.simple_form>
+  
+  <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+  
+  <script defer type="text/javascript" src={~p"/assets/js/task_edition.js"}></script>

@@ -66,6 +66,8 @@ defmodule TaskerWeb.TaskHTML do
     end)
   end
 
+
+
   @doc """
   Composant pour créer la section qui indique les informations fixes, 
   c'est-à-dire la date de début si elle est définie, la date de fin,
@@ -127,15 +129,16 @@ defmodule TaskerWeb.TaskHTML do
         <% end %>
       </div>
       <div id="blocnotes-note-form">
+        <input type="hidden" value={task_spec.id} id="new_note_task_spec_id" />
         <div>
-          <input type="text" value="" name="note[title]" style="border:1px solid #999;" class="long" placeholder="Titre de la note" />
+          <input type="text" value="" id="new_note_title" style="border:1px solid #999;" class="long" placeholder="Titre de la note" />
         </div>
         <div style="margin-top:12px;">
-          <textarea name="note[details]" placeholder="Détail de la note" style="height:120px;"></textarea>
+          <textarea id="new_note_details" placeholder="Détail de la note" style="height:120px;"></textarea>
         </div>
       </div>
       <div class="buttons">
-        <button class="btn btn-add">＋</button>
+        <button type="button" class="btn btn-add" onclick="Notes.create()">＋</button>
       </div>
     </div>
     """
