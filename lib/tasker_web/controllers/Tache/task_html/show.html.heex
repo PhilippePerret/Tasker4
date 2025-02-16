@@ -1,5 +1,5 @@
 <h2>
-  <%= dgettext("tasker", "Task") %> <span class="small">{@task.id}</span>
+  <%= dgettext("tasker", "Task") %> <div class="tiny">{@task.id}</div>
   <div class="actions">
     <.link href={~p"/tasks/#{@task}/edit"}>
       <.button>Edit task</.button>
@@ -7,9 +7,9 @@
   </div>
 </h2>
 
-<div><strong><%= dgettext("tasker", "Task ID") %>:</strong> <%= @task.id %></div>
+<div><strong><%= dgettext("tasker", "Task") %><%= raw gettext("[SPACE]") %>:</strong> <%= @task.title %></div>
 <%= if @task.project do %>
-  <div><strong><%= dgettext("tasker", "Project") %>:</strong> <%= @task.project.id %></div>
+  <div><strong><%= dgettext("tasker", "Project") %><%= raw gettext("[SPACE]") %>:</strong> <%= @task.project.title %></div>
 <% end %>
 
 <.back navigate={~p"/tasks"}><%= dgettext("tasker", "Back to tasks") %></.back>

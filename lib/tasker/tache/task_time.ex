@@ -2,6 +2,8 @@ defmodule Tasker.Tache.TaskTime do
   use Ecto.Schema
   import Ecto.Changeset
 
+  use Gettext, backend: TaskerWeb.Gettext
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "task_times" do
@@ -58,13 +60,13 @@ defmodule Tasker.Tache.TaskTime do
     |> validate_change(:ended_at, fn :ended_at, ended ->
       given_up = get_field(changeset, :given_up_at)
       if ended && given_up do
-        [ended_at: "cannot be set: abandonment date already defined"]
+        [ended_at: dgettext("tasker", "cannot be set: abandonment date already defined")]
       else [] end
     end)
     |> validate_change(:given_up_at, fn :given_up_at, given_up ->
       ended = get_field(changeset, :ended_at)
       if ended && given_up do
-        [given_up_at: "cannot be set: end date already defined"]
+        [given_up_at: dgettext("tasker", "cannot be set: end date already defined")]
       else [] end
     end)
   end
@@ -73,7 +75,7 @@ defmodule Tasker.Tache.TaskTime do
     |> validate_change(:ended_at, fn :ended_at, ended_at ->
       started_at = get_field(changeset, :started_at)
       if started_at && ended_at && NaiveDateTime.compare(ended_at, started_at) == :lt do
-        [ended_at: "cannot be before started_at"]
+        [ended_at: dgettext("tasker", "cannot be before %{started_at}", started_at: TFormat.to_s(started_at))]
       else
         []
       end
@@ -85,7 +87,7 @@ defmodule Tasker.Tache.TaskTime do
     |> validate_change(:should_end_at, fn :should_end_at, should_end_at ->
       should_start_at = get_field(changeset, :should_start_at)
       if should_start_at && should_end_at && NaiveDateTime.compare(should_end_at, should_start_at) == :lt do
-        [should_end_at: "cannot be before should_start_at"]
+        [should_end_at: dgettext("tasker", "cannot be before %{should_start_at}", should_start_at: TFormat.to_s(should_start_at))]
       else
         []
       end

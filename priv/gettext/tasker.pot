@@ -22,9 +22,9 @@ msgstr ""
 msgid "Back to projects"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:7
+#: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:5
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:15
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:50
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "Back to tasks"
 msgstr ""
@@ -104,33 +104,28 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:46
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:57
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr ""
 
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:2
+#: lib/tasker_web/controllers/Tache/task_html/show.html.heex:10
 #, elixir-autogen, elixir-format
 msgid "Task"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/show.html.heex:10
-#, elixir-autogen, elixir-format
-msgid "Task ID"
-msgstr ""
-
 #: lib/tasker_web/controllers/Tache/task_html/liste.html.heex:13
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Task Title"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:85
+#: lib/tasker_web/controllers/Tache/task_controller.ex:77
 #, elixir-autogen, elixir-format
 msgid "Task deleted successfully."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:72
+#: lib/tasker_web/controllers/Tache/task_controller.ex:64
 #, elixir-autogen, elixir-format
 msgid "Task updated successfully."
 msgstr ""
@@ -180,32 +175,52 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:95
+#: lib/tasker_web/controllers/Tache/task_html.ex:94
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:102
+#: lib/tasker_web/controllers/Tache/task_html.ex:101
 #, elixir-autogen, elixir-format
 msgid "Task Current Status"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:160
+#: lib/tasker_web/controllers/Tache/task_html.ex:159
 #, elixir-autogen, elixir-format
 msgid "given up at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:54
-#, elixir-autogen, elixir-format
-msgid "Please enter at least a title for the task."
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_controller.ex:47
+#: lib/tasker_web/controllers/Tache/task_controller.ex:34
 #, elixir-autogen, elixir-format
 msgid "Task created successfully."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:41
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:52
 #, elixir-autogen, elixir-format
 msgid "Task notepad"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:41
+#, elixir-autogen, elixir-format
+msgid "Please enter at least a title for the task!"
+msgstr ""
+
+#: lib/tasker/tache/task_time.ex:90
+#, elixir-autogen, elixir-format
+msgid "cannot be before %{should_start_at}"
+msgstr ""
+
+#: lib/tasker/tache/task_time.ex:78
+#, elixir-autogen, elixir-format
+msgid "cannot be before %{started_at}"
+msgstr ""
+
+#: lib/tasker/tache/task_time.ex:63
+#, elixir-autogen, elixir-format
+msgid "cannot be set: abandonment date already defined"
+msgstr ""
+
+#: lib/tasker/tache/task_time.ex:69
+#, elixir-autogen, elixir-format
+msgid "cannot be set: end date already defined"
 msgstr ""

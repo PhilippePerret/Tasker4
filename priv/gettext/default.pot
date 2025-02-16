@@ -57,88 +57,94 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:163
+#: lib/tasker_web/controllers/Tache/task_html.ex:162
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:165
+#: lib/tasker_web/controllers/Tache/task_html.ex:164
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:171
+#: lib/tasker_web/controllers/Tache/task_html.ex:170
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:170
+#: lib/tasker_web/controllers/Tache/task_html.ex:169
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:167
+#: lib/tasker_web/controllers/Tache/task_html.ex:166
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:52
+#: lib/tasker_web/controllers/Tache/task_html.ex:51
 #, elixir-autogen, elixir-format
 msgid "As soon as possible (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:53
+#: lib/tasker_web/controllers/Tache/task_html.ex:52
 #, elixir-autogen, elixir-format
 msgid "Can wait (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:49
+#: lib/tasker_web/controllers/Tache/task_html.ex:48
 #, elixir-autogen, elixir-format
 msgid "Critical (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:51
+#: lib/tasker_web/controllers/Tache/task_html.ex:50
 #, elixir-autogen, elixir-format
 msgid "Time-sensitive (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:50
+#: lib/tasker_web/controllers/Tache/task_html.ex:49
 #, elixir-autogen, elixir-format
 msgid "Urgent (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:37
-#: lib/tasker_web/controllers/Tache/task_html.ex:48
+#: lib/tasker_web/controllers/Tache/task_html.ex:36
+#: lib/tasker_web/controllers/Tache/task_html.ex:47
 #, elixir-autogen, elixir-format
 msgid "not defined"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:38
+#: lib/tasker_web/controllers/Tache/task_html.ex:37
 #, elixir-autogen, elixir-format
 msgid "absolute (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:39
+#: lib/tasker_web/controllers/Tache/task_html.ex:38
 #, elixir-autogen, elixir-format
 msgid "high (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:42
+#: lib/tasker_web/controllers/Tache/task_html.ex:41
 #, elixir-autogen, elixir-format
 msgid "low (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:41
+#: lib/tasker_web/controllers/Tache/task_html.ex:40
 #, elixir-autogen, elixir-format
 msgid "normal (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:40
+#: lib/tasker_web/controllers/Tache/task_html.ex:39
 #, elixir-autogen, elixir-format
 msgid "secondary (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:43
+#: lib/tasker_web/controllers/Tache/task_html.ex:42
 #, elixir-autogen, elixir-format
 msgid "very low (priority)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html/show.html.heex:10
+#: lib/tasker_web/controllers/Tache/task_html/show.html.heex:12
+#, elixir-autogen, elixir-format
+msgid "[SPACE]"
 msgstr ""
