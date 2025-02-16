@@ -94,12 +94,14 @@ defmodule TaskerWeb.TaskHTML do
       nil -> ""
       extime -> dgettext("tasker", "Execution time") <> " : " <> TFormat.to_duree(extime)
       end
-    assigns = assigns |> assign(:exec_time, execution_time)
+    assigns = assigns 
+    |> assign(:exec_time, execution_time)
+    |> assign(:segment_fin, segment_fin)
 
     ~H"""
     <h3><%= dgettext("tasker", "Task Current Status") %></h3>
     <div>
-      {@mark_start}, {segment_fin}.
+      {@mark_start}, {@segment_fin}.
     </div>
     <div>{@exec_time}</div>
     """
@@ -117,10 +119,14 @@ defmodule TaskerWeb.TaskHTML do
     task_spec = changeset.data.task_spec
     |> IO.inspect(label: "\nTASK_SPEC")
 
+    assigns = assigns 
+    |> assign(all_notes: task_spec.notes)
+    |> assign(task_spec: task_spec)
+
     ~H"""
     <div id="blocnotes-container">
       <div id="blocnotes-note-list">
-        <%= for note <- task_spec.notes do %>
+        <%= for note <- @all_notes do %>
           <div class="task-note">
             <span class="tiny-buttons fright">[edit][remove]</span>
             <div class="title">{note.title}</div>
@@ -129,7 +135,7 @@ defmodule TaskerWeb.TaskHTML do
         <% end %>
       </div>
       <div id="blocnotes-note-form">
-        <input type="hidden" value={task_spec.id} id="new_note_task_spec_id" />
+        <input type="hidden" value={@task_spec.id} id="new_note_task_spec_id" />
         <div>
           <input type="text" value="" id="new_note_title" style="border:1px solid #999;" class="long" placeholder="Titre de la note" />
         </div>

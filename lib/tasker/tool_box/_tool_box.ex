@@ -3,7 +3,8 @@ defmodule Tasker.ToolBox do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  alias Tasker.Tache.{Task, TaskSpec}
+  # alias Tasker.Tache.{Task, TaskSpec}
+
   alias Tasker.ToolBox.Note
 
 

@@ -6,7 +6,7 @@ defmodule Tasker.Tache do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  alias Tasker.Tache.Task
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime}
 
   @doc """
   Returns the list of tasks.
@@ -37,7 +37,7 @@ defmodule Tasker.Tache do
   """
   def get_task!(id) do
     Repo.get!(Task, id)
-    |> Repo.preload(:task_spec)
+    |> Repo.preload(task_spec: [:notes])
     |> Repo.preload(:task_time)
   end
 
@@ -46,17 +46,21 @@ defmodule Tasker.Tache do
 
   ## Examples
 
-      iex> create_task(%{field: value})
+      iex> create_task(%{title: "Une très bonne valeur"})
       {:ok, %Task{}}
 
-      iex> create_task(%{field: bad_value})
+      iex> create_task(%{mauvais_champ: "x"})
       {:error, %Ecto.Changeset{}}
 
   """
   def create_task(attrs \\ %{}) do
-    %Task{}
-    |> Task.changeset(attrs)
-    |> Repo.insert()
+    res = %Task{} |> Task.changeset(attrs) |> Repo.insert()
+    case res do
+    {:ok, task} ->
+      %TaskSpec{} |> TaskSpec.changeset(%{task_id: task.id}) |> Repo.insert!()
+      %TaskTime{} |> TaskTime.changeset(%{task_id: task.id}) |> Repo.insert!()
+    end
+    res
   end
 
   @doc """

@@ -140,22 +140,6 @@ defmodule Tasker.Accounts do
     if Worker.valid_password?(worker, password), do: worker
   end
 
-  @doc """
-  Gets a single worker.
-
-  Raises `Ecto.NoResultsError` if the Worker does not exist.
-
-  ## Examples
-
-      iex> get_worker!(123)
-      %Worker{}
-
-      iex> get_worker!(456)
-      ** (Ecto.NoResultsError)
-
-  """
-  def get_worker!(id), do: Repo.get!(Worker, id)
-
   ## Worker registration
 
   @doc """

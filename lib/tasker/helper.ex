@@ -20,10 +20,10 @@ defmodule Tasker.Helper do
       [segs, reste] = foo_foostr(segs, diff, :week)
       [segs, reste] = foo_foostr(segs, reste, :day)
       [segs, reste] = foo_foostr(segs, reste, :hour)
-      [segs, reste] = foo_foostr(segs, reste, :minute)
+      [segs, _reste] = foo_foostr(segs, reste, :minute)
       duree_humaine = 
       case Enum.count(segs) do
-      1 -> Enum.at(0)
+      1 -> Enum.at(segs, 0)
       _ -> 
         {autres, dernier} = Enum.split(segs, -1)
         dgettext("ilya", "%{items}, and %{last}", items: Enum.join(autres, ", "), last: dernier)

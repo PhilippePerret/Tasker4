@@ -28,6 +28,7 @@ defmodule TaskerWeb.TaskController do
   defp common_conn_render(conn, action, task_changeset) do
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
+    |> assign(:task, (action == :new) && nil || task_changeset.data)
     |> assign(:changeset, task_changeset)
     |> render(action)
   end
@@ -74,8 +75,8 @@ defmodule TaskerWeb.TaskController do
     case Tache.create_task(updated_params) do
       {:ok, task} ->
         conn
-        |> put_flash(:info, "Task created successfully.")
-        |> redirect(to: ~p"/tasks/#{task}")
+        |> put_flash(:info, dgettext("tasker", "Task created successfully."))
+        |> redirect(to: ~p"/tasks/#{task}/edit")
   
       {:error, %Ecto.Changeset{} = changeset} ->
         projects = Tasker.Projet.list_projects() || []

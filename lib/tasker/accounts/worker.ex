@@ -45,7 +45,7 @@ defmodule Tasker.Accounts.Worker do
     |> validate_pseudo(opts)
   end
 
-  defp validate_pseudo(changeset, opts) do
+  defp validate_pseudo(changeset, _opts) do
     changeset
     |> validate_required([:pseudo])
     |> validate_length(:pseudo, min: 3, max: 100)

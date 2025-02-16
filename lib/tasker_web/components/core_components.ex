@@ -142,7 +142,7 @@ defmodule TaskerWeb.CoreComponents do
   def flash_group(assigns) do
     ~H"""
     <div id={@id}>
-      <.flash kind={:info}} flash={@flash} />
+      <.flash kind={:info} flash={@flash} />
       <.flash kind={:error} flash={@flash} />
       <.flash kind={:notice} flash={@flash} />
       <.flash
@@ -480,7 +480,7 @@ defmodule TaskerWeb.CoreComponents do
         >
           <tr :for={row <- @rows} id={@row_id && @row_id.(row)}>
             <td
-              :for={{col, i} <- Enum.with_index(@col)}
+              :for={{col, _i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
             >
               <div>
