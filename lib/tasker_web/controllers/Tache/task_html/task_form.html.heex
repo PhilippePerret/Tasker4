@@ -3,7 +3,7 @@
     <%= dgettext("tasker", "Oops, something went wrong! Please check the errors below.") %>
   </.error>
   
-  <.input field={f[:title]} label={dgettext("tasker", "Task Title")} class={["long"]} />
+  <.input field={f[:title]} class={["full", "main"]} placeholder="Titre de la tâche" />
   
   <div class="inline-fields">
     <.input field={f[:project_id]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />

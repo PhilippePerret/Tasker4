@@ -73,7 +73,7 @@ defmodule TaskerWeb.TaskController do
         |> redirect(to: ~p"/tasks/#{task}")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, :edit, task: task, changeset: changeset)
+        common_conn_render(conn, :edit, changeset)
     end
   end
 

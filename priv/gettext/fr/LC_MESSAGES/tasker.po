@@ -42,12 +42,12 @@ msgstr "Modifier"
 #: lib/tasker_web/controllers/Projet/project_html/edit.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Edit Project"
-msgstr "Modifier le projet"
+msgstr "Modification du projet"
 
 #: lib/tasker_web/controllers/Tache/task_html/edit.html.heex:1
 #, elixir-autogen, elixir-format
 msgid "Edit Task"
-msgstr "Modifier la tâche"
+msgstr "Modification de la tâche"
 
 #: lib/tasker_web/controllers/Projet/project_html/show.html.heex:5
 #, elixir-autogen, elixir-format

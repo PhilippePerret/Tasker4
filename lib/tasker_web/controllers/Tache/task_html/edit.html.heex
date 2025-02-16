@@ -1,6 +1,4 @@
-<h2><%= dgettext("tasker", "Edit Task") %>  <span class="small">{@task.id}</span></h2>
-
-<h3>Généralités</h3>
+<h2><%= dgettext("tasker", "Edit Task") %>  <div class="tiny">{@task.id}</div></h2>
 
 <.task_form changeset={@changeset} action={~p"/tasks/#{@task}"} projects={@projects} />
 

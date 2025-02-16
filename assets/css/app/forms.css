@@ -21,6 +21,11 @@ select, select option {
 }
 
 input.long { width: 75% }
+input.full { width: 95% }
+
+input.main {
+  font-size: 1.5em;
+}
 
 form {
   border: 8px solid #EEEEEE;
