@@ -165,6 +165,7 @@ defmodule TaskerWeb.TaskHTML do
 
 
   @laps [
+    {"minute", 1},
     {"hour", 60},
     {"day",  24 * 60},
     {"week", 7 * 24 * 60},
@@ -202,11 +203,12 @@ defmodule TaskerWeb.TaskHTML do
 
   def data_repeat_unit do
     [
-      {dgettext("ilya", "hour") , "hour"}, 
-      {dgettext("ilya", "day")  , "day"}, 
-      {dgettext("ilya", "week") , "week"}, 
-      {dgettext("ilya", "month"), "month"}, 
-      {dgettext("ilya", "year") , "year"}
+      {dgettext("ilya", "minute") , "minute"}, 
+      {dgettext("ilya", "hour")   , "hour"}, 
+      {dgettext("ilya", "day")    , "day"}, 
+      {dgettext("ilya", "week")   , "week"}, 
+      {dgettext("ilya", "month")  , "month"}, 
+      {dgettext("ilya", "year")   , "year"}
     ]
   end
 
@@ -221,24 +223,47 @@ defmodule TaskerWeb.TaskHTML do
     |> assign(:recurrence, assigns.changeset.data.task_time.recurrence)
     |> assign(:month_data, month_data())
     |> assign(:data_week, data_week())
+    # TODO : PLUTÔT PASSER TOUT ÇA PAR UN JSON
     |> assign(:every, gettext("Every"))
+    |> assign(:every_min, gettext("every"))
+    |> assign(:on_for_day, gettext("on (day)"))
+    |> assign(:monday, dgettext("ilya", "monday"))
+    |> assign(:tuesday, dgettext("ilya", "tuesday"))
+    |> assign(:wednesday, dgettext("ilya", "wednesday"))
+    |> assign(:thursday, dgettext("ilya", "thursday"))
+    |> assign(:friday, dgettext("ilya", "friday"))
+    |> assign(:saturday, dgettext("ilya", "saturday"))
+    |> assign(:sunday, dgettext("ilya", "sunday"))
+    |> assign(:repeat_this_task, gettext("Repeat this task"))
     |> assign(:data_repeat_unit, data_repeat_unit())
     |> assign(:at_minute, dgettext("ilya", "at minute"))
 
     ~H"""
+    <script type="text/javascript">
+    /* Pour mettre les éléments de langue */
+    const LANG = {
+        Repeat_this_task: "<%= @repeat_this_task %>"
+      , every: "<%= @every_min %>"
+      , on_for_day: "<%= @on_for_day %>"
+      , days: {0: "<%= @sunday %>", 1: "<%= @monday %>", 2: "<%= @tuesday %>", 3: "<%= @wednesday %>", 4: "<%= @thursday %>", 5: "<%= @friday %>", 6: "<%= @saturday %>"}
+    };
+    </script>
     <input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
     <input 
       type="checkbox" 
       onchange="Repeat.onChange(this)" 
       style="display:inline-block;margin-right:1em;vertical-align:bottom;transform:scale(1.8);" 
     /><div id="recurrence-container" class="repeat-container hidden">
-      <div class="repeat-summary"></div>
+      <div id="repeat-summary"></div>
       <div class="repeat-form inline-fields">
       <div class="inline-fields" style="vertical-align:bottom;">
           <label class="no-points">{@every}</label>
           <input type="number" name="frequency-value" class="small-number" value={1} />
           <select class="repeat-frequency-unit" name="frequency-unit">
             <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
+              <script type="text/javascript">
+                LANG.<%= lap_value %> = "<%= lap_title %>";
+              </script>
               <option value={lap_value}><%= lap_title %></option>
             <% end %>
           </select>

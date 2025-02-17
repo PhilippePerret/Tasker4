@@ -66,14 +66,15 @@ class Notes {
  * Les champs visibles en fonction de la fréquence de répétition
  */
 const FieldsPerRepeatUnit = {
-    hour:   ['at-minute']
+    minute: ['at-minute']
+  , hour:   ['at-minute']
   , day:    ['at-minute', 'at-hour']
   , week:   ['at-minute', 'at-hour', 'at-day']
   , month:  ['at-minute', 'at-hour', 'at-day', 'at-mday']
   , year:   ['at-minute', 'at-hour', 'at-day', 'at-mday', 'at-month']
 }
 
-const CRON_PROPERTIES = ['uFreq', 'hMin','dHour','mDay','wDay','yMonth'];
+const CRON_PROPERTIES = ['uFreq', 'uFreqValue', 'hMin','dHour','mDay','wDay','yMonth'];
 
 class Repeat {
   static onChange(cb){
@@ -109,6 +110,8 @@ class Repeat {
 
   /**
    * Fonction appelée au chargement du formulaire pour régler l'état du composant récurrence
+   * 
+   * @param {String} state 'ON' ou 'OFF'
    */
   setState(state){
     state = state || this.getState()
@@ -135,7 +138,7 @@ class Repeat {
   }
   prepare(){
     this.data.prepared = true
-    this.menu_uFreq.addEventListener('change', this.onChangeRepeatUnit.bind(this))
+    this.field_uFreq.addEventListener('change', this.onChangeRepeatUnit.bind(this))
     this.maskAllProperties()
   }
 
@@ -151,6 +154,11 @@ class Repeat {
    * @param {String} uFreq  Fréquence générale du crontab ("minute", "day", "week", etc.)
    */
   showRequiredProperties(uFreq){
+    console.info("uFreq", uFreq)
+    if ( uFreq == "" ) {
+      try { throw new Error("Pour le backtrace")}
+      catch(err){console.log("erreur", err)}
+    }
     FieldsPerRepeatUnit[uFreq].forEach( fieldId => {
       DGet(`span.repeat-property.${fieldId}`, this.obj).style.visibility = 'visible'
     })
@@ -158,7 +166,7 @@ class Repeat {
 
   onChangeRepeatUnit(ev){
     this.maskAllProperties()
-    this.showRequiredProperties(this.menu_uFreq.value /* "day", "week", etc. */)
+    this.showRequiredProperties(this.field_uFreq.value /* "day", "week", etc. */)
   }
 
   /**
@@ -169,9 +177,11 @@ class Repeat {
   getCronUI(){
     const cronData = {}
     CRON_PROPERTIES.forEach( prop => {
-      const value = this['menu_' + prop].value ;
-      cronData[prop] = value == "---" ? undefined : value ;
+      let value = this['field_' + prop].value ;
+      if ( !['wDay', 'uFreq'].includes(prop) ) value = Number(value)
+      cronData[prop] = value == "---" ? null : value ;
     })
+    console.info("conData = ", cronData)
     return this.genCronExpression(cronData)
   }
   /**
@@ -181,56 +191,102 @@ class Repeat {
    * @return void
    */
   setCronUI(cron) {
-    const cronData = this.parseCronExpression(cron)
-    this.showRequiredProperties(cronData.uFreq)
-    CRON_PROPERTIES.forEach( prop => {
-      this['menu_'  + prop].value = cronData[prop] || '---' 
-    })
+    const cronData = this.parseAndShowCronExpression(cron)
   }
 
   genCronExpression(dataCron) {
-    const {uFreq, hMin, dHour, mDay, wDay, yMonth} = dataCron
+    let {uFreq, uFreqValue, hMin, dHour, mDay, wDay, yMonth} = dataCron;
+    let freqValue ;
+    if ( uFreqValue > 1 && uFreq == 'week') {
+      uFreq = 'day'
+      freqValue = `*/${uFreqValue * 7}`
+    } else {
+      freqValue = uFreqValue > 1 ? `*/${uFreqValue}` : "*";
+    }
+  
     return [
-      hMin !== undefined ? hMin : 0,
-      dHour !== undefined ? dHour : "*",
-      uFreq === "month" ? (mDay !== undefined ? mDay : 1) : "*",
-      yMonth !== undefined ? yMonth : "*",
-      uFreq === "week" ? (wDay !== undefined ? wDay : "*") : "*"
-    ].join(" ")
+      uFreq === "minute" ? freqValue : (hMin    === null ? "0" : hMin),
+      uFreq === "hour"   ? freqValue : (dHour   === null ? "*" : dHour),
+      uFreq === "day"    ? freqValue : (mDay    === null ? "*" : mDay),
+      uFreq === "month"  ? freqValue : (yMonth  === null ? "*" : yMonth),
+      uFreq === "week"   ? freqValue : (wDay    === null ? "*" : wDay)
+    ].join(" ");
   }
 
-  parseCronExpression(cron) {
+  parseAndShowCronExpression(cron) {
     const [hMin, dHour, mDay, yMonth, wDay] = cron.split(" ");
+    const table_frequences = {
+        hMin:   {raw: hMin    , value: undefined, uFreq: 'minute' , frequential: undefined}
+      , dHour:  {raw: dHour   , value: undefined, uFreq: 'hour'   , frequential: undefined}
+      , mDay:   {raw: mDay    , value: undefined, uFreq: 'day'    , frequential: undefined}
+      , yMonth: {raw: yMonth  , value: undefined, uFreq: 'month'  , frequential: undefined}
+      , wDay:   {raw: wDay    , value: undefined, uFreq: null     , frequential: false}
+    }
+    const resultats = {
+        uFreq:      'minute'
+      , uFreqValue: 1
+      , hMin:       undefined
+      , dHour:      undefined
+      , mDay:       undefined
+      , wDay:       undefined
+      , yMonth:     undefined
 
-    let uFreq ;
-    if (wDay !== "*") {
-        uFreq = "week";
-    } else if (mDay !== "*" && yMonth !== "*") {
-        uFreq = "year";
-    } else if (mDay !== "*") {
-        uFreq = "month";
-    } else if (dHour !== "*") {
-        uFreq = "day";
-    } else {
-        uFreq = "hour";
     }
 
-    return {
-          uFreq
-        , hMin:   hMin === "*" ? undefined : parseInt(hMin) // minute de l'heure
-        , dHour:  dHour === "*" ? undefined : parseInt(dHour) // heure du jour
-        , mDay:   mDay === "*" ? undefined : parseInt(mDay) // jour du mois
-        , wDay:   wDay === "*" ? undefined : parseInt(wDay) // jour de la semaine
-        , yMonth: yMonth === "*" ? undefined : parseInt(yMonth) // mois de l'année
-    };
+    Object.keys(table_frequences).forEach( key => {
+      const row = table_frequences[key];
+      const rawValue = row.raw
+      row.frequential = rawValue.startsWith('*/')
+      if ( row.frequential ) {
+        resultats.uFreq = String(row.uFreq)
+        resultats. uFreqValue = Number(rawValue.split('/')[1])
+        row.value  = '---' // valeur de menu pour "rien"
+      } else if (rawValue == '*') {
+        row.value  = '---'
+      } else {
+        row.value  = Number(rawValue) // Number est superflu
+      }
+      // On peut définir les menus directement ici
+      this['field_' + key].value = row.value
+      // Et les valeurs retournées
+      resultats[key] = row.value == '---' ? null : row.value;
+    });
+    // On renseigne les deux derniers menus
+    ;['uFreq', 'uFreqValue'].forEach(key => this[`field_${key}`].value = resultats[key])
+
+    // Affichage des champs nécessaires pour ce crontab
+    this.showRequiredProperties(resultats.uFreq)
+
+    // Affichage du résumé humain
+    this.showResumeHumain(resultats)
+
+    return resultats ;
   }
 
-  get menu_uFreq(){return this._menuufreq || (this._menuufreq = DGet('.repeat-frequency-unit', this.obj) ) }
-  get menu_hMin(){return this._menuhmin || (this._menuhmin = DGet('select[name="at-minute"]', this.obj))}
-  get menu_dHour(){return this._menudhour || (this._menudhour = DGet('select[name="at-hour"]', this.obj))}
-  get menu_mDay(){return this._menumday || (this._menumday = DGet('select[name="at-mday"]', this.obj))}
-  get menu_wDay(){return this._menuwday || (this._menuwday = DGet('select[name="at-day"]', this.obj))}
-  get menu_yMonth(){return this._menuymonth || (this._menuymonth = DGet('select[name="at-month"]', this.obj))}
+  /**
+   * Affiche le résumé humain
+   */
+  showResumeHumain(crondata){
+    let sum = []
+    sum.push(LANG.Repeat_this_task)
+    sum.push(LANG.every)
+    sum.push(crondata.uFreqValue > 1 ? String(crondata.uFreqValue) : "")
+    sum.push(LANG[crondata.uFreq] + (crondata.uFreqValue == 1 ? "" : "s"))
+    if ( crondata.wDay ) {
+      sum.push(LANG.on_for_day)
+      sum.push(LANG[crondata.wDay])
+    }
+    DGet('div#repeat-summary').innerHTML = sum.join(" ")
+  }
+
+
+  get field_uFreq(){return this._menuufreq || (this._menuufreq = DGet('.repeat-frequency-unit', this.obj) ) }
+  get field_uFreqValue(){return this._fieldufreqv || (this._fieldufreqv = DGet('input[name="frequency-value"]', this.obj))}
+  get field_hMin(){return this._menuhmin || (this._menuhmin = DGet('select[name="at-minute"]', this.obj))}
+  get field_dHour(){return this._menudhour || (this._menudhour = DGet('select[name="at-hour"]', this.obj))}
+  get field_mDay(){return this._menumday || (this._menumday = DGet('select[name="at-mday"]', this.obj))}
+  get field_wDay(){return this._menuwday || (this._menuwday = DGet('select[name="at-day"]', this.obj))}
+  get field_yMonth(){return this._menuymonth || (this._menuymonth = DGet('select[name="at-month"]', this.obj))}
 
   get hiddenField(){return this._hiddenfield || (this._hiddenfield = DGet('input#task-recurrence'))}
 
@@ -238,7 +294,8 @@ class Repeat {
     return this.obj.dataset
   }
 
-}
+}//class Repeat
+
 
 window.Task = Task
 window.Notes = Notes
@@ -246,3 +303,30 @@ window.Repeat = Repeat
 
 Task.init()
 Repeat.onLoad()
+
+Repeat.ctest = function(){
+  if (!this.activited ) {
+    this.activited = true
+    return active_lib_testor(Repeat)
+  }
+  /* === DÉBUT DES TESTS === */
+  const r = Repeat.repeater;
+  const hf = r.hiddenField;
+
+  t("--- Tests de la gestion du CRON ---");
+
+  hf.value = "5 * * * *"
+  r.setState('ON')
+
+  ;[
+      ['0 * * * *', {uFreq: 'hour', uFreqValue: 1, hMin: null, dHour: null, mDay: null, wDay: null, yMonth: null}, {uFreq: 'hour', uFreqValue: 1, hMin: 0, dHour: null, mDay: null, wDay: null, yMonth: null}]
+    , ['5 * * * *', {uFreq: 'hour', uFreqValue: 1, hMin: 5, dHour: null, mDay: null, wDay: null, yMonth: null}]
+    , ['0 * */21 * *', {uFreq: 'week', uFreqValue: 3, hMin: null, dHour: null, mDay: null, wDay: null, yMonth: null}, {uFreq: 'day', uFreqValue: 21, hMin: 0, dHour: null, mDay: null, wDay: null, yMonth: null}]
+  ].forEach(paire => {
+    let [cron, data, toData] = paire
+    toData = toData || data
+    equal(r.genCronExpression(data), cron, "Le cron ne correspond pas")
+    equal(r.parseAndShowCronExpression(cron), toData, "Les dataCron ne correspondent pas")
+  })
+
+}

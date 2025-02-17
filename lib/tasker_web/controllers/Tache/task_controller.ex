@@ -9,7 +9,7 @@ defmodule TaskerWeb.TaskController do
     conn
     |> assign(:tasks, tasks)
     |> assign(:orientation, "paysage")
-    |> render(:liste)
+    |> render(:index)
   end
 
   # ---- Méthodes d'action -----
