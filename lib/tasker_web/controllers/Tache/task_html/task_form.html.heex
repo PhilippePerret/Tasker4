@@ -1,4 +1,7 @@
 <.simple_form :let={f} for={@changeset} action={@action}>
+  
+  <.bouton_save_tache />
+  
   <.error :if={@changeset.action}>
     <%= dgettext("tasker", "Oops, something went wrong! Please check the errors below.") %>
   </.error>
@@ -25,7 +28,7 @@
         <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
         <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
       </div>
-      <.input field={ft[:recurrence]} type="text" label={dgettext("tasker", "Recurrence")} />
+
       <div class="inline-fields no-dim">
         <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
         <label><%= dgettext("tasker", "Expect duration") %></label>
@@ -43,7 +46,14 @@
         </select>
       </div>
     </.inputs_for>
-    
+
+    <div>
+      <label><%= dgettext("tasker", "Recurrence") %></label>
+      <.recurrence_form changeset={@changeset} />
+    </div>
+
+    <.bouton_save_tache />
+
     <div class="current-state">
       <.current_state changeset={@changeset} />
     </div>
@@ -52,10 +62,12 @@
       <h3><%= dgettext("tasker", "Task notepad") %></h3>
       <.blocnotes changeset={@changeset} />
     </div>
+    <hr />
+    <.bouton_save_tache />
+
   <% end %>
-  <:actions>
-    <.button><%= dgettext("tasker", "Save Task") %></.button>
-    </:actions>
+
+
   </.simple_form>
   
   <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>

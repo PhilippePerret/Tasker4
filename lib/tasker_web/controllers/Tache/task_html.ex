@@ -65,7 +65,20 @@ defmodule TaskerWeb.TaskHTML do
     end)
   end
 
+  @doc """
+  Composant du bouton pour sauver la tâche, qu'on trouve à plusieurs
+  endroits du formulaire
+  """
+  def bouton_save_tache(assigns) do
+    assigns = assigns
+    |> assign(:bouton_name, dgettext("tasker", "Save Task"))
+    ~H"""
+    <div class="buttons">
+      <button type="submit" class="soft" onclick="return Task.beforeSave()">{@bouton_name}</button>
+    </div>
 
+    """
+  end
 
   @doc """
   Composant pour créer la section qui indique les informations fixes, 
@@ -121,6 +134,7 @@ defmodule TaskerWeb.TaskHTML do
     assigns = assigns 
     |> assign(all_notes: task_spec.notes)
     |> assign(task_spec: task_spec)
+    |> assign(bouton_save_name: dgettext("tasker", "Save this note"))
 
     ~H"""
     <div id="blocnotes-container">
@@ -143,7 +157,149 @@ defmodule TaskerWeb.TaskHTML do
         </div>
       </div>
       <div class="buttons">
-        <button type="button" class="btn btn-add" onclick="Notes.create()">＋</button>
+        <button type="button" class="soft btn-add" onclick="Notes.create()">{@bouton_save_name}</button>
+      </div>
+    </div>
+    """
+  end
+
+
+  @laps [
+    {"hour", 60},
+    {"day",  24 * 60},
+    {"week", 7 * 24 * 60},
+    {"month", 30 * 24 * 60},
+    {"year",  365 * 24 * 60}
+  ]
+  def month_data do
+    [
+      {dgettext("ilya","January"), 1}, 
+      {dgettext("ilya","February"), 2}, 
+      {dgettext("ilya","March"), 3}, 
+      {dgettext("ilya","April"), 4}, 
+      {dgettext("ilya","May"), 5}, 
+      {dgettext("ilya","June"), 6}, 
+      {dgettext("ilya","July"), 7}, 
+      {dgettext("ilya","August"), 8}, 
+      {dgettext("ilya","Septembre"), 9}, 
+      {dgettext("ilya","October"), 10}, 
+      {dgettext("ilya","November"), 11}, 
+      {dgettext("ilya","December"), 12}
+    ]
+  end
+
+  def data_week do 
+    [
+      {dgettext("ilya", "Sunday"), 1},
+      {dgettext("ilya", "Tuesday"), 2},
+      {dgettext("ilya", "Wednesday"), 3},
+      {dgettext("ilya", "Thursday"), 4},
+      {dgettext("ilya", "Friday"), 5},
+      {dgettext("ilya", "Saturday"), 6},
+      {dgettext("ilya", "Sunday"), 0}
+    ]
+  end
+
+  def data_repeat_unit do
+    [
+      {dgettext("ilya", "hour") , "hour"}, 
+      {dgettext("ilya", "day")  , "day"}, 
+      {dgettext("ilya", "week") , "week"}, 
+      {dgettext("ilya", "month"), "month"}, 
+      {dgettext("ilya", "year") , "year"}
+    ]
+  end
+
+
+  @doc """
+  Construit un champ de formulaire pour la récurrence et le renvoie
+  """
+  attr :changeset, Ecto.Changeset, required: true
+
+  def recurrence_form(assigns) do
+    assigns = assigns 
+    |> assign(:recurrence, assigns.changeset.data.task_time.recurrence)
+    |> assign(:month_data, month_data())
+    |> assign(:data_week, data_week())
+    |> assign(:every, gettext("Every"))
+    |> assign(:data_repeat_unit, data_repeat_unit())
+    |> assign(:at_minute, dgettext("ilya", "at minute"))
+
+    ~H"""
+    <input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
+    <input 
+      type="checkbox" 
+      onchange="Repeat.onChange(this)" 
+      style="display:inline-block;margin-right:1em;vertical-align:bottom;transform:scale(1.8);" 
+    /><div id="recurrence-container" class="repeat-container hidden">
+      <div class="repeat-summary"></div>
+      <div class="repeat-form inline-fields">
+      <div class="inline-fields" style="vertical-align:bottom;">
+          <label class="no-points">{@every}</label>
+          <input type="number" name="frequency-value" class="small-number" value={1} />
+          <select class="repeat-frequency-unit" name="frequency-unit">
+            <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
+              <option value={lap_value}><%= lap_title %></option>
+            <% end %>
+          </select>
+        </div>
+        <div class="inline-fields">
+          <span class="repeat-property at-minute"> 
+                <label class="no-points">{@at_minute}</label>
+                <select class="repeat-at-minute" name="at-minute">
+                  <option value="---">---</option>
+                  <%= for minute <- (0..59//5) do %>
+                    <option value={minute}><%= minute %></option>
+                  <% end %>
+                </select>
+          </span>
+
+          <span class="repeat-property at-hour"> 
+                  <label class="no-points">de l'heure</label>
+                  <select class="repeat-at-hour" name="at-hour">
+                    <option value="---">---</option>
+                    <option value="all">toutes</option>
+                    <%= for hour <- (23..0) do %>
+                      <option value={hour}><%= hour %></option>
+                    <% end %>
+                  </select>
+          </span>
+        </div>
+
+        <div class="inline-fields">
+          <span class="repeat-property at-day"> 
+                  <label class="no-points">le </label>
+                  <select class="repeat-at-day" name="at-day">
+                    <option value="---">---</option>
+                    <%= for {titre, valeur} <- @data_week do %>
+                      <option value={valeur}><%= titre %></option>
+                    <% end %>
+                  </select>
+          </span>
+        </div>
+
+        <div class="inline-fields">
+          <span class="repeat-property at-mday"> 
+                  <label class="no-points">le </label>
+                  <select class="repeat-at-mday" name="at-mday">
+                    <option value="---">---</option>
+                    <%= for mday <- (1..31) do %>
+                      <option value={mday}><%= mday %></option>
+                    <% end %>
+                  </select>
+          </span>
+          <span class="repeat-property at-month">
+                  <label class="no-points"> du mois de</label>
+                  <select class="repeat-at-month" name="at-month">
+                    <option value="---">---</option>
+                    <%= for {title, value} <- @month_data do %>
+                      <option value={value}><%= title %></option>
+                    <% end %>
+                  </select>
+          </span>
+        </div>
+
+
       </div>
     </div>
     """

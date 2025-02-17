@@ -2,6 +2,7 @@ body {
   font-size:16pt;
   margin-top: 100px;
   font-family: Common;
+  padding-bottom: 10em;
 }
 
 table {
@@ -33,6 +34,7 @@ header a {
 /* Pour footer et header */
 div.content {
   padding: 12px 1em;
+  margin-bottom: 10em;
 }
 a, a:link, a:visited, a:hover {text-decoration: none}
 
@@ -51,6 +53,11 @@ h3 {
 
 p {
   margin:0; padding:0;
+}
+
+hr {
+  border-width: 1px 0 0 0;
+  border-color: #FFFFFF;
 }
 
 .warning {color: red;}

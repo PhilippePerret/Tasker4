@@ -6,16 +6,21 @@ input[type="password"],
 input[type="email"], 
 input[type="number"], 
 input[type="datetime-local"], 
-select, select option {
+select, select option,
+button {
   font-size:inherit;
   font-family:inherit;
   font-style: inherit;
 }
 input[type="number"] {width: 80px}
-input[type="text"].small-number {width:60px}
+input[type="text"].small-number {width:50px}
+input[type="number"].small-number {width:50px}
+input[type="text"].very-small-number {width:40px}
+input[type="number"].very-small-number {width:40px}
 
 select, select option {
   background: bottom;
+  background-color: white;
   color: #666666;
   border-color: #CCCCCC;
 }
@@ -25,6 +30,14 @@ input.full { width: 95% }
 
 input.main {
   font-size: 1.5em;
+}
+
+button.soft {
+  border: 1px solid #999;
+  background-color: #EEE;
+  border-radius: 4px;
+  font-family: AvenirN;
+  font-size: 0.9em;
 }
 
 form {
@@ -38,6 +51,10 @@ form:not(.max) {
   width: 840px;
 }
 form.max {max-width: 100%}
+
+form div.buttons {
+  text-align: right;
+}
 
 div.bloc-form label {
   display:inline-block;
@@ -64,7 +81,7 @@ div.bloc-form div.inline-fields > div label {
   display: inline;
   margin-right: 0.3em;
 }
-div.bloc-form div.inline-fields > div label:after {
+div.bloc-form div.inline-fields > div label:not(.no-points):after {
   content: ":"
 }
 div.bloc-form div.inline-fields.fields-3 > div label {
@@ -114,4 +131,15 @@ textarea.details {
 }
 textarea.details:focus {
   height: 400px;
+}
+
+/* Le container pour les récurrence */
+div.repeat-container {
+  margin-top: 20px;
+  background-color: lightskyblue;
+  padding: 12px 24px;
+  border-radius: 0.5em;
+}
+div.repeat-container > div.repeat-form > div {
+  margin: 8px 0;
 }
