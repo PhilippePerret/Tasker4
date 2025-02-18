@@ -268,13 +268,14 @@ class Repeat {
    */
   showResumeHumain(crondata){
     let sum = []
-    sum.push(LANG.Repeat_this_task)
+    sum.push(LANG.Summary + LANG["[SPACE]"] + ":") 
+    sum.push(LANG["tasker_Repeat this task"])
     sum.push(LANG.every)
     sum.push(crondata.uFreqValue > 1 ? String(crondata.uFreqValue) : "")
-    sum.push(LANG[crondata.uFreq] + (crondata.uFreqValue == 1 ? "" : "s"))
+    sum.push(LANG['ilya_'+crondata.uFreq] + "s")
     if ( crondata.wDay ) {
-      sum.push(LANG.on_for_day)
-      sum.push(LANG.days[crondata.wDay])
+      sum.push(LANG['ilya_on (day)'])
+      sum.push(LANG['ilya_'+crondata.wDay])
     }
     DGet('div#repeat-summary').innerHTML = sum.join(" ")
   }

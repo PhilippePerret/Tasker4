@@ -158,3 +158,8 @@ msgstr "Tou(te)s les"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tou(te)s les"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#, elixir-autogen, elixir-format
+msgid "Summary"
+msgstr "Résumé"

@@ -148,10 +148,10 @@ defmodule TaskerWeb.TaskController do
   primer explicitement avec 'dgettext(domaine, locale)' et recharger
   le contrôleur.
   """
-  @locale_js_path Path.expand(Path.join(["priv","static","assets","js","locales-LANG.js"]))
-  @locales {nil, ~w(every Every) ++ []}
+  @locale_js_path Path.expand(Path.join(["priv","static","assets","js","_LOCALES_","locales-LANG.js"]))
+  @locales {nil, ~w(every Every Summary) ++ ["[SPACE]"]}
   @locales_tasker {"tasker", ["Repeat this task"]}
-  @locales_ilya {"ilya", ~w(monday tuesday wednesday thursday friday saturday sunday every) ++ ["on (day)"]}
+  @locales_ilya {"ilya", ~w(minute hour day week month minutes hours days weeks months monday tuesday wednesday thursday friday saturday sunday) ++ ["on (day)"]}
   defp ensure_fichier_locales_JS do
     IO.puts "-> ensure_fichier_locales_JS"
     locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
@@ -198,6 +198,7 @@ defmodule TaskerWeb.TaskController do
     dgettext("tasker", "Repeat this task")
     # - common -
     gettext("every")
+    gettext("Summary")
   end
 
 end

@@ -158,3 +158,8 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "every"
 msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#, elixir-autogen, elixir-format
+msgid "Summary"
+msgstr ""
