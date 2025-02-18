@@ -274,7 +274,7 @@ class Repeat {
     sum.push(LANG[crondata.uFreq] + (crondata.uFreqValue == 1 ? "" : "s"))
     if ( crondata.wDay ) {
       sum.push(LANG.on_for_day)
-      sum.push(LANG[crondata.wDay])
+      sum.push(LANG.days[crondata.wDay])
     }
     DGet('div#repeat-summary').innerHTML = sum.join(" ")
   }

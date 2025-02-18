@@ -114,10 +114,12 @@ defmodule TaskerWeb.TaskController do
   end
 
   defp common_conn_render(conn, action, task_changeset) do
+    ensure_fichier_locales_JS()
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
     |> assign(:task, (action == :new) && nil || task_changeset.data)
     |> assign(:changeset, task_changeset)
+    |> assign(:lang, Gettext.get_locale(TaskerWeb.Gettext))
     |> render(action)
   end
 
@@ -131,6 +133,42 @@ defmodule TaskerWeb.TaskController do
       {k, %{} = map} -> {k, convert_nil_string_values(map)}
       pair -> pair
     end)
+  end
+
+
+  @doc """
+  Fonction préparant le fichier /priv/static/assets/js/locales.js qui
+  contient les locales utiles aux messages du fichier javascript.
+  Pour le moment, on ne l'actualise que lorsqu'il n'existe pas. Il 
+  suffit de décommenter la première ligne pour le détruire et le re-
+  faire
+  """
+  @locale_js_path Path.expand(Path.join(["priv","static","assets","js","locales-LANG.js"]))
+  @locales {nil, []}
+  @locales_tasker {"tasker", ["Repeat this task"]}
+  @locales_ilya {"ilya", ~w(monday tuesday wednesday thursday friday saturday sunday every) ++ ["on (day)"]}
+  defp ensure_fichier_locales_JS do
+    IO.puts "-> ensure_fichier_locales_JS"
+    locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
+    IO.inspect(locale_js_path, label: "\nlocale_js_path")
+    if not File.exists?(locale_js_path) do
+      IO.puts "FABRICATION DU FICHIER LOCALE.JS"
+      table_locale = [@locales, @locales_ilya, @locales_tasker]
+      |> Enum.reduce(%{}, fn {domain, locales}, accu1 ->
+        sous_table =
+          Enum.reduce(locales, accu1, fn locale, accu2 ->
+            if domain do
+              Map.put(accu2, "#{domain}-#{locale}", Gettext.dgettext(TaskerWeb.Gettext, domain, locale))
+            else
+              Map.put(accu2, locale, Gettext.gettext(TaskerWeb.Gettext, locale))
+            end
+          end)
+        Map.merge(accu1, sous_table)
+      end)
+      |> Jason.encode!()
+      IO.inspect(table_locale, label: "\ntable_locale")
+      File.write(locale_js_path, "const LANG = " <> table_locale)
+    end
   end
 
 end

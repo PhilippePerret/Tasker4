@@ -1,3 +1,6 @@
+<% src_locales_js = "/assets/js/locales-#{@lang}.js" %>
+<script type="text/javascript" src={src_locales_js}></script>
+
 <.simple_form :let={f} for={@changeset} action={@action}>
   
   <.bouton_save_tache />
@@ -49,7 +52,7 @@
 
     <div>
       <label><%= dgettext("tasker", "Recurrence") %></label>
-      <.recurrence_form changeset={@changeset} />
+      <.recurrence_form changeset={@changeset} lang={@lang} />
     </div>
 
     <.bouton_save_tache />

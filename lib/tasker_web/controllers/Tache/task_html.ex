@@ -212,42 +212,24 @@ defmodule TaskerWeb.TaskHTML do
     ]
   end
 
-
   @doc """
   Construit un champ de formulaire pour la récurrence et le renvoie
   """
   attr :changeset, Ecto.Changeset, required: true
+  attr :lang, :string, required: true
 
   def recurrence_form(assigns) do
+
+    # Les assignations pour ce composant
     assigns = assigns 
     |> assign(:recurrence, assigns.changeset.data.task_time.recurrence)
     |> assign(:month_data, month_data())
     |> assign(:data_week, data_week())
-    # TODO : PLUTÔT PASSER TOUT ÇA PAR UN JSON
     |> assign(:every, gettext("Every"))
-    |> assign(:every_min, gettext("every"))
-    |> assign(:on_for_day, gettext("on (day)"))
-    |> assign(:monday, dgettext("ilya", "monday"))
-    |> assign(:tuesday, dgettext("ilya", "tuesday"))
-    |> assign(:wednesday, dgettext("ilya", "wednesday"))
-    |> assign(:thursday, dgettext("ilya", "thursday"))
-    |> assign(:friday, dgettext("ilya", "friday"))
-    |> assign(:saturday, dgettext("ilya", "saturday"))
-    |> assign(:sunday, dgettext("ilya", "sunday"))
-    |> assign(:repeat_this_task, gettext("Repeat this task"))
     |> assign(:data_repeat_unit, data_repeat_unit())
     |> assign(:at_minute, dgettext("ilya", "at minute"))
 
     ~H"""
-    <script type="text/javascript">
-    /* Pour mettre les éléments de langue */
-    const LANG = {
-        Repeat_this_task: "<%= @repeat_this_task %>"
-      , every: "<%= @every_min %>"
-      , on_for_day: "<%= @on_for_day %>"
-      , days: {0: "<%= @sunday %>", 1: "<%= @monday %>", 2: "<%= @tuesday %>", 3: "<%= @wednesday %>", 4: "<%= @thursday %>", 5: "<%= @friday %>", 6: "<%= @saturday %>"}
-    };
-    </script>
     <input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
     <input 
       type="checkbox" 
