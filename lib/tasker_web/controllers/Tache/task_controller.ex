@@ -178,7 +178,6 @@ defmodule TaskerWeb.TaskController do
     end
   end
 
-  @doc false
   # Simplement pour faire connaitre à Gettext les locales qu'on va 
   # utiliser seulement en javascript (donc non définie)
   # Rappel : quand une locale est supprimée du code, elle est sup-
@@ -186,7 +185,8 @@ defmodule TaskerWeb.TaskController do
   # précédemment. La seule solution est de la laisser ici.
   #
   # Noter que cette fonction n'a pas besoin d'être appelée.
-  defp _liste_locales_fictives do
+  @doc false
+  defp liste_locales_fictives do
     # - il y a - 
     dgettext("ilya", "monday")
     dgettext("ilya", "tuesday")

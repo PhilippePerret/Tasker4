@@ -191,7 +191,7 @@ defmodule TaskerWeb.TaskHTML do
 
   def data_week do 
     [
-      {dgettext("ilya", "Sunday"), 1},
+      {dgettext("ilya", "Monday"), 1},
       {dgettext("ilya", "Tuesday"), 2},
       {dgettext("ilya", "Wednesday"), 3},
       {dgettext("ilya", "Thursday"), 4},
@@ -203,7 +203,7 @@ defmodule TaskerWeb.TaskHTML do
 
   def data_repeat_unit do
     [
-      {dgettext("ilya", "minute") , "minute"}, 
+      # {dgettext("ilya", "minute") , "minute"}, # Non, il ne la faut pas et si ça arrive, il faut se poser des questions
       {dgettext("ilya", "hour")   , "hour"}, 
       {dgettext("ilya", "day")    , "day"}, 
       {dgettext("ilya", "week")   , "week"}, 
@@ -308,6 +308,7 @@ defmodule TaskerWeb.TaskHTML do
 
 
       </div>
+      <div id="crontab-shower" style="background-color:#a3d7f1;display:inline-block;border-radius:12px;padding:2px 1em;"></div>
     </div>
     """
   end

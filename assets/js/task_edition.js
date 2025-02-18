@@ -26,7 +26,8 @@ class Task {
    */
   static beforeSave(ev){
     console.info("Ce que je dois faire avant de sauver.")
-    Repeat.repeater.setRecurrenceValue()
+    // Maintenant on ne fait plus rien puisque les valeurs sont 
+    // consignées en direct
     return true
   }
   static stopEnterKey(ev){
@@ -66,8 +67,7 @@ class Notes {
  * Les champs visibles en fonction de la fréquence de répétition
  */
 const FieldsPerRepeatUnit = {
-    minute: ['at-minute']
-  , hour:   ['at-minute']
+    hour:   ['at-minute']
   , day:    ['at-minute', 'at-hour']
   , week:   ['at-minute', 'at-hour', 'at-day']
   , month:  ['at-minute', 'at-hour', 'at-day', 'at-mday']
@@ -101,14 +101,6 @@ class Repeat {
   }
 
   /**
-   * Fonction appelée par le bouton "Enregistrer la tâche" qui va régler la
-   * valeur du champ récurrence
-   */
-  setRecurrenceValue(){
-    this.hiddenField.value = this.getCronUI()
-  }
-
-  /**
    * Fonction appelée au chargement du formulaire pour régler l'état du composant récurrence
    * 
    * @param {String} state 'ON' ou 'OFF'
@@ -124,7 +116,7 @@ class Repeat {
     }
     this.activeCB.checked = isActif
     this.obj.classList[isActif ? 'remove' : 'add']("hidden")
-    this.onChangeRepeatUnit(null)
+    this.onChangeRepeatField(null)
   }
 
   toggleState(){
@@ -138,7 +130,9 @@ class Repeat {
   }
   prepare(){
     this.data.prepared = true
-    this.field_uFreq.addEventListener('change', this.onChangeRepeatUnit.bind(this))
+    CRON_PROPERTIES.forEach(key => {
+      this['field_'+key].addEventListener('change', this.onChangeRepeatField.bind(this))
+    })
     this.maskAllProperties()
   }
 
@@ -154,35 +148,77 @@ class Repeat {
    * @param {String} uFreq  Fréquence générale du crontab ("minute", "day", "week", etc.)
    */
   showRequiredProperties(uFreq){
-    console.info("uFreq", uFreq)
-    if ( uFreq == "" ) {
-      try { throw new Error("Pour le backtrace")}
-      catch(err){console.log("erreur", err)}
-    }
     FieldsPerRepeatUnit[uFreq].forEach( fieldId => {
       DGet(`span.repeat-property.${fieldId}`, this.obj).style.visibility = 'visible'
     })
   }
 
-  onChangeRepeatUnit(ev){
+  /**
+   * Fonction appelée à chaque changement de la valeur de récurrence, qui :
+   *  - relève la valeur des champs
+   *  - fabrique le crontab correspondant
+   *  - renseigne la propriété cachée conservant le crontab pour 
+   *    l'enregistrer
+   *  - affiche ce crontab à titre de renseignement
+   *  - construit le texte humain et l'affichage
+   */
+  onChangeRepeatField(ev){
+    const cronData = this.getCronData()
+    const crontab = this.genCronExpression(cronData)
+    this.hiddenField.value = crontab
+    DGet('#crontab-shower').innerHTML = crontab
     this.maskAllProperties()
-    this.showRequiredProperties(this.field_uFreq.value /* "day", "week", etc. */)
+    this.showRequiredProperties(this.field_uFreq.value /* "day", "week", etc. */)    
+    this.showResumeHumain(cronData)
   }
 
   /**
    * Fonction pour récupérer les valeurs de l'interface au niveau du composant cron et générer le crontab correspondant
    * 
+   * Ce qu'il faut comprendre à ce niveau-là c'est que toutes les valeurs ne
+   * sont pas prises en compte. En fonction du menu uFreq, on prend 
+   * les informations jusqu'à un certain point.
+   * Exactement :
+   *  si uFreq =      on prend…
+   *  hour            hMin
+   *  day             hMin et dHour
+   *  week            hMin, dHour et wDay
+   *  month           hMin, dHour, wDay, yMonth
+   *  year            idem
+   * si uFreq = 
    * @return {String} Un crontab valide, comme "10 * * * 2"
    */
   getCronUI(){
-    const cronData = {}
-    CRON_PROPERTIES.forEach( prop => {
-      let value = this['field_' + prop].value ;
-      if ( !['wDay', 'uFreq'].includes(prop) ) value = Number(value)
-      cronData[prop] = value == "---" ? null : value ;
-    })
-    console.info("conData = ", cronData)
+    const cronData = this.getCronData()
     return this.genCronExpression(cronData)
+  }
+
+  getCronData(){
+    const cronData = {uFreq: null, uFreqValue: null, hMin: null, dHour: null, wDay: null, mDay: null, yMonth: null}
+    const dataReleve = {}
+    CRON_PROPERTIES.forEach( prop => {
+      let value_str = this['field_' + prop].value, value ;
+      if ( value_str == '---' ) {
+        value = null
+      } else {
+        value = ['wDay', 'uFreq'].includes(prop) ? value_str : Number(value_str)
+      }
+      dataReleve[prop] = value ;
+    })
+    console.info("dataReleve =", dataReleve)
+
+    const ufreq = dataReleve.uFreq
+    cronData.uFreq      = ufreq
+    cronData.uFreqValue = dataReleve.uFreqValue
+    cronData.hMin = dataReleve.hMin
+    if ( ufreq != 'hour' ) cronData.dHour = dataReleve.dHour
+    if ( ['week','month','year'].includes(ufreq)){ 
+      cronData.wDay = dataReleve(wDay)
+      cronData.mDay = dataReleve(mDay)
+    }
+    if ( ['month', 'year'].includes(ufreq)) { cronData.yMonth = dataReleve.yMonth }
+    console.info("conData = ", cronData)
+    return cronData
   }
   /**
    * Fonction pour régler l'interface du composant cron dans le formulaire de tâche.
@@ -223,14 +259,13 @@ class Repeat {
       , wDay:   {raw: wDay    , value: undefined, uFreq: null     , frequential: false}
     }
     const resultats = {
-        uFreq:      'minute'
+        uFreq:      'hour'
       , uFreqValue: 1
       , hMin:       undefined
       , dHour:      undefined
       , mDay:       undefined
       , wDay:       undefined
       , yMonth:     undefined
-
     }
 
     Object.keys(table_frequences).forEach( key => {
@@ -267,17 +302,30 @@ class Repeat {
    * Affiche le résumé humain
    */
   showResumeHumain(crondata){
+    // console.log("LANG", LANG)
     let sum = []
     sum.push(LANG.Summary + LANG["[SPACE]"] + ":") 
     sum.push(LANG["tasker_Repeat this task"])
     sum.push(LANG.every)
     sum.push(crondata.uFreqValue > 1 ? String(crondata.uFreqValue) : "")
     sum.push(LANG['ilya_'+crondata.uFreq] + "s")
+    // -- minute --
+    // On ne l'affiche seule que si l'heure n'est pas déterminée
+    if ( crondata.dHour == null && crondata.hMin > 0) {
+      sum.push("à la " + crondata.hMin + "e minute") // "at minute %{minute}" -> "à la %{minute}e minute"
+    }
+    
     if ( crondata.wDay ) {
       sum.push(LANG['ilya_on (day)'])
       sum.push(LANG['ilya_'+crondata.wDay])
     }
-    DGet('div#repeat-summary').innerHTML = sum.join(" ")
+    // Est-ce qu'une heure est déterminée
+    if ( crondata.dHour ) {
+      console.info("crondata.dHour", crondata.dHour)
+      sum.push("à")
+      sum.push(`${crondata.dHour} h ${crondata.hMin}`)
+    }
+    DGet('div#repeat-summary').innerHTML = sum.join(" ") + "."
   }
 
 
