@@ -228,8 +228,3 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_controller.ex:159
-#, elixir-autogen, elixir-format
-msgid "Repeat this task"
-msgstr ""

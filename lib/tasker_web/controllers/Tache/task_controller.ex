@@ -149,7 +149,7 @@ defmodule TaskerWeb.TaskController do
   le contrôleur.
   """
   @locale_js_path Path.expand(Path.join(["priv","static","assets","js","locales-LANG.js"]))
-  @locales {nil, []}
+  @locales {nil, ~w(every Every) ++ []}
   @locales_tasker {"tasker", ["Repeat this task"]}
   @locales_ilya {"ilya", ~w(monday tuesday wednesday thursday friday saturday sunday every) ++ ["on (day)"]}
   defp ensure_fichier_locales_JS do
@@ -163,7 +163,7 @@ defmodule TaskerWeb.TaskController do
         sous_table =
           Enum.reduce(locales, accu1, fn locale, accu2 ->
             if domain do
-              Map.put(accu2, "#{domain}-#{locale}", Gettext.dgettext(TaskerWeb.Gettext, domain, locale))
+              Map.put(accu2, "#{domain}_#{locale}", Gettext.dgettext(TaskerWeb.Gettext, domain, locale))
             else
               Map.put(accu2, locale, Gettext.gettext(TaskerWeb.Gettext, locale))
             end
