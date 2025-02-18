@@ -158,6 +158,10 @@ defmodule TaskerWeb.TaskController do
     IO.inspect(locale_js_path, label: "\nlocale_js_path")
     if not File.exists?(locale_js_path) do
       IO.puts "FABRICATION DU FICHIER LOCALE.JS"
+      IO.inspect(Gettext.get_locale(), label: "LANG")
+      IO.inspect(Gettext.get_locale(TaskerWeb.Gettext), label: "LANG(tasker)")
+      Gettext.put_locale(Gettext.get_locale(TaskerWeb.Gettext))
+      IO.inspect(Gettext.get_locale(), label: "LANG(après)")
       table_locale = [@locales, @locales_ilya, @locales_tasker]
       |> Enum.reduce(%{}, fn {domain, locales}, accu1 ->
         sous_table =
@@ -174,6 +178,26 @@ defmodule TaskerWeb.TaskController do
       IO.inspect(table_locale, label: "\ntable_locale")
       File.write(locale_js_path, "const LANG = " <> table_locale)
     end
+  end
+
+  # Simplement pour faire connaitre à Gettext les locales qu'on va 
+  # utiliser seulement en javascript (donc non définie)
+  # Rappel : quand une locale est supprimée du code, elle est sup-
+  # primée aussi des fichiers locales même si elle a été définie
+  # précédemment. La seule solution est de la laisser ici.
+  defp liste_locales_fictives do
+    # - il y a - 
+    dgettext("ilya", "monday")
+    dgettext("ilya", "tuesday")
+    dgettext("ilya", "wednesday")
+    dgettext("ilya", "thursday")
+    dgettext("ilya", "friday")
+    dgettext("ilya", "saturday")
+    dgettext("ilya", "sunday")
+    # - tasker -
+    dgettext("tasker", "Repeat this task")
+    # - common -
+    gettext("every")
   end
 
 end

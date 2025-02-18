@@ -228,3 +228,8 @@ msgstr "la date de fin est déjà définie !"
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr "Enregistrer cette note"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:198
+#, elixir-autogen, elixir-format
+msgid "Repeat this task"
+msgstr "Répéter cette tâche"

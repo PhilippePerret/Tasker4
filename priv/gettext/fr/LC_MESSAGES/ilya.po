@@ -180,3 +180,38 @@ msgstr "mois"
 #, elixir-autogen, elixir-format
 msgid "year"
 msgstr "année"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:194
+#, elixir-autogen, elixir-format, fuzzy
+msgid "friday"
+msgstr "vendredi"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:190
+#, elixir-autogen, elixir-format
+msgid "monday"
+msgstr "lundi"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:195
+#, elixir-autogen, elixir-format, fuzzy
+msgid "saturday"
+msgstr "samedi"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:196
+#, elixir-autogen, elixir-format, fuzzy
+msgid "sunday"
+msgstr "dimanche"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:193
+#, elixir-autogen, elixir-format, fuzzy
+msgid "thursday"
+msgstr "jeudi"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:191
+#, elixir-autogen, elixir-format, fuzzy
+msgid "tuesday"
+msgstr "mardi"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:192
+#, elixir-autogen, elixir-format, fuzzy
+msgid "wednesday"
+msgstr "mercredi"

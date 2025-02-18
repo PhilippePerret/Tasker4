@@ -154,7 +154,7 @@ msgstr " "
 msgid "Every"
 msgstr "Tou(te)s les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:157
+#: lib/tasker_web/controllers/Tache/task_controller.ex:200
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tou(te)s les"
