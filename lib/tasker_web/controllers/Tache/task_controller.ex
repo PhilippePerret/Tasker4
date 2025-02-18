@@ -140,8 +140,13 @@ defmodule TaskerWeb.TaskController do
   Fonction préparant le fichier /priv/static/assets/js/locales.js qui
   contient les locales utiles aux messages du fichier javascript.
   Pour le moment, on ne l'actualise que lorsqu'il n'existe pas. Il 
-  suffit de décommenter la première ligne pour le détruire et le re-
-  faire
+  faut donc détruire le fichier dans /priv/static/assets/js pour
+  forcer son actualisation.
+
+  Noter que pour créer de nouvelles locales qui n'existeraient pas il
+  ne suffit pas de les ajouter aux listes ci-dessous. Il faut les ex-
+  primer explicitement avec 'dgettext(domaine, locale)' et recharger
+  le contrôleur.
   """
   @locale_js_path Path.expand(Path.join(["priv","static","assets","js","locales-LANG.js"]))
   @locales {nil, []}
