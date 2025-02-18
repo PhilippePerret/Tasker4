@@ -153,9 +153,7 @@ defmodule TaskerWeb.TaskController do
   @locales_tasker {"tasker", ["Repeat this task"]}
   @locales_ilya {"ilya", ~w(minute hour day week month minutes hours days weeks months monday tuesday wednesday thursday friday saturday sunday) ++ ["on (day)"]}
   defp ensure_fichier_locales_JS do
-    IO.puts "-> ensure_fichier_locales_JS"
     locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
-    IO.inspect(locale_js_path, label: "\nlocale_js_path")
     if not File.exists?(locale_js_path) do
       IO.puts "FABRICATION DU FICHIER LOCALE.JS"
       IO.inspect(Gettext.get_locale(), label: "LANG")
@@ -180,12 +178,15 @@ defmodule TaskerWeb.TaskController do
     end
   end
 
+  @doc false
   # Simplement pour faire connaitre à Gettext les locales qu'on va 
   # utiliser seulement en javascript (donc non définie)
   # Rappel : quand une locale est supprimée du code, elle est sup-
   # primée aussi des fichiers locales même si elle a été définie
   # précédemment. La seule solution est de la laisser ici.
-  defp liste_locales_fictives do
+  #
+  # Noter que cette fonction n'a pas besoin d'être appelée.
+  defp _liste_locales_fictives do
     # - il y a - 
     dgettext("ilya", "monday")
     dgettext("ilya", "tuesday")

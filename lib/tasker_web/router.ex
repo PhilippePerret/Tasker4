@@ -86,7 +86,6 @@ defmodule TaskerWeb.Router do
         
     # Pour la gestion des tâches (Tache.Task)
     resources "/tasks", TaskController
-    resources "/task_specs", TaskSpecController
     # Pour la gestion des projets
     resources "/projects", ProjectController
   end
