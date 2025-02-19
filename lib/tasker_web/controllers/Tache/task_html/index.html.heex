@@ -6,12 +6,12 @@
   </div>
 </h2>
 
-<.table id="tasks" rows={@tasks} row_click={&JS.navigate(~p"/tasks/#{&1}")}>
-  <:col class={"titre-projet"} :let={task} label={dgettext("tasker", "Project")}>
-    <%= if task.project, do: task.project.title, else: dgettext("tasker", "No Project") %>
-  </:col>
+<.table id="tasks" class={["left"]} rows={@tasks} row_click={&JS.navigate(~p"/tasks/#{&1}")}>
   <:col :let={task} label={dgettext("tasker", "Task Title")}>
     <%= task.title %>
+  </:col>
+  <:col class={"titre-projet"} :let={task} label={dgettext("tasker", "Project")}>
+    <%= if task.project, do: task.project.title, else: dgettext("tasker", "No Project") %>
   </:col>
   <:col :let={task} label={dgettext("tasker", "Created at")}>
     <%= TFormat.to_s(task.inserted_at, [time: true]) %>

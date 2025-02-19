@@ -148,22 +148,22 @@ msgstr ""
 msgid "Every"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:202
+#: lib/tasker_web/controllers/Tache/task_controller.ex:211
 #, elixir-autogen, elixir-format
 msgid "every"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:204
+#: lib/tasker_web/controllers/Tache/task_controller.ex:213
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:203
+#: lib/tasker_web/controllers/Tache/task_controller.ex:212
 #, elixir-autogen, elixir-format
 msgid "every_fem"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#: lib/tasker_web/controllers/Tache/task_controller.ex:210
 #, elixir-autogen, elixir-format
 msgid "Every_fem"
 msgstr ""

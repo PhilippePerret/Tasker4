@@ -108,7 +108,6 @@ class Task {
       })(data.args.position)
 
       this.showListAndChoose(task_list, callback)
-      console.log("Liste des tâches", )
 
     } else {
       Flash.error(data.error)
@@ -118,19 +117,23 @@ class Task {
 
   static showListAndChoose(taskList, callback){
     if ( taskList.length ==  0) {
-      return Flash.notice("Aucune tâche trouvée. Impossible donc d'en choisir.")
+      return Flash.notice(LANG["No tasks found. Therefore, none can be selected."])
     }
-    const div = DCreate('DIV', {id:'task_list_container', text: "<h4>Choisir les tâches</h4>", style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
+    const div = DCreate('DIV', {id:'task_list_container', text: `<h4>${LANG["Select tasks"]}</h4>`, style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
+    const list = DCreate('DIV', {id:'task_list'})
+    div.appendChild(list)
     for (const task of taskList ) {
       const cb_id = `cb-task-${task.id}`
       const tdiv = DCreate('DIV', {class:'task', style:"margin-top:0.5em;"})
-      tdiv.appendChild(DCreate('INPUT', {type:'checkbox', id: cb_id}))
+      const cb = DCreate('INPUT', {type:'checkbox', class:"cb-task", id: cb_id})
+      cb.dataset.uuid = task.id
+      tdiv.appendChild(cb)
       const label = DCreate('LABEL', {class:'task-title', for: cb_id, text: task.title})
       label.setAttribute('for', cb_id)
       // TODO : mettre les détails dans un div caché à faire apparaitre avec un
       // petit bouton "i" (ne le faire que si la tâche définit des détails)
       tdiv.appendChild(label)
-      div.appendChild(tdiv)
+      list.appendChild(tdiv)
     }
     const btns = DCreate('DIV',{class:'buttons'})
     div.appendChild(btns)
@@ -139,11 +142,20 @@ class Task {
     btns.appendChild(btn)
     document.body.appendChild(div)
   }
-  static getTaskListAndCallback(ev, callback){
+  static getTaskListAndCallback(callback, ev){
     const taskList = []
     // TODO Récupérer la liste des tâches
-    // Appeler avec la fonction call
-    callback(taskList)
+    DGetAll('input[type="checkbox"].cb-task', DGet('div#task_list')).forEach(cb => {
+      if ( cb.checked ) taskList.push(cb.dataset.uuid)
+    })
+    if ( taskList.length) {
+      callback(taskList)
+    } else {
+      Flash.notice(LANG["No task selected, I’m stopping here."])
+    }
+
+    // Détruire la boite
+    DGet('div#task_list_container').remove()
   }
   static onChoosePreviousTasks(taskList){
     console.log("Je dois apprendre à définir les tâches avant", taskList)
