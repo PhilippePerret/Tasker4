@@ -184,7 +184,7 @@ msgstr "Durée d'exécution"
 msgid "Task Current Status"
 msgstr "Statut temporel de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:322
+#: lib/tasker_web/controllers/Tache/task_html.ex:323
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr "Abandonnée le"
@@ -229,7 +229,7 @@ msgstr "la date de fin est déjà définie !"
 msgid "Save this note"
 msgstr "Enregistrer cette note"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:198
+#: lib/tasker_web/controllers/Tache/task_controller.ex:199
 #, elixir-autogen, elixir-format
 msgid "Repeat this task"
 msgstr "Répéter cette tâche"

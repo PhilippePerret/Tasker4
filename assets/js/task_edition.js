@@ -213,8 +213,8 @@ class Repeat {
     cronData.hMin = dataReleve.hMin
     if ( ufreq != 'hour' ) cronData.dHour = dataReleve.dHour
     if ( ['week','month','year'].includes(ufreq)){ 
-      cronData.wDay = dataReleve(wDay)
-      cronData.mDay = dataReleve(mDay)
+      cronData.wDay = dataReleve.wDay
+      cronData.mDay = dataReleve.mDay
     }
     if ( ['month', 'year'].includes(ufreq)) { cronData.yMonth = dataReleve.yMonth }
     console.info("conData = ", cronData)
@@ -299,14 +299,14 @@ class Repeat {
   }
 
   /**
-   * Affiche le résumé humain
+   * Affiche le résumé humain de la récurrence.
    */
   showResumeHumain(crondata){
     // console.log("LANG", LANG)
     let sum = []
     sum.push(LANG.Summary + LANG["[SPACE]"] + ":") 
     sum.push(LANG["tasker_Repeat this task"])
-    sum.push(LANG.every)
+    sum.push(LANG['every' + (['day','month'].includes(crondata.uFreq) ? '' : '_fem')] )
     sum.push(crondata.uFreqValue > 1 ? String(crondata.uFreqValue) : "")
     sum.push(LANG['ilya_'+crondata.uFreq] + "s")
     // -- minute --

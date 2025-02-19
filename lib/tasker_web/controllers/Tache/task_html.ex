@@ -236,8 +236,11 @@ defmodule TaskerWeb.TaskHTML do
       onchange="Repeat.onChange(this)" 
       style="display:inline-block;margin-right:1em;vertical-align:bottom;transform:scale(1.8);" 
     /><div id="recurrence-container" class="repeat-container hidden">
-      <div id="repeat-summary" class="small"></div>
-      <div class="repeat-form inline-fields">
+      
+    
+    <div id="repeat-summary" class="small mgb-1"></div>
+
+    <div class="repeat-form inline-fields">
       <div class="inline-fields" style="vertical-align:bottom;">
           <label class="no-points">{@every}</label>
           <input type="number" name="frequency-value" class="small-number" value={1} />

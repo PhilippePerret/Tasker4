@@ -149,7 +149,7 @@ defmodule TaskerWeb.TaskController do
   le contrôleur.
   """
   @locale_js_path Path.expand(Path.join(["priv","static","assets","js","_LOCALES_","locales-LANG.js"]))
-  @locales {nil, ~w(every Every Summary) ++ ["[SPACE]"]}
+  @locales {nil, ~w(every every_fem Every Summary) ++ ["[SPACE]"]}
   @locales_tasker {"tasker", ["Repeat this task"]}
   @locales_ilya {"ilya", ~w(minute hour day week month minutes hours days weeks months monday tuesday wednesday thursday friday saturday sunday) ++ ["on (day)"]}
   defp ensure_fichier_locales_JS do
@@ -198,7 +198,9 @@ defmodule TaskerWeb.TaskController do
     # - tasker -
     dgettext("tasker", "Repeat this task")
     # - common -
+    gettext("Every_fem")
     gettext("every")
+    gettext("every_fem")
     gettext("Summary")
   end
 

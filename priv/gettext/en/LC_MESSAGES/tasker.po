@@ -184,7 +184,7 @@ msgstr ""
 msgid "Task Current Status"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:322
+#: lib/tasker_web/controllers/Tache/task_html.ex:323
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr ""
@@ -229,7 +229,7 @@ msgstr ""
 msgid "Save this note"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:198
+#: lib/tasker_web/controllers/Tache/task_controller.ex:199
 #, elixir-autogen, elixir-format
 msgid "Repeat this task"
 msgstr ""

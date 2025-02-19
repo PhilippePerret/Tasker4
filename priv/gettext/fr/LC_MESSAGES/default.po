@@ -57,27 +57,27 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:325
+#: lib/tasker_web/controllers/Tache/task_html.ex:326
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:327
+#: lib/tasker_web/controllers/Tache/task_html.ex:328
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:333
+#: lib/tasker_web/controllers/Tache/task_html.ex:334
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:332
+#: lib/tasker_web/controllers/Tache/task_html.ex:333
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:329
+#: lib/tasker_web/controllers/Tache/task_html.ex:330
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
@@ -152,14 +152,24 @@ msgstr " "
 #: lib/tasker_web/controllers/Tache/task_html.ex:228
 #, elixir-autogen, elixir-format
 msgid "Every"
-msgstr "Tou(te)s les"
+msgstr "Tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:200
+#: lib/tasker_web/controllers/Tache/task_controller.ex:202
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
-msgstr "tou(te)s les"
+msgstr "tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#: lib/tasker_web/controllers/Tache/task_controller.ex:204
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr "Résumé"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:203
+#, elixir-autogen, elixir-format, fuzzy
+msgid "every_fem"
+msgstr "toutes les"
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Every_fem"
+msgstr "Toutes les"

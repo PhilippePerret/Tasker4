@@ -29,7 +29,6 @@ msgid "hour"
 msgstr ""
 
 #: lib/tasker/helper.ex:46
-#: lib/tasker_web/controllers/Tache/task_html.ex:206
 #, elixir-autogen, elixir-format
 msgid "minute"
 msgstr ""
@@ -145,7 +144,6 @@ msgstr ""
 msgid "Septembre"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:194
 #: lib/tasker_web/controllers/Tache/task_html.ex:200
 #, elixir-autogen, elixir-format
 msgid "Sunday"
@@ -181,37 +179,42 @@ msgstr ""
 msgid "year"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:194
+#: lib/tasker_web/controllers/Tache/task_controller.ex:195
 #, elixir-autogen, elixir-format
 msgid "friday"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:190
+#: lib/tasker_web/controllers/Tache/task_controller.ex:191
 #, elixir-autogen, elixir-format
 msgid "monday"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:195
+#: lib/tasker_web/controllers/Tache/task_controller.ex:196
 #, elixir-autogen, elixir-format
 msgid "saturday"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:196
+#: lib/tasker_web/controllers/Tache/task_controller.ex:197
 #, elixir-autogen, elixir-format
 msgid "sunday"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:193
+#: lib/tasker_web/controllers/Tache/task_controller.ex:194
 #, elixir-autogen, elixir-format
 msgid "thursday"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:191
+#: lib/tasker_web/controllers/Tache/task_controller.ex:192
 #, elixir-autogen, elixir-format
 msgid "tuesday"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:192
+#: lib/tasker_web/controllers/Tache/task_controller.ex:193
 #, elixir-autogen, elixir-format
 msgid "wednesday"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:194
+#, elixir-autogen, elixir-format
+msgid "Monday"
 msgstr ""
