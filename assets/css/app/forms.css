@@ -12,11 +12,21 @@ button {
   font-family:inherit;
   font-style: inherit;
 }
+/* Checkbox */
+input[type="checkbox"] {
+  transform: scale(1.4);
+  vertical-align:middle;
+}
+input[type="checkbox"] + label {
+  margin-left: 0.5em;
+}
 input[type="number"] {width: 80px}
 input[type="text"].small-number {width:50px}
 input[type="number"].small-number {width:50px}
 input[type="text"].very-small-number {width:40px}
 input[type="number"].very-small-number {width:40px}
+
+
 
 select, select option {
   background: bottom;
@@ -52,8 +62,9 @@ form:not(.max) {
 }
 form.max {max-width: 100%}
 
-form div.buttons {
+div.buttons {
   text-align: right;
+  margin-top: 1em;
 }
 
 div.bloc-form label {
