@@ -18,14 +18,91 @@ class Task {
     })
     // Surveiller le menu de la durée attendue : quand on choisit 
     // "---" on doit masquer le champ du nombre et inversement
-    this.fieldDureeUnit.addEventListener('change', this.onChangeDureeUnit.bind(this))
+    if ( this.fieldDureeUnit ) {
+      this.fieldDureeUnit.addEventListener('change', this.onChangeDureeUnit.bind(this))
+    }
+    if ( this.btnPrevTasks ) {
+      // Surveiller les boutons pour choisir les tâches avant et après
+      this.btnPrevTasks.addEventListener('click', this.onWantToChooseTasks.bind(this, 'prev'))
+      this.btnNextTasks.addEventListener('click', this.onWantToChooseTasks.bind(this, 'next'))
+    }
+
   }
+  static get btnPrevTasks(){return DGet('button#btn-choose-previous-tasks')}
+  static get btnNextTasks(){return DGet('button#btn-choose-next-tasks')}
   static get fieldDureeUnit(){return DGet('select#task_time_exp_duree_unit')}
   static get fieldDureeValue(){return DGet('input#task_time_exp_duree_value')}
+  
+  
   static onChangeDureeUnit(ev) {
     const unit = this.fieldDureeUnit.value
     this.fieldDureeValue.style.visibility = unit == '---' ? 'hidden' : 'visible';
     this.fieldDureeValue.value =  unit == '---' ? '' : '1' ;
+  }
+
+  /**
+   * Fonction appelée quand on clique sur les boutons pour choisir
+   * les tâches précédentes et suivante.
+   * Elle appelle la liste des tâches suivantes ou précédente (si des
+   * dates sont déjà définies), et les affiche pour pouvoir en 
+   * choisir.
+   * 
+   * @param {String} type 'prev' ou 'next'
+   * @param {Event} ev  Evènement clic de souris
+   */
+  static onWantToChooseTasks(type, ev){
+    // On prend les dates de la tâche
+    let dateRef ;
+    const start_at    = DGet('input#start-at').value
+    const end_at      = DGet('input#end-at').value
+    const project_id  = DGet('select#project_id').value
+    let task_id       = TASK_ID;
+    task_id = task_id == "" ? null : task_id ;
+    switch(type){
+      case 'prev':
+        dateRef = start_at || end_at
+        break;
+      case 'next': 
+        dateRef = end_at || start_at
+        break;
+    }
+    // Ajout des secondes si nécessaire
+    if (dateRef != "") dateRef += ":00" ;
+    // On demande la relève des tâches
+    ServerTalk.dial({
+        route: "/tools/get_task_list"
+      , data: {script_args: {
+            date_ref: dateRef
+          , position: type
+          , project_id: project_id
+          , task_id:    task_id
+          }
+        }
+      , callback: this.onReturnTaskList.bind(this)
+    })
+  }
+  static onReturnTaskList(data){
+    if ( data.ok ) {
+      console.info("Retour de la liste des tâches avec", data)
+      const tasks = data.tasks
+      const cols = tasks.shift()
+      console.log("cols", cols)
+      const task_list = []
+      for ( var dtask of tasks ) {
+
+        const task = {}
+        for ( var icol in cols ) {
+          task[cols[icol]] = dtask[icol]
+        }
+        task_list.push(task)
+      }
+
+      console.log("Liste des tâches", task_list)
+
+    } else {
+      Flash.error(data.error)
+      console.error(data)
+    }
   }
 
   /**
@@ -94,13 +171,17 @@ class Repeat {
 
   /**
    * Méthode appelée au chargement du formulaire d'édition de la tâche, désignée pour régler le composant Crontab si nécessaire.
-   * 
+   * Attention, la bloc de récurrence n'existe pas à la création de la tâche.
    * Note : on part du principe, maintenant, qu'il y a une seule récurrence possible
    */
   static onLoad(){
-    this.repeater = new Repeat(DGet('div#recurrence-container'))
-    this.repeater.setState()
+    if ( this.container ) {
+      this.repeater = new Repeat(this.container)
+      this.repeater.setState()
+    }
   }
+
+  static get container(){return this._cont || (this._cont = DGet('div#recurrence-container'))}
 
   // --- Instance ---
 

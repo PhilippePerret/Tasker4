@@ -388,15 +388,29 @@ defmodule TaskerWeb.TaskHTML do
     assigns = assigns
     |> assign(:task_before_title, dgettext("tasker", "Previous Tasks"))
     |> assign(:task_after_title, dgettext("tasker", "Next Tasks"))
+    |> assign(:title, dgettext("tasker", "Task flow"))
+    |> assign(:msg_previous_tasks, text_for_previous_tasks())
+    |> assign(:msg_next_tasks, text_for_next_tasks())
+
     ~H"""
-    <h3>Flux des tâches</h3>
-    <div id="task-before-container">
-      <button style="width:220px;" type="button">{@task_before_title}</button>
+    <h3>{@title}</h3>
+    <div id="previous-tasks-container">
+      <button id="btn-choose-previous-tasks" style="width:220px;" type="button">{@task_before_title}</button>
+      <div id="previous-task-list" class="task-list"></div>
+      <div class="tiny">{@msg_previous_tasks}</div>
     </div>
-    <div id="task-after-container">
-      <button style="width:220px;" type="button">{@task_after_title}</button>
+    <div id="next-tasks-container">
+      <button id="btn-choose-next-tasks" style="width:220px;" type="button">{@task_after_title}</button>
+      <div id="next-task-list" class="task-list"></div>
+      <div class="tiny">{@msg_next_tasks}</div>
     </div>
     """
   end
 
+  defp text_for_previous_tasks do
+    dgettext("tasker", "The edited task can only be executed after the completion of all the tasks above.")
+  end
+  defp text_for_next_tasks do
+    dgettext("tasker", "All the tasks above can only be executed after the execution of this task.")
+  end
 end

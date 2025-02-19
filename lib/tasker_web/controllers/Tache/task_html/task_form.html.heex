@@ -1,5 +1,10 @@
 <% src_locales_js = "/assets/js/_LOCALES_/locales-#{@lang}.js" %>
 <script type="text/javascript" src={src_locales_js}></script>
+<script type="text/javascript">const TASK_ID = "<%= @changeset.data.id %>";</script>
+
+<div class="right">
+  <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+</div>
 
 <.simple_form :let={f} for={@changeset} action={@action}>
   
@@ -12,7 +17,7 @@
   <.input field={f[:title]} class={["full", "main"]} placeholder="Titre de la tâche" />
   
   <div class="inline-fields">
-    <.input field={f[:project_id]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
+    <.input id="project_id" field={f[:project_id]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
     <.input field={f[:new_project]} style="width:200px;" label={ dgettext("tasker", "New") } />
   </div>
   
@@ -24,8 +29,8 @@
     
     <.inputs_for :let={ft} field={f[:task_time]}>
       <div class="inline-fields small-gap no-points">
-        <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Start")} />
-        <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "End")} />
+        <.input id="start-at" field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Start")} />
+        <.input id="end-at" field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "End")} />
         <.duration_field changeset={@changeset} expected_duration={ft[:expect_duration].value}/>
       </div>
       <div class="inline-fields">
@@ -62,6 +67,9 @@
 
   </.simple_form>
   
-  <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+  <div class="right">
+    <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+  </div>
   
+    
   <script defer type="text/javascript" src={~p"/assets/js/task_edition.js"}></script>

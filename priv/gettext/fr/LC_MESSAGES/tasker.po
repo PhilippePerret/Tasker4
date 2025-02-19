@@ -224,6 +224,11 @@ msgstr "Répéter cette tâche"
 msgid "End"
 msgstr "Fin"
 
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Start"
+msgstr "Début"
+
 #: lib/tasker_web/controllers/Tache/task_html.ex:390
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Next Tasks"
@@ -234,7 +239,12 @@ msgstr "Tâches après"
 msgid "Previous Tasks"
 msgstr "Tâches avant"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
+#: lib/tasker_web/controllers/Tache/task_html.ex:410
 #, elixir-autogen, elixir-format
-msgid "Start"
-msgstr "Début"
+msgid "The edited task can only be executed after the completion of all the tasks above."
+msgstr "La tâche éditée ne pourra être exécutée qu’après la réalisation de toutes les tâches ci-dessus."
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#, elixir-autogen, elixir-format
+msgid "All the tasks above can only be executed after the execution of this task."
+msgstr "Toutes les tâches ci-dessus ne pourront être exécutées qu’après l’exécution de cette tâche-ci."

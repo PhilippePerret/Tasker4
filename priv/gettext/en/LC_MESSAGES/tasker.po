@@ -224,17 +224,27 @@ msgstr ""
 msgid "End"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:390
-#, elixir-autogen, elixir-format, fuzzy
-msgid "Next Task"
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_html.ex:389
-#, elixir-autogen, elixir-format
-msgid "Previous Task"
-msgstr ""
-
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "Start"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#, elixir-autogen, elixir-format
+msgid "All the tasks above can only be executed after the execution of this task."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:390
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Next Tasks"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:389
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Previous Tasks"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:410
+#, elixir-autogen, elixir-format
+msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr ""
