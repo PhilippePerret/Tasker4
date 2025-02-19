@@ -91,13 +91,20 @@ class Task {
       const tasks = data.tasks
       const cols = tasks.shift()
       const task_list = []
+      const task_table = {}
       for ( var dtask of tasks ) {
         const task = {}
         for ( var icol in cols ) {
           task[cols[icol]] = dtask[icol]
         }
-        task_list.push(new Task(task))
+        const itask = new Task(task)
+        task_list.push(itask)
+        Object.assign(task_table, {[itask.id]: itask})
       }
+
+      // On met cette liste dans la fonction qui en aura besoin pour
+      // faire la liste
+      this.returnedTaskTable = task_table
 
       // Fonction à appeler après le choix des tâches
       const callback = (type => {
@@ -117,9 +124,9 @@ class Task {
 
   static showListAndChoose(taskList, callback){
     if ( taskList.length ==  0) {
-      return Flash.notice(LANG["No tasks found. Therefore, none can be selected."])
+      return Flash.notice(LANG["tasker_No tasks found. Therefore, none can be selected."])
     }
-    const div = DCreate('DIV', {id:'task_list_container', text: `<h4>${LANG["Select tasks"]}</h4>`, style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
+    const div = DCreate('DIV', {id:'task_list_container', text: `<h4>${LANG["tasker_Select tasks"]}</h4>`, style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
     const list = DCreate('DIV', {id:'task_list'})
     div.appendChild(list)
     for (const task of taskList ) {
@@ -151,7 +158,7 @@ class Task {
     if ( taskList.length) {
       callback(taskList)
     } else {
-      Flash.notice(LANG["No task selected, I’m stopping here."])
+      Flash.notice(LANG["tasker_No task selected, I’m stopping here."])
     }
 
     // Détruire la boite
@@ -159,9 +166,48 @@ class Task {
   }
   static onChoosePreviousTasks(taskList){
     console.log("Je dois apprendre à définir les tâches avant", taskList)
+    const savedData = taskList.map(task_id => {
+      return {previous: task_id, next: TASK_ID}
+    })
+    console.info("savedData", savedData)
+    this.saveTaskRelations(savedData)
   }
   static onChooseNextTasks(taskList){
     console.log("Je dois apprendre à définir les tâche après", taskList)
+    const savedData = taskList.map(task_id => {return {previous: TASK_ID, next: task_id}})
+    this.saveTaskRelations(savedData)
+  }
+  /**
+   * Enregistre dans la table les relations avec la tâche courante (et
+   * remonte la liste actualisée pour afficher la liste complète)
+   * 
+   * @param {Array} relData Liste des relations. Ce sont des tables
+   *                        qui définissent :previous et :next
+   */
+  static saveTaskRelations(relData){
+    ServerTalk.dial({
+        route: "/tools/save_task_relations"
+      , data: {script_args: {relations: relData, task_id: TASK_ID}}
+      , callback: this.afterSavedTaskRelations.bind(this)
+    })
+  }
+  static afterSavedTaskRelations(rData){
+    if ( rData.ok ) {
+      // TODO Procéder à l'affichage
+      console.info("Retour sauvegarde relations avec", rData)
+      // Actualiser la liste des relations de la tâche courante
+      DGet('div#previous-task-list').innerHTML  = this.taskHumanList(rData.previous)
+      DGet('div#next-task-list').innerHTML      = this.taskHumanList(rData.next)
+      } else {
+      Flash.error(rData.error)
+    }
+  }
+  static taskHumanList(taskList){
+    const task_table = this.returnedTaskTable
+    console.info("task_table", task_table)
+    return taskList.map(task_id => {
+      return '<span class="rel-task small">' + task_table[task_id].title + '</span>'
+    }).join(', ')
   }
 
   /**
@@ -462,7 +508,6 @@ class Repeat {
    * Affiche le résumé humain de la récurrence.
    */
   showResumeHumain(crondata){
-    // console.log("LANG", LANG)
     let sum = []
     sum.push(LANG.Summary + LANG["[SPACE]"] + ":") 
     sum.push(LANG["tasker_Repeat this task"])

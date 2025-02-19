@@ -157,11 +157,7 @@ defmodule TaskerWeb.TaskController do
   defp ensure_fichier_locales_JS do
     locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
     if not File.exists?(locale_js_path) do
-      IO.puts "FABRICATION DU FICHIER LOCALE.JS"
-      IO.inspect(Gettext.get_locale(), label: "LANG")
-      IO.inspect(Gettext.get_locale(TaskerWeb.Gettext), label: "LANG(tasker)")
       Gettext.put_locale(Gettext.get_locale(TaskerWeb.Gettext))
-      IO.inspect(Gettext.get_locale(), label: "LANG(après)")
       table_locale = [@locales, @locales_ilya, @locales_tasker]
       |> Enum.reduce(%{}, fn {domain, locales}, accu1 ->
         sous_table =
