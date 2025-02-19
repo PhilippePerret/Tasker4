@@ -23,7 +23,7 @@ msgid "Back to projects"
 msgstr "Liste des projets"
 
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:15
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:76
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:65
 #, elixir-autogen, elixir-format
 msgid "Back to tasks"
 msgstr "Liste des tâches"
@@ -103,7 +103,7 @@ msgstr "Projet"
 msgid "Remove"
 msgstr "Détruire"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:74
+#: lib/tasker_web/controllers/Tache/task_html.ex:65
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr "Enregistrer la tâche"
@@ -139,32 +139,17 @@ msgstr "Modifié le"
 msgid "Details"
 msgstr "Détails"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:37
-#, elixir-autogen, elixir-format
-msgid "Expect duration"
-msgstr "Durée estimée"
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:31
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Priority"
 msgstr "Priorité"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:54
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:39
 #, elixir-autogen, elixir-format
 msgid "Recurrence"
 msgstr "Récurrence"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:28
-#, elixir-autogen, elixir-format
-msgid "Should end at"
-msgstr "Fin voulue"
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
-#, elixir-autogen, elixir-format
-msgid "Should start at"
-msgstr "Début espéré"
-
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:32
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:33
 #, elixir-autogen, elixir-format
 msgid "Urgence"
 msgstr "Urgence"
@@ -174,17 +159,17 @@ msgstr "Urgence"
 msgid "New"
 msgstr "Nouveau"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:107
+#: lib/tasker_web/controllers/Tache/task_html.ex:103
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr "Durée d'exécution"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:114
+#: lib/tasker_web/controllers/Tache/task_html.ex:112
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr "Statut temporel de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:323
+#: lib/tasker_web/controllers/Tache/task_html.ex:367
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr "Abandonnée le"
@@ -194,7 +179,7 @@ msgstr "Abandonnée le"
 msgid "Task created successfully."
 msgstr "Tâche créée avec succès."
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:65
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:55
 #, elixir-autogen, elixir-format
 msgid "Task notepad"
 msgstr "Blocnotes"
@@ -204,27 +189,27 @@ msgstr "Blocnotes"
 msgid "Please enter at least a title for the task!"
 msgstr "Merci de donner au moins un titre à cette tâche !"
 
-#: lib/tasker/tache/task_time.ex:90
+#: lib/tasker/tache/task_time.ex:93
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{should_start_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:78
+#: lib/tasker/tache/task_time.ex:81
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{started_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:63
+#: lib/tasker/tache/task_time.ex:66
 #, elixir-autogen, elixir-format
 msgid "cannot be set: abandonment date already defined"
 msgstr "la date d'abandon est déjà définie !"
 
-#: lib/tasker/tache/task_time.ex:69
+#: lib/tasker/tache/task_time.ex:72
 #, elixir-autogen, elixir-format
 msgid "cannot be set: end date already defined"
 msgstr "la date de fin est déjà définie !"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:137
+#: lib/tasker_web/controllers/Tache/task_html.ex:136
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr "Enregistrer cette note"
@@ -233,3 +218,23 @@ msgstr "Enregistrer cette note"
 #, elixir-autogen, elixir-format
 msgid "Repeat this task"
 msgstr "Répéter cette tâche"
+
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:28
+#, elixir-autogen, elixir-format
+msgid "End"
+msgstr "Fin"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:390
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Next Tasks"
+msgstr "Tâches après"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:389
+#, elixir-autogen, elixir-format
+msgid "Previous Tasks"
+msgstr "Tâches avant"
+
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:27
+#, elixir-autogen, elixir-format
+msgid "Start"
+msgstr "Début"

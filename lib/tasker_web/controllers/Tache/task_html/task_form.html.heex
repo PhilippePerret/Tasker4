@@ -23,31 +23,16 @@
     </.inputs_for>
     
     <.inputs_for :let={ft} field={f[:task_time]}>
-      <div class="inline-fields">
-        <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Should start at")} />
-        <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "Should end at")} />
+      <div class="inline-fields small-gap no-points">
+        <.input field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Start")} />
+        <.input field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "End")} />
+        <.duration_field changeset={@changeset} expected_duration={ft[:expect_duration].value}/>
       </div>
       <div class="inline-fields">
         <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
         <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
       </div>
 
-      <div class="inline-fields no-dim">
-        <% {exp_duree_valu, exp_duree_unit} = format_expect_duration(ft[:expect_duration].value) %>
-        <label><%= dgettext("tasker", "Expect duration") %></label>
-        <input type="number" name="task[task_time][exp_duree_value]" class="small-number right" value={exp_duree_valu} />
-        <select name="task[task_time][exp_duree_unite]" value={exp_duree_unit}>
-          <%= for {titre, valeur} <- options_duree() do %>
-            <% 
-              attribs = %{value: valeur}
-              attribs = if valeur == exp_duree_unit do
-                Map.merge(attribs, %{selected: "SELECTED"})
-              else attribs end
-            %>
-            <option {attribs}><%= titre %></option>
-          <% end %>
-        </select>
-      </div>
     </.inputs_for>
 
     <div>
@@ -57,6 +42,11 @@
 
     <.bouton_save_tache />
 
+
+    <div class="current-state">
+      <.bloc_task_around changeset={@changeset} />
+    </div>
+
     <div class="current-state">
       <.current_state changeset={@changeset} />
     </div>
@@ -65,7 +55,6 @@
       <h3><%= dgettext("tasker", "Task notepad") %></h3>
       <.blocnotes changeset={@changeset} />
     </div>
-    <hr />
     <.bouton_save_tache />
 
   <% end %>

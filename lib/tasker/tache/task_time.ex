@@ -42,16 +42,19 @@ defmodule Tasker.Tache.TaskTime do
 
   # --- Méthodes de conversion des attributs (avant validation) ---
 
-  defp convert_expect_duration(attrs) do
-    case {Map.get(attrs, "exp_duree_value"), Map.get(attrs, "exp_duree_unite")} do
-      {value, unit} when is_binary(value) and is_binary(unit) ->
-        case Integer.parse(value) do
-          {num, ""} -> Map.put(attrs, "expect_duration", num * String.to_integer(unit))
-          _ -> attrs
-        end
-      _ -> attrs
+  defp convert_expect_duration(%{} = attrs), do: attrs
+  defp convert_expect_duration(%{"exp_duree_unite" => edur_unite} = attrs) do
+    IO.inspect(attrs, label: "ATTRS in convert_expect_duration")
+    if edur_unite == "---" do
+      attrs
+    else
+      edur_value = Map.get(attrs, "exp_duree_value")
+      edur_value = String.to_integer(edur_value)
+      edur_unite = String.to_integer(edur_unite)
+      Map.put(attrs, "expect_duration", edur_value * edur_unite)
     end
   end
+  defp convert_expect_duration(attrs), do: attrs
 
   # --- Méthodes de validations des attributs ---
   

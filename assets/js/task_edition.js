@@ -12,10 +12,20 @@ function StopEvent(ev){
 class Task {
   static init(){
     // D'abord il faut empêcher de soumettre le formulaire en
-    // jouer 'Enter' sur un champ de formulaire
+    // tapant 'Enter' dans un champ de formulaire
     DGetAll('input[type="text"]').forEach(input => {
       input.addEventListener('keydown', this.stopEnterKey.bind(this))
     })
+    // Surveiller le menu de la durée attendue : quand on choisit 
+    // "---" on doit masquer le champ du nombre et inversement
+    this.fieldDureeUnit.addEventListener('change', this.onChangeDureeUnit.bind(this))
+  }
+  static get fieldDureeUnit(){return DGet('select#task_time_exp_duree_unit')}
+  static get fieldDureeValue(){return DGet('input#task_time_exp_duree_value')}
+  static onChangeDureeUnit(ev) {
+    const unit = this.fieldDureeUnit.value
+    this.fieldDureeValue.style.visibility = unit == '---' ? 'hidden' : 'visible';
+    this.fieldDureeValue.value =  unit == '---' ? '' : '1' ;
   }
 
   /**

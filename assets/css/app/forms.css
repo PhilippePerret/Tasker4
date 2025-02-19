@@ -70,8 +70,11 @@ div.bloc-form > div {
 div.bloc-form div.inline-fields > div {
   display:inline-block;
 }
-div.bloc-form div.inline-fields > div + div {
+div.bloc-form div.inline-fields:not(.no-gap) > div + div {
   margin-left: 2em;
+}
+div.bloc-form div.inline-fields.small-gap > div + div {
+  margin-left: 0.5em;
 }
 div.bloc-form div.inline-fields > div.input-text-container + div.input-select-container {
   margin-left: 4px;
@@ -81,7 +84,7 @@ div.bloc-form div.inline-fields > div label {
   display: inline;
   margin-right: 0.3em;
 }
-div.bloc-form div.inline-fields > div label:not(.no-points):after {
+div.bloc-form div.inline-fields:not(.no-points) label:not(.no-points):after {
   content: ":"
 }
 div.bloc-form div.inline-fields.fields-3 > div label {

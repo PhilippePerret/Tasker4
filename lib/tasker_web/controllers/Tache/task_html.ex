@@ -23,6 +23,7 @@ defmodule TaskerWeb.TaskHTML do
   
   def options_duree do
     [
+      {"---", "---"},
       {dgettext("ilya", "months"), @month},
       {dgettext("ilya", "weeks"), @week},
       {dgettext("ilya", "days"), @day},
@@ -33,7 +34,7 @@ defmodule TaskerWeb.TaskHTML do
 
   def options_priority do
     [
-      {gettext("not defined"), "nil"}, 
+      {"---", "nil"}, 
       {gettext("absolute (priority)"), 5}, 
       {gettext("high (priority)"), 4}, 
       {gettext("secondary (priority)"), 3}, 
@@ -44,7 +45,7 @@ defmodule TaskerWeb.TaskHTML do
   end
   def options_urgence do
     [
-      {gettext("not defined"), "nil"}, 
+      {"---", "nil"}, 
       {gettext("Critical (urgency)"), 5}, # Très urgente
       {gettext("Urgent (urgency)"), 4},   # Urgente
       {gettext("Time-sensitive (urgency)"), 3},     # Pressée
@@ -54,16 +55,6 @@ defmodule TaskerWeb.TaskHTML do
   end
 
  
-  defp format_expect_duration(nil), do: {nil, "1"}
-  defp format_expect_duration(minutes) when is_integer(minutes) do
-    Enum.find_value(@duree_units,{1, "1"}, fn unit_val ->
-      if rem(minutes, unit_val) == 0 do
-        { div(minutes, unit_val), unit_val }
-      else
-        nil
-      end
-    end)
-  end
 
   @doc """
   Composant du bouton pour sauver la tâche, qu'on trouve à plusieurs
@@ -90,8 +81,13 @@ defmodule TaskerWeb.TaskHTML do
 
   def current_state(assigns) do
     changeset = assigns.changeset
-
     task_time = changeset.data.task_time
+
+    has_no_state = is_nil(task_time.started_at) \
+                    and is_nil(task_time.ended_at) \
+                    and is_nil(task_time.given_up_at) \
+                    and is_nil(task_time.execution_time)
+
     assigns = assigns
     |> assign(:mark_start, define_mark_started_at(task_time.started_at))
 
@@ -109,13 +105,16 @@ defmodule TaskerWeb.TaskHTML do
     assigns = assigns 
     |> assign(:exec_time, execution_time)
     |> assign(:segment_fin, segment_fin)
+    |> assign(:visibility, has_no_state && "hidden" || "")
 
     ~H"""
-    <h3><%= dgettext("tasker", "Task Current Status") %></h3>
-    <div>
-      {@mark_start}, {@segment_fin}.
+    <div id="task-current-status-container" class={@visibility}>
+      <h3><%= dgettext("tasker", "Task Current Status") %></h3>
+      <div>
+        {@mark_start}, {@segment_fin}.
+      </div>
+      <div>{@exec_time}</div>
     </div>
-    <div>{@exec_time}</div>
     """
   end
 
@@ -210,6 +209,46 @@ defmodule TaskerWeb.TaskHTML do
       {dgettext("ilya", "month")  , "month"}, 
       {dgettext("ilya", "year")   , "year"}
     ]
+  end
+
+  attr :changeset, Ecto.Changeset, required: true
+  attr :expected_duration, :integer, required: true
+
+  def duration_field(assigns) do
+    {duree_value, duree_unit} = format_expect_duration(assigns.expected_duration)
+    assigns = assigns
+    |> assign(:duration_title, gettext("Duration"))
+    |> assign(:duree_value, duree_value)
+    |> assign(:duree_unit, duree_unit)
+
+    ~H"""
+    <div>
+      <label>{@duration_title}</label>
+      <input id="task_time_exp_duree_value" type="number" min="1" max="100" name="task[task_time][exp_duree_value]" class="small-number right" value={@duree_value} />
+      <select id="task_time_exp_duree_unit" name="task[task_time][exp_duree_unite]" value={@duree_unit}>
+        <%= for {titre, valeur} <- options_duree() do %>
+          <% 
+            attribs = %{value: valeur}
+            attribs = if valeur == @duree_unit do
+              Map.merge(attribs, %{selected: "SELECTED"})
+            else attribs end
+          %>
+          <option {attribs}><%= titre %></option>
+        <% end %>
+      </select>
+    </div>
+    """
+  end
+
+  defp format_expect_duration(nil), do: {nil, "1"}
+  defp format_expect_duration(minutes) when is_integer(minutes) do
+    Enum.find_value(@duree_units,{1, "1"}, fn unit_val ->
+      if rem(minutes, unit_val) == 0 do
+        { div(minutes, unit_val), unit_val }
+      else
+        nil
+      end
+    end)
   end
 
   @doc """
@@ -311,7 +350,9 @@ defmodule TaskerWeb.TaskHTML do
 
 
       </div>
-      <div id="crontab-shower" style="background-color:#a3d7f1;display:inline-block;border-radius:12px;padding:2px 1em;"></div>
+      <div class="right">
+        <div id="crontab-shower" style="background-color:#a3d7f1;display:inline-block;border-radius:12px;padding:2px 1em;"></div>
+      </div>
     </div>
     """
   end
@@ -336,6 +377,26 @@ defmodule TaskerWeb.TaskHTML do
     nil -> gettext("not finished yet")
     _ -> gettext("ended at") <> " " <> TFormat.to_s(ended_at, time: true)
     end
+  end
+
+  @doc """
+  Construction du bloc des tâches autour (avant ou après)
+  """
+  attr :changeset, Ecto.Changeset, required: true
+
+  def bloc_task_around(assigns) do
+    assigns = assigns
+    |> assign(:task_before_title, dgettext("tasker", "Previous Tasks"))
+    |> assign(:task_after_title, dgettext("tasker", "Next Tasks"))
+    ~H"""
+    <h3>Flux des tâches</h3>
+    <div id="task-before-container">
+      <button style="width:220px;" type="button">{@task_before_title}</button>
+    </div>
+    <div id="task-after-container">
+      <button style="width:220px;" type="button">{@task_after_title}</button>
+    </div>
+    """
   end
 
 end
