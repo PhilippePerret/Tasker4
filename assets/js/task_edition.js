@@ -280,11 +280,15 @@ class TaskDependencies {
     const contreNature = nature == 'prev' ? 'next' : 'prev';
     const contreTasks = this.getDependenciesOfNature(contreNature, 'map2save');
     relData.push(...contreTasks)
-    ServerTalk.dial({
-        route: "/tasksop/save_relations"
-      , data: {relations: relData, task_id: TASK_ID}
-      , callback: this.afterSavedDependencies.bind(this)
-    })
+    if ( this.checkDependencies(relData) ) {
+      ServerTalk.dial({
+          route: "/tasksop/save_relations"
+        , data: {relations: relData, task_id: TASK_ID}
+        , callback: this.afterSavedDependencies.bind(this)
+      })
+    } else {
+      Flash.error("Incohérences dans les dépendances. Je ne peux pas les enregistrer.")
+    }
   }
   afterSavedDependencies(rData){
     if ( rData.ok ) {
@@ -296,6 +300,40 @@ class TaskDependencies {
     } else {
       Flash.error(rData.error)
       rData.full_error && console.error(rData.full_error)
+    }
+  }
+
+  /**
+   * Fonction qui s'assure que les dépendances à enregistrer sont 
+   * correctes à tout niveau : 
+   * - une tâche ne peut être dépendante d'elle-même
+   * - une tache après une autre ne peux pas être avant cette autre.
+   */
+  checkDependencies(deps){
+    const deps_len = deps.length
+    if ( deps_len == 0 ) return true;
+    try {
+      // Une tâche ne peut être en dépendance d'elle-même
+      deps.forEach(paire => {
+        const [avant, apres] = paire
+        if (avant == apres) {
+          throw new Error("Une tâche ne peut être dépendante d'elle-même.")
+        }
+      })
+      for (var i = 0; i < deps_len - 1; ++i) {
+        const [avant, apres] = deps[i]
+        for (var ii = i+1; ii < deps_len; ++ii ) {
+          const [autreAvant, autreApres] = deps[ii]
+          if ( autreAvant == apres && autreApres == avant ) {
+            throw new Error("Double dépendance entre la tâche " + avant + " et la tâche " + apres + ".")
+          }
+        }
+      }
+      return true
+    } catch(err) {
+      // console.error(err)
+      Flash.error(err.message)
+      return false
     }
   }
 
