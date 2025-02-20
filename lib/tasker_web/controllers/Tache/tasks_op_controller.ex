@@ -38,7 +38,8 @@ defmodule TaskerWeb.TasksOpController do
       delete_all_dependencies_of(task_id)
       update_all_dependencies_with(relations)
     end) do
-      {nombre_rows, _} -> %{ok: true, rows: nombre_rows}
+      {nombre_rows, _} -> 
+        %{ok: true, rows: nombre_rows}
       {:error, exception} -> 
         IO.puts(:stderr, exception)
         %{ok: false, error: "Erreur SQL"}  
