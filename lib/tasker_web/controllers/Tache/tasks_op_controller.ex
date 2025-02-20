@@ -3,7 +3,7 @@ defmodule TaskerWeb.TasksOpController do
 
   import Ecto.Query
 
-  alias Tasker.Repo
+  alias Tasker.{Repo, Tache}
   alias Tasker.Tache.TaskDependencies
 
   @doc """
@@ -39,7 +39,7 @@ defmodule TaskerWeb.TasksOpController do
       update_all_dependencies_with(relations)
     end) do
       {nombre_rows, _} -> 
-        %{ok: true, rows: nombre_rows}
+        %{ok: true, dependencies: Tache.get_dependencies(task_id)}
       {:error, exception} -> 
         IO.puts(:stderr, exception)
         %{ok: false, error: "Erreur SQL"}  

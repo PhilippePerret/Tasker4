@@ -40,10 +40,11 @@ defmodule Tasker.Tache do
     |> Repo.preload(task_spec: [:notes])
     |> Repo.preload(:task_time)
     |> Map.put(:dependencies, get_dependencies(id))
-    |> IO.inspect(label: "RELÈVE DANS get_task!")
+    # |> IO.inspect(label: "RELÈVE DANS get_task!")
   end
 
   @doc """
+  @api
   Fonction qui relève et retourne les dépendances de la tâche d'id
   +task_id+
 
@@ -54,9 +55,9 @@ defmodule Tasker.Tache do
     :title    {String} Son titre
     :details  {String} Les 500 premiers caractères de son détail.
   """
-  defp get_dependencies(task_id) do
+  def get_dependencies(task_id) do
     task_id = Ecto.UUID.dump!(task_id)
-    
+
     sql_after = """
     SELECT t.id, t.title, LEFT(ts.details, 500)
     FROM task_dependencies td 
@@ -92,7 +93,7 @@ defmodule Tasker.Tache do
     result.rows 
     |> Enum.map(fn [id, title, details] -> 
       %{
-        id: Ecto.UUID.load(id), 
+        id: Ecto.UUID.load!(id), 
         title: title, 
         details: details
       }

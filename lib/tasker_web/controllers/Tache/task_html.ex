@@ -386,7 +386,10 @@ defmodule TaskerWeb.TaskHTML do
   attr :changeset, Ecto.Changeset, required: true
 
   def bloc_task_around(assigns) do
+    dependencies = assigns.changeset.data.dependencies
+    # |> IO.inspect(label: "\nDÉPENDANCES DANS bloc_task_around")
     assigns = assigns
+    |> assign(:dependencies, Jason.encode!(dependencies))
     |> assign(:task_before_title, dgettext("tasker", "Previous Tasks"))
     |> assign(:task_after_title, dgettext("tasker", "Next Tasks"))
     |> assign(:title, dgettext("tasker", "Task flow"))
@@ -395,6 +398,7 @@ defmodule TaskerWeb.TaskHTML do
 
     ~H"""
     <h3>{@title}</h3>
+    <input type="hidden" id="data-dependencies" value={@dependencies} />
     <div id="previous-tasks-container">
       <button id="btn-choose-previous-tasks" style="width:220px;" type="button">{@task_before_title}</button>
       <div id="previous-task-list" class="task-list"></div>
