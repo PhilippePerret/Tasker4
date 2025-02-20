@@ -10,3 +10,7 @@
 .discret {
   opacity: 0.5;
 }
+.disabled {
+  font-style: italic;
+  color: #AAAAAA;
+}

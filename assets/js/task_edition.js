@@ -113,7 +113,9 @@ class TaskDependencies {
   }
 
   get tasks_after(){return this.data.tasks_after}
+  get tasks_next(){return this.tasks_after}
   get tasks_before(){return this.data.tasks_before}
+  get tasks_prev(){return this.tasks_before}
 
   observe(){
     // Surveiller les boutons pour choisir les tâches avant et après
@@ -182,34 +184,30 @@ class TaskDependencies {
    */
   onReturnTaskList(data){
     if ( data.ok ) {
-      console.info("Retour de la liste des tâches avec", data)
+      // console.info("Retour de la liste des tâches avec", data)
       const tasks = data.tasks
       const cols = tasks.shift()
       const task_list = []
-      const task_table = {}
+      console.log("-> avant boucle")
       for ( var dtask of tasks ) {
+        console.log("Dans boucle", dtask)
         const task = {}
         for ( var icol in cols ) {
           task[cols[icol]] = dtask[icol]
         }
         const itask = new Task(task)
         task_list.push(itask)
-        Object.assign(task_table, {[itask.id]: itask})
       }
-
-      // On met cette liste dans la fonction qui en aura besoin pour
-      // faire la liste
-      this.returnedTaskTable = task_table
-
+      const type = data.args.position
       // Fonction à appeler après le choix des tâches
-      const callback = (type => {
-        switch(type){
+      const callback = (ty => {
+        switch(ty){
           case 'prev': return this.onChoosePreviousTasks.bind(this);
           case 'next': return this.onChooseNextTasks.bind(this)
         }
-      })(data.args.position)
+      })(type)
 
-      this.showListAndChoose(task_list, callback)
+      this.showListAndChoose(task_list, type, callback)
 
     } else {
       Flash.error(data.error)
@@ -217,21 +215,44 @@ class TaskDependencies {
     }
   }
 
-  showListAndChoose(taskList, callback){
+  showListAndChoose(taskList, type, callback){
     if ( taskList.length ==  0) {
       return Flash.notice(LANG["tasker_No tasks found. Therefore, none can be selected."])
     }
+    const rightList = this['tasks_' + type]
+    const rightIds  = rightList.map(dtask => {return dtask.id})
+
+    const contreType = type == 'prev' ? 'next' : 'prev'
+    const contreList = this['tasks_' + contreType]
+    const contreIds  = contreList.map(dtask => {return dtask.id})
+
     const div = DCreate('DIV', {id:'task_list_container', text: `<h4>${LANG["tasker_Select tasks"]}</h4>`, style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
     const list = DCreate('DIV', {id:'task_list'})
     div.appendChild(list)
+    // Boucle sur toutes les tâches, mais :
+    // -  on ne permet la sélection qu'avec des tâches qui ne sont 
+    //    pas liées dans le sens opposé
+    // -  on coche les liaisons existantes
     for (const task of taskList ) {
+
+      const taskId = task.id
+      const taskIsEnable  = !contreIds.includes(taskId)
+      const taskIsCheched = rightIds.includes(taskId)
+
       const cb_id = `cb-task-${task.id}`
       const tdiv = DCreate('DIV', {class:'task', style:"margin-top:0.5em;"})
-      const cb = DCreate('INPUT', {type:'checkbox', class:"cb-task", id: cb_id})
-      cb.dataset.uuid = task.id
-      tdiv.appendChild(cb)
-      const label = DCreate('LABEL', {class:'task-title', for: cb_id, text: task.title})
+      if ( taskIsEnable ) {
+        const cb = DCreate('INPUT', {type:'checkbox', class:"cb-task", id: cb_id})
+        cb.checked = taskIsCheched
+        cb.dataset.uuid = task.id
+        tdiv.appendChild(cb)
+      } else {
+        tdiv.appendChild(DCreate('SPAN', {text: '– ', class: 'disabled'}))
+      }
+
+      const label = DCreate('LABEL', {class:'task-title ' + (taskIsEnable?'enabled':'disabled'), for: cb_id, text: task.title})
       label.setAttribute('for', cb_id)
+      if ( !taskIsEnable) label.setAttribute('disabled', true)
       // TODO : mettre les détails dans un div caché à faire apparaitre avec un
       // petit bouton "i" (ne le faire que si la tâche définit des détails)
       tdiv.appendChild(label)
