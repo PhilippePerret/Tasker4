@@ -11,6 +11,7 @@ defmodule TaskerWeb.TaskHTML do
   attr :changeset, Ecto.Changeset, required: true
   attr :action, :string, required: true
   attr :projects, :list, required: true
+  attr :lang, :string, required: true
 
   def task_form(assigns)
 
@@ -163,14 +164,14 @@ defmodule TaskerWeb.TaskHTML do
   end
 
 
-  @laps [
-    {"minute", 1},
-    {"hour", 60},
-    {"day",  24 * 60},
-    {"week", 7 * 24 * 60},
-    {"month", 30 * 24 * 60},
-    {"year",  365 * 24 * 60}
-  ]
+  # @laps [
+  #   {"minute", 1},
+  #   {"hour", 60},
+  #   {"day",  24 * 60},
+  #   {"week", 7 * 24 * 60},
+  #   {"month", 30 * 24 * 60},
+  #   {"year",  365 * 24 * 60}
+  # ]
   def month_data do
     [
       {dgettext("ilya","January"), 1}, 
@@ -308,7 +309,7 @@ defmodule TaskerWeb.TaskHTML do
                   <select class="repeat-at-hour" name="at-hour">
                     <option value="---">---</option>
                     <option value="all">toutes</option>
-                    <%= for hour <- (23..0) do %>
+                    <%= for hour <- (23..0//-1) do %>
                       <option value={hour}><%= hour %></option>
                     <% end %>
                   </select>

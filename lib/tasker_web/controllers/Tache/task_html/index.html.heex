@@ -6,7 +6,7 @@
   </div>
 </h2>
 
-<.table id="tasks" class={["left"]} rows={@tasks} row_click={&JS.navigate(~p"/tasks/#{&1}")}>
+<.table id="tasks" rows={@tasks} row_click={&JS.navigate(~p"/tasks/#{&1}")}>
   <:col :let={task} label={dgettext("tasker", "Task Title")}>
     <%= task.title %>
   </:col>

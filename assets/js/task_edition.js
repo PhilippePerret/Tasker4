@@ -165,16 +165,11 @@ class Task {
     DGet('div#task_list_container').remove()
   }
   static onChoosePreviousTasks(taskList){
-    console.log("Je dois apprendre à définir les tâches avant", taskList)
-    const savedData = taskList.map(task_id => {
-      return {previous: task_id, next: TASK_ID}
-    })
-    console.info("savedData", savedData)
+    const savedData = taskList.map(task_id => {return [task_id, TASK_ID]})
     this.saveTaskRelations(savedData)
   }
   static onChooseNextTasks(taskList){
-    console.log("Je dois apprendre à définir les tâche après", taskList)
-    const savedData = taskList.map(task_id => {return {previous: TASK_ID, next: task_id}})
+    const savedData = taskList.map(task_id => {return [TASK_ID, task_id]})
     this.saveTaskRelations(savedData)
   }
   /**
@@ -186,8 +181,8 @@ class Task {
    */
   static saveTaskRelations(relData){
     ServerTalk.dial({
-        route: "/tools/save_task_relations"
-      , data: {script_args: {relations: relData, task_id: TASK_ID}}
+        route: "/tasksop/save_relations"
+      , data: {relations: relData, task_id: TASK_ID}
       , callback: this.afterSavedTaskRelations.bind(this)
     })
   }
@@ -198,8 +193,9 @@ class Task {
       // Actualiser la liste des relations de la tâche courante
       DGet('div#previous-task-list').innerHTML  = this.taskHumanList(rData.previous)
       DGet('div#next-task-list').innerHTML      = this.taskHumanList(rData.next)
-      } else {
+    } else {
       Flash.error(rData.error)
+      rData.full_error && console.error(rData.full_error)
     }
   }
   static taskHumanList(taskList){

@@ -26,8 +26,12 @@ defmodule TaskerWeb.Router do
 
   scope "/tools", TaskerWeb do
     pipe_through [:browser, :require_authenticated_worker]
-    
     post "/:script", ToolsController, :run_script
+  end
+
+  scope "/tasksop", TaskerWeb do
+    pipe_through [:browser, :require_authenticated_worker]
+    post "/:op", TasksOpController, :exec_operation
   end
 
   # Other scopes may use custom stacks.

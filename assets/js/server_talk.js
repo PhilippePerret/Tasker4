@@ -7,7 +7,7 @@ class ServerTalk {
   }
 
   static dial(params) {
-    console.log("-> dial avec", params)
+    // console.log("-> dial avec", params)
     fetch(...this.fetch_params(params))
     .then(retour => retour.json())
     .then(data => params.callback(data))

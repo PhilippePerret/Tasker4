@@ -58,18 +58,7 @@ defmodule TaskerWeb.ToolsController do
     end
   end
 
-  def run("save_task_relations", args) do
-    # TODO
-    %{
-      ok: false, 
-      error: "Je dois apprendre à sauver les relations.",
-      previous: [], # liste des tâches précédentes de la tâche courante
-      next: []      # Idemp pour les suivantes
-    }
-  end
-
-
-  defp requete_task_list_prev_or_next(args, nil) do
+  defp requete_task_list_prev_or_next(_args, nil) do
     """
     SELECT t.id::text, t.title, tt.should_start_at, tt.should_end_at, LEFT(ts.details, 500) AS details
     FROM tasks t
@@ -86,7 +75,7 @@ defmodule TaskerWeb.ToolsController do
   end
   # +date_ref+ ne sert à rien d'autre ici qu'à faire un guard 
   # différent lorsqu'aucune date n'est définie.
-  defp requete_task_list_prev_or_next(args, date_ref) do
+  defp requete_task_list_prev_or_next(args, _date_ref) do
     [dref, dother] = (args["position"] == "prev") && ["tt.should_start_at", "tt.should_end_at"] || ["tt.should_end_at", "tt.should_start_at"]
     """
     SELECT t.id::text, t.title, tt.should_start_at, tt.should_end_at, LEFT(ts.details, 500) AS details

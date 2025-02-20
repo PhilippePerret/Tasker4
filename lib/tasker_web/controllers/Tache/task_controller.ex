@@ -34,9 +34,8 @@ defmodule TaskerWeb.TaskController do
       |> put_flash(:info, dgettext("tasker", "Task created successfully."))
       |> redirect(to: ~p"/tasks/#{task}/edit")
 
-    {:error, %Ecto.Changeset{} = changeset} ->
+    {:error, %Ecto.Changeset{} = _changeset} ->
       # On passe ici quand la création n'a pas pu se faire
-      projects = Tasker.Projet.list_projects() || []
       conn = conn 
       |> put_flash(:error, dgettext("tasker", "Please enter at least a title for the task!"))
       new(conn, nil)
@@ -91,8 +90,7 @@ defmodule TaskerWeb.TaskController do
           # Un nouveau titre
           case Tasker.Projet.create_project(%{title: new_title}) do
             {:ok, project} -> project.id
-            {:error, changeset} ->
-              projects = Tasker.Projet.list_projects() || []
+            {:error, _changeset} ->
               new(conn, nil)
               throw(:abort)  # On interrompt l'exécution ici
           end
