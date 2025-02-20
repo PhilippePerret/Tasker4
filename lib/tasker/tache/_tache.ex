@@ -39,6 +39,64 @@ defmodule Tasker.Tache do
     Repo.get!(Task, id)
     |> Repo.preload(task_spec: [:notes])
     |> Repo.preload(:task_time)
+    |> Map.put(:dependencies, get_dependencies(id))
+    |> IO.inspect(label: "RELÈVE DANS get_task!")
+  end
+
+  @doc """
+  Fonction qui relève et retourne les dépendances de la tâche d'id
+  +task_id+
+
+  @return {Map} Une table avec :tasks_after (liste des tâches 
+  dépendantes) et :tasks_before (idem).
+  Chaque élément de la liste est une {Map} qui définit : 
+    :id       {String} Identifiant binaire de la tâche
+    :title    {String} Son titre
+    :details  {String} Les 500 premiers caractères de son détail.
+  """
+  defp get_dependencies(task_id) do
+    task_id = Ecto.UUID.dump!(task_id)
+    
+    sql_after = """
+    SELECT t.id, t.title, LEFT(ts.details, 500)
+    FROM task_dependencies td 
+    JOIN tasks t ON t.id = td.after_task_id
+    JOIN task_specs ts ON ts.task_id = td.after_task_id
+    WHERE td.before_task_id = $1
+    ;
+    """
+    dependencies = get_dependencies(%{}, task_id, sql_after, :tasks_after)
+
+    sql_before = """
+    SELECT t.id, t.title, LEFT(ts.details, 500)
+    FROM task_dependencies td 
+    JOIN tasks t ON t.id = td.before_task_id
+    JOIN task_specs ts ON ts.task_id = td.before_task_id
+    WHERE td.after_task_id = $1
+    ;
+    """
+    get_dependencies(dependencies, task_id, sql_before, :tasks_before)
+    # |> IO.inspect(label: "\nDEPENDANCES")
+  end
+
+  defp get_dependencies(deps_map, task_id, sql, key) when is_binary(sql) do
+    tasks = 
+      case Ecto.Adapters.SQL.query(Tasker.Repo, sql, [task_id]) do
+        {:ok, postgrex_result} -> task_list_from_postgrex_result(postgrex_result)
+        {:error, exception} -> IO.puts(:stderr, exception); []
+      end
+    Map.put(deps_map, key, tasks)
+  end
+
+  defp task_list_from_postgrex_result(result) do
+    result.rows 
+    |> Enum.map(fn [id, title, details] -> 
+      %{
+        id: Ecto.UUID.load(id), 
+        title: title, 
+        details: details
+      }
+    end)
   end
 
   @doc """
