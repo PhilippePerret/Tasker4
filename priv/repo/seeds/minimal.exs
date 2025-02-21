@@ -29,13 +29,7 @@ defmodule Tasker.Seed do
         attrs.task
       end
     # La tâche
-    task  = Tasker.Repo.insert!(struct(Tasker.Tache.Task, data_task))
-    if attrs[:task_spec] do
-      insert(:task_spec, Map.put(attrs.task_spec, :task_id, task.id))
-    end
-    if attrs[:task_time] do
-      insert(:task_time, Map.put(attrs.task_time, :task_id, task.id))
-    end
+    Tasker.Tache.create_task(data_task)
     # Dépendances 
     # TODO
     # Natures

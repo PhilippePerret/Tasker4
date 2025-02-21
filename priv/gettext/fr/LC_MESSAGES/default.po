@@ -181,7 +181,7 @@ msgstr "Toutes les"
 #: lib/tasker_web/controllers/Tache/task_html.ex:221
 #, elixir-autogen, elixir-format
 msgid "Duration"
-msgstr "Drée"
+msgstr "Durée"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:1
 #, elixir-autogen, elixir-format
