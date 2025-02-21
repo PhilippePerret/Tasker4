@@ -36,6 +36,7 @@
       <div class="inline-fields">
         <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
         <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
+        <.natures_select changeset={@changeset} lang={@lang} />
       </div>
 
     </.inputs_for>

@@ -6,7 +6,7 @@ defmodule Tasker.Tache do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
 
   @doc """
   Returns the list of tasks.
@@ -19,6 +19,12 @@ defmodule Tasker.Tache do
   """
   def list_tasks do
     Repo.all(Task)
+  end
+
+  @doc """
+  """
+  def list_natures do
+    Repo.all(TaskNature)
   end
 
   @doc """

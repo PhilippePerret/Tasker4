@@ -56,6 +56,17 @@ defmodule TaskerWeb.TaskHTML do
   end
 
  
+  @doc """
+  Composant HEX pour la liste des natures
+  """
+  attr :changeset, Ecto.Changeset, required: true
+  attr :lang, :string, required: true
+
+  def natures_select(assigns) do
+    ~H"""
+    <div>Liste des natures</div>
+    """
+  end
 
   @doc """
   Composant du bouton pour sauver la tâche, qu'on trouve à plusieurs

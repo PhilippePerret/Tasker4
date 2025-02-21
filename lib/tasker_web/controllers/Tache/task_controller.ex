@@ -115,6 +115,7 @@ defmodule TaskerWeb.TaskController do
     ensure_fichier_locales_JS()
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
+    |> assign(:natures, get_list_natures(conn.assigns.current_worker))
     |> assign(:task, (action == :new) && nil || task_changeset.data)
     |> assign(:changeset, task_changeset)
     |> assign(:lang, Gettext.get_locale(TaskerWeb.Gettext))
@@ -131,6 +132,30 @@ defmodule TaskerWeb.TaskController do
       {k, %{} = map} -> {k, convert_nil_string_values(map)}
       pair -> pair
     end)
+  end
+
+  @doc """
+  Retourne la liste des natures.
+  Elles ont deux sources :
+    - la liste des natures systèmes (dans la table task_natures)
+    - les natures personnalisées par le travailleur, dans sa fiche
+      worker_settings
+  """
+  def get_list_natures(current_worker) do
+    Map.merge(
+      (Tache.list_natures()
+      |> Enum.reduce(%{}, fn nature, accu ->
+        Map.put(accu, nature.id, nature.name)
+      end)
+      ),
+      (
+        (Tasker.Accounts.get_worker_settings(current_worker.id)
+        .task_prefs[:custom_natures] || [])
+        |> Enum.reduce(%{}, fn {nature_id, nature_name}, accu ->
+          Map.put(accu, nature_id, nature_name)
+        end)
+      )
+    )
   end
 
 

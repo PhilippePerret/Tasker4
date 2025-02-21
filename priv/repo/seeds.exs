@@ -22,22 +22,23 @@ end)
 
 new_natures =
 [
-  ["Achats", "achats"],
-  ["Analyse filmique", "ana_film"],
-  ["Analyse musicale", "ana_mus"],
-  ["Comptabilité", "compta"],
-  ["Comptes personnels", "compta_perso"],
-  ["Conception", "conception"],
-  ["Dramaturgie", "drama"],
+  ["Purchases", "purchases"],
+  ["Film Analysis", "ana_film"],
+  ["Music Analysis", "ana_mus"],
+  ["Accounting", "compta"],
+  ["Personal Finances", "compta_perso"],
+  ["Design", "design"],
+  ["Dramaturgy", "drama"],
   ["Documentation", "docu"],
-  ["Pédagogie", "pedago"],
-  ["Exercice (Pédagogie)", "pedago_exo"],
-  ["Programmation", "prog"],
-  ["Test (programmation)", "prog_test"],
-  ["Rapport", "report"],
-  ["Rédaction", "writing"],
-  ["Renseignements", "infos"],
-  ["Sport", "sport"],
+  ["Pedagogy", "pedago"],
+  ["Exercise (Pedagogy)", "pedago_exo"],
+  ["Programming", "prog"],
+  ["Programming Test", "prog_test"],
+  ["Report", "report"],
+  ["Writing", "writing"],
+  ["Information", "infos"],
+  ["Research", "research"],
+  ["Sports", "sport"],
 
   ["Z-Z-Z-sans-virgule", "rien"]
 ]|> Enum.filter(fn [task_name, task_id] ->

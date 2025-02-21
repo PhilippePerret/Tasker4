@@ -54,7 +54,8 @@ phil_data = %{
 }
 S.insert(:worker, phil_data)
 
-# S.insert(:task, %{
-#   project: %{title: "Tout premier projet"},
-#   task: %{title: "Toute première tâche"}
-# })
+task = S.insert(:task, %{
+  project: %{title: "Tout premier projet"},
+  task: %{title: "Toute première tâche"}
+})
+IO.inspect(task, label: "\nPremière tâche")
