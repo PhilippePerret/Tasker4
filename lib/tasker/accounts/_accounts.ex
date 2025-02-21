@@ -54,16 +54,23 @@ defmodule Tasker.Accounts do
 
   """
   def create_worker(attrs \\ %{}) do
-    {:ok, worker} = %Worker{}
+    %Worker{}
     |> Worker.registration_changeset(attrs)
     |> Repo.insert()
-    Repo.insert!(
-      struct(
-        WorkerSettings, 
-        Map.put(default_worker_settings(), :worker_id, worker.id)
+    |> create_worker_settings()
+  end
+
+  defp create_worker_settings(res) do
+    case res do
+    {:ok, worker} ->
+      Repo.insert!(
+        struct(WorkerSettings, 
+          Map.put(default_worker_settings(), :worker_id, worker.id)
+        )
       )
-    )
-    {:ok, worker} 
+      res
+    {:error, _} -> res
+    end
   end
 
   @doc """
