@@ -6,7 +6,7 @@ defmodule Tasker.Accounts do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  alias Tasker.Accounts.Worker
+  alias Tasker.Accounts.{Worker, WorkerSettings}
 
   @doc """
   Returns the list of workers.
@@ -37,6 +37,10 @@ defmodule Tasker.Accounts do
   """
   def get_worker!(id), do: Repo.get!(Worker, id)
 
+  def get_worker_settings(worker_id) do
+    Repo.one!(from ws in WorkerSettings, where: ws.worker_id == ^worker_id)
+  end
+
   @doc """
   Creates a worker.
 
@@ -50,9 +54,53 @@ defmodule Tasker.Accounts do
 
   """
   def create_worker(attrs \\ %{}) do
-    %Worker{}
+    {:ok, worker} = %Worker{}
     |> Worker.registration_changeset(attrs)
     |> Repo.insert()
+    Repo.insert!(
+      struct(
+        WorkerSettings, 
+        Map.put(default_worker_settings(:json), :worker_id, worker.id)
+      )
+    )
+    {:ok, worker} 
+  end
+
+  defp default_worker_settings(:json) do
+    [:display_prefs, :interaction_prefs, :task_prefs, :project_prefs, :divers_prefs
+    ] |> Enum.reduce(default_worker_settings(), fn key, accu ->
+      %{accu | key => Jason.encode!(accu[key])}
+    end)
+  end
+
+  @doc """
+  Préférences par défaut
+  """
+  def default_worker_settings do
+    %{
+      display_prefs: %{
+        theme: :standard
+      },
+      interaction_prefs: %{
+        notification: true,
+        can_be_joined: true
+      },
+      task_prefs: %{
+        max_tasks_count: 100,
+        filter_on_duree: false, # false|:long|:short|:medium
+        same_nature: :enable_same_nature, # :never_same_nature|:avoid_same_nature
+      },
+      project_prefs: %{
+
+      },
+      divers_prefs: %{
+        work_start_at: 9,
+        work_noon_at: 12,
+        work_end_at:  17,
+        near_future:  7, # nombre de jours
+      }
+
+    }
   end
 
   @doc """

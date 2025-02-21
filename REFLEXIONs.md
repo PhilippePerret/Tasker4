@@ -89,8 +89,8 @@ Note : parler de "Contraintes" dans l'interface
 
 * **Limite de nombres de tâche** Peut-être une limite sur le nombre de tâches : soit vraiment en nombre (pas plus de 10 tâches par session) soit en durée de travail (dynamique = en fonction de l'heure et des horaires du travailleur, soit de façon fixe : "je veux des tâches pour 30 minutes")
 * **Filtre sur le durée** : Priorité aux tâches courtes ou longue ou moyennes.
-* **Natures exclusives**. Un paramètre booleén permet au travailleur de décider de travailler exclusivement sur des tâches de nature différente. Plusieurs degrée : "Ne jamais enchainer de tâche de même nature", "Éviter d'enchainer les tâches de même nature", "Aucune contrainte sur les natures"
-* **Future poche** (le définir en nombre de jours, 7 par défaut)
+* **Natures exclusives**. Un paramètre permet au travailleur de décider de travailler exclusivement sur des tâches de nature différente. Plusieurs degrée : "Ne jamais enchainer de tâche de même nature", "Éviter d'enchainer les tâches de même nature", "Aucune contrainte sur les natures"
+* **Future proche** (le définir en nombre de jours, 7 par défaut)
 * **Début de la jourée** (heure — 9 par défaut)
 * **Fin de la matinée** (heure — midi par défaut)
 * **Fin de la journée** (heure — 17 par défaut)

@@ -174,6 +174,8 @@ defmodule TaskerWeb.TaskController do
     end
   end
 
+  @compile {:no_warn_undefined, {__MODULE__, :liste_locales_fictives, 0}}
+  
   # Simplement pour faire connaitre à Gettext les locales qu'on va 
   # utiliser seulement en javascript (donc non définie)
   # Rappel : quand une locale est supprimée du code, elle est sup-

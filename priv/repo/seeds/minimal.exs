@@ -5,7 +5,8 @@
 defmodule Tasker.Seed do
 
   def insert(:worker, attrs) do
-    Tasker.Repo.insert!(struct(Tasker.Worker, attrs))
+    attrs = Map.put(attrs, :hashed_password, Bcrypt.hash_pwd_salt(attrs.password))
+    Tasker.Repo.insert!(struct(Tasker.Accounts.Worker, attrs))
   end
   def insert(:project, attrs) do
     Tasker.Repo.insert!(struct(Tasker.Projet.Project, attrs))
@@ -27,7 +28,7 @@ defmodule Tasker.Seed do
         attrs.task
       end
     # La tâche
-    task  = Tasker.Repo.insert!(struct(Tasker.Tache.Task, attrs.task))
+    task  = Tasker.Repo.insert!(struct(Tasker.Tache.Task, data_task))
     if attrs[:task_spec] do
       insert(:task_spec, Map.put(attrs.task_spec, :task_id, task.id))
     end
@@ -45,8 +46,14 @@ end
 
 alias Tasker.Seed, as: S
 
+phil_data = %{
+  pseudo: "Phil",
+  email: "philippe.perret@yahoo.fr",
+  password: "xadcaX-huvdo9-xidkun"
+}
+S.insert(:worker, phil_data)
 
-S.insert(:task, %{
-  project: %{title: "Tout premier projet"},
-  task: %{title: "Toute première tâche"}
-})
+# S.insert(:task, %{
+#   project: %{title: "Tout premier projet"},
+#   task: %{title: "Toute première tâche"}
+# })
