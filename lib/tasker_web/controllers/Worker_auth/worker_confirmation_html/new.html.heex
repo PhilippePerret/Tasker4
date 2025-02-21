@@ -1,20 +1,18 @@
-<div class="mx-auto max-w-sm">
-  <h2>
-    No confirmation instructions received?
-    <div class="subtitle">We'll send a new confirmation link to your inbox</div>
-  </h2>
+<h2>
+  <%= gettext("No confirmation instructions received?") %>
+</h2>
+<div class="subtitle"><%= gettext("We'll send a new confirmation link to your inbox") %></div>
 
-  <.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/confirm"}>
-    <.input field={f[:email]} type="email" placeholder="Email" required />
-    <:actions>
-      <.button phx-disable-with="Sending..." class="w-full">
-        Resend confirmation instructions
-      </.button>
-    </:actions>
-  </.simple_form>
+<.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/confirm"}>
+  <.input field={f[:email]} type="email" placeholder={gettext("Email")} required />
+  <:actions>
+    <.button phx-disable-with={gettext("Sending...")}>
+      <%= gettext("Resend confirmation instructions") %>
+    </.button>
+  </:actions>
+</.simple_form>
 
-  <p class="text-center mt-4">
-    <.link href={~p"/workers/register"}>Register</.link>
-    | <.link href={~p"/workers/log_in"}>Log in</.link>
-  </p>
-</div>
+<p class="text-center mt-4">
+  <.link href={~p"/workers/register"}><%= gettext("Register") %></.link>
+  | <.link href={~p"/workers/log_in"}><%= gettext("Log in") %></.link>
+</p>

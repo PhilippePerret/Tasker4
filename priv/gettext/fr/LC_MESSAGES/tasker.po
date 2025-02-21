@@ -104,7 +104,7 @@ msgstr "Projet"
 msgid "Remove"
 msgstr "Détruire"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:65
+#: lib/tasker_web/controllers/Tache/task_html.ex:66
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr "Enregistrer la tâche"
@@ -120,12 +120,12 @@ msgstr "Tâche"
 msgid "Task Title"
 msgstr "Titre de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:77
+#: lib/tasker_web/controllers/Tache/task_controller.ex:76
 #, elixir-autogen, elixir-format
 msgid "Task deleted successfully."
 msgstr "Tâche supprimée."
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:64
+#: lib/tasker_web/controllers/Tache/task_controller.ex:63
 #, elixir-autogen, elixir-format
 msgid "Task updated successfully."
 msgstr "Tâche modifiée."
@@ -160,17 +160,17 @@ msgstr "Urgence"
 msgid "New"
 msgstr "Nouveau"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:103
+#: lib/tasker_web/controllers/Tache/task_html.ex:104
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr "Durée d'exécution"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:112
+#: lib/tasker_web/controllers/Tache/task_html.ex:113
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr "Statut temporel de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:367
+#: lib/tasker_web/controllers/Tache/task_html.ex:368
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr "Abandonnée le"
@@ -185,37 +185,37 @@ msgstr "Tâche créée avec succès."
 msgid "Task notepad"
 msgstr "Blocnotes"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:41
+#: lib/tasker_web/controllers/Tache/task_controller.ex:40
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Please enter at least a title for the task!"
 msgstr "Merci de donner au moins un titre à cette tâche !"
 
-#: lib/tasker/tache/task_time.ex:93
+#: lib/tasker/tache/task_time.ex:94
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{should_start_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:81
+#: lib/tasker/tache/task_time.ex:82
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{started_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:66
+#: lib/tasker/tache/task_time.ex:67
 #, elixir-autogen, elixir-format
 msgid "cannot be set: abandonment date already defined"
 msgstr "la date d'abandon est déjà définie !"
 
-#: lib/tasker/tache/task_time.ex:72
+#: lib/tasker/tache/task_time.ex:73
 #, elixir-autogen, elixir-format
 msgid "cannot be set: end date already defined"
 msgstr "la date de fin est déjà définie !"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:136
+#: lib/tasker_web/controllers/Tache/task_html.ex:137
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr "Enregistrer cette note"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#: lib/tasker_web/controllers/Tache/task_controller.ex:195
 #, elixir-autogen, elixir-format
 msgid "Repeat this task"
 msgstr "Répéter cette tâche"
@@ -230,42 +230,42 @@ msgstr "Fin"
 msgid "Start"
 msgstr "Début"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:414
+#: lib/tasker_web/controllers/Tache/task_html.ex:419
 #, elixir-autogen, elixir-format
 msgid "All the tasks above can only be executed after the execution of this task."
 msgstr "Toutes les tâches ci-dessus ne pourront être exécutées qu’après l’exécution de cette tâche-ci."
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:390
+#: lib/tasker_web/controllers/Tache/task_html.ex:394
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Next Tasks"
 msgstr "Tâches après"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:389
+#: lib/tasker_web/controllers/Tache/task_html.ex:393
 #, elixir-autogen, elixir-format
 msgid "Previous Tasks"
 msgstr "Tâches avant"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:411
+#: lib/tasker_web/controllers/Tache/task_html.ex:416
 #, elixir-autogen, elixir-format
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr "La tâche éditée ne pourra être exécutée qu’après la réalisation de toutes les tâches ci-dessus."
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:202
+#: lib/tasker_web/controllers/Tache/task_controller.ex:196
 #, elixir-autogen, elixir-format
 msgid "No task selected, I’m stopping here."
 msgstr "Aucune tâche choisie, je m'arrête là."
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:204
+#: lib/tasker_web/controllers/Tache/task_controller.ex:197
 #, elixir-autogen, elixir-format
 msgid "No tasks found. Therefore, none can be selected."
 msgstr "Aucune tâche trouvée. Impossible donc d'en choisir."
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:206
+#: lib/tasker_web/controllers/Tache/task_controller.ex:198
 #, elixir-autogen, elixir-format
 msgid "Select tasks"
 msgstr "Choisir les tâches"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:391
+#: lib/tasker_web/controllers/Tache/task_html.ex:395
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task flow"
 msgstr "Tâche"

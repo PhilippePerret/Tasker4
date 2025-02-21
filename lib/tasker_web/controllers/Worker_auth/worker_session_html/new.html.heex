@@ -1,30 +1,28 @@
-<div class="mx-auto max-w-sm">
-  <h2>
-    Log in to account
-    <div class="subtitle">
-      Don't have an account?
-      <.link navigate={~p"/workers/register"} class="font-semibold text-brand hover:underline">
-        Sign up
+<h2><%= gettext("Log in to account") %></h2>
+<div>
+  <div class="subtitle">
+      <%= gettext("Don't have an account?") %>
+      <.link navigate={~p"/workers/register"}>
+        <%= gettext("Sign up") %>
       </.link>
-      for an account now.
+      <%= gettext("for an account now") %>.
     </div>
-  </h2>
 
   <.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/log_in"}>
     <.error :if={@error_message}>{@error_message}</.error>
 
-    <.input field={f[:email]} type="email" label="Email" required />
-    <.input field={f[:password]} type="password" label="Password" required />
+    <.input field={f[:email]} type="email" label={gettext("Email")} required />
+    <.input field={f[:password]} type="password" label={gettext("Password")} required />
 
     <:actions :let={f}>
-      <.input field={f[:remember_me]} type="checkbox" label="Keep me logged in" />
-      <.link href={~p"/workers/reset_password"} class="text-sm font-semibold">
-        Forgot your password?
+      <.input field={f[:remember_me]} type="checkbox" label={gettext("Keep me logged in")} />
+      <.link href={~p"/workers/reset_password"}>
+        <%= gettext("Forgot your password?") %>
       </.link>
     </:actions>
     <:actions>
-      <.button phx-disable-with="Logging in..." class="w-full">
-        Log in <span aria-hidden="true">→</span>
+      <.button phx-disable-with={gettext("Logging in...")}>
+        <%= gettext("Log in") %> <span aria-hidden="true">→</span>
       </.button>
     </:actions>
   </.simple_form>

@@ -38,11 +38,21 @@ msgid "close"
 msgstr "fermeture"
 
 #: lib/tasker_web/components/layouts/root.html.heex:38
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:10
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:16
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:23
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Register"
 msgstr "Inscription"
 
 #: lib/tasker_web/components/layouts/root.html.heex:43
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:11
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:17
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:5
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:24
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:17
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "Log in"
 msgstr "Identification"
@@ -57,82 +67,82 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:370
+#: lib/tasker_web/controllers/Tache/task_html.ex:371
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:372
+#: lib/tasker_web/controllers/Tache/task_html.ex:373
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:378
+#: lib/tasker_web/controllers/Tache/task_html.ex:379
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:377
+#: lib/tasker_web/controllers/Tache/task_html.ex:378
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:374
+#: lib/tasker_web/controllers/Tache/task_html.ex:375
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:52
+#: lib/tasker_web/controllers/Tache/task_html.ex:53
 #, elixir-autogen, elixir-format
 msgid "As soon as possible (urgency)"
 msgstr "Dès que possible"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:53
+#: lib/tasker_web/controllers/Tache/task_html.ex:54
 #, elixir-autogen, elixir-format
 msgid "Can wait (urgency)"
 msgstr "Peut attendre"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:49
+#: lib/tasker_web/controllers/Tache/task_html.ex:50
 #, elixir-autogen, elixir-format
 msgid "Critical (urgency)"
 msgstr "Très urgente"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:51
+#: lib/tasker_web/controllers/Tache/task_html.ex:52
 #, elixir-autogen, elixir-format
 msgid "Time-sensitive (urgency)"
 msgstr "Pressée"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:50
+#: lib/tasker_web/controllers/Tache/task_html.ex:51
 #, elixir-autogen, elixir-format
 msgid "Urgent (urgency)"
 msgstr "Urgente"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:38
+#: lib/tasker_web/controllers/Tache/task_html.ex:39
 #, elixir-autogen, elixir-format, fuzzy
 msgid "absolute (priority)"
 msgstr "absolue"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:39
+#: lib/tasker_web/controllers/Tache/task_html.ex:40
 #, elixir-autogen, elixir-format, fuzzy
 msgid "high (priority)"
 msgstr "haute"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:42
+#: lib/tasker_web/controllers/Tache/task_html.ex:43
 #, elixir-autogen, elixir-format, fuzzy
 msgid "low (priority)"
 msgstr "faible"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:41
+#: lib/tasker_web/controllers/Tache/task_html.ex:42
 #, elixir-autogen, elixir-format, fuzzy
 msgid "normal (priority)"
 msgstr "normale"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:40
+#: lib/tasker_web/controllers/Tache/task_html.ex:41
 #, elixir-autogen, elixir-format, fuzzy
 msgid "secondary (priority)"
 msgstr "secondaire"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:43
+#: lib/tasker_web/controllers/Tache/task_html.ex:44
 #, elixir-autogen, elixir-format, fuzzy
 msgid "very low (priority)"
 msgstr "très faible"
@@ -143,32 +153,219 @@ msgstr "très faible"
 msgid "[SPACE]"
 msgstr " "
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:267
+#: lib/tasker_web/controllers/Tache/task_html.ex:268
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr "Tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:211
+#: lib/tasker_web/controllers/Tache/task_controller.ex:202
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:213
+#: lib/tasker_web/controllers/Tache/task_controller.ex:204
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr "Résumé"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:212
+#: lib/tasker_web/controllers/Tache/task_controller.ex:203
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
 msgstr "toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:210
+#: lib/tasker_web/controllers/Tache/task_controller.ex:201
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
 msgstr "Toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:220
+#: lib/tasker_web/controllers/Tache/task_html.ex:221
 #, elixir-autogen, elixir-format
 msgid "Duration"
-msgstr ""
+msgstr "Drée"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Account Settings"
+msgstr "Réglages"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Already registered?"
+msgstr "Déjà inscrit ?"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:26
+#, elixir-autogen, elixir-format
+msgid "Change Email"
+msgstr "Changer l'email"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:61
+#, elixir-autogen, elixir-format
+msgid "Change Password"
+msgstr "Changer le mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:25
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:61
+#, elixir-autogen, elixir-format
+msgid "Changing..."
+msgstr "Modification…"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Confirm account"
+msgstr "Confirmez le compte"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:5
+#, elixir-autogen, elixir-format
+msgid "Confirm my account"
+msgstr "Confirmer mon compte"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:12
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:48
+#, elixir-autogen, elixir-format
+msgid "Confirm new password"
+msgstr "Confirmer le nouveau mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "Create an account"
+msgstr "Créer un compte"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Creating account..."
+msgstr "Création du compte…"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:56
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Current password"
+msgstr "Mot de passe courant"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Don't have an account?"
+msgstr "Vous n'avez pas de compte ?"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:7
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:16
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:14
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Email"
+msgstr "E-mail"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:1
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié ?"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Keep me logged in"
+msgstr "Me laisser connecté"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Log in to account"
+msgstr "S'identifier"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:24
+#, elixir-autogen, elixir-format
+msgid "Logging in..."
+msgstr "Identification…"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "Manage your account email address and password settings"
+msgstr "Gérez votre compte (adresse email et mot de passe)"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "New Password"
+msgstr "Nouveau mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:44
+#, elixir-autogen, elixir-format
+msgid "New password"
+msgstr "Nouveau mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:2
+#, elixir-autogen, elixir-format
+msgid "No confirmation instructions received?"
+msgstr "Vous n'avez pas reçu les instructions de confirmation ?"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:13
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:5
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:10
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:39
+#, elixir-autogen, elixir-format
+msgid "Oops, something went wrong! Please check the errors below."
+msgstr "Merci de corriger les erreurs ci-dessous."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:17
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Password"
+msgstr "Mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Register for an account"
+msgstr "S'inscrire"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Resend confirmation instructions"
+msgstr "Envoyer à nouveau les instructions de confirmation"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Reset Password"
+msgstr "Réinitialiser le mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Reset password"
+msgstr "Réinitialiser le mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "Resetting..."
+msgstr "Ré-initialisation…"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:10
+#, elixir-autogen, elixir-format
+msgid "Send password reset instructions"
+msgstr "Envoyer les instructions de ré-initialisation du mot de passe"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:9
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:9
+#, elixir-autogen, elixir-format
+msgid "Sending..."
+msgstr "Envoi…"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:6
+#, elixir-autogen, elixir-format
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "We'll send a new confirmation link to your inbox"
+msgstr "Un nouveau lien de confirmation vous a été envoyé"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:3
+#, elixir-autogen, elixir-format
+msgid "We'll send a password reset link to your inbox"
+msgstr "Un lien de ré-initialisation du mot de passe vous a été envoyé"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:8
+#, elixir-autogen, elixir-format
+msgid "for an account now"
+msgstr "pour un compte maintenant"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:7
+#, elixir-autogen, elixir-format
+msgid "to your account now"
+msgstr "à votre compte maintenant"

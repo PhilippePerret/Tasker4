@@ -1,20 +1,18 @@
-<div class="mx-auto max-w-sm">
-  <h2>
-    Forgot your password?
-    <div class="subtitle">We'll send a password reset link to your inbox</div>
-  </h2>
-
-  <.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/reset_password"}>
-    <.input field={f[:email]} type="email" placeholder="Email" required />
-    <:actions>
-      <.button phx-disable-with="Sending..." class="w-full">
-        Send password reset instructions
-      </.button>
-    </:actions>
-  </.simple_form>
-
-  <p class="text-center text-sm mt-4">
-    <.link href={~p"/workers/register"}>Register</.link>
-    | <.link href={~p"/workers/log_in"}>Log in</.link>
-  </p>
+<h2><%= gettext("Forgot your password?") %></h2>
+<div class="subtitle">
+  <%= gettext("We'll send a password reset link to your inbox") %>
 </div>
+
+<.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/reset_password"}>
+  <.input field={f[:email]} type="email" placeholder="Email" required />
+  <:actions>
+    <.button phx-disable-with={gettext("Sending...")}>
+      <%= gettext("Send password reset instructions") %>
+    </.button>
+  </:actions>
+</.simple_form>
+
+<p class="text-center text-sm mt-4">
+  <.link href={~p"/workers/register"}><%= gettext("Register") %></.link>
+  | <.link href={~p"/workers/log_in"}><%= gettext("Log in") %></.link>
+</p>
