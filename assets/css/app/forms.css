@@ -69,9 +69,12 @@ div.buttons {
 
 div.bloc-form label {
   display:inline-block;
-  width: 180px;
   color: #999999;
   font-style:italic;
+}
+/* TODO Voir ici si c'est cette profondeur, mais ne pas mettre partout cette largeur */
+div.bloc-form > div > div> label {
+  width: 180px;
 }
 
 div.bloc-form > div {
