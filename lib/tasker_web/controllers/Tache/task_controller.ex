@@ -152,7 +152,7 @@ defmodule TaskerWeb.TaskController do
     "Repeat this task", "No task selected, I’m stopping here.",
     "No tasks found. Therefore, none can be selected.", "Select tasks"]}
   @locales_ilya {"ilya", ~w(minute hour day week month minutes hours days weeks months monday tuesday wednesday thursday friday saturday sunday) ++ ["on (day)"]}
-  defp ensure_fichier_locales_JS do
+  def ensure_fichier_locales_JS do
     locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
     if not File.exists?(locale_js_path) do
       Gettext.put_locale(Gettext.get_locale(TaskerWeb.Gettext))

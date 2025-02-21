@@ -15,6 +15,7 @@ defmodule Tasker.Repo.Migrations.CreateTaskTimes do
       add :expect_duration, :integer
       add :execution_time, :integer
       add :task_id, references(:tasks, on_delete: :delete_all, type: :binary_id)
+      add :deadline_trigger, :boolean, default: true
 
       timestamps(type: :utc_datetime)
     end

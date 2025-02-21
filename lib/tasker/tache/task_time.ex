@@ -17,6 +17,7 @@ defmodule Tasker.Tache.TaskTime do
     field :recurrence, :string
     field :expect_duration, :integer
     field :execution_time, :integer
+    field :deadline_trigger, :boolean, default: true
     belongs_to :task, Tasker.Tache.Task
 
     timestamps(type: :utc_datetime)

@@ -5,6 +5,7 @@ defmodule Tasker.Repo.Migrations.CreateTaskSpecs do
     create table(:task_specs, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :details, :text
+      add :difficulty, :integer, default: nil
       add :task_id, references(:tasks, on_delete: :nothing, type: :binary_id)
 
       timestamps(type: :utc_datetime)

@@ -8,6 +8,7 @@ defmodule Tasker.Tache.TaskSpec do
   @foreign_key_type :binary_id
   schema "task_specs" do
     field :details, :string
+    field :difficulty, :integer, default: nil
     belongs_to :task, Tasker.Tache.Task
     many_to_many :notes, Tasker.ToolBox.Note, join_through: NoteTaskSpec
 
