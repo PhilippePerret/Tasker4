@@ -60,17 +60,10 @@ defmodule Tasker.Accounts do
     Repo.insert!(
       struct(
         WorkerSettings, 
-        Map.put(default_worker_settings(:json), :worker_id, worker.id)
+        Map.put(default_worker_settings(), :worker_id, worker.id)
       )
     )
     {:ok, worker} 
-  end
-
-  defp default_worker_settings(:json) do
-    [:display_prefs, :interaction_prefs, :task_prefs, :project_prefs, :divers_prefs
-    ] |> Enum.reduce(default_worker_settings(), fn key, accu ->
-      %{accu | key => Jason.encode!(accu[key])}
-    end)
   end
 
   @doc """
@@ -89,6 +82,7 @@ defmodule Tasker.Accounts do
         max_tasks_count: 100,
         filter_on_duree: false, # false|:long|:short|:medium
         same_nature: :enable_same_nature, # :never_same_nature|:avoid_same_nature
+        custom_natures: [] # liste des natures personnelles
       },
       project_prefs: %{
 

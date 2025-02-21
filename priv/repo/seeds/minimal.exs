@@ -6,7 +6,8 @@ defmodule Tasker.Seed do
 
   def insert(:worker, attrs) do
     attrs = Map.put(attrs, :hashed_password, Bcrypt.hash_pwd_salt(attrs.password))
-    Tasker.Repo.insert!(struct(Tasker.Accounts.Worker, attrs))
+    Tasker.Accounts.create_worker(attrs)
+    # Tasker.Repo.insert!(struct(Tasker.Accounts.Worker, attrs))
   end
   def insert(:project, attrs) do
     Tasker.Repo.insert!(struct(Tasker.Projet.Project, attrs))

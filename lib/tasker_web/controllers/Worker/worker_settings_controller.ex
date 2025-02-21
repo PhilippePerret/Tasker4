@@ -2,7 +2,7 @@ defmodule TaskerWeb.WorkerSettings do
   use TaskerWeb, :controller
 
   alias Tasker.Accounts
-  alias Tasker.Accounts.Worker
+  # alias Tasker.Accounts.Worker
 
   @doc """
   Affichage et réglage des préférences
