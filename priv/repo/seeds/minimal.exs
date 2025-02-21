@@ -8,7 +8,7 @@ defmodule Tasker.Seed do
     Tasker.Repo.insert!(struct(Tasker.Worker, attrs))
   end
   def insert(:project, attrs) do
-    Tasker.Repo.insert!(struct(Tasker.Project, attrs))
+    Tasker.Repo.insert!(struct(Tasker.Projet.Project, attrs))
   end
   def insert(:task_spec, attrs) do
     Tasker.Repo.insert!(struct(Tasker.Tache.TaskSpec, attrs))

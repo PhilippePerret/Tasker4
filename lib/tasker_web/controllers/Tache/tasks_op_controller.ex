@@ -19,7 +19,7 @@ defmodule TaskerWeb.TasksOpController do
   end
 
 
-  defp uuid(uuid_str), do: Ecto.UUID.dump!(uuid_str)
+  # defp uuid(uuid_str), do: Ecto.UUID.dump!(uuid_str)
 
   @doc """
   L'opération proprement dit, à exécuter sur la ou les tâches.
@@ -33,12 +33,12 @@ defmodule TaskerWeb.TasksOpController do
                 tretient la tâche avec les autres tâches (aussi bien
                 celles avant qu'après)
   """
-  defp exec_op("save_relations", %{"relations" => relations, "task_id" => task_id} = params) do
+  def exec_op("save_relations", %{"relations" => relations, "task_id" => task_id}) do
     case Repo.transaction(fn ->
       delete_all_dependencies_of(task_id)
       update_all_dependencies_with(relations)
     end) do
-      {nombre_rows, _} -> 
+      {_nombre_rows, _} -> 
         %{ok: true, dependencies: Tache.get_dependencies(task_id)}
       {:error, exception} -> 
         IO.puts(:stderr, exception)
