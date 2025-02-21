@@ -12,6 +12,7 @@ defmodule TaskerWeb.TaskHTML do
   attr :action, :string, required: true
   attr :projects, :list, required: true
   attr :lang, :string, required: true
+  attr :data, :map, required: true
 
   def task_form(assigns)
 
@@ -59,13 +60,31 @@ defmodule TaskerWeb.TaskHTML do
   @doc """
   Composant HEX pour la liste des natures
   """
-  attr :changeset, Ecto.Changeset, required: true
+  attr :natures, :map, required: true
   attr :lang, :string, required: true
 
   def natures_select(assigns) do
+    # IO.inspect(assigns.natures, label: "\nASSIGNS in natures_select")
+    assigns = assigns
+    |> assign(:title, dgettext("natures", "Natures"))
+    |> assign(:options_natures, options_natures(assigns.natures))
+
     ~H"""
-    <div>Liste des natures</div>
+    <label>{@title}</label>
+    <select id="task-natures">
+      <option value="---">---</option>
+      {@options_natures}
+    </select>
     """
+  end
+  defp options_natures(map_natures) do
+    map_natures
+    |> Enum.map(fn {key, value} ->
+      IO.puts "option '#{key}' => '#{value}'"
+      ~s(<option value="#{key}">#{Gettext.dgettext(TaskerWeb.Gettext, "nature", value)}</option>)
+    end)
+    |> Enum.join("")
+    |> IO.inspect(label: "Les menus")
   end
 
   @doc """

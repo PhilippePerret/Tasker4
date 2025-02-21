@@ -112,10 +112,15 @@ defmodule TaskerWeb.TaskController do
   end
 
   defp common_conn_render(conn, action, task_changeset) do
+
+    data = %{
+      natures: get_list_natures(conn.assigns.current_worker)
+    }
+
     ensure_fichier_locales_JS()
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
-    |> assign(:natures, get_list_natures(conn.assigns.current_worker))
+    |> assign(:data, data)
     |> assign(:task, (action == :new) && nil || task_changeset.data)
     |> assign(:changeset, task_changeset)
     |> assign(:lang, Gettext.get_locale(TaskerWeb.Gettext))
