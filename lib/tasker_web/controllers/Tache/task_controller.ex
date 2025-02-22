@@ -201,11 +201,12 @@ defmodule TaskerWeb.TaskController do
       |> Jason.encode!()
       IO.inspect(table_locale, label: "\ntable_locale")
       File.write(locale_js_path, "const LANG = " <> table_locale)
+      # Juste pour éviter le warning qui dit que la fonction n'est
+      # pas appelée
+      _ = liste_locales_fictives()
     end
   end
 
-  @compile {:no_warn_undefined, {__MODULE__, :liste_locales_fictives, 0}}
-  
   # Simplement pour faire connaitre à Gettext les locales qu'on va 
   # utiliser seulement en javascript (donc non définie)
   # Rappel : quand une locale est supprimée du code, elle est sup-
