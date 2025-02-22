@@ -25,8 +25,10 @@ class Task {
     // On crée une instance pour gérer les dépendances
     this.taskDeps = new TaskDependencies()
     this.taskDeps.init()
+
+    this.menuNatures && this.initNaturesValues()
     
-  }
+  } // init
 
   static get fieldDureeUnit(){return DGet('select#task_time_exp_duree_unit')}
   static get fieldDureeValue(){return DGet('input#task_time_exp_duree_value')}
@@ -45,7 +47,7 @@ class Task {
    * @return true en cas de succès, pour pouvoir soumettre le formulaire.
    */
   static beforeSave(ev){
-    console.info("Ce que je dois faire avant de sauver.")
+    // console.info("Ce que je dois faire avant de sauver.")
     // Maintenant on ne fait plus rien puisque les valeurs sont 
     // consignées en direct
     return true
@@ -53,6 +55,64 @@ class Task {
   static stopEnterKey(ev){
     if (ev.key == 'Enter'){ return StopEvent(ev) }
   }
+
+  /**
+   * Fonction appelée à l'initialisation du formulaire, lorsque la
+   * tâche contient la donnée "natures", qui prépare le formulaire
+   * au niveau des natures. C'est-à-dire qui : 
+   *  - relève la valeur dans le champ caché
+   *  - règle l'affichage de la liste des natures correspondantes
+   *  - règle le select des natures.
+   */
+  static initNaturesValues(){
+    const natureIds = this.fieldNatures.value.split(",")
+    // console.info("natureIds", natureIds)
+    // this.menuNatures.selectedOptions = natureIds
+    this.setNaturesToMenu(natureIds)
+    this.displayTaskNatureList(this.getNaturesFromMenu())
+  }
+  static onCloseMenuNatures(){
+    this.onChangeNatures()
+    this.toggleMenuNatures()
+  }
+  static onChangeNatures(){
+    const natures = this.getNaturesFromMenu()
+    this.fieldNatures.value = Object.keys(natures).join(",")
+    this.displayTaskNatureList(natures)
+  }
+  static toggleMenuNatures(){
+    const blocNature = this.blocNatures
+    const isOpened = blocNature.dataset.state == 'opened'
+    blocNature.classList[isOpened?'add':'remove']('hidden')
+    blocNature.dataset.state = isOpened ? 'closed' : 'opened'
+  }
+  static displayTaskNatureList(natures){
+    natures = Object.values(natures || this.getNaturesFromMenu())
+    // console.info("natures", natures)
+    let msg;
+    if ( natures.length ) {
+      msg = Object.values(natures).join(", ") +
+            '<span class="explication"> ' + LANG["(click to edit)"] + '</span>.'
+    } else {
+      msg = LANG["tasker_Select natures"]
+    }
+    DGet('div#natures-list').innerHTML = msg
+  }
+  static setNaturesToMenu(natureIds){
+    natureIds.forEach(nat_id => {
+      this.menuNatures.querySelector(`option[value="${nat_id}"]`).selected = true
+    })
+  }
+  static getNaturesFromMenu(){
+    const natures = {}
+    Array.from(this.menuNatures.selectedOptions).forEach(option => {
+      Object.assign(natures, {[option.value]: option.text})
+    })
+    return natures
+  }
+  static get fieldNatures(){return DGet('input#natures-value')}
+  static get blocNatures(){return DGet('div#natures-select-container')}
+  static get menuNatures(){return DGet('select#task-natures-select')}
 
 
   // ============ INSTANCE TASK ================
@@ -69,7 +129,8 @@ class Notes {
   static create(){
     const title = DGet('#new_note_title').value.trim()
     if ( title == "" ) {
-      return alert("Il faut donner un titre à la note !")
+      return alert(LANG["tasker_A title must be given to the note!"])
+      // 
     }
     const details = DGet('#new_note_details').value
     const taskSpecId = DGet('#new_note_task_spec_id')
@@ -124,7 +185,7 @@ class TaskDependencies {
   }
   loadData(){
     this.data = JSON.parse(this.fieldData.value)
-    console.info("Data dépendances", this.data)
+    // console.info("Data dépendances", this.data)
   }
 
   dispatchData(){
@@ -188,9 +249,9 @@ class TaskDependencies {
       const tasks = data.tasks
       const cols = tasks.shift()
       const task_list = []
-      console.log("-> avant boucle")
+      // console.log("-> avant boucle")
       for ( var dtask of tasks ) {
-        console.log("Dans boucle", dtask)
+        // console.log("Dans boucle", dtask)
         const task = {}
         for ( var icol in cols ) {
           task[cols[icol]] = dtask[icol]
@@ -308,13 +369,13 @@ class TaskDependencies {
         , callback: this.afterSavedDependencies.bind(this)
       })
     } else {
-      Flash.error("Incohérences dans les dépendances. Je ne peux pas les enregistrer.")
+      Flash.error(LANG["tasker_Inconsistencies in dependencies. I cannot save them."])
     }
   }
   afterSavedDependencies(rData){
     if ( rData.ok ) {
       // TODO Procéder à l'affichage
-      console.info("Retour sauvegarde dépendances avec", rData)
+      // console.info("Retour sauvegarde dépendances avec", rData)
       // Actualiser la liste des relations de la tâche courante
       this.data = rData.dependencies
       this.dispatchData()
@@ -338,7 +399,9 @@ class TaskDependencies {
       deps.forEach(paire => {
         const [avant, apres] = paire
         if (avant == apres) {
-          throw new Error("Une tâche ne peut être dépendante d'elle-même.")
+          throw new Error(
+            LANG["tasker_A task cannot be dependent on itself."]
+          )
         }
       })
       for (var i = 0; i < deps_len - 1; ++i) {
@@ -346,7 +409,7 @@ class TaskDependencies {
         for (var ii = i+1; ii < deps_len; ++ii ) {
           const [autreAvant, autreApres] = deps[ii]
           if ( autreAvant == apres && autreApres == avant ) {
-            throw new Error("Double dépendance entre la tâche " + avant + " et la tâche " + apres + ".")
+            throw new Error(LANG["tasker_Double dependency between task __BEFORE__ and task __AFTER__."].replace("__BEFORE__", avant).replace("__AFTER__", apres))
           }
         }
       }
@@ -538,7 +601,6 @@ class Repeat {
       }
       dataReleve[prop] = value ;
     })
-    console.info("dataReleve =", dataReleve)
 
     const ufreq = dataReleve.uFreq
     cronData.uFreq      = ufreq
@@ -550,7 +612,6 @@ class Repeat {
       cronData.mDay = dataReleve.mDay
     }
     if ( ['month', 'year'].includes(ufreq)) { cronData.yMonth = dataReleve.yMonth }
-    console.info("conData = ", cronData)
     return cronData
   }
   /**

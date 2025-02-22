@@ -14,8 +14,6 @@ defmodule Tasker.Repo.Migrations.CreateTaskNatures do
     create table(:tasks_natures) do
       add :task_id, references(:tasks, on_delete: :delete_all, type: :binary_id)
       add :nature_id, references(:task_natures, on_delete: :delete_all, type: :string)
-    
-      timestamps()
     end
     
     create unique_index(:tasks_natures, [:task_id, :nature_id])

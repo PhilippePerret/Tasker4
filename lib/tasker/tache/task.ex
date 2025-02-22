@@ -10,6 +10,11 @@ defmodule Tasker.Tache.Task do
     belongs_to :project, Tasker.Projet.Project, type: :binary_id
     has_one :task_spec, Tasker.Tache.TaskSpec
     has_one :task_time, Tasker.Tache.TaskTime
+    many_to_many :natures, 
+      Tasker.Tache.TaskNature, 
+      join_through: "tasks_natures",
+      on_replace: :delete,
+      join_keys: [task_id: :id, nature_id: :id]
 
     timestamps(type: :utc_datetime)
   end
@@ -18,6 +23,7 @@ defmodule Tasker.Tache.Task do
   def changeset(task, attrs) do
     task 
     |> cast(attrs, [:title, :project_id])
+    |> put_assoc(:natures, Map.get(attrs, "natures", []))
     |> cast_assoc(:task_spec)
     |> cast_assoc(:task_time)
     |> validate_required([:title])

@@ -67,27 +67,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:399
+#: lib/tasker_web/controllers/Tache/task_html.ex:415
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:401
+#: lib/tasker_web/controllers/Tache/task_html.ex:417
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:407
+#: lib/tasker_web/controllers/Tache/task_html.ex:423
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:406
+#: lib/tasker_web/controllers/Tache/task_html.ex:422
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:403
+#: lib/tasker_web/controllers/Tache/task_html.ex:419
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
@@ -153,35 +153,30 @@ msgstr "very low"
 msgid "[SPACE]"
 msgstr "</>"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:296
+#: lib/tasker_web/controllers/Tache/task_html.ex:312
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:235
+#: lib/tasker_web/controllers/Tache/task_controller.ex:272
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:237
+#: lib/tasker_web/controllers/Tache/task_controller.ex:274
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:236
+#: lib/tasker_web/controllers/Tache/task_controller.ex:273
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
 msgstr "every"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:234
+#: lib/tasker_web/controllers/Tache/task_controller.ex:271
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
 msgstr "every"
-
-#: lib/tasker_web/controllers/Tache/task_html.ex:249
-#, elixir-autogen, elixir-format
-msgid "Duration"
-msgstr ""
 
 #: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:1
 #, elixir-autogen, elixir-format
@@ -448,4 +443,14 @@ msgstr ""
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_controller.ex:22
 #, elixir-autogen, elixir-format
 msgid "you will receive an email with instructions shortly."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_controller.ex:275
+#, elixir-autogen, elixir-format
+msgid "(click to edit)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:265
+#, elixir-autogen, elixir-format
+msgid "Expected duration"
 msgstr ""

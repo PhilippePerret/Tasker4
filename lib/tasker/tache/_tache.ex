@@ -2,7 +2,6 @@ defmodule Tasker.Tache do
   @moduledoc """
   The Tache context.
   """
-
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
@@ -45,8 +44,8 @@ defmodule Tasker.Tache do
     Repo.get!(Task, id)
     |> Repo.preload(task_spec: [:notes])
     |> Repo.preload(:task_time)
+    |> Repo.preload(:natures)
     |> Map.put(:dependencies, get_dependencies(id))
-    # |> IO.inspect(label: "RELÈVE DANS get_task!")
   end
 
   @doc """
@@ -145,6 +144,7 @@ defmodule Tasker.Tache do
   def update_task(%Task{} = task, attrs) do
     task
     |> Task.changeset(attrs)
+    |> IO.inspect(label: "\nAprès changeset dans update_task")
     |> Repo.update()
   end
 

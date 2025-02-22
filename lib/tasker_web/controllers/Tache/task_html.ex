@@ -60,20 +60,36 @@ defmodule TaskerWeb.TaskHTML do
   @doc """
   Composant HEX pour la liste des natures
   """
+  attr :changeset, Ecto.Changeset, required: true
   attr :natures, :map, required: true
   attr :lang, :string, required: true
 
-  def natures_select(assigns) do
-    IO.inspect(assigns.natures, label: "\nASSIGNS in natures_select")
+  def bloc_natures(assigns) do
     assigns = assigns
     |> assign(:title, dgettext("natures", "Natures"))
     |> assign(:options_natures, options_natures(assigns.natures))
+    |> assign(:explication, dgettext("tasker", "Hold Meta Key to select multiple values."))
+    |> assign(:natures_choosed, assigns.changeset.data.natures||[])
+    |> assign(:bouton_choose, dgettext("tasker", "Choose task natures"))
 
     ~H"""
-    <label>{@title}</label>
-    <select id="task-natures" size="10" multiple>
-      {raw @options_natures}
-    </select>
+    <div id="natures-container" class="block" style="position:relative;">
+      <input id="natures-value" type="hidden" name="task[natures]" value={@natures_choosed} />
+      <label onclick="Task.toggleMenuNatures()">{@title}</label>
+      <div id="natures-list" onclick="Task.toggleMenuNatures()">[{@bouton_choose}]</div>
+      <div id="natures-select-container" class="hidden shadowed" style="position:absolute;top:1em;left:0;z-index:500;">
+        <select 
+          id="task-natures-select" 
+          size="10"
+          onchange="Task.onChangeNatures(this)" multiple>
+          {raw @options_natures}
+        </select>
+        <div class="buttons">
+          <button type="button" onclick="Task.onCloseMenuNatures()">OK</button>
+        </div>
+        <div class="explication">{@explication}</div>
+      </div>
+    </div>
     """
   end
   defp options_natures(map_natures) do
@@ -246,7 +262,7 @@ defmodule TaskerWeb.TaskHTML do
   def duration_field(assigns) do
     {duree_value, duree_unit} = format_expect_duration(assigns.expected_duration)
     assigns = assigns
-    |> assign(:duration_title, gettext("Duration"))
+    |> assign(:duration_title, gettext("Expected duration"))
     |> assign(:duree_value, duree_value)
     |> assign(:duree_unit, duree_unit)
 

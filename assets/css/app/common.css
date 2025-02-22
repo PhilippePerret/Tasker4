@@ -1,3 +1,4 @@
+.block {display:block!important}
 .right {text-align: right;}
 .left {text-align: left}
 .fleft {float: left}
@@ -15,3 +16,16 @@
   font-style: italic;
   color: #AAAAAA;
 }
+
+.shadowed {
+  box-shadow: 5px 5px 5px 5px #CCC;
+  background-color:white;
+  z-index:100;
+}
+
+.explication {
+  font-size: 13pt;
+  font-style:italic;
+  opacity: 0.5;
+}
+.explication:hover {opacity: 1}

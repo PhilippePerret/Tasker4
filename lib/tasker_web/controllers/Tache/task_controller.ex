@@ -1,8 +1,10 @@
 defmodule TaskerWeb.TaskController do
   use TaskerWeb, :controller
 
+  import Ecto.Query
+
   alias Tasker.{Repo, Tache}
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
 
   def index(conn, _params) do
     tasks = Tache.list_tasks() |> Repo.preload(:project)
@@ -49,13 +51,29 @@ defmodule TaskerWeb.TaskController do
 
 
   def update(conn, %{"id" => id, "task" => task_params}) do
-    IO.inspect(task_params, label: "-> update")
+    # IO.inspect(task_params, label: "-> update (params)")
     task_params = task_params
     |> convert_string_values_to_real_values()
     |> create_project_if_needed(conn)
     |> IO.inspect(label: "\nParamp à l'entrée de update")
 
     task = Tache.get_task!(id)
+
+    # Traiter les natures
+    # Note : pour les nouvelles, il faut les mettre dans les préfé-
+    # rences, mais ça serait bien de donner la possibilité d'en 
+    # créer des nouvelles dans le formulaire (champ qui servirait 
+    # aussi à les sélectionner dans la liste)
+    list_of_natures = task_params["natures"]
+    |> String.split(",")
+    |> Enum.map(fn nat_id ->
+      Repo.one!(from nt in TaskNature, where: nt.id == ^nat_id)
+    end)
+    # |> IO.inspect(label: "Structures natures")
+    task_params = Map.put(task_params, "natures", list_of_natures)
+
+    # Traiter les notes ?
+    # TODP
 
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
@@ -117,6 +135,13 @@ defmodule TaskerWeb.TaskController do
       natures: get_list_natures(conn.assigns.current_worker)
     }
 
+    natures_string = task_changeset.data.natures |> Enum.map(& &1.id) |> Enum.join(",")
+    IO.inspect(natures_string, label: "\nnatures_string")
+    task_changeset = %{task_changeset | data: %{task_changeset.data | natures: natures_string}}
+
+
+
+
     ensure_fichier_locales_JS()
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
@@ -177,10 +202,17 @@ defmodule TaskerWeb.TaskController do
   le contrôleur.
   """
   @locale_js_path Path.expand(Path.join(["priv","static","assets","js","_LOCALES_","locales-LANG.js"]))
-  @locales {nil, ~w(every every_fem Every Summary) ++ ["[SPACE]"]}
+  @locales {nil, ~w(every every_fem Every Summary) ++ ["[SPACE]", "(click to edit)"]}
   @locales_tasker {"tasker", [
+    "Double dependency between task __BEFORE__ and task __AFTER__.",
     "Repeat this task", "No task selected, I’m stopping here.",
-    "No tasks found. Therefore, none can be selected.", "Select tasks"]}
+    "Inconsistencies in dependencies. I cannot save them.",
+    "No tasks found. Therefore, none can be selected.", 
+    "A task cannot be dependent on itself.",
+    "A title must be given to the note!",
+    "Select tasks",
+    "Select natures"
+    ]}
   @locales_ilya {"ilya", ~w(minute hour day week month minutes hours days weeks months monday tuesday wednesday thursday friday saturday sunday) ++ ["on (day)"]}
   def ensure_fichier_locales_JS do
     locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
@@ -225,16 +257,22 @@ defmodule TaskerWeb.TaskController do
     dgettext("ilya", "saturday")
     dgettext("ilya", "sunday")
     # - tasker -
+    dgettext("tasker", "Double dependency between task __BEFORE__ and task __AFTER__.")
+    dgettext("tasker", "A task cannot be dependent on itself.")
+    dgettext("tasker", "Inconsistencies in dependencies. I cannot save them.")
+    dgettext("tasker", "A title must be given to the note!")
     dgettext("tasker", "Repeat this task")
     dgettext("tasker", "No task selected, I’m stopping here.")
     dgettext("tasker", "No tasks found. Therefore, none can be selected.")
     dgettext("tasker", "Select tasks")
-
+    dgettext("tasker", "Select natures")
+    
     # - common -
     gettext("Every_fem")
     gettext("every")
     gettext("every_fem")
     gettext("Summary")
+    gettext("(click to edit)")
   end
 
 end
