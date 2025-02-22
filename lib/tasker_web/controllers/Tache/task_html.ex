@@ -64,26 +64,25 @@ defmodule TaskerWeb.TaskHTML do
   attr :lang, :string, required: true
 
   def natures_select(assigns) do
-    # IO.inspect(assigns.natures, label: "\nASSIGNS in natures_select")
+    IO.inspect(assigns.natures, label: "\nASSIGNS in natures_select")
     assigns = assigns
     |> assign(:title, dgettext("natures", "Natures"))
     |> assign(:options_natures, options_natures(assigns.natures))
 
     ~H"""
     <label>{@title}</label>
-    <select id="task-natures">
-      <option value="---">---</option>
-      {@options_natures}
+    <select id="task-natures" size="10" multiple>
+      {raw @options_natures}
     </select>
     """
   end
   defp options_natures(map_natures) do
     map_natures
     |> Enum.map(fn {key, value} ->
-      ~s(<option value="#{key}">#{Gettext.dgettext(TaskerWeb.Gettext, "nature", value)}</option>)
+      ~s(<option value="#{key}">#{Gettext.dgettext(TaskerWeb.Gettext, "natures", value)}</option>)
     end)
     |> Enum.join("")
-    |> IO.inspect(label: "Les menus")
+    # |> IO.inspect(label: "Les menus")
   end
 
   @doc """

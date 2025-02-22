@@ -3,3 +3,9 @@
 */
 /* Marge bottom - mgb-X */
 .mgb-1 {margin-bottom:1em}
+
+/* Par exemple pour des labels avant des champs de formulaire */
+.ib-w-mid {
+  display: inline-block;
+  width: 200px;
+}

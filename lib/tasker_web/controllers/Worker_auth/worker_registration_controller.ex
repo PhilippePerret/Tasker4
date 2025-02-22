@@ -20,7 +20,7 @@ defmodule TaskerWeb.WorkerRegistrationController do
           )
 
         conn
-        |> put_flash(:info, "Worker created successfully.")
+        |> put_flash(:info, gettext("Worker created successfully."))
         |> WorkerAuth.log_in_worker(worker)
 
       {:error, %Ecto.Changeset{} = changeset} ->

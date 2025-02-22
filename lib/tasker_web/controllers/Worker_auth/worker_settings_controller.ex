@@ -25,7 +25,7 @@ defmodule TaskerWeb.WorkerSettingsController do
         conn
         |> put_flash(
           :info,
-          "A link to confirm your email change has been sent to the new address."
+          gettext("A link to confirm your email change has been sent to the new address.")
         )
         |> redirect(to: ~p"/workers/settings")
 
@@ -41,7 +41,7 @@ defmodule TaskerWeb.WorkerSettingsController do
     case Accounts.update_worker_password(worker, password, worker_params) do
       {:ok, worker} ->
         conn
-        |> put_flash(:info, "Password updated successfully.")
+        |> put_flash(:info, gettext("Password updated successfully."))
         |> put_session(:worker_return_to, ~p"/workers/settings")
         |> WorkerAuth.log_in_worker(worker)
 
@@ -54,12 +54,12 @@ defmodule TaskerWeb.WorkerSettingsController do
     case Accounts.update_worker_email(conn.assigns.current_worker, token) do
       :ok ->
         conn
-        |> put_flash(:info, "Email changed successfully.")
+        |> put_flash(:info, gettext("Email changed successfully."))
         |> redirect(to: ~p"/workers/settings")
 
       :error ->
         conn
-        |> put_flash(:error, "Email change link is invalid or it has expired.")
+        |> put_flash(:error, gettext("Email change link is invalid or it has expired."))
         |> redirect(to: ~p"/workers/settings")
     end
   end

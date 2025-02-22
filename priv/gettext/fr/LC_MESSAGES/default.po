@@ -52,7 +52,7 @@ msgstr "Inscription"
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:5
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:24
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:17
-#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:25
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "Log in"
 msgstr "Identification"
@@ -67,27 +67,27 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:400
+#: lib/tasker_web/controllers/Tache/task_html.ex:399
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:402
+#: lib/tasker_web/controllers/Tache/task_html.ex:401
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:408
+#: lib/tasker_web/controllers/Tache/task_html.ex:407
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:407
+#: lib/tasker_web/controllers/Tache/task_html.ex:406
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:404
+#: lib/tasker_web/controllers/Tache/task_html.ex:403
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
@@ -153,32 +153,32 @@ msgstr "très faible"
 msgid "[SPACE]"
 msgstr " "
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:297
+#: lib/tasker_web/controllers/Tache/task_html.ex:296
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr "Tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:234
+#: lib/tasker_web/controllers/Tache/task_controller.ex:235
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:236
+#: lib/tasker_web/controllers/Tache/task_controller.ex:237
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr "Résumé"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:235
+#: lib/tasker_web/controllers/Tache/task_controller.ex:236
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
 msgstr "toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:233
+#: lib/tasker_web/controllers/Tache/task_controller.ex:234
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
 msgstr "Toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:250
+#: lib/tasker_web/controllers/Tache/task_html.ex:249
 #, elixir-autogen, elixir-format
 msgid "Duration"
 msgstr "Durée"
@@ -244,7 +244,7 @@ msgstr "Mot de passe courant"
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:4
 #, elixir-autogen, elixir-format
 msgid "Don't have an account?"
-msgstr "Vous n'avez pas de compte ?"
+msgstr "Pas de compte ?"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:7
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:16
@@ -255,12 +255,12 @@ msgid "Email"
 msgstr "E-mail"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:1
-#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:19
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:21
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Keep me logged in"
 msgstr "Me laisser connecté"
@@ -270,7 +270,7 @@ msgstr "Me laisser connecté"
 msgid "Log in to account"
 msgstr "S'identifier"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:24
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Logging in..."
 msgstr "Identification…"
@@ -363,14 +363,89 @@ msgstr "Un lien de ré-initialisation du mot de passe vous a été envoyé"
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "for an account now"
-msgstr "pour un compte maintenant"
+msgstr "pour un compte"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:7
 #, elixir-autogen, elixir-format
 msgid "to your account now"
-msgstr "à votre compte maintenant"
+msgstr "à votre compte"
 
 #: lib/tasker_web/controllers/Worker/worker_prefs_html/show.html.heex:1
 #, elixir-autogen, elixir-format
 msgid "Worker Settings"
-msgstr ""
+msgstr "Vos réglages"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:28
+#, elixir-autogen, elixir-format
+msgid "A link to confirm your email change has been sent to the new address."
+msgstr "Un lien pour confirmer votre changement d'adresse a été envoyé à votre nouvelle adresse."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:62
+#, elixir-autogen, elixir-format
+msgid "Email change link is invalid or it has expired."
+msgstr "Le lien de changement d'adresse mail est invalide ou a expiré."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:57
+#, elixir-autogen, elixir-format
+msgid "Email changed successfully."
+msgstr "Adresse mail changé avec succès."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_controller.ex:21
+#, elixir-autogen, elixir-format
+msgid "If your email is in our system and it has not been confirmed yet, "
+msgstr "Si nous connaissons votre adresse mail, et que cela n'a pas encore été confirmé, "
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_controller.ex:23
+#, elixir-autogen, elixir-format
+msgid "If your email is in our system, you will receive instructions to reset your password shortly."
+msgstr "Si nous connaissons votre adresse mail, vous recevrez rapidement des instructions pour actualiser votre mot de passe."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_controller.ex:20
+#, elixir-autogen, elixir-format
+msgid "Invalid email or password"
+msgstr "Mot de passe ou adresse mail invalide"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_controller.ex:26
+#, elixir-autogen, elixir-format
+msgid "Logged out successfully."
+msgstr "Vous êtes déconnecté(e)"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_controller.ex:38
+#, elixir-autogen, elixir-format
+msgid "Password reset successfully."
+msgstr "Mot de passe réinitialisé avec succès."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:44
+#, elixir-autogen, elixir-format
+msgid "Password updated successfully."
+msgstr "Mot de passe actualisé avec succès."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_reset_password_controller.ex:53
+#, elixir-autogen, elixir-format
+msgid "Reset password link is invalid or it has expired."
+msgstr "Le lien de ré-initialisation du mot de passe est invalide ou a expiré."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_session_controller.ex:16
+#, elixir-autogen, elixir-format
+msgid "Welcome back!"
+msgstr "Bon retour !"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_controller.ex:51
+#, elixir-autogen, elixir-format
+msgid "Worker confirmation link is invalid or it has expired."
+msgstr "Le lien de confirmation du travailleur est invalide ou a expiré."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_controller.ex:37
+#, elixir-autogen, elixir-format
+msgid "Worker confirmed successfully."
+msgstr "Travailleur confirmé."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_registration_controller.ex:23
+#, elixir-autogen, elixir-format
+msgid "Worker created successfully."
+msgstr "Travailleur créé avec succès."
+
+#: lib/tasker_web/controllers/Worker_auth/worker_confirmation_controller.ex:22
+#, elixir-autogen, elixir-format
+msgid "you will receive an email with instructions shortly."
+msgstr "vous allez recevoir un mèl avec des instructions. "

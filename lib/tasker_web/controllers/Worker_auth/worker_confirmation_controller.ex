@@ -18,8 +18,8 @@ defmodule TaskerWeb.WorkerConfirmationController do
     conn
     |> put_flash(
       :info,
-      "If your email is in our system and it has not been confirmed yet, " <>
-        "you will receive an email with instructions shortly."
+      gettext("If your email is in our system and it has not been confirmed yet, ") <>
+        gettext("you will receive an email with instructions shortly.")
     )
     |> redirect(to: ~p"/")
   end
@@ -34,7 +34,7 @@ defmodule TaskerWeb.WorkerConfirmationController do
     case Accounts.confirm_worker(token) do
       {:ok, _} ->
         conn
-        |> put_flash(:info, "Worker confirmed successfully.")
+        |> put_flash(:info, gettext("Worker confirmed successfully."))
         |> redirect(to: ~p"/")
 
       :error ->
@@ -48,7 +48,7 @@ defmodule TaskerWeb.WorkerConfirmationController do
 
           %{} ->
             conn
-            |> put_flash(:error, "Worker confirmation link is invalid or it has expired.")
+            |> put_flash(:error, gettext("Worker confirmation link is invalid or it has expired."))
             |> redirect(to: ~p"/")
         end
     end

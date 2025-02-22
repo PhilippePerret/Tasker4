@@ -17,7 +17,7 @@
   <.input field={f[:title]} class={["full", "main"]} placeholder="Titre de la tâche" />
   
   <div class="inline-fields">
-    <.input id="project_id" field={f[:project_id]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
+    <.input id="project_id" field={f[:project_id]} class={["main"]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
     <.input field={f[:new_project]} style="width:200px;" label={ dgettext("tasker", "New") } />
   </div>
   

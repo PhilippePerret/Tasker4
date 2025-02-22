@@ -60,21 +60,29 @@ form:not(.max) {
   max-width: 840px;
   width: 840px;
 }
-form.max {max-width: 100%}
+div.max form, form.max {max-width: 100%}
+
+div.pink form {
+  border-color: pink;
+}
+div.medium form {
+  width: 40%!important;
+}
+div.medium form input:not([type="checkbox"]) {
+  width: 100%;
+}
+div.medium form div.bloc-form p {
+  margin-left: 0;
+}
+div.colored form {
+  border-color: cadetblue;
+  background-color: #8bd6d5 !important;
+}
+
 
 div.buttons {
   text-align: right;
   margin-top: 1em;
-}
-
-div.bloc-form label {
-  display:inline-block;
-  color: #999999;
-  font-style:italic;
-}
-/* TODO Voir ici si c'est cette profondeur, mais ne pas mettre partout cette largeur */
-div.bloc-form > div > div> label {
-  width: 180px;
 }
 
 div.bloc-form > div {
@@ -156,4 +164,28 @@ div.repeat-container {
 }
 div.repeat-container > div.repeat-form > div {
   margin: 8px 0;
+}
+
+form label {
+  display: block!important;
+  font-style: normal!important;
+  font-size: 14pt;
+}
+form div:not(.main) label {
+  color: #555555;
+  font-family: "Arial Narrow", Arial;
+}
+form div.main label {
+  font-family: "Arial black";
+  color: #333333;
+}
+/* div.input-checkbox-container est un div phoenix */
+div.input-checkbox-container > label {
+  font-family: inherit!important;
+  font-style: inherit!important;
+  font-size: inherit!important;
+  width: auto!important;
+}
+div.input-checkbox-container > label > input[type="checkbox"] {
+  margin-right: 1em;
 }

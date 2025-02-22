@@ -8,22 +8,22 @@
       <%= gettext("for an account now") %>.
     </div>
 
-  <.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/log_in"}>
+  <.simple_form :let={f} for={@conn.params["worker"]} as={:worker} action={~p"/workers/log_in"} class={~w(medium colored)}>
     <.error :if={@error_message}>{@error_message}</.error>
 
     <.input field={f[:email]} type="email" label={gettext("Email")} required />
     <.input field={f[:password]} type="password" label={gettext("Password")} required />
-
-    <:actions :let={f}>
-      <div class="fleft">
-        <.link href={~p"/workers/reset_password"}><%= gettext("Forgot your password?") %></.link>
-      </div>
-      <.input field={f[:remember_me]} type="checkbox" label={gettext("Keep me logged in")} />
-    </:actions>
+    <.input field={f[:remember_me]} type="checkbox" label={gettext("Keep me logged in")} />
     <:actions>
       <.button phx-disable-with={gettext("Logging in...")}>
-        <%= gettext("Log in") %> <span aria-hidden="true">→</span>
+        <%= gettext("Log in") %> <span aria-hidden="true"></span>
       </.button>
+    </:actions>
+
+    <:actions :let={f}>
+      <div class="left">
+        <.link href={~p"/workers/reset_password"}><%= gettext("Forgot your password?") %></.link>
+      </div>
     </:actions>
   </.simple_form>
 </div>

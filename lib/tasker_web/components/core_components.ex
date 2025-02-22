@@ -190,19 +190,24 @@ defmodule TaskerWeb.CoreComponents do
     include: ~w(autocomplete name rel action enctype method novalidate target multipart),
     doc: "the arbitrary HTML attributes to apply to the form tag"
 
+  # Pour pouvoir définir une class
+  attr :class, :string
+
   slot :inner_block, required: true
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
   def simple_form(assigns) do
     ~H"""
-    <.form :let={f} for={@for} as={@as} {@rest}>
-      <div class="bloc-form">
-        <%= render_slot(@inner_block, f) %>
-        <div :for={action <- @actions} class="actions">
-          <%= render_slot(action, f) %>
+    <div class={@class}>
+      <.form :let={f} for={@for} as={@as} {@rest}>
+        <div class="bloc-form">
+          <%= render_slot(@inner_block, f) %>
+          <div :for={action <- @actions} class="actions">
+            <%= render_slot(action, f) %>
+          </div>
         </div>
-      </div>
-    </.form>
+      </.form>
+    </div>
     """
   end
 

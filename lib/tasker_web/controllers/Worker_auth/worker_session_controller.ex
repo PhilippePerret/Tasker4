@@ -13,17 +13,17 @@ defmodule TaskerWeb.WorkerSessionController do
 
     if worker = Accounts.get_worker_by_email_and_password(email, password) do
       conn
-      |> put_flash(:info, "Welcome back!")
+      |> put_flash(:info, gettext("Welcome back!"))
       |> WorkerAuth.log_in_worker(worker, worker_params)
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.
-      render(conn, :new, error_message: "Invalid email or password")
+      render(conn, :new, error_message: gettext("Invalid email or password"))
     end
   end
 
   def delete(conn, _params) do
     conn
-    |> put_flash(:info, "Logged out successfully.")
+    |> put_flash(:info, gettext("Logged out successfully."))
     |> WorkerAuth.log_out_worker()
   end
 end
