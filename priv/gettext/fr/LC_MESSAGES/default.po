@@ -67,82 +67,82 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:371
+#: lib/tasker_web/controllers/Tache/task_html.ex:400
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:373
+#: lib/tasker_web/controllers/Tache/task_html.ex:402
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:379
+#: lib/tasker_web/controllers/Tache/task_html.ex:408
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:378
+#: lib/tasker_web/controllers/Tache/task_html.ex:407
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:375
+#: lib/tasker_web/controllers/Tache/task_html.ex:404
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:53
+#: lib/tasker_web/controllers/Tache/task_html.ex:54
 #, elixir-autogen, elixir-format
 msgid "As soon as possible (urgency)"
 msgstr "Dès que possible"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:54
+#: lib/tasker_web/controllers/Tache/task_html.ex:55
 #, elixir-autogen, elixir-format
 msgid "Can wait (urgency)"
 msgstr "Peut attendre"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:50
+#: lib/tasker_web/controllers/Tache/task_html.ex:51
 #, elixir-autogen, elixir-format
 msgid "Critical (urgency)"
 msgstr "Très urgente"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:52
+#: lib/tasker_web/controllers/Tache/task_html.ex:53
 #, elixir-autogen, elixir-format
 msgid "Time-sensitive (urgency)"
 msgstr "Pressée"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:51
+#: lib/tasker_web/controllers/Tache/task_html.ex:52
 #, elixir-autogen, elixir-format
 msgid "Urgent (urgency)"
 msgstr "Urgente"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:39
+#: lib/tasker_web/controllers/Tache/task_html.ex:40
 #, elixir-autogen, elixir-format, fuzzy
 msgid "absolute (priority)"
 msgstr "absolue"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:40
+#: lib/tasker_web/controllers/Tache/task_html.ex:41
 #, elixir-autogen, elixir-format, fuzzy
 msgid "high (priority)"
 msgstr "haute"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:43
+#: lib/tasker_web/controllers/Tache/task_html.ex:44
 #, elixir-autogen, elixir-format, fuzzy
 msgid "low (priority)"
 msgstr "faible"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:42
+#: lib/tasker_web/controllers/Tache/task_html.ex:43
 #, elixir-autogen, elixir-format, fuzzy
 msgid "normal (priority)"
 msgstr "normale"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:41
+#: lib/tasker_web/controllers/Tache/task_html.ex:42
 #, elixir-autogen, elixir-format, fuzzy
 msgid "secondary (priority)"
 msgstr "secondaire"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:44
+#: lib/tasker_web/controllers/Tache/task_html.ex:45
 #, elixir-autogen, elixir-format, fuzzy
 msgid "very low (priority)"
 msgstr "très faible"
@@ -153,32 +153,32 @@ msgstr "très faible"
 msgid "[SPACE]"
 msgstr " "
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:268
+#: lib/tasker_web/controllers/Tache/task_html.ex:297
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr "Tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:202
+#: lib/tasker_web/controllers/Tache/task_controller.ex:234
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:204
+#: lib/tasker_web/controllers/Tache/task_controller.ex:236
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr "Résumé"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:203
+#: lib/tasker_web/controllers/Tache/task_controller.ex:235
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
 msgstr "toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:201
+#: lib/tasker_web/controllers/Tache/task_controller.ex:233
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
 msgstr "Toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:221
+#: lib/tasker_web/controllers/Tache/task_html.ex:250
 #, elixir-autogen, elixir-format
 msgid "Duration"
 msgstr "Durée"
@@ -235,8 +235,8 @@ msgstr "Créer un compte"
 msgid "Creating account..."
 msgstr "Création du compte…"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:56
 #: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:20
+#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:56
 #, elixir-autogen, elixir-format
 msgid "Current password"
 msgstr "Mot de passe courant"
@@ -255,12 +255,12 @@ msgid "Email"
 msgstr "E-mail"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:1
-#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:20
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié ?"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:18
+#: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Keep me logged in"
 msgstr "Me laisser connecté"
@@ -369,3 +369,8 @@ msgstr "pour un compte maintenant"
 #, elixir-autogen, elixir-format
 msgid "to your account now"
 msgstr "à votre compte maintenant"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/show.html.heex:1
+#, elixir-autogen, elixir-format
+msgid "Worker Settings"
+msgstr ""

@@ -80,7 +80,6 @@ defmodule TaskerWeb.TaskHTML do
   defp options_natures(map_natures) do
     map_natures
     |> Enum.map(fn {key, value} ->
-      IO.puts "option '#{key}' => '#{value}'"
       ~s(<option value="#{key}">#{Gettext.dgettext(TaskerWeb.Gettext, "nature", value)}</option>)
     end)
     |> Enum.join("")

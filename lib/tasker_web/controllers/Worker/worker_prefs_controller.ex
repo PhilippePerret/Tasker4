@@ -1,4 +1,4 @@
-defmodule TaskerWeb.WorkerSettings do
+defmodule TaskerWeb.WorkerPrefs do
   use TaskerWeb, :controller
 
   alias Tasker.Accounts
@@ -16,7 +16,7 @@ defmodule TaskerWeb.WorkerSettings do
   @doc """
   Enregistrement des préférences
   """
-  def save(conn, _params) do
+  def update(conn, _params) do
     conn
     # TODO : ENREGISTRER
     |> halt()
