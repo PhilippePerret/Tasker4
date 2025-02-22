@@ -19,9 +19,12 @@ defmodule TaskerWeb.Router do
 
   scope "/", TaskerWeb do
     pipe_through :browser
-
     get "/", PageController, :home
+  end
 
+  scope "/work", TaskerWeb do
+    pipe_through [:browser, :require_authenticated_worker]
+    get "/", OneTaskCycleController, :main
   end
 
   scope "/tools", TaskerWeb do

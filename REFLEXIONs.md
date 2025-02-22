@@ -36,7 +36,7 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 
 #### Critères positifs
 
-* tâche à priorité "exclusive" (cette tâche est particulière puisque qu'elle exclut toutes les autres — c'est le cas par exemple lorsqu'on doit avoir une activité particulière — le sport le mercredi de 14 à 15 h, un coup de film un vendredi à 9 h 30, etc.)
+* tâche à priorité "exclusive" (cette tâche est particulière puisque qu'elle exclut toutes les autres — c'est le cas par exemple lorsqu'on doit avoir une activité particulière — le sport le mercredi de 14 à 15 h, un coup de film un vendredi à 9 h 30, etc.) NOTE : il faut vérifier que deux tâches exclusives ne puissent jamais se chevaucher
 * Tâche à urgence max (augmente avec proximité du début si headline)
 * Tâche à priorité sous-max (idem)
 * Tâche appartenant à un projet mis en avant (à cette session)
