@@ -37,7 +37,7 @@ defmodule TaskerWeb.TaskHTML do
   def options_priority do
     [
       {"---", "nil"}, 
-      {gettext("absolute (priority)"), 5}, 
+      {gettext("exclusive (priority)"), 5}, 
       {gettext("high (priority)"), 4}, 
       {gettext("secondary (priority)"), 3}, 
       {gettext("normal (priority)"), 2}, 

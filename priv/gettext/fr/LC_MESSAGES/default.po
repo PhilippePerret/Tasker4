@@ -117,11 +117,6 @@ msgstr "Pressée"
 msgid "Urgent (urgency)"
 msgstr "Urgente"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:40
-#, elixir-autogen, elixir-format, fuzzy
-msgid "absolute (priority)"
-msgstr "absolue"
-
 #: lib/tasker_web/controllers/Tache/task_html.ex:41
 #, elixir-autogen, elixir-format, fuzzy
 msgid "high (priority)"
@@ -454,3 +449,8 @@ msgstr "(cliquez pour modifier)"
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr "Durée estimée"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:40
+#, elixir-autogen, elixir-format
+msgid "exclusive (priority)"
+msgstr "exclusive"
