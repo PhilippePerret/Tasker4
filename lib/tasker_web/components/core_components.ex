@@ -196,7 +196,8 @@ defmodule TaskerWeb.CoreComponents do
   slot :inner_block, required: true
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
-  def simple_form(assigns) do
+ # Mon simple form enroulé dans un div pour formatage spécial
+  def simple_form(%{class: class} = assigns) do
     ~H"""
     <div class={@class}>
       <.form :let={f} for={@for} as={@as} {@rest}>
@@ -210,7 +211,20 @@ defmodule TaskerWeb.CoreComponents do
     </div>
     """
   end
-
+  # Le simple_form original
+  def simple_form(assigns) do
+    ~H"""
+    <.form :let={f} for={@for} as={@as} {@rest}>
+      <div class="bloc-form">
+        <%= render_slot(@inner_block, f) %>
+        <div :for={action <- @actions} class="actions">
+          <%= render_slot(action, f) %>
+        </div>
+      </div>
+    </.form>
+    """
+  end
+ 
   @doc """
   Renders a button.
 
