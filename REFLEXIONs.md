@@ -1,5 +1,10 @@
 # Réflexions
 
+NOTE : Ajouter le traitement pour les récurrences : 
+* à la création de la tâche récurrente, calculer la première échéance et la mettre dans should_start_at
+* lors de la première échéance, une fois que la tâche est marquée finie, on définit la prochaine échéance à nouveau dans should_start_at
+De cette façon, on peut filtrer aussi les tâches récurrentes dans la requête SQL (ou plus exactement : les tâches récurrentes seront naturellement filtrée par la requête SQL actuelle)
+
 ## Boutons
 
 * Repousser à plus tard (sans autre précision)
@@ -18,7 +23,7 @@ Les paramètres qui peuvent agir sur l'affichage ou la relève de la tâche
 ### Critéres de relève dans la base
 
 * [OUT] La tâche doit être effectuée dans un futur trop lointain
-* [IN ] La tâche est dans un futur proche (< une semaine — réglable dans les paramètres du travailleur ?) ET il y a un nombre de tâches réduit (< 5)
+* [IN] La tâche est dans un futur proche (< une semaine — réglable dans les paramètres du travailleur ?) ET il y a un nombre de tâches réduit (< 5)
 * [OUT] La tâche dépend d'une tâche non terminée
 * [IN] La tâche a été démarrée même si elle est dans le futur
 * [IN] La date de début de la tâche est dans le passé

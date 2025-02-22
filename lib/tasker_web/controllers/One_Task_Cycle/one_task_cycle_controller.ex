@@ -26,14 +26,32 @@ defmodule TaskerWeb.OneTaskCycleController do
     []
   end
 
+  @doc """
+  
+  Note : Lorsqu'il y aura des attributions à des workers particu-
+  liers, il faudra ajouter : 
+  WHERE (
+    NOT EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id)
+    OR EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id AND tw.worker_id = $1)
+  )
+  """
   def candidates_request do
     """
     SELECT tk.*, tks.*, tkt.*
     FROM tasks tk
     JOIN task_specs tks ON tks.task_id = tk.id
     JOIN task_times tkt ON tkt.task_id = tk.id
-    WHERE ???
-    ORDER BY tkt.should_start_at
+    WHERE 
+      (tkt.should_start_at IS NULL OR tkt.should_start_at <= NOW() + INTERVAL '7 days')
+      AND NOT EXISTS (
+        SELECT 1 FROM tasks_dependencies td
+        WHERE td.task_after_id = tk.id
+      )
+    ORDER BY 
+      CASE 
+        WHEN should_start_at IS NULL AND should_end_at IS NULL THEN '9999-12-31'::date
+        ELSE LEAST(should_start_at, should_end_at)
+      END
     ;
     """
   end
