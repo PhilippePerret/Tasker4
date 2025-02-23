@@ -6,6 +6,154 @@ defmodule Tasker.TacheFixtures do
 
   use Tasker.DataCase
 
+  alias Tasker.Tache
+
+  # Les durées en minutes
+  @hour   60
+  @day    @hour * 24
+  @week   @day * 7
+  @month  @week * 4
+
+
+  defp set_spec_time(task_data, prop, spec) do
+    if !spec do
+      task_data
+    else
+      thetime = 
+      case spec do
+        true          -> random_time()
+        :future       -> random_time(:after)
+        :now          -> now()
+        :past         -> random_time(:before)
+        :near_past    -> random_time(:before, NaiveDateTime.add(now(), - :rand.uniform(@day * 2), :minute), @day)
+        :near_future  -> 
+          random_time(:after, NaiveDateTime.add(now(), :rand.uniform(@day * 2), :minute), @day)
+          |> IO.inspect(label: "\nFutur proche")
+        :far_past     -> random_time(:before, NaiveDateTime.add(now(), - @week * 2, :minute), @day)
+        :far_future   -> random_time(:after, NaiveDateTime.add(now(), @week * 2, :minute), @day)
+        %NaiveDateTime{} -> spec
+      end        
+      %{task_data | task_time: %{task_data.task_time | prop => thetime}}
+    end
+  end
+
+  @doc """
+  Fonction beaucoup plus "solide" que task_fixture ci-dessous qui
+  permet de créer une tâche complète, avec ses fichiers associées
+  dont task_spec, task_time et ?
+
+  Les attrs possibles sont les suivants (tout paramètre absent est
+  considéré comme faux) :
+
+    :project      yes|no      Peut être fourni
+    :headline     yes|no      future|now|past
+    :started      yes|no      far|now|near
+    :deadline     yes|no      future|now|past
+    :ended (IMPOSSIBLE <= archivée ailleurs)
+    :deps_before  yes|no      Dépendante d'une tâche avant (à faire)
+    :deps_after   yes|no      Des tâches futures dépendent d'elle
+    :worker       yes|no      (attributation de la tâche à un worker)
+    :natures      yes|no      Liste des natures
+
+  """
+  def create_task(attrs \\ %{}) do
+    dtask = %{
+      task: %{
+        title: attrs[:title] || random_title(),
+        project_id: attrs[:project_id],
+      },
+      task_spec: %{
+        details: attrs[:details]
+      },
+      task_time: %{
+        should_start_at: nil,
+        should_end_at:   nil,
+        started_at:      nil
+      },
+    }
+
+    # - HEADLINE -
+    dtask = set_spec_time(dtask, :should_start_at, attrs[:headline])
+    # - DEADLINE -
+    attrs = 
+      if attrs[:deadline] === true && attrs[:headline] do
+        %{attrs | deadline: random_time(:after, dtask.task_time.should_start_at)}
+      else attrs end
+    dtask = set_spec_time(dtask, :should_end_at, attrs[:deadline])
+    # - STARTED -
+    attrs = 
+      if attrs[:started] === true do
+        %{attrs | started: random_time(:before)}
+      else attrs end
+    dtask = set_spec_time(dtask, :started_at, attrs[:started])
+
+
+    {:ok, task} = Tache.create_task(dtask.task)
+    task = Tache.get_task!(task.id)
+    Tache.update_task_spec(task.task_spec, dtask.task_spec)
+    Tache.update_task_time(task.task_time, dtask.task_time)
+    # Il faut la relever pour avoir les bonnes valeurs
+    task = Tache.get_task!(task.id)
+
+    # - DÉPENDANTE -
+    case attrs[:deps_before] do
+      nil     -> nil
+      false   -> nil
+      true    ->
+        # Sans autre forme d'information, on fait une tâche
+        # précédente qui est commencée depuis peu
+        # Sinon, définir la tâche en appelant cette fonction
+        headline  = random_time(:before, @day)
+        started   = random_time(:between, headline, now())
+        task_before = create_task(%{
+          headline: headline,
+          started:  started,
+          should_end_at: random_time(:after, started)
+        })
+        Tache.create_dependency(task_before, task)
+      %Task{} ->
+        Tache.create_dependency(attrs[:deps_before], task)
+    end
+
+    # # - DÉPENDANCE -
+    # case attrs[:deps_after] do
+    #   nil   -> nil
+    #   false -> nil
+    #   true  -> 
+    #     :todo # des tâches après dépendent d'elle (à créer)
+    #   %Task{} ->
+    #     task_after = attrs[:deps_after]
+    #     IO.puts "#{task_after} dépendante d'elle"
+    #     :todo
+    #   end
+
+    # # - NATURES -
+    # case attrs[:natures] do
+    #   nil   -> nil
+    #   false -> nil
+    #   %String{} ->
+    #     # Attribuer la nature donnée
+    #     :todo
+    #   %List{} ->
+    #     # Attribuer la liste de natures donnée
+    #     :todo
+    # end
+
+    # # - ASSIGNATION -
+    # case attrs[:worker] do
+    #   nil   -> nil
+    #   false -> nil
+    #   true  -> 
+    #     :todo # assignée à un travailleur à créer
+    #   %Worker{} -> 
+    #     :todo # (assigner au travaileur donné)
+    # end
+
+    # On retourne la tâche créée
+    task
+
+  end
+
   @doc """
   Generate a task.
   """
@@ -52,7 +200,7 @@ defmodule Tasker.TacheFixtures do
   Retourne des attributs VALIDE pour task_time valides.
   """
   def task_time_valid_attrs(attrs \\ %{}) do
-    # La table des argument
+    # La table des arguments
     a = %{
       task_id:          attrs[:task_id] || task_fixture().id,
       should_start_at:  nil,
@@ -129,6 +277,30 @@ defmodule Tasker.TacheFixtures do
   end
 
   @doc """
+  Retourne un titre de tâche aléatoire
+  """
+  def random_title do
+    "#{random_action()} #{random_objet()} n°#{:rand.uniform(1000)} du #{random_time(:before)}"
+  end
+  @task_actions ["Concevoir", "Rechercher","Lire","Consulter", "Corriger", "Revoir", "Discuter"]
+  # @task_actions_count Enum.count(@task_actions) - 1
+  defp random_action do
+    Enum.random(@task_actions)
+  end
+  @task_objets ["le document", "la recette", "le rapport", "le compte-rendu", "le manuscrit", "le vade mecum", "la affaire"]
+  # @task_objets_count Enum.count(@task_objets) - 1
+  defp random_objet do
+    Enum.random(@task_objets)
+  end
+
+  @doc """
+  @return %NaiveDateTime{} La date de maintenant
+  """
+  def now do
+    NaiveDateTime.utc_now()
+  end
+
+  @doc """
   Retourne une date aléatoire par rapport à maintenant
 
   random_time/0   retourne une date autour de maintenant, avant ou 
@@ -165,6 +337,7 @@ defmodule Tasker.TacheFixtures do
     random_time(NaiveDateTime.utc_now(), max_laps)
   end
   # Positionnée avant ou après sans laps précisé
+  # @param {Atom} position  Soit :after soit :before
   def random_time(position) when is_atom(position) do
     random_time(position, 1_000_000)
   end

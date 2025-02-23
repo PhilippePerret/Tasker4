@@ -34,7 +34,7 @@ defmodule Tasker.Tache.TaskTime do
     |> convert_expect_duration()
 
     task_time
-    |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :priority, :urgence, :recurrence, :expect_duration, :execution_time])
+    |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :priority, :urgence, :recurrence, :expect_duration, :execution_time, :deadline_trigger])
     |> validate_required([:task_id])
     |> validate_end_at()
     |> validate_should_end_at()

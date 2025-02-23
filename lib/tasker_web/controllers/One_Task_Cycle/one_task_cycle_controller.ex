@@ -28,24 +28,31 @@ defmodule TaskerWeb.OneTaskCycleController do
 
   @doc """
   
-  Note : Lorsqu'il y aura des attributions à des workers particu-
-  liers, il faudra ajouter : 
-  WHERE (
-    NOT EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id)
-    OR EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id AND tw.worker_id = $1)
-  )
+
   """
+  # def candidates_request do
+  #   """
+  #   SELECT tks.*, tkt.*, tk.*
+  #   FROM tasks tk
+  #   JOIN task_specs tks ON tks.task_id = tk.id
+  #   JOIN task_times tkt ON tkt.task_id = tk.id
+  #   """
+  # end
   def candidates_request do
     """
-    SELECT tk.*, tks.*, tkt.*
+    SELECT tks.*, tkt.*, tk.*
     FROM tasks tk
     JOIN task_specs tks ON tks.task_id = tk.id
     JOIN task_times tkt ON tkt.task_id = tk.id
-    WHERE 
-      (tkt.should_start_at IS NULL OR tkt.should_start_at <= NOW() + INTERVAL '7 days')
-      AND NOT EXISTS (
-        SELECT 1 FROM tasks_dependencies td
-        WHERE td.task_after_id = tk.id
+    WHERE (
+      tkt.should_start_at IS NULL 
+      OR tkt.should_start_at <= NOW() + INTERVAL '7 days'
+      ) AND NOT EXISTS (
+        SELECT 1 FROM task_dependencies td
+        WHERE td.after_task_id = tk.id
+      ) AND (
+        NOT EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id)
+        OR EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id AND tw.worker_id = $1)
       )
     ORDER BY 
       CASE 

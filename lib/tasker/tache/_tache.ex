@@ -5,7 +5,7 @@ defmodule Tasker.Tache do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies}
 
   @doc """
   Returns the list of tasks.
@@ -46,6 +46,23 @@ defmodule Tasker.Tache do
     |> Repo.preload(:task_time)
     |> Repo.preload(:natures)
     |> Map.put(:dependencies, get_dependencies(id))
+  end
+
+  @doc """
+  Function qui crée une dépendance entre les deux tâches.
+  Note : pour les tests uniquement, pour le moment
+  @api
+
+  @param {%Task{}}  task_before La tâche avant (dont la suivante dépend)
+  @param {%Task{}}  task_after  La tâche dépendante de la précédente
+  """
+  def create_dependency(task_before, task_after) do
+    data = %{
+      before_task_id: task_before.id, 
+      after_task_id:  task_after.id,
+    }
+    changeset = TaskDependencies.changeset(%TaskDependencies{}, data)
+    |> Repo.insert!()
   end
 
   @doc """
@@ -144,7 +161,7 @@ defmodule Tasker.Tache do
   def update_task(%Task{} = task, attrs) do
     task
     |> Task.changeset(attrs)
-    |> IO.inspect(label: "\nAprès changeset dans update_task")
+    # |> IO.inspect(label: "\nAprès changeset dans update_task")
     |> Repo.update()
   end
 

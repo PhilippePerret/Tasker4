@@ -7,7 +7,6 @@ defmodule Tasker.Tache.TaskDependencies do
   schema "task_dependencies" do
     belongs_to :before_task, Tasker.Tache.Task, foreign_key: :before_task_id
     belongs_to :after_task, Tasker.Tache.Task, foreign_key: :after_task_id
-
     timestamps(type: :utc_datetime)
   end
 
