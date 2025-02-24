@@ -22,9 +22,9 @@ defmodule Tasker.AccountsFixtures do
       attrs
       |> valid_worker_attributes()
       |> Tasker.Accounts.register_worker()
-
     worker
   end
+  def create_worker(attrs \\ %{}), do: worker_fixture(attrs)
 
   def extract_worker_token(fun) do
     {:ok, captured_email} = fun.(&"[TOKEN]#{&1}[TOKEN]")

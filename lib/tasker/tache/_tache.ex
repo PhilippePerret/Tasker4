@@ -5,7 +5,7 @@ defmodule Tasker.Tache do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies, TasksWorkers}
 
   @doc """
   Returns the list of tasks.
@@ -61,8 +61,26 @@ defmodule Tasker.Tache do
       before_task_id: task_before.id, 
       after_task_id:  task_after.id,
     }
-    changeset = TaskDependencies.changeset(%TaskDependencies{}, data)
+    TaskDependencies.changeset(%TaskDependencies{}, data)
     |> Repo.insert!()
+  end
+
+  @doc """
+  @api
+  Fonction pour assigner la tâche à un worker. On peut l'assigner
+  soit par sa structure soit par son identifiant.
+  """
+  def assign_to(%Task{} = task, worker_id) when is_binary(worker_id) do
+    data_assoc = %{
+      task_id: task.id,
+      worker_id: worker_id,
+      assigned_at: NaiveDateTime.utc_now()
+    }
+    TasksWorkers.changeset(%TasksWorkers{}, data_assoc)
+    |> Repo.insert!()
+  end
+  def assign_to(%Task{} = task, %Tasker.Accounts.Worker{} = worker) do
+    assign_to(task, worker.id)
   end
 
   @doc """

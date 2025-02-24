@@ -8,6 +8,9 @@ defmodule Tasker.TacheFixtures do
 
   alias Tasker.Tache
 
+  alias Tasker.Accounts.Worker
+  alias Tasker.AccountsFixtures, as: WF
+
   # Les durées en minutes
   @hour   60
   @day    @hour * 24
@@ -115,17 +118,19 @@ defmodule Tasker.TacheFixtures do
         Tache.create_dependency(attrs[:deps_before], task)
     end
 
-    # # - DÉPENDANCE -
-    # case attrs[:deps_after] do
-    #   nil   -> nil
-    #   false -> nil
-    #   true  -> 
-    #     :todo # des tâches après dépendent d'elle (à créer)
-    #   %Task{} ->
-    #     task_after = attrs[:deps_after]
-    #     IO.puts "#{task_after} dépendante d'elle"
-    #     :todo
-    #   end
+    # - DÉPENDANCE -
+    case attrs[:deps_after] do
+      nil   -> nil
+      false -> nil
+      true  -> 
+        # Sans autre forme d'information, on fait une tâche
+        # suivantte.
+        task_after = create_task()
+        Tache.create_dependency(task, task_after)
+      %Task{} ->
+        # Une tâche après est définie
+          Tache.create_dependency(task, attrs[:deps_after])
+      end
 
     # # - NATURES -
     # case attrs[:natures] do
@@ -139,15 +144,15 @@ defmodule Tasker.TacheFixtures do
     #     :todo
     # end
 
-    # # - ASSIGNATION -
-    # case attrs[:worker] do
-    #   nil   -> nil
-    #   false -> nil
-    #   true  -> 
-    #     :todo # assignée à un travailleur à créer
-    #   %Worker{} -> 
-    #     :todo # (assigner au travaileur donné)
-    # end
+    # - ASSIGNATION -
+    case attrs[:worker] do
+      nil   -> nil
+      false -> nil
+      true  -> 
+        Tache.assign_to(task, WF.create_worker())
+      %Worker{} -> 
+        Tache.assign_to(task, attrs[:worker])
+    end
 
     # On retourne la tâche créée
     task

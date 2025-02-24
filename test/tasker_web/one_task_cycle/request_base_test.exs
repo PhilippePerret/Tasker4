@@ -10,58 +10,50 @@ defmodule TaskerWeb.OTCRequestTest do
   alias Tasker.Tache
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
 
-  defp set_spec_time(tmap, prop, spec) do
-    if !spec do
-      tmap
-    else
-      thetime = 
-      case spec do
-        true          -> F.random_time()
-        :future       -> F.random_time(:after)
-        :now          -> F.now()
-        :past         -> F.random_time(:before)
-        :near_past    -> F.random_time(:before, NaiveDateTime.add(F.now(), - :rand.uniform(@day * 2), :minute), @day)
-        :near_future  -> 
-          F.random_time(:after, NaiveDateTime.add(F.now(), :rand.uniform(@day * 2), :minute), @day)
-          |> IO.inspect(label: "\nFutur proche")
-        :far_past     -> F.random_time(:before, NaiveDateTime.add(F.now(), - @week * 2, :minute), @day)
-        :far_future   -> F.random_time(:after, NaiveDateTime.add(F.now(), @week * 2, :minute), @day)
-        %NaiveDateTime{} -> spec
-      end        
-      %{tmap | task_time: %{tmap.task_time | prop => thetime}}
-    end
-  end
+  alias Tasker.TaskRankCalculator, as: RankCalc
+  doctest Tasker.TaskRankCalculator
 
 
   describe "La requête SQL de relève" do
+
     def add_in_list(liste, properties) do
       new_element = F.create_task(properties)
-      |> IO.inspect(label: "\nNOUVEL ÉLÉMENT")
+      # |> IO.inspect(label: "\nNOUVEL ÉLÉMENT")
       liste ++ [new_element]
     end
 
-    # @tag skip: "à implémenter"
     test "retourne les bonnes candidates" do
 
       in_list   = []
       out_list  = []
 
       # IO.puts "DANS IN_LIST"
+      # [IN] Tâche sans échéance du tout
       in_list = add_in_list(in_list, %{headline: false, deadline: false})
+      # [IN] Tâche avec headline dans le passé et sans deadline
       in_list = add_in_list(in_list, %{headline: :past, deadline: false})
+      # [IN] Tâche avec headline dans le passé et avec deadline
       in_list = add_in_list(in_list, %{headline: :past, deadline: true})
+      # [IN] Tâche dans un futur proche (< 7 jours) et sans deadline
       in_list = add_in_list(in_list, %{headline: :near_future, deadline: false})
+      # [IN] Tâche dans un futur proche (< 7 jours) et avec deadline
       in_list = add_in_list(in_list, %{headline: :near_future, deadline: true})
+      # [IN] Tâche sans headline avec deadline dans le passé
       in_list = add_in_list(in_list, %{headline: false, deadline: :past})
+      # [IN] Tâche sans headline mais avec deadline dans le proche futur
       in_list = add_in_list(in_list, %{headline: false, deadline: :near_future})
+      # [IN] Tâche sans headline (donc qui peut commencer n'importe quand), mais avec une deadline dans le futur lointain
       in_list = add_in_list(in_list, %{headline: false, deadline: :far_future})
       
       # IO.puts "DANS OUT_LIST"
+      # [OU] Tâche loin dans le futur (sans deadline)
       out_list = add_in_list(out_list, %{headline: :far_future, deadline: false})
+      # [OU] Tâche loin dans le futur (avec deadline)
       out_list = add_in_list(out_list, %{headline: :far_future, deadline: true})
-
-      # Tâche avec dépendance before
+      # [OU] Tâche avec dépendance before
       out_list = add_in_list(out_list, %{deps_before: true})
+      # OU] Tâche attribuée à un autre
+      out_list = add_in_list(out_list, %{worker: true})
 
       # IO.inspect(candidates_request(), label: "REQUEST SQL")
       # IO.inspect(Repo.all(from t in Tasker.Tache.Task), label: "\nTâches réellement en base")
@@ -69,28 +61,28 @@ defmodule TaskerWeb.OTCRequestTest do
       current_worker = WF.worker_fixture()
       candidate_ids = Repo.submit_sql(candidates_request(), [Ecto.UUID.dump!(current_worker.id)], Tasker.Tache.Task)
       |> Enum.reduce(%{}, fn task, coll -> Map.put(coll, task.id, true) end)
-      |> IO.inspect(label: "\nIDS TÂCHES RELEVÉES")
+      # |> IO.inspect(label: "\nIDS TÂCHES RELEVÉES")
 
-      # On regarde si ces candidates se trouvent bien dans les deux
-      # listes (le contraire serait inquiétant)
-      candidate_ids |> Enum.each(fn {tid, _rien} ->
-        if Enum.reduce(in_list, false, fn task, accu -> 
-          if task.id == tid, do: true, else: accu
-        end) or Enum.reduce(out_list, false, fn task, accu -> 
-          if task.id == tid, do: true, else: accu
-        end) do
-          IO.puts "FIND: #{tid}"
-        else
-          IO.puts "NOT FOUND! #{tid}"
-        end
-      end)
+      # # On regarde si ces candidates se trouvent bien dans les deux
+      # # listes (le contraire serait inquiétant)
+      # candidate_ids |> Enum.each(fn {tid, _rien} ->
+      #   if Enum.reduce(in_list, false, fn task, accu -> 
+      #     if task.id == tid, do: true, else: accu
+      #   end) or Enum.reduce(out_list, false, fn task, accu -> 
+      #     if task.id == tid, do: true, else: accu
+      #   end) do
+      #     IO.puts "FIND: #{tid}"
+      #   else
+      #     IO.puts "NOT FOUND! #{tid}"
+      #   end
+      # end)
 
       # Toutes les tâches dans la in_list doivent avoir été relevées
-      unfounds = in_list |> Enum.filter(fn t -> ! candidate_ids[t.id] end) |> Enum.map(fn t -> t.id end)
+      unfounds = in_list |> Enum.filter(fn t -> ! candidate_ids[t.id] end) |> Enum.map(fn t -> "#{t.id} (#{inspect t})" end)
       assert(Enum.count(unfounds) == 0, "Les tâches suivantes (#{Enum.count(unfounds)}) auraient dû être relevées :\n- #{Enum.join(unfounds, "\n- ")}")
       # Aucune des tâches dans la out_list ne doit avoir été relevées
-      badfounds = out_list |> Enum.filter(fn t -> candidate_ids[t.id] === true end) |> Enum.map(fn t -> t.id end)
-      assert(Enum.count(badfounds) == 0, "Les tâches suivantes (#{Enum.count(unfounds)}) N'auraient PAS dû être relevées :\n- #{Enum.join(badfounds, "\n- ")}")
+      badfounds = out_list |> Enum.filter(fn t -> candidate_ids[t.id] === true end) |> Enum.map(fn t -> "#{t.id} (#{inspect t})" end)
+      assert(Enum.count(badfounds) == 0, "Les tâches suivantes (#{Enum.count(badfounds)}) N'auraient PAS dû être relevées :\n- #{Enum.join(badfounds, "\n- ")}")
 
     end
 
