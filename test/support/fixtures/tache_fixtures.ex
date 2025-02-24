@@ -57,6 +57,8 @@ defmodule Tasker.TacheFixtures do
     :deps_after   yes|no      Des tâches futures dépendent d'elle
     :worker       yes|no      (attributation de la tâche à un worker)
     :natures      yes|no      Liste des natures
+    :rank         true    Ajout de la structure TaskRank
+                  %TaskRank{}   On met ce task_rank
 
   """
   def create_task(attrs \\ %{}) do
@@ -152,6 +154,15 @@ defmodule Tasker.TacheFixtures do
         Tache.assign_to(task, WF.create_worker())
       %Worker{} -> 
         Tache.assign_to(task, attrs[:worker])
+    end
+
+    task =
+    case attrs[:rank] do
+      nil -> task
+      true -> 
+        %{task | rank: %Tasker.Tache.TaskRank{} }
+      %Tasker.Tache.TaskRank{} -> 
+        %{task | rank: attrs[:rank] }
     end
 
     # On retourne la tâche créée

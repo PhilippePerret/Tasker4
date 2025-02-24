@@ -24,6 +24,9 @@ defmodule TaskerWeb.OneTaskCycleController do
   """
   def get_candidate_tasks do
     []
+    # Traiter la présence d'une tâche exclusive : un trigger pour la déclencher
+    # doit être implémenté, qui doit bloquer toutes les autres tâches, puis un
+    # autre trigger pour la deadline pour libérer toutes les autres tâches.
   end
 
   @doc """

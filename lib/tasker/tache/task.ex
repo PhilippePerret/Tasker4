@@ -10,6 +10,7 @@ defmodule Tasker.Tache.Task do
     belongs_to :project, Tasker.Projet.Project, type: :binary_id
     has_one :task_spec, Tasker.Tache.TaskSpec
     has_one :task_time, Tasker.Tache.TaskTime
+    field :rank, :map, virtual: true
     many_to_many :natures, 
       Tasker.Tache.TaskNature, 
       join_through: "tasks_natures",
