@@ -28,8 +28,9 @@ defmodule Tasker.TaskRankCalculator do
 
   # Examples
 
-    iex> RankCalc.calc_task_rank(task = F.create_task())
-    task
+    iex> task = RankCalc.calc_task_rank(F.create_task())
+    iex> not is_nil(task)
+    true
 
   @param {Task} task    Une tâche à exécuter
   @return {Task} La tâche avec son rank calculé
@@ -53,19 +54,58 @@ defmodule Tasker.TaskRankCalculator do
   - nil => la tâche n'a pas de temps définis
   - négatif => la tâche est dans le passé
 
-  ## EXAMPLES
+  ## Examples
 
-    iex> RankCalc.calc_remoteness(task = F.create_task(headline: :near_future, rank: true)).rank.remoteness
-    > 0
+    - Avec une headline dans le futur proche
+    iex> task = RankCalc.calc_remoteness(F.create_task(headline: :near_future, rank: true))
+    iex> task.rank.remoteness > 0
+    true
 
-    iex> RankCalc.calc_remoteness(task = F.create_task(deadline: :near_past, rank: true)).rank.remoteness
-    > 0
+    - Avec une deadline dans le proche passé
+    iex> task = RankCalc.calc_remoteness(F.create_task(deadline: :near_past, rank: true))
+    iex> task.rank.remoteness > 0
+    true
 
-    iex> RankCalc.calc_remoteness(task = F.create_task(started_at: :near_past, rank: true)).rank.remoteness
-    0
+    - Avec une tâche démarrée
+    iex> task = RankCalc.calc_remoteness(F.create_task(started: :near_past, rank: true))
+    iex> task.rank.remoteness == 0
+    assert(task.rank.remoteness == 0)
+
+    - Avec une tâche dont l'headline est dépassée
+    iex> task = RankCalc.calc_remoteness(F.create_task(headline: :near_past, rank: true))
+    iex> task.rank.remoteness > 0
+    true
+
+    - Test avec des dates précises
+    iex> headline = NaiveDateTime.add(@now, @day, :minute)
+    iex> task = RankCalc.calc_remoteness(F.create_task(headline: headline, rank: true))
+    iex> assert_in_delta(task.rank.remoteness, @day, 5)
+    true
+
+    iex> headline = NaiveDateTime.add(@now, -@day, :minute)
+    iex> task = RankCalc.calc_remoteness(F.create_task(headline: headline, rank: true))
+    iex> assert_in_delta(task.rank.remoteness, @day / 4, 5)
+    true
+
+    iex> deadline = NaiveDateTime.add(@now, @day, :minute)
+    iex> task = RankCalc.calc_remoteness(F.create_task(deadline: deadline, rank: true))
+    iex> assert_in_delta(task.rank.remoteness, @day / 2, 5)
+    true
 
 
-  On 
+    - Avec une tâche sans échéance et non démarrée
+    iex> task = RankCalc.calc_remoteness(F.create_task(rank: true))
+    iex> is_nil(task.rank.remoteness)
+    true
+
+    - Une tâche plus lointaine a un remoteness plus grand
+    iex> task1 = RankCalc.calc_remoteness(F.create_task(headline: :near_future, rank: true))
+    iex> task2 = RankCalc.calc_remoteness(F.create_task(headline: :far_future, rank: true))
+    iex> task1.rank.remoteness < task2.rank.remoteness
+    true
+
+
+  @return %Task{} dont on a calculé le remoteness mis dans task.rank.remoteness
   """
   def calc_remoteness(task) do
     is_started  = !is_nil(task.task_time.started_at)
@@ -73,15 +113,21 @@ defmodule Tasker.TaskRankCalculator do
     deadline    = task.task_time.should_end_at
     now = NaiveDateTime.utc_now()
 
+    should_start_after_now  = headline && NaiveDateTime.compare(headline, now) == :gt
+    should_start_before_now = headline && NaiveDateTime.compare(headline, now) == :lt
+    should_end_after_now    = deadline && NaiveDateTime.compare(deadline, now) == :gt
+    should_end_before_now   = deadline && NaiveDateTime.compare(deadline, now) == :lt
+    
     remoteness =
     cond do
       is_started -> 0
-      headline && headline > now -> NaiveDateTime.diff(now, headline, :minute)
-      headline && headline < now -> NaiveDateTime.diff(headline, now, :minute) / 4 # on rapproche beaucoup, quand la headline est dépassée
-      deadline && deadline < now -> NaiveDateTime.diff(deadline, now, :minute)
-      deadline && deadline > now -> NaiveDateTime.diff(now, deadline, :minute) / 2 # on rapproche, quand c'est la deadline
+      should_start_after_now  -> NaiveDateTime.diff(headline, now, :minute)
+      should_start_before_now -> NaiveDateTime.diff(now, headline, :minute) / 4 # on rapproche beaucoup, quand la headline est dépassée
+      should_end_after_now    -> NaiveDateTime.diff(deadline, now, :minute) / 2 # on rapproche, quand c'est la deadline
+      should_end_before_now   -> NaiveDateTime.diff(now, deadline, :minute)
       true -> nil
     end
+    # IO.inspect(remoteness, label: "\nREMOTENESS")
     set_rank(task, :remoteness, remoteness)
   end
 
@@ -93,7 +139,8 @@ defmodule Tasker.TaskRankCalculator do
   end
 
   defp add_weight(task, key) when is_atom(key) do
-    pvalue = Map.get(task.task_time, key, 0)
+    pvalue = Map.get(task.task_time, key) || 0
+    # IO.inspect(pvalue, label: "Value de #{inspect key}")
     pvalue = pvalue * @weights[key].weight * time_ponderation(task, key)
     set_rank(task, :value, task.rank.value + pvalue)
   end

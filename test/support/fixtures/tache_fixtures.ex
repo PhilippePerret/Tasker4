@@ -15,7 +15,7 @@ defmodule Tasker.TacheFixtures do
   @hour   60
   @day    @hour * 24
   @week   @day * 7
-  @month  @week * 4
+  # @month  @week * 4
 
 
   defp set_spec_time(task_data, prop, spec) do
@@ -31,9 +31,11 @@ defmodule Tasker.TacheFixtures do
         :near_past    -> random_time(:before, NaiveDateTime.add(now(), - :rand.uniform(@day * 2), :minute), @day)
         :near_future  -> 
           random_time(:after, NaiveDateTime.add(now(), :rand.uniform(@day * 2), :minute), @day)
-          |> IO.inspect(label: "\nFutur proche")
-        :far_past     -> random_time(:before, NaiveDateTime.add(now(), - @week * 2, :minute), @day)
-        :far_future   -> random_time(:after, NaiveDateTime.add(now(), @week * 2, :minute), @day)
+          # |> IO.inspect(label: "\nFutur proche (pour #{inspect prop})")
+          :far_past     -> random_time(:before, NaiveDateTime.add(now(), - @week * 2, :minute), @day)
+          :far_future   -> 
+            random_time(:after, NaiveDateTime.add(now(), @week * 2, :minute), @day)
+            # |> IO.inspect(label: "\nFutur lointain (> 2 semaines) (pour #{inspect prop})")
         %NaiveDateTime{} -> spec
       end        
       %{task_data | task_time: %{task_data.task_time | prop => thetime}}

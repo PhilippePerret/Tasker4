@@ -197,7 +197,7 @@ defmodule TaskerWeb.CoreComponents do
   slot :actions, doc: "the slot for form actions, such as a submit button"
 
  # Mon simple form enroulé dans un div pour formatage spécial
-  def simple_form(%{class: class} = assigns) do
+  def simple_form(%{class: _class} = assigns) do
     ~H"""
     <div class={@class}>
       <.form :let={f} for={@for} as={@as} {@rest}>

@@ -1,16 +1,28 @@
 defmodule TaskerWeb.OTCRequestTest do
   use Tasker.DataCase
 
+  # import CommonTestMethods # is_around etc.
+
   alias Tasker.Repo
 
   alias Tasker.TacheFixtures, as: F
   alias Tasker.AccountsFixtures, as: WF
 
-  alias Tasker.Accounts.{Worker}
-  alias Tasker.Tache
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
+  # alias Tasker.Accounts.{Worker}
+  # alias Tasker.Tache
+  # alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
 
   alias Tasker.TaskRankCalculator, as: RankCalc
+
+  # Les durées en minutes
+  @now    NaiveDateTime.utc_now()
+  @hour   60
+  @day    @hour * 24
+  # @week   @day * 7
+  # @month  @week * 4
+
+
+
   doctest Tasker.TaskRankCalculator
 
 
@@ -63,20 +75,6 @@ defmodule TaskerWeb.OTCRequestTest do
       |> Enum.reduce(%{}, fn task, coll -> Map.put(coll, task.id, true) end)
       # |> IO.inspect(label: "\nIDS TÂCHES RELEVÉES")
 
-      # # On regarde si ces candidates se trouvent bien dans les deux
-      # # listes (le contraire serait inquiétant)
-      # candidate_ids |> Enum.each(fn {tid, _rien} ->
-      #   if Enum.reduce(in_list, false, fn task, accu -> 
-      #     if task.id == tid, do: true, else: accu
-      #   end) or Enum.reduce(out_list, false, fn task, accu -> 
-      #     if task.id == tid, do: true, else: accu
-      #   end) do
-      #     IO.puts "FIND: #{tid}"
-      #   else
-      #     IO.puts "NOT FOUND! #{tid}"
-      #   end
-      # end)
-
       # Toutes les tâches dans la in_list doivent avoir été relevées
       unfounds = in_list |> Enum.filter(fn t -> ! candidate_ids[t.id] end) |> Enum.map(fn t -> "#{t.id} (#{inspect t})" end)
       assert(Enum.count(unfounds) == 0, "Les tâches suivantes (#{Enum.count(unfounds)}) auraient dû être relevées :\n- #{Enum.join(unfounds, "\n- ")}")
@@ -110,6 +108,6 @@ defmodule TaskerWeb.OTCRequestTest do
     @tag skip: "à implémenter"
     test "ne retourne pas les tâches trop loin (> une semaine)" do
     end
-
   end
+
 end

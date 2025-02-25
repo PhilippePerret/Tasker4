@@ -1,7 +1,7 @@
 defmodule TaskerWeb.OneTaskCycleController do
   use TaskerWeb, :controller
 
-  import Ecto.Query
+  # import Ecto.Query
 
   alias Tasker.Projet
   # alias Tasker.Tache.{Task, TaskSpec, TaskTime}
