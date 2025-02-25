@@ -2,6 +2,20 @@ defmodule Tasker.TaskRankCalculator do
 
   alias Tasker.Tache.{Task, TaskRank}
 
+
+  @weights %{
+    priority:           %{weight:   100_000,    time_factor: 2},
+    urgence:            %{weight:   50_000,     time_factor: 2},
+    # Le poids de l'expiration (headline dans le passé et non 
+    # démarrée) est ajouté à chaque minute : remoteness * weigth
+    deadline_expired:   %{weight:       1,      time_factor: nil},
+    headline_expired:   %{weight:     0.5,      time_factor: nil}
+  }
+  @weight_keys Map.keys(@weights)
+
+  # Pour les tests
+  def weights, do: @weights
+
   @doc """
   Fonction principale qui reçoit une liste de tache (Task) et les
   classe par task_rank avant de les envoyer au client pour usage.
@@ -10,7 +24,7 @@ defmodule Tasker.TaskRankCalculator do
 
   ## Examples
 
-    iex> RankCalc.sort([])
+    iex> RCalc.sort([])
     []
 
   @param {List of %Task{}} task_list Liste des structures Task.
@@ -28,7 +42,7 @@ defmodule Tasker.TaskRankCalculator do
 
   # Examples
 
-    iex> task = RankCalc.calc_task_rank(F.create_task())
+    iex> task = RCalc.calc_task_rank(F.create_task())
     iex> not is_nil(task)
     true
 
@@ -41,11 +55,6 @@ defmodule Tasker.TaskRankCalculator do
     |> add_weights()
   end
 
-  @weights %{
-    priority:   %{weight: 100_000,  time_factor: 2},
-    urgence:    %{weight: 50_000,   time_factor: 2}
-  }
-
   @doc """
   Function qui calcule l'éloignement de la tâche par rapport à au-
   jourd'hui. Cet éloignement peut être :
@@ -57,50 +66,50 @@ defmodule Tasker.TaskRankCalculator do
   ## Examples
 
     - Avec une headline dans le futur proche
-    iex> task = RankCalc.calc_remoteness(F.create_task(headline: :near_future, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(headline: :near_future, rank: true))
     iex> task.rank.remoteness > 0
     true
 
     - Avec une deadline dans le proche passé
-    iex> task = RankCalc.calc_remoteness(F.create_task(deadline: :near_past, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(deadline: :near_past, rank: true))
     iex> task.rank.remoteness > 0
     true
 
     - Avec une tâche démarrée
-    iex> task = RankCalc.calc_remoteness(F.create_task(started: :near_past, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(started: :near_past, rank: true))
     iex> task.rank.remoteness == 0
     assert(task.rank.remoteness == 0)
 
     - Avec une tâche dont l'headline est dépassée
-    iex> task = RankCalc.calc_remoteness(F.create_task(headline: :near_past, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(headline: :near_past, rank: true))
     iex> task.rank.remoteness > 0
     true
 
     - Test avec des dates précises
     iex> headline = NaiveDateTime.add(@now, @day, :minute)
-    iex> task = RankCalc.calc_remoteness(F.create_task(headline: headline, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(headline: headline, rank: true))
     iex> assert_in_delta(task.rank.remoteness, @day, 5)
     true
 
     iex> headline = NaiveDateTime.add(@now, -@day, :minute)
-    iex> task = RankCalc.calc_remoteness(F.create_task(headline: headline, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(headline: headline, rank: true))
     iex> assert_in_delta(task.rank.remoteness, @day / 4, 5)
     true
 
     iex> deadline = NaiveDateTime.add(@now, @day, :minute)
-    iex> task = RankCalc.calc_remoteness(F.create_task(deadline: deadline, rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(deadline: deadline, rank: true))
     iex> assert_in_delta(task.rank.remoteness, @day / 2, 5)
     true
 
 
     - Avec une tâche sans échéance et non démarrée
-    iex> task = RankCalc.calc_remoteness(F.create_task(rank: true))
+    iex> task = RCalc.calc_remoteness(F.create_task(rank: true))
     iex> is_nil(task.rank.remoteness)
     true
 
     - Une tâche plus lointaine a un remoteness plus grand
-    iex> task1 = RankCalc.calc_remoteness(F.create_task(headline: :near_future, rank: true))
-    iex> task2 = RankCalc.calc_remoteness(F.create_task(headline: :far_future, rank: true))
+    iex> task1 = RCalc.calc_remoteness(F.create_task(headline: :near_future, rank: true))
+    iex> task2 = RCalc.calc_remoteness(F.create_task(headline: :far_future, rank: true))
     iex> task1.rank.remoteness < task2.rank.remoteness
     true
 
@@ -121,10 +130,10 @@ defmodule Tasker.TaskRankCalculator do
     remoteness =
     cond do
       is_started -> 0
-      should_start_after_now  -> NaiveDateTime.diff(headline, now, :minute)
+      should_end_before_now   -> NaiveDateTime.diff(now, deadline, :minute)
       should_start_before_now -> NaiveDateTime.diff(now, headline, :minute) / 4 # on rapproche beaucoup, quand la headline est dépassée
       should_end_after_now    -> NaiveDateTime.diff(deadline, now, :minute) / 2 # on rapproche, quand c'est la deadline
-      should_end_before_now   -> NaiveDateTime.diff(now, deadline, :minute)
+      should_start_after_now  -> NaiveDateTime.diff(headline, now, :minute)
       true -> nil
     end
     # IO.inspect(remoteness, label: "\nREMOTENESS")
@@ -132,18 +141,46 @@ defmodule Tasker.TaskRankCalculator do
   end
 
   defp add_weights(task) do
-    [:priority, :urgence]
-    |> Enum.reduce(task, fn key, tk ->
-      add_weight(tk, key)
-    end)
+    @weight_keys
+    |> Enum.reduce(task, fn key, tk -> add_weight(tk, key) end)
   end
 
-  defp add_weight(task, key) when is_atom(key) do
+  @doc """
+  FonctionS ajoutant le poids à la tâche suivant la propriété définie
+
+  @param {%Task} task La tâche concernée
+  @param {Atom} property  La propriété de poids
+
+  @return {%Task} La tâche concernée, avec dans son :rank la valeur
+  de poids ajoutée.
+  """
+  def add_weight(task, :headline_expired = prop) do
+    ttime = task.task_time
+    if ttime.should_start_at and is_nil(ttime.started_at) do
+      if is_nil(task.rank.remoteness) do
+        raise "remoteness ne devrait pas pouvoir être nil avec should_end_at à #{task.task_time.should_end_at}"
+      end
+      weight = task.rank.remoteness * @weights[prop].weight
+      set_rank(task, :value, task.rank.value + weight)
+    else task end
+  end
+  def add_weight(task, :deadline_expired = prop) do
+    ttime = task.task_time
+    if is_nil(ttime.should_start_at) and !is_nil(ttime.should_end_at) and is_nil(ttime.started_at) do
+      if is_nil(task.rank.remoteness) do
+        raise "remoteness ne devrait pas pouvoir être nil avec should_end_at à #{ttime.should_end_at}"
+      end
+      weight = task.rank.remoteness * @weights[prop].weight
+      set_rank(task, :value, task.rank.value + weight)
+    else task end
+  end
+
+  def add_weight(task, key) when is_atom(key) do
     pvalue = Map.get(task.task_time, key) || 0
-    # IO.inspect(pvalue, label: "Value de #{inspect key}")
     pvalue = pvalue * @weights[key].weight * time_ponderation(task, key)
     set_rank(task, :value, task.rank.value + pvalue)
   end
+
 
   defp time_ponderation(task, key) do
     cond do

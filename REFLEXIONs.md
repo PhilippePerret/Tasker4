@@ -44,9 +44,9 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 * tâche à priorité "exclusive" (cette tâche est particulière puisque qu'elle exclut toutes les autres — c'est le cas par exemple lorsqu'on doit avoir une activité particulière — le sport le mercredi de 14 à 15 h, un coup de film un vendredi à 9 h 30, etc.) NOTE : il faut vérifier que deux tâches exclusives ne puissent jamais se chevaucher
 * Tâche à urgence max (augmente avec proximité du début si headline)
 * Tâche à priorité sous-max (idem)
-* Tâche appartenant à un projet mis en avant (à cette session)
-* Une tâche périmée (deadline dans le passé)
-* Tâche doit terminer aujourd'hui (deadline fixe — augmente si hier, avant-hier, etc.)
+* [JS] Tâche appartenant à un projet mis en avant (à cette session)
+* Une tâche périmée par la fin (deadline dans le passé)
+* Une tâche périmée par le début (headline dans le passé)
 * Tâche doit commencer aujourd'hui (headline fixe - augment si hier, avant-hier, etc.)
 * Tâche à deadline qui approche (sans headline ou headline future ou passée)
 * Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
