@@ -50,7 +50,7 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 * [OK] Tâche du jour (<= début aujourd'hui + sans fin/fin aujourd'hui)
 * [OK] Tâche à deadline qui approche (sans headline ou headline future ou passée)
 * [OK] Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
-* Une tâche presque finie (temps restant < 10 % du temps estimé)
+* [OK] Une tâche presque finie (temps restant < 10 % du temps estimé)
 * Tâche courte quand le travailleur les privilégie
 * Tâche de même nature que tâche précédente quand le travailleur les privilégie (sinon, c'est un critère discriminant)
 * Une tâche trop repoussée
@@ -93,6 +93,8 @@ En même temps que je réfléchis à l'algorithme je consigne les conditions par
 
 Note : parler de "Contraintes" dans l'interface
 
+* **Privilégier les tâches courtes/longues**
+* **Durée par défaut d'une tâche** (quand elle n'en définit pas — 30 minutes par défaut)
 * **Limite de nombres de tâche** Peut-être une limite sur le nombre de tâches : soit vraiment en nombre (pas plus de 10 tâches par session) soit en durée de travail (dynamique = en fonction de l'heure et des horaires du travailleur, soit de façon fixe : "je veux des tâches pour 30 minutes")
 * **Filtre sur le durée** : Priorité aux tâches courtes ou longue ou moyennes.
 * **Natures exclusives**. Un paramètre permet au travailleur de décider de travailler exclusivement sur des tâches de nature différente. Plusieurs degrée : "Ne jamais enchainer de tâche de même nature", "Éviter d'enchainer les tâches de même nature", "Aucune contrainte sur les natures"

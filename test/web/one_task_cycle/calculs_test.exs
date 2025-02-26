@@ -208,6 +208,91 @@ defmodule TaskerWeb.OTCCalculsTest do
       assert(task.rank.value == 0)
     end
 
+    defp tasks_for_sort_by_duration do
+      [@hour, @day, @week] 
+      |> Enum.map(fn duree ->
+        F.create_task(%{rank: true, duree: duree})
+      end)
+    end
+
+    test "pour une tâche courte si le worker les privilégie" do
+      # C'est un calcul relatif en fonction des tâches relevées
+      # Cf. l'explication dans task_rank_calculator
+      options = [
+        {:prefs, [
+          {:sort_by_task_duration, :short},
+          {:default_task_duration, 30}
+          ]
+        }
+      ]
+      task_list = tasks_for_sort_by_duration()
+
+      # task_list
+      # |> Enum.map(fn tk -> 
+      #   [tk.rank.value, tk.task_time.expect_duration]
+      # end)
+      # |> IO.inspect(label: "Classement AVANT")
+
+      task_list = RCalc.sort(task_list, options)
+
+      # task_list
+      # |> Enum.map(fn tk -> 
+      #   [tk.rank.value, tk.task_time.expect_duration]
+      # end)
+      # |> IO.inspect(label: "Classement APRÈS")
+
+      task1 = Enum.at(task_list, 0)
+      assert( task1.task_time.expect_duration == @hour )
+      assert (task1.rank.value == 2 * @weights[:per_duration].weight)
+      task2 = Enum.at(task_list, 1)
+      assert( task2.task_time.expect_duration == @day )
+      assert (task2.rank.value == @weights[:per_duration].weight)
+      task3 = Enum.at(task_list, 2)
+      assert( task3.task_time.expect_duration == @week )
+      assert (task3.rank.value == 0)
+    end
+
+    test "pour une tâche longue si le worker les privilégie" do
+      # C'est un calcul relatif en fonction des tâches relevées
+      # Cf. l'explication dans task_rank_calculator
+      options = [
+        {:prefs, [
+          {:sort_by_task_duration, :long},
+          {:default_task_duration, 30}
+          ]
+        }
+      ]
+      task_list = tasks_for_sort_by_duration()
+      # |> IO.inspect(label: "Classement AVANT")
+      
+      task_list = RCalc.sort(task_list, options)
+      # |> IO.inspect(label: "Classement APRÈS")
+
+      task1 = Enum.at(task_list, 0)
+      assert( task1.task_time.expect_duration == @week )
+      assert (task1.rank.value == 2 * @weights[:per_duration].weight)
+      task2 = Enum.at(task_list, 1)
+      assert( task2.task_time.expect_duration == @day )
+      assert (task2.rank.value == @weights[:per_duration].weight)
+      task3 = Enum.at(task_list, 2)
+      assert( task3.task_time.expect_duration == @hour )
+      assert (task3.rank.value == 0)
+
+    end
+
+    test "pour les tâches quand le worker ne priviligie pas les durées" do
+      options = [
+        {:prefs, [
+          {:sort_by_task_duration, nil},
+          {:default_task_duration, 30}
+          ]
+        }
+      ]
+      task_list = tasks_for_sort_by_duration()
+      RCalc.sort(task_list, options)
+
+    end
+
   end #/descript add_weight
 
 end

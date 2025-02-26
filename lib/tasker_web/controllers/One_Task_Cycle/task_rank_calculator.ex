@@ -19,7 +19,10 @@ defmodule Tasker.TaskRankCalculator do
     # commencé
     started_long_ago:   %{weight:     200,      time_factor: 0.001},
     # Une tâche accomplie à 90 %
-    almost_finished:    %{weight:     250,      time_factor: nil}
+    almost_finished:    %{weight:     250,      time_factor: nil},
+    # En fonction de la durée de la tâche, proportionnellement aux
+    # autres
+    per_duration:       %{weight:     250}
   }
   @weight_keys Map.keys(@weights)
 
@@ -27,6 +30,7 @@ defmodule Tasker.TaskRankCalculator do
   def weights, do: @weights
 
   @doc """
+  @main
   Fonction principale qui reçoit une liste de tache (Task) et les
   classe par task_rank avant de les envoyer au client pour usage.
   @main
@@ -39,10 +43,11 @@ defmodule Tasker.TaskRankCalculator do
 
   @param {List of %Task{}} task_list Liste des structures Task.
   """
-  def sort(task_list) when is_list(task_list) do
+  def sort(task_list, options \\ []) when is_list(task_list) do
     task_list
     |> Enum.map(&calc_task_rank(&1))
-    |> Enum.sort_by(&(&1.rank.value))
+    |> add_weight_per_duration(options)
+    |> Enum.sort_by(&(&1.rank.value), :desc)
     |> Enum.with_index()
     |> Enum.map(fn {task, index} -> set_rank(task, :index, index) end)
   end
@@ -63,6 +68,35 @@ defmodule Tasker.TaskRankCalculator do
     %{ task | rank: %TaskRank{} }
     |> calc_remoteness()
     |> add_weights()
+  end
+
+  @doc """
+  Ajoute de la durée à chaque tâche en fonction de sa durée et des
+  choix du travailleur. Si le worker privilégie les tâches courtes
+  plus les tâches sont courtes dans les tâches relevées et plus elles
+  reçoivent de points. Et inversement si le workder a choisi de pri-
+  vilégier les tâches longues.
+  """
+  def add_weight_per_duration(tasks, options) do
+    if is_nil(options[:prefs][:sort_by_task_duration]) do
+      tasks
+    else
+      tasks
+      |> Enum.map(fn task -> 
+        %{task: task, duration: task.task_time.expect_duration || options[:prefs][:default_task_duration] || 30 }
+      end)
+      |> Enum.sort_by(&(&1.duration))
+      # |> IO.inspect(label: "TRIÉES PAR DURÉE")
+      |> (fn liste -> 
+        options[:prefs][:sort_by_task_duration] == :long && liste || Enum.reverse(liste)
+      end).()
+      |> Enum.with_index()
+      |> Enum.map(fn {map, index} -> 
+        poids = index * @weights[:per_duration].weight
+        set_rank(map.task, :value, map.task.rank.value + poids)
+        |> IO.inspect(label: "TACHE AVEC POIDS DUREE")
+      end)
+    end
   end
 
   @doc """
