@@ -1,5 +1,6 @@
 defmodule Tasker.TaskRankCalculator do
 
+  alias Tasker.Tache
   alias Tasker.Tache.{Task, TaskRank}
 
 
@@ -9,7 +10,10 @@ defmodule Tasker.TaskRankCalculator do
     # Le poids de l'expiration (headline dans le passé et non 
     # démarrée) est ajouté à chaque minute : remoteness * weigth
     deadline_expired:   %{weight:       1,      time_factor: nil},
-    headline_expired:   %{weight:     0.5,      time_factor: nil}
+    headline_expired:   %{weight:     0.5,      time_factor: nil},
+    # Une tâche du jour (commence aujourd'hui et fini aujourd'hui 
+    # ou non défini)
+    today_task:         %{weight:     250,      time_factor: nil}
   }
   @weight_keys Map.keys(@weights)
 
@@ -175,12 +179,17 @@ defmodule Tasker.TaskRankCalculator do
     else task end
   end
 
+  def add_weight(task, :today_task) do
+    if Tache.today?(task) do
+      set_rank(task, :value, task.rank.value + @weights[:today_task].weight)
+    else task end
+  end
+
   def add_weight(task, key) when is_atom(key) do
     pvalue = Map.get(task.task_time, key) || 0
     pvalue = pvalue * @weights[key].weight * time_ponderation(task, key)
     set_rank(task, :value, task.rank.value + pvalue)
   end
-
 
   defp time_ponderation(task, key) do
     # IO.puts "-> time_ponderation(key=#{inspect key}) / factor: #{@weights[key].time_factor} / remoteness: #{inspect task.rank.remoteness}"

@@ -57,7 +57,6 @@ defmodule TaskerWeb.OTCCalculsTest do
       |> RCalc.calc_remoteness()
       |> RCalc.add_weight(:priority)
     end
-
     test "en fonction de la priorité et de l'éloignement" do
       report_title("priorité et éloignement")
       (0..5)
@@ -69,7 +68,6 @@ defmodule TaskerWeb.OTCCalculsTest do
         end)
       end)
     end
-
 
     defp task_with_urgence_and_remoteness(urgence, remoteness) do
       ref_date = NaiveDateTime.add(@now, remoteness, :minute)
@@ -94,7 +92,6 @@ defmodule TaskerWeb.OTCCalculsTest do
       |> RCalc.calc_remoteness()
       |> RCalc.add_weight(String.to_atom("#{prop}_expired"))
     end
-
     test "une date expirée par le deadline ajoute le bon poids" do
       expired_weight = RCalc.weights[:deadline_expired].weight
       IO.puts "" # pour le rapport
@@ -135,7 +132,26 @@ defmodule TaskerWeb.OTCCalculsTest do
 
     end
 
-    
+    defp task_du_jour(deadline) do
+      F.create_task(%{:rank => true, :headline => @now, deadline: deadline})
+      |> RCalc.calc_remoteness()
+      |> RCalc.add_weight(:today_task)
+    end
+    test "une tâche d'aujourd'hui gagne un peu" do
+      # Note : une tâche est considérée du jour quand son commencement
+      # est aujourd'hui et que sa fin est nil ou d'aujourd'hui aussi
+      report_title("tâche d'aujourd'hui")
+      task = task_du_jour(nil)
+      assert task.rank.value == 250
+      report(250, "Tâche du jour sans deadline")
+      task = task_du_jour(NaiveDateTime.add(@now, 1000))
+      assert task.rank.value == 250
+      report(250, "Tâche du jour et deadline aujourd'hui")
+      task = task_du_jour(NaiveDateTime.add(@now, 1000000, :minute))
+      assert task.rank.value == 0
+      report(0, "Tâche du jour et deadline lointaine")
+    end
+
   end
 
 end

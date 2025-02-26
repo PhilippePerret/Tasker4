@@ -7,6 +7,8 @@ defmodule Tasker.Tache do
 
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies, TasksWorkers}
 
+  @now NaiveDateTime.utc_now()
+  
   @doc """
   Returns the list of tasks.
 
@@ -211,6 +213,42 @@ defmodule Tasker.Tache do
   def change_task(%Task{} = task, attrs \\ %{}) do
     Task.changeset(task, attrs)
   end
+
+
+  @doc """
+  Retourne true si la tâche est du jour, false dans le cas contraire.
+
+  # Examples
+
+    iex> today?(F.create_task(headline: @now, deadline: nil))
+    true
+
+    iex> today?(F.create_task(headline: @now, deadline: NaiveDateTime.add(@now, 1000)))
+    true
+
+    iex> today?(F.create_task(headline: @now, deadline: :near_future))
+    false
+
+    iex> today?(F.create_task(headline: :far_future))
+    false
+
+    iex> today?(F.create_task(headline: :near_past))
+    false
+
+  """
+  @today_start NaiveDateTime.beginning_of_day(@now)
+  @today_end   NaiveDateTime.end_of_day(@now)
+  def today?(%Task{} = task) do
+    ttime = task.task_time
+    task_start  = ttime.should_start_at
+    task_end    = ttime.should_end_at
+    NaiveDateTime.after?(task_start, @today_start) \
+    and NaiveDateTime.before?(task_start, @today_end) \
+    and (is_nil(task_end) or NaiveDateTime.before?(task_end, @today_end))
+  end
+
+
+
 
   alias Tasker.Tache.TaskSpec
 
