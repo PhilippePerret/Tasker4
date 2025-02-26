@@ -19,12 +19,21 @@ defmodule TaskerWeb.OTCCalculsTest do
 
   alias Tasker.TaskRankCalculator, as: RCalc
 
+  @weights RCalc.weights
+
   # Les durées en minutes
   @now    NaiveDateTime.utc_now()
   @hour   60
   @day    @hour * 24
   @week   @day * 7
   @month  @week * 4
+
+  @eloignements [
+    {"1 heure",   @hour},
+    {"1 jour",    @day},
+    {"1 semaine", @week},
+    {"1 mois",    @month}
+  ] 
 
   doctest Tasker.TaskRankCalculator
 
@@ -33,7 +42,51 @@ defmodule TaskerWeb.OTCCalculsTest do
     IO.puts String.pad_trailing("📠 #{line}", 50, ".") <> " #{signe} #{value}"
   end
 
+  defp report_title(condition) do
+    title = "Ajouté à rank.value par #{condition}"
+    titlen = String.length(title)
+    IO.puts "\n#{title}\n#{String.pad_leading("", titlen, "-")}"
+  end
+
+
   describe "Calcul du poids (add_weight)" do
+
+    defp task_with_priority_and_remoteness(priority, remoteness) do
+      ref_date = NaiveDateTime.add(@now, remoteness, :minute)
+      F.create_task(%{:rank => true, :priority => priority, :headline => ref_date})
+      |> RCalc.calc_remoteness()
+      |> RCalc.add_weight(:priority)
+    end
+
+    test "en fonction de la priorité et de l'éloignement" do
+      report_title("priorité et éloignement")
+      (0..5)
+      |> Enum.each(fn priority -> 
+        @eloignements |> Enum.each(fn {msg, remoteness} ->
+          tk = task_with_priority_and_remoteness(priority, remoteness)
+          report(tk.rank.value, "Tâche à #{msg} avec priorité de #{priority}")
+          assert tk.rank.value == round(priority * @weights[:priority].weight * @weights[:priority].time_factor / remoteness)
+        end)
+      end)
+    end
+
+
+    defp task_with_urgence_and_remoteness(urgence, remoteness) do
+      ref_date = NaiveDateTime.add(@now, remoteness, :minute)
+      F.create_task(%{:rank => true, :urgence => urgence, :headline => ref_date})
+      |> RCalc.calc_remoteness()
+      |> RCalc.add_weight(:urgence)
+    end
+    test "en fonction de l'urgence et de l'éloignement" do
+      report_title("urgence et éloignement")
+      (0..5) |> Enum.each(fn urgence -> 
+        @eloignements |> Enum.each(fn {msg, remoteness} ->
+          tk = task_with_urgence_and_remoteness(urgence, remoteness)
+          report(tk.rank.value, "Tâche à #{msg} avec urgence de #{urgence}")
+          assert tk.rank.value == round(urgence * @weights[:urgence].weight * @weights[:urgence].time_factor / remoteness)
+        end)
+      end)
+    end
 
     defp task_expired_with_weight(expireness, prop) do
       ref_date = NaiveDateTime.add(@now, -expireness, :minute)
@@ -45,12 +98,7 @@ defmodule TaskerWeb.OTCCalculsTest do
     test "une date expirée par le deadline ajoute le bon poids" do
       expired_weight = RCalc.weights[:deadline_expired].weight
       IO.puts "" # pour le rapport
-      [
-        {"1 heure",   @hour},
-        {"1 jour",    @day},
-        {"1 semaine", @week},
-        {"1 mois",    @month}
-      ] |> Enum.each(fn {msg, duree} -> 
+      @eloignements |> Enum.each(fn {msg, duree} -> 
         task = task_expired_with_weight(duree, :deadline)
         expect = expired_weight * duree
         report(expect, "Date expirée par deadline depuis #{msg}")
@@ -69,7 +117,7 @@ defmodule TaskerWeb.OTCCalculsTest do
       #   - le poids est un poids par minute
       # Le poids de l'expiration de la tâche
       expired_weight    = RCalc.weights[:headline_expired].weight
-      IO.puts "" # pour le rapport
+      report_title("tâche expirée")
 
       [
         {"1 heure", @hour},
@@ -79,7 +127,7 @@ defmodule TaskerWeb.OTCCalculsTest do
       ]
       |> Enum.each(fn {msg, duree} -> 
         task = task_expired_with_weight(duree, :headline)
-        expect = expired_weight * duree / 4  # 1.5
+        expect = round(expired_weight * duree / 4)  # 1.5
         report(expect, "Date expirée par headline depuis #{msg}")
         actual = task.rank.value
         assert(expect == actual)

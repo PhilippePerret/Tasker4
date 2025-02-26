@@ -4,8 +4,8 @@ defmodule Tasker.TaskRankCalculator do
 
 
   @weights %{
-    priority:           %{weight:   100_000,    time_factor: 2},
-    urgence:            %{weight:   50_000,     time_factor: 2},
+    priority:           %{weight:   100_000,    time_factor: 7.5},
+    urgence:            %{weight:   50_000,     time_factor: 7.5},
     # Le poids de l'expiration (headline dans le passé et non 
     # démarrée) est ajouté à chaque minute : remoteness * weigth
     deadline_expired:   %{weight:       1,      time_factor: nil},
@@ -156,7 +156,7 @@ defmodule Tasker.TaskRankCalculator do
   """
   def add_weight(task, :headline_expired = prop) do
     ttime = task.task_time
-    if ttime.should_start_at and is_nil(ttime.started_at) do
+    if !is_nil(ttime.should_start_at) and is_nil(ttime.started_at) do
       if is_nil(task.rank.remoteness) do
         raise "remoteness ne devrait pas pouvoir être nil avec should_end_at à #{task.task_time.should_end_at}"
       end
@@ -183,15 +183,19 @@ defmodule Tasker.TaskRankCalculator do
 
 
   defp time_ponderation(task, key) do
+    # IO.puts "-> time_ponderation(key=#{inspect key}) / factor: #{@weights[key].time_factor} / remoteness: #{inspect task.rank.remoteness}"
     cond do
       is_nil(task.rank.remoteness)  -> 1
       task.rank.remoteness == 0     -> 1
-      @weights[key].time_factor     -> @weights[key].time_factor / task.rank.remoteness
+      @weights[key].time_factor > 0 -> 
+        @weights[key].time_factor / task.rank.remoteness
+        # |> IO.inspect(label: "[key=#{inspect key}/factor=#{@weights[key].time_factor}/remoteness=#{inspect task.rank.remoteness}] Pondération de")
       true                          -> 1
     end
   end
 
   defp set_rank(task, key, value) do
+    value = (key == :value) && round(value) || value
     %{task | rank: %{task.rank | key => value }}
   end
 end

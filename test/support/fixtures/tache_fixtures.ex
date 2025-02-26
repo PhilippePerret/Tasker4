@@ -73,9 +73,11 @@ defmodule Tasker.TacheFixtures do
         details: attrs[:details]
       },
       task_time: %{
-        should_start_at: nil,
-        should_end_at:   nil,
-        started_at:      nil
+        should_start_at:  nil,
+        should_end_at:    nil,
+        started_at:       nil,
+        priority:         attrs[:priority],
+        urgence:          attrs[:urgence]
       },
     }
 
