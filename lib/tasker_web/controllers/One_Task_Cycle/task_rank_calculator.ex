@@ -17,7 +17,9 @@ defmodule Tasker.TaskRankCalculator do
     today_task:         %{weight:     250,      time_factor: nil},
     # Une tâche sans échéance (ni headline ni deadline) qui a été
     # commencé
-    started_long_ago:   %{weight:     200,      time_factor: 0.001}
+    started_long_ago:   %{weight:     200,      time_factor: 0.001},
+    # Une tâche accomplie à 90 %
+    almost_finished:    %{weight:     250,      time_factor: nil}
   }
   @weight_keys Map.keys(@weights)
 
@@ -187,6 +189,20 @@ defmodule Tasker.TaskRankCalculator do
     if Tache.today?(task) do
       set_rank(task, :value, task.rank.value + @weights[:today_task].weight)
     else task end
+  end
+
+  # Tâche presque achevée
+  def add_weight(task, :almost_finished = key) do
+    ttime = task.task_time
+    duree = ttime.expect_duration # durée espérée
+    execu = ttime.execution_time  # temps d'exécution déjà effectué
+    cond do
+      is_nil(ttime.started_at) -> task
+      is_nil(duree) or is_nil(execu) -> task
+      (execu < duree * 90 / 100) -> task
+      true ->
+        set_rank(task, :value, task.rank.value + @weights[key].weight)
+    end
   end
 
 

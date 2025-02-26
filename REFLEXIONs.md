@@ -49,7 +49,7 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 * [OK] Une tâche périmée par le début (headline dans le passé)
 * [OK] Tâche du jour (<= début aujourd'hui + sans fin/fin aujourd'hui)
 * [OK] Tâche à deadline qui approche (sans headline ou headline future ou passée)
-* Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
+* [OK] Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
 * Une tâche presque finie (temps restant < 10 % du temps estimé)
 * Tâche courte quand le travailleur les privilégie
 * Tâche de même nature que tâche précédente quand le travailleur les privilégie (sinon, c'est un critère discriminant)

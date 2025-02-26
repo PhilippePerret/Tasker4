@@ -50,6 +50,10 @@ defmodule TaskerWeb.OTCCalculsTest do
     IO.puts "\n#{title}\n#{String.pad_leading("", titlen, "-")}"
   end
 
+  defp time_from_now(minutes) do
+    NaiveDateTime.add(@now, minutes, :minute)
+  end
+
 
   describe "Calcul du poids (add_weight)" do
 
@@ -158,13 +162,16 @@ defmodule TaskerWeb.OTCCalculsTest do
       assert task.rank.value > 0
 
       @eloignements |> Enum.each(fn {msg, duree} -> 
-        date = NaiveDateTime.add(@now, - duree, :minute)
+        date = time_from_now(- duree)
         task = F.create_task(%{rank: true, started: date})
         |> RCalc.calc_remoteness()
         |> RCalc.add_weight(:started_long_ago)
+        # |> IO.inspect(label: "Tâche")
         
         rem = NaiveDateTime.diff(@now, task.task_time.started_at, :minute)
+        # |> IO.inspect(label: "remote started")
         expect = @weights[:started_long_ago].weight * rem * @weights[:started_long_ago].time_factor
+        # assert true
         assert equal_with_tolerance?(
           round(expect), 
           task.rank.value, 
@@ -172,8 +179,33 @@ defmodule TaskerWeb.OTCCalculsTest do
          ) 
         report(expect, "Tâche (sans échéances) commencée depuis #{msg}")
       end)
+    end
 
+    test "une tâche presque finie ajoute du poids" do
+      task = F.create_task(%{
+        rank: true, 
+        headline: time_from_now(- @day),
+        started:  time_from_now((- @day) + @hour),
+        duree: @day,
+        exec_duree: @day - (@day * 5 / 100)
+      })
+      |> RCalc.calc_remoteness()
+      |> RCalc.add_weight(:almost_finished)
+      
+      assert(task.rank.value == @weights[:almost_finished].weight)
 
+      # Une tâche non touchée par cette condition
+      task = F.create_task(%{
+        rank: true, 
+        started:  time_from_now((- @day) + @hour),
+        headline: time_from_now(- @day),
+        duree: @day,
+        exec_duree: @day - (@day * 20 / 100)
+      })
+      |> RCalc.calc_remoteness()
+      |> RCalc.add_weight(:almost_finished)
+  
+      assert(task.rank.value == 0)
     end
 
   end #/descript add_weight

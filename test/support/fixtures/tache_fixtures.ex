@@ -37,6 +37,7 @@ defmodule Tasker.TacheFixtures do
             random_time(:after, NaiveDateTime.add(now(), @week * 2, :minute), @day)
             # |> IO.inspect(label: "\nFutur lointain (> 2 semaines) (pour #{inspect prop})")
         %NaiveDateTime{} -> spec
+        _ -> spec
       end        
       %{task_data | task_time: %{task_data.task_time | prop => thetime}}
     end
@@ -61,6 +62,8 @@ defmodule Tasker.TacheFixtures do
     :natures      yes|no      Liste des natures
     :rank         true    Ajout de la structure TaskRank
                   %TaskRank{}   On met ce task_rank
+    :duree        :expect_duration
+    :exec_duree   :execution_time
 
   """
   def create_task(attrs \\ %{}) do
@@ -77,7 +80,9 @@ defmodule Tasker.TacheFixtures do
         should_end_at:    nil,
         started_at:       nil,
         priority:         attrs[:priority],
-        urgence:          attrs[:urgence]
+        urgence:          attrs[:urgence],
+        expect_duration:  attrs[:duree],
+        execution_time:   attrs[:exec_duree]
       },
     }
 
@@ -89,12 +94,6 @@ defmodule Tasker.TacheFixtures do
         %{attrs | deadline: random_time(:after, dtask.task_time.should_start_at)}
       else attrs end
     dtask = set_spec_time(dtask, :should_end_at, attrs[:deadline])
-    # - STARTED -
-    attrs = 
-      if attrs[:started] === true do
-        %{attrs | started: random_time(:before)}
-      else attrs end
-    dtask = set_spec_time(dtask, :started_at, attrs[:started])
 
 
     {:ok, task} = Tache.create_task(dtask.task)
@@ -103,6 +102,25 @@ defmodule Tasker.TacheFixtures do
     Tache.update_task_time(task.task_time, dtask.task_time)
     # Il faut la relever pour avoir les bonnes valeurs
     task = Tache.get_task!(task.id)
+
+    # - STARTED -
+    attrs = 
+      case attrs[:started] do
+        true -> %{attrs | started: random_time(:before)}
+        NaiveDateTime -> %{attrs | started: attrs[:started]}
+        _ -> attrs
+      end
+    task = set_spec_time(task, :started_at, attrs[:started])
+
+    # - Durée estimée -
+    task = if attrs[:duree] do
+      set_spec_time(task, :expect_duration, attrs[:duree])
+    else task end
+
+    # - Temps d'exécution -
+    task = if attrs[:exec_duree] do
+      set_spec_time(task, :execution_time, attrs[:exec_duree])
+    else task end
 
     # - DÉPENDANTE -
     case attrs[:deps_before] do

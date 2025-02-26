@@ -10,7 +10,8 @@ defmodule TestHandies do
         |> String.slice((0..-2//1))
         |> (fn s -> String.contains?(s, ".") && String.to_float(s) || String.to_integer(s) end).()
         |> (fn x -> sujet * x / 100 end).()
-        |> IO.inspect(label: "Tolérance pour #{sujet}")
+        |> (fn x -> x > 5 && x || 5 end).() # minimum 5
+        # |> IO.inspect(label: "Tolérance pour #{sujet}")
       else 
         tolerance
       end
