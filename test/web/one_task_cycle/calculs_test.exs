@@ -41,7 +41,7 @@ defmodule TaskerWeb.OTCCalculsTest do
 
   defp report(value, line) do
     signe = value > 0 && "+" || "-"
-    IO.puts String.pad_trailing("📠 #{line}", 50, ".") <> " #{signe} #{value}"
+    IO.puts String.pad_trailing("📠 #{line}", 60, ".") <> " #{signe} #{value}"
   end
 
   defp report_title(condition) do
@@ -118,13 +118,7 @@ defmodule TaskerWeb.OTCCalculsTest do
       expired_weight    = RCalc.weights[:headline_expired].weight
       report_title("tâche expirée")
 
-      [
-        {"1 heure", @hour},
-        {"1 jour",  @day},
-        {"1 semaine", @week},
-        {"1 mois", @month}
-      ]
-      |> Enum.each(fn {msg, duree} -> 
+      @eloignements |> Enum.each(fn {msg, duree} -> 
         task = task_expired_with_weight(duree, :headline)
         expect = round(expired_weight * duree / 4)  # 1.5
         report(expect, "Date expirée par headline depuis #{msg}")
@@ -154,6 +148,34 @@ defmodule TaskerWeb.OTCCalculsTest do
       report(0, "Tâche du jour et deadline lointaine")
     end
 
-  end
+    test "une tâche sans échéance mais depuis trop longtemps dans la liste" do
+      # En fait, ça correspond à une tâche dont le started_at est très
+      # lointain. Plus ce started_at est lointain, plus la tâche a de poids
+      report_title("tâche démarrée, sans échéance")
+      task = F.create_task(%{rank: true, started: :far_past})
+      |> RCalc.calc_remoteness()
+      |> RCalc.add_weight(:started_long_ago)
+      assert task.rank.value > 0
+
+      @eloignements |> Enum.each(fn {msg, duree} -> 
+        date = NaiveDateTime.add(@now, - duree, :minute)
+        task = F.create_task(%{rank: true, started: date})
+        |> RCalc.calc_remoteness()
+        |> RCalc.add_weight(:started_long_ago)
+        
+        rem = NaiveDateTime.diff(@now, task.task_time.started_at, :minute)
+        expect = @weights[:started_long_ago].weight * rem * @weights[:started_long_ago].time_factor
+        assert equal_with_tolerance?(
+          round(expect), 
+          task.rank.value, 
+          "5%"
+         ) 
+        report(expect, "Tâche (sans échéances) commencée depuis #{msg}")
+      end)
+
+
+    end
+
+  end #/descript add_weight
 
 end

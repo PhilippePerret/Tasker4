@@ -47,8 +47,8 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 * [JS] Tâche appartenant à un projet mis en avant (à cette session)
 * [OK] Une tâche périmée par la fin (deadline dans le passé)
 * [OK] Une tâche périmée par le début (headline dans le passé)
-* Tâche du jour (<= début aujourd'hui + sans fin/fin aujourd'hui)
-* Tâche à deadline qui approche (sans headline ou headline future ou passée)
+* [OK] Tâche du jour (<= début aujourd'hui + sans fin/fin aujourd'hui)
+* [OK] Tâche à deadline qui approche (sans headline ou headline future ou passée)
 * Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
 * Une tâche presque finie (temps restant < 10 % du temps estimé)
 * Tâche courte quand le travailleur les privilégie

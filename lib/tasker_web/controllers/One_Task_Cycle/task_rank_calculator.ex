@@ -3,6 +3,7 @@ defmodule Tasker.TaskRankCalculator do
   alias Tasker.Tache
   alias Tasker.Tache.{Task, TaskRank}
 
+  @now NaiveDateTime.utc_now()
 
   @weights %{
     priority:           %{weight:   100_000,    time_factor: 7.5},
@@ -13,7 +14,10 @@ defmodule Tasker.TaskRankCalculator do
     headline_expired:   %{weight:     0.5,      time_factor: nil},
     # Une tâche du jour (commence aujourd'hui et fini aujourd'hui 
     # ou non défini)
-    today_task:         %{weight:     250,      time_factor: nil}
+    today_task:         %{weight:     250,      time_factor: nil},
+    # Une tâche sans échéance (ni headline ni deadline) qui a été
+    # commencé
+    started_long_ago:   %{weight:     200,      time_factor: 0.001}
   }
   @weight_keys Map.keys(@weights)
 
@@ -185,10 +189,27 @@ defmodule Tasker.TaskRankCalculator do
     else task end
   end
 
+
+  # Fonction qui ajoute du poids quand la tâche, sans échéance, a été
+  # démarrée. Plus elle a été démarrée il y a longtemps et plus le
+  # poids est élevée.
+  # Attention : pour une tâche concernée, le remoteness est à 0, 
+  # puisque le remoteness ne compte que l'éloignement d'une tâche non
+  # démarée
+  def add_weight(task, :started_long_ago = key) do
+    ttime = task.task_time
+    if is_nil(ttime.should_start_at) and is_nil(ttime.should_end_at) and (!is_nil(ttime.started_at)) do
+      start_remoteness = NaiveDateTime.diff(@now, ttime.started_at, :minute)
+      time_emphasis = start_remoteness * @weights[key].time_factor
+      poids = @weights[key].weight * time_emphasis
+      set_rank(task, :value, task.rank.value + poids)
+    else task end
+  end
+
   def add_weight(task, key) when is_atom(key) do
-    pvalue = Map.get(task.task_time, key) || 0
-    pvalue = pvalue * @weights[key].weight * time_ponderation(task, key)
-    set_rank(task, :value, task.rank.value + pvalue)
+    poids = Map.get(task.task_time, key) || 0
+    poids = poids * @weights[key].weight * time_ponderation(task, key)
+    set_rank(task, :value, task.rank.value + poids)
   end
 
   defp time_ponderation(task, key) do
