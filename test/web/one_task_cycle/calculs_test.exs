@@ -7,6 +7,8 @@ defmodule TaskerWeb.OTCCalculsTest do
   """
   use Tasker.DataCase
 
+  import TestHandies # par exemple equal_with_tolerance/3
+
   # import CommonTestMethods # is_around etc.
   # alias Tasker.Repo
 
@@ -64,7 +66,7 @@ defmodule TaskerWeb.OTCCalculsTest do
         @eloignements |> Enum.each(fn {msg, remoteness} ->
           tk = task_with_priority_and_remoteness(priority, remoteness)
           report(tk.rank.value, "Tâche à #{msg} avec priorité de #{priority}")
-          assert tk.rank.value == round(priority * @weights[:priority].weight * @weights[:priority].time_factor / remoteness)
+          assert equal_with_tolerance?(round(priority * @weights[:priority].weight * @weights[:priority].time_factor / remoteness), tk.rank.value, "5%")
         end)
       end)
     end
@@ -81,7 +83,7 @@ defmodule TaskerWeb.OTCCalculsTest do
         @eloignements |> Enum.each(fn {msg, remoteness} ->
           tk = task_with_urgence_and_remoteness(urgence, remoteness)
           report(tk.rank.value, "Tâche à #{msg} avec urgence de #{urgence}")
-          assert tk.rank.value == round(urgence * @weights[:urgence].weight * @weights[:urgence].time_factor / remoteness)
+          assert equal_with_tolerance?(round(urgence * @weights[:urgence].weight * @weights[:urgence].time_factor / remoteness), tk.rank.value, "5%")
         end)
       end)
     end

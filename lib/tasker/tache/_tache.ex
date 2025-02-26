@@ -242,8 +242,8 @@ defmodule Tasker.Tache do
     ttime = task.task_time
     task_start  = ttime.should_start_at
     task_end    = ttime.should_end_at
-    NaiveDateTime.after?(task_start, @today_start) \
-    and NaiveDateTime.before?(task_start, @today_end) \
+    (!is_nil(task_start) and NaiveDateTime.after?(task_start, @today_start)) \
+    and (!is_nil(task_start) and NaiveDateTime.before?(task_start, @today_end)) \
     and (is_nil(task_end) or NaiveDateTime.before?(task_end, @today_end))
   end
 
