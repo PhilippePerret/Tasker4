@@ -139,7 +139,7 @@ defmodule Tasker.TaskRankCalculator do
   """
   def range_per_natures(list, options) do
     case options[:prefs][:prioritize_same_nature] do
-    true  -> rapproche_same_natures_in(list) |> debug_liste_taches()
+    true  -> rapproche_same_natures_in(list) # |> debug_liste_taches()
     false -> eloigne_same_natures_in(list)
     nil   -> list
     end
@@ -153,10 +153,6 @@ defmodule Tasker.TaskRankCalculator do
     last_index = Enum.count(list) - 3
     (0..last_index)
     |> Enum.reduce(list, fn index, nlist ->
-      if true do
-        IO.puts "--- Traitement index #{index}"
-        debug_liste_taches(nlist)
-      end
       task   = Enum.at(nlist, index)
       # IO.inspect(task, label: "TASK")
       next_1 = Enum.at(nlist, index + 1)
@@ -165,7 +161,6 @@ defmodule Tasker.TaskRankCalculator do
         # <=  Si la tâche suivante ne partage aucune nature mais que 
         #     la tache + 2 en partage 
         # =>  On remonte la tâche + 2
-        IO.puts "Partage des natures entre T et T+2"
         Enum.slide(nlist, index + 2, index + 1)
         # |> debug_liste_taches()
       else
@@ -173,13 +168,39 @@ defmodule Tasker.TaskRankCalculator do
       end
     end)
   end
+
+  # Traitement de l'éloignement des tâches de même(s) nature(s)
+  # Principe :
+  #   Si une tâche suivante partage les mêmes natures que la tâche
+  #   précédente, on doit l'éloigner.
+  # MAIS
+  #   Pour ne pas déséquilibrer les ranks, on ne le fait qu'une fois
+  #   et seulement si le déplacement est intéressant.
   defp eloigne_same_natures_in(list) do
+    last_index = Enum.count(list) - 2 # on ne peut pas faire descendre la dernière
+    (1..last_index)
+    |> Enum.reduce(list, fn index, nlist ->
+      pretk = Enum.at(nlist, index - 1)
+      curtk = Enum.at(nlist, index)
+      nextk = Enum.at(nlist, index + 1)
+      if share_natures?(pretk, curtk) && !share_natures?(curtk, nextk) do
+        Enum.slide(nlist, index, index + 1)
+        # |> debug_liste_taches()
+      else
+        nlist
+      end
+    end)
   end
 
 
   defp debug_liste_taches(liste) do
     liste |> Enum.map(fn tk ->
-      IO.puts "- T. #{tk.id} rank:#{tk.rank.value} -- #{Enum.join(tk.natures, ", ")}"
+      natures = 
+      case Enum.at(tk.natures, 0) do
+      nature when is_binary(nature) -> Enum.join(tk.natures, ", ")
+      _ -> Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", ")
+      end
+      IO.puts "- T. #{tk.id} rank:#{tk.rank.value} -- #{natures}"
     end)
     liste
   end

@@ -31,21 +31,19 @@ defmodule TestHandies do
       props = props ++ Enum.map(properties, fn prop -> 
         case prop do
           :natures ->    if !is_nil(titre) do
-      IO.puts "---> #{titre} <---"
-    end
-
-            first_nature = Enum.at(tk.natures, 0)
-            case first_nature do
-            nil -> "natures = []"
-            nature when is_binary(nature) -> 
-              "natures = " <> Enum.join(tk.natures, ", ")
-            _ ->
-              "natures = " <> (Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", "))
-            end
-          _ -> 
-            "prop = #{inspect tk[prop]}"
         end
-      end)
+        first_nature = Enum.at(tk.natures, 0)
+        case first_nature do
+          nil -> "natures = []"
+          nature when is_binary(nature) -> 
+            "natures = " <> Enum.join(tk.natures, ", ")
+          _ ->
+            "natures = " <> (Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", "))
+          end
+        _ -> 
+          "prop = #{inspect tk[prop]}"
+      end
+    end)
 
       IO.puts "- T. #{Enum.join(props, " - ")}"
     end)

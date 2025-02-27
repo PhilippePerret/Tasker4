@@ -357,12 +357,58 @@ defmodule TaskerWeb.OTCCalculsTest do
       assert(Enum.at(new_task_list, 1).id == task1.id)
       assert(Enum.at(new_task_list, 2).id == task3.id)
       assert(Enum.at(new_task_list, 3).id == task2.id)
-
     end
 
     test "pour les tâches de même nature avec rejet par le worker" do
+      # Ce choix n'affecte pas le poids de la tâche mais son index (son
+      # classement dans la liste finale)
+      options = [
+        {:prefs, [
+          {:sort_by_task_duration, nil},
+          {:default_task_duration, 30},
+          {:prioritize_same_nature, false}
+          ]
+        }
+      ]
+      task_list = tasks_for_sort_by_nature()
+      # |> debug_tasks([:natures], "Avant tri")
+      task0 = Enum.at(task_list, 0)
+      task1 = Enum.at(task_list, 1)
+      task2 = Enum.at(task_list, 2)
+      task3 = Enum.at(task_list, 3)
+      new_task_list = RCalc.sort(task_list, options)
+      # |> debug_tasks([:natures], "Après classement")
+      # Nouvel ordre
+      assert(Enum.at(new_task_list, 0).id == task0.id)
+      assert(Enum.at(new_task_list, 1).id == task2.id)
+      assert(Enum.at(new_task_list, 2).id == task1.id)
+      assert(Enum.at(new_task_list, 3).id == task3.id)
+
     end
     test "pour les tâches de même nature sans préférence" do
+      # Sans préférences au niveau des natures, la liste garde
+      # le même ordre
+      options = [
+        {:prefs, [
+          {:sort_by_task_duration, nil},
+          {:default_task_duration, 30},
+          {:prioritize_same_nature, nil}
+          ]
+        }
+      ]
+      task_list = tasks_for_sort_by_nature()
+      # |> debug_tasks([:natures], "Avant tri")
+      task0 = Enum.at(task_list, 0)
+      task1 = Enum.at(task_list, 1)
+      task2 = Enum.at(task_list, 2)
+      task3 = Enum.at(task_list, 3)
+      new_task_list = RCalc.sort(task_list, options)
+      # |> debug_tasks([:natures], "Après classement")
+      # Nouvel ordre
+      assert(Enum.at(new_task_list, 0).id == task0.id)
+      assert(Enum.at(new_task_list, 1).id == task1.id)
+      assert(Enum.at(new_task_list, 2).id == task2.id)
+      assert(Enum.at(new_task_list, 3).id == task3.id)
     end
 
   end #/descript add_weight
