@@ -57,6 +57,25 @@ defmodule TaskerWeb.OTCCalculsTest do
 
   describe "Calcul du poids (add_weight)" do
 
+    test "en fonction de l'éloignement de l'headline" do
+      # Les tâches, sans autre prérogatives, sont classées
+      # par leur proximité
+
+      task1 = F.create_task(headline: time_from_now(@day + 1000))
+      task2 = F.create_task(headline: time_from_now(@day + 100000))
+      task3 = F.create_task(headline: time_from_now(@day + 200))
+
+      liste = [task1, task2, task3]
+      new_liste = RCalc.sort(liste)
+      # new_liste |> Enum.each(fn tk ->
+      #   IO.puts "- T. #{tk.id} [rank=#{tk.rank.value}]"
+      # end)
+      assert( Enum.at(new_liste, 0).id == task3.id )
+      assert( Enum.at(new_liste, 1).id == task1.id )
+      assert( Enum.at(new_liste, 2).id == task2.id )
+
+    end
+
     defp task_with_priority_and_remoteness(priority, remoteness) do
       ref_date = NaiveDateTime.add(@now, remoteness, :minute)
       F.create_task(%{:rank => true, :priority => priority, :headline => ref_date})
@@ -280,17 +299,66 @@ defmodule TaskerWeb.OTCCalculsTest do
 
     end
 
-    test "pour les tâches quand le worker ne priviligie pas les durées" do
+    # Retourne une liste de 4 tâches avec les natures réparties
+    # de cette manière :
+    #   – tâche 1 : natures ['writing', 'docu']
+    #   - tâche 2 : natures ['writing', 'sports']
+    #   - tâche 3 : natures ['report']
+    #   - tâche 4 : natures ['sports', 'pedago', 'drama']
+    # 
+    # Fonctionnement suivant le réglage de :prioritize_same_nature
+    # Quand TRUE (le worker privilégie les mêmes natures)
+    #   => la tâche 4 doit monter après la tâche 2 donc l'ordre
+    #       doit devenir : 1, 2, 4, 3
+    # Quand FALSE (le worker privilégie les natures différentes)
+    #   => la tâche 2 doit descendre d'une tâche
+    #   => la tâche 4 doit monter tout en haut
+    #   => l'ordre doit devenir : 4, 1, 3, 2
+    # Quand NIL (aucune préférence)
+    #   L'ordre doit rester le même
+    # 
+    # Note pour classer dans le bon order, il suffit de créer les
+    # tâche avec un should_start_at progressif.
+    defp tasks_for_sort_by_nature do
+      [
+        ["writing", "docu"],
+        ["writing", "sport"],
+        ["report"],
+        ["sport", "pedago", "drama"]
+      ] |> Enum.with_index()
+      |> Enum.map(fn {natures, index} -> 
+        F.create_task(%{headline: time_from_now(index * 60), natures: natures})
+      end)
+    end
+
+    test "pour les tâches de même nature quand le worker les priviligie " do
+      # Ce choix n'affecte pas le poids de la tâche mais son index (son
+      # classement dans la liste finale)
       options = [
         {:prefs, [
           {:sort_by_task_duration, nil},
-          {:default_task_duration, 30}
+          {:default_task_duration, 30},
+          {:prioritize_same_nature, true}
           ]
         }
       ]
-      task_list = tasks_for_sort_by_duration()
-      RCalc.sort(task_list, options)
+      task_list = tasks_for_sort_by_nature()
+      task0 = Enum.at(task_list, 0)
+      task1 = Enum.at(task_list, 1)
+      task2 = Enum.at(task_list, 2)
+      task3 = Enum.at(task_list, 3)
+      new_task_list = RCalc.sort(task_list, options)
+      # Nouvel ordre
+      assert(Enum.at(new_task_list, 0).id == task0.id)
+      assert(Enum.at(new_task_list, 1).id == task1.id)
+      assert(Enum.at(new_task_list, 2).id == task3.id)
+      assert(Enum.at(new_task_list, 3).id == task2.id)
 
+    end
+
+    test "pour les tâches de même nature avec rejet par le worker" do
+    end
+    test "pour les tâches de même nature sans préférence" do
     end
 
   end #/descript add_weight

@@ -1,13 +1,35 @@
 defmodule Tasker.TaskRankCalculator do
+  @moduledoc """
+
+
+  PRÉFÉRENCES
+  -----------
+  Les préférences du worker agissent sur le choix et l'ordre des
+  tâches qui seront remontées. 
+  Ces préférences sont ajoutées ci-dessous dans l'argument 'options'
+  donné en seconde paramètre à la fonction sort/2 du module.
+  Ces préférences 
+    options = [
+      {:prefs, [
+        {:sort_by_task_duration, :long|:short|nil},
+        {:default_task_duration, <nombre de minutes|30>},
+        {:prioritize_same_nature, true|false|nil}
+      ]}
+    ]
+  """
 
   alias Tasker.Tache
   alias Tasker.Tache.{Task, TaskRank}
 
   @now NaiveDateTime.utc_now()
+  @hour 60
+  @day  @hour * 24
+  @week @day * 7
 
   @weights %{
     priority:           %{weight:   100_000,    time_factor: 7.5},
     urgence:            %{weight:   50_000,     time_factor: 7.5},
+    remoteness:         %{weight:     100,      time_factor: 5},
     # Le poids de l'expiration (headline dans le passé et non 
     # démarrée) est ajouté à chaque minute : remoteness * weigth
     deadline_expired:   %{weight:       1,      time_factor: nil},
@@ -22,7 +44,7 @@ defmodule Tasker.TaskRankCalculator do
     almost_finished:    %{weight:     250,      time_factor: nil},
     # En fonction de la durée de la tâche, proportionnellement aux
     # autres
-    per_duration:       %{weight:     250}
+    per_duration:       %{weight:     250,      time_factor: nil}
   }
   @weight_keys Map.keys(@weights)
 
@@ -48,6 +70,7 @@ defmodule Tasker.TaskRankCalculator do
     |> Enum.map(&calc_task_rank(&1))
     |> add_weight_per_duration(options)
     |> Enum.sort_by(&(&1.rank.value), :desc)
+    |> range_per_natures(options)
     |> Enum.with_index()
     |> Enum.map(fn {task, index} -> set_rank(task, :index, index) end)
   end
@@ -98,6 +121,76 @@ defmodule Tasker.TaskRankCalculator do
       end)
     end
   end
+
+  @doc """
+  Cette fonction range la liste de tâches +list+ en fonction des
+  choix par rapport aux natures défini par : 
+    options.prefs.prioritize_same_nature
+  qui peut avoir les valeurs :
+    true    Privilégier les tâches de même nature
+            Concrètement, ça signifie que si deux tâches de même
+            nature sont séparées par une tâche, on les rapproche.
+    false   Éviter d'enchainer les tâches de même nature
+            Concrètement, ça signifie que si deux tâches de même
+            nature se suivent, on éloigne la deuxième
+    nil     Indifférent
+
+  @return La liste des tâches classée (ou gardée telle quelle)
+  """
+  def range_per_natures(list, options) do
+    case options[:prefs][:prioritize_same_nature] do
+    true  -> rapproche_same_natures_in(list) |> debug_liste_taches()
+    false -> eloigne_same_natures_in(list)
+    nil   -> list
+    end
+  end
+  defp rapproche_same_natures_in(list) do
+    list = list
+    |> Enum.map(fn tk ->
+      %{tk | natures: Enum.map(tk.natures, fn nature -> nature.id end)}
+    end)
+
+    last_index = Enum.count(list) - 3
+    (0..last_index)
+    |> Enum.reduce(list, fn index, nlist ->
+      if true do
+        IO.puts "--- Traitement index #{index}"
+        debug_liste_taches(nlist)
+      end
+      task   = Enum.at(nlist, index)
+      # IO.inspect(task, label: "TASK")
+      next_1 = Enum.at(nlist, index + 1)
+      next_2 = Enum.at(nlist, index + 2)
+      if !share_natures?(task, next_1) and share_natures?(task, next_2) do
+        # <=  Si la tâche suivante ne partage aucune nature mais que 
+        #     la tache + 2 en partage 
+        # =>  On remonte la tâche + 2
+        IO.puts "Partage des natures entre T et T+2"
+        Enum.slide(nlist, index + 2, index + 1)
+        # |> debug_liste_taches()
+      else
+        nlist
+      end
+    end)
+  end
+  defp eloigne_same_natures_in(list) do
+  end
+
+
+  defp debug_liste_taches(liste) do
+    liste |> Enum.map(fn tk ->
+      IO.puts "- T. #{tk.id} rank:#{tk.rank.value} -- #{Enum.join(tk.natures, ", ")}"
+    end)
+    liste
+  end
+
+  # On retourne true dès qu'une nature commune a été trouvée
+  defp share_natures?(tk1, tk2) do
+    natures1 = tk1.natures || []
+    natures2 = tk2.natures || []
+    Enum.any?(MapSet.intersection(MapSet.new(natures1), MapSet.new(natures2)))
+  end
+
 
   @doc """
   Function qui calcule l'éloignement de la tâche par rapport à au-
@@ -198,14 +291,25 @@ defmodule Tasker.TaskRankCalculator do
   @return {%Task} La tâche concernée, avec dans son :rank la valeur
   de poids ajoutée.
   """
+  # Éloignement de l'échéance
+  def add_weight(task, :remoteness) do
+    headline = task.task_time.should_start_at
+    if !is_nil(headline) and NaiveDateTime.compare(@now, headline) == :lt do
+      poids = 2 * @week / task.rank.remoteness * @weights[:remoteness].weight
+      set_rank(task, :value, task.rank.value + poids)
+    else task end
+  end
+  # Échéance expirée
   def add_weight(task, :headline_expired = prop) do
     ttime = task.task_time
     if !is_nil(ttime.should_start_at) and is_nil(ttime.started_at) do
       if is_nil(task.rank.remoteness) do
         raise "remoteness ne devrait pas pouvoir être nil avec should_end_at à #{task.task_time.should_end_at}"
       end
-      weight = task.rank.remoteness * @weights[prop].weight
-      set_rank(task, :value, task.rank.value + weight)
+      if NaiveDateTime.compare(ttime.should_start_at, @now) == :lt do
+        weight = task.rank.remoteness * @weights[prop].weight
+        set_rank(task, :value, task.rank.value + weight)
+      else task end
     else task end
   end
   def add_weight(task, :deadline_expired = prop) do
@@ -214,8 +318,10 @@ defmodule Tasker.TaskRankCalculator do
       if is_nil(task.rank.remoteness) do
         raise "remoteness ne devrait pas pouvoir être nil avec should_end_at à #{ttime.should_end_at}"
       end
-      weight = task.rank.remoteness * @weights[prop].weight
-      set_rank(task, :value, task.rank.value + weight)
+      if NaiveDateTime.compare(ttime.should_end_at, @now) == :lt do
+        weight = task.rank.remoteness * @weights[prop].weight
+        set_rank(task, :value, task.rank.value + weight)
+      else task end
     else task end
   end
 
@@ -263,9 +369,11 @@ defmodule Tasker.TaskRankCalculator do
   end
 
   defp time_ponderation(task, key) do
+    # IO.puts "-> time_ponderation avec key=#{inspect key}"
     # IO.puts "-> time_ponderation(key=#{inspect key}) / factor: #{@weights[key].time_factor} / remoteness: #{inspect task.rank.remoteness}"
     cond do
       is_nil(task.rank.remoteness)  -> 1
+      is_nil(@weights[key][:time_factor]) -> 1
       task.rank.remoteness == 0     -> 1
       @weights[key].time_factor > 0 -> 
         @weights[key].time_factor / task.rank.remoteness

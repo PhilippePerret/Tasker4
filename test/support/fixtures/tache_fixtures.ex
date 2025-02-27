@@ -156,22 +156,22 @@ defmodule Tasker.TacheFixtures do
           Tache.create_dependency(task, attrs[:deps_after])
       end
 
-    # # - NATURES -
-    # case attrs[:natures] do
-    #   nil   -> nil
-    #   false -> nil
-    #   %String{} ->
-    #     # Attribuer la nature donnée
-    #     :todo
-    #   %List{} ->
-    #     # Attribuer la liste de natures donnée
-    #     :todo
-    # end
+    # - NATURES -
+    task =
+    case attrs[:natures] do
+      nil   -> task
+      false -> task
+      nature when is_binary(nature) ->
+        Tache.inject_natures(task, nature)
+      natures when is_list(natures) ->
+        Tache.inject_natures(task, natures)
+    end
 
     # - ASSIGNATION -
+    task =
     case attrs[:worker] do
-      nil   -> nil
-      false -> nil
+      nil   -> task
+      false -> task
       true  -> 
         Tache.assign_to(task, WF.create_worker())
       %Worker{} -> 

@@ -68,6 +68,22 @@ defmodule Tasker.Tache do
   end
 
   @doc """
+  Associe la tâche aux natures fournie
+
+  @return %Task{} La tâche avec ses natures associées
+  """
+  def inject_natures(task, natures) when is_list(natures) do
+    task_id_bin = Ecto.UUID.dump!(task.id)
+    task_natures = natures
+    |> Enum.map(fn nature ->
+      %{task_id: task_id_bin, nature_id: nature}
+    end)
+    Repo.insert_all("tasks_natures", task_natures)
+    get_task!(task.id)
+  end
+  def define_natures(task, nature) when is_binary(nature), do: define_natures(task, [nature])
+
+  @doc """
   @api
   Fonction pour assigner la tâche à un worker. On peut l'assigner
   soit par sa structure soit par son identifiant.
