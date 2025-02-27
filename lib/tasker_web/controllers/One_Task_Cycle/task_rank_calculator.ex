@@ -47,6 +47,8 @@ defmodule Tasker.TaskRankCalculator do
     # En fonction du temps de travail restant dans la journée et du
     # temps de travail sur la tâche
     work_time_left:     %{weight:    5_000,      time_factor: nil},
+    # En fonction de la difficulté (si choisi par le worker)
+    by_task_difficulty: %{weight:     1000,       time_factor: nil},
     # En fonction de la durée de la tâche, proportionnellement aux
     # autres
     per_duration:       %{weight:     250,      time_factor: nil}
@@ -321,7 +323,7 @@ defmodule Tasker.TaskRankCalculator do
   end
 
   # Liste des clés qui ont besoin des options (préférences du worker)
-  @properties_with_options [:work_time_left]
+  @properties_with_options [:work_time_left, :by_task_difficulty]
 
 
   defp add_weights(task, options) do
@@ -345,6 +347,23 @@ defmodule Tasker.TaskRankCalculator do
   @return {%Task} La tâche concernée, avec dans son :rank la valeur
   de poids ajoutée.
   """
+
+  # Difficulté de tâche
+  def add_weight(task, :by_task_difficulty, options) do
+    if (options == []) or is_nil(options[:prefs][:sort_by_task_difficulty]) do
+      task
+    else
+      # <= Il faut classer par difficulté de la tâche
+      coef =
+      case options[:prefs][:sort_by_task_difficulty] do
+      :hard -> 1
+      :easy -> -1
+      _ -> raise "Option mal défini : :sort_by_task_duration (:hard, :easy or nil)"
+      end
+      poids = ( task.task_spec.difficulty || 3 ) * @weights[:by_task_difficulty].weight
+      set_rank(task, :value, task.rank.value + (poids * coef))
+    end
+  end
   
   # Temps de travail restant
 

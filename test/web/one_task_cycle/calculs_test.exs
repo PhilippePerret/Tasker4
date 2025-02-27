@@ -490,7 +490,60 @@ defmodule TaskerWeb.OTCCalculsTest do
         # Aucune influence de poids
         assert(task.rank.value == 0)
       end)
-      
+    end
+
+    test "quand le worker privilégie les tâches longues" do
+
+    end
+    test "quand le worker privilégie les tâches courtes" do
+
+    end
+
+    test "quand le worker privilégie les tâches difficiles" do
+      options = [{:prefs, [
+        {:sort_by_task_difficulty, :hard}
+      ]}]
+      poids = @weights[:by_task_difficulty].weight
+      (0..5)
+      |> Enum.each(fn difficulty ->
+        task =
+        F.create_task(%{rank: true, difficulty: difficulty})
+        |> RCalc.calc_remoteness()
+        |> RCalc.add_weight(:by_task_difficulty, options)
+        # Aucune influence de poids
+        assert(task.rank.value == poids * difficulty)
+      end)
+
+    end
+    test "quand le worker privilégie les tâches faciles" do
+      options = [{:prefs, [
+        {:sort_by_task_difficulty, :easy}
+      ]}]
+      poids = @weights[:by_task_difficulty].weight
+      (0..5)
+      |> Enum.each(fn difficulty ->
+        task =
+        F.create_task(%{rank: true, difficulty: difficulty})
+        |> RCalc.calc_remoteness()
+        |> RCalc.add_weight(:by_task_difficulty, options)
+        # Aucune influence de poids
+        assert(task.rank.value ==  - (poids * difficulty))
+      end)
+
+    end
+    test "quand le worker ne privilégie pas de difficulté" do
+      options = [{:prefs, [
+        {:sort_by_task_difficulty, nil}
+      ]}]
+      (0..5)
+      |> Enum.each(fn difficulty ->
+        task =
+        F.create_task(%{rank: true, difficulty: difficulty})
+        |> RCalc.calc_remoteness()
+        |> RCalc.add_weight(:by_task_difficulty, options)
+        # Aucune influence de poids
+        assert(task.rank.value == 0)
+      end)
     end
 
   end #/descript add_weight

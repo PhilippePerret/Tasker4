@@ -52,15 +52,16 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 * [OK] Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
 * [OK] Une tâche presque finie (temps restant < 10 % du temps estimé)
 * [OK] Tâche courte quand le travailleur les privilégie
+* [OK] Suivant la difficulté de la tâche, suivant que le worker privilégie les tâches :hard, :easy ou ne privilégie rien
 * [OK] Tâche de même nature que tâche précédente quand le travailleur les privilégie (sinon, c'est un critère discriminant)
 * [OK](naturellement traitéer avec autres conditions) Une tâche trop repoussée
 * [OK] Tâche dont d'autres tâches dépendent
 
 #### Critères négatifs
 
-* Le temps de travail restant sur la tâche est supérieur au temps de travail restant avant la pause (remonter les horaires) et le temps de travail est inférieur à une demi-heure
+* [OK] Le temps de travail restant sur la tâche est supérieur au temps de travail restant avant la pause (remonter les horaires) et le temps de travail est inférieur à une demi-heure
 * Tâche longue alors que le travailleur privilégie les tâches courtes
-* Nature de tâche proche de la dernière ou des dernières (condition qui peut être exclusive si le travailleur le décide)
+* [OK](traité avec condition positive) Nature de tâche proche de la dernière ou des dernières (condition qui peut être exclusive si le travailleur le décide)
 * Tâche de difficulté équivalente (suivant réglage préférences)
 
 #### Critère immédiat

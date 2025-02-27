@@ -73,7 +73,8 @@ defmodule Tasker.TacheFixtures do
         project_id: attrs[:project_id],
       },
       task_spec: %{
-        details: attrs[:details]
+        details: attrs[:details],
+        difficulty: attrs[:difficulty]
       },
       task_time: %{
         should_start_at:  nil,
@@ -82,7 +83,7 @@ defmodule Tasker.TacheFixtures do
         priority:         attrs[:priority],
         urgence:          attrs[:urgence],
         expect_duration:  attrs[:duree]||attrs[:expect_duration],
-        execution_time:   attrs[:exec_duree]||attrs[:execution_time]
+        execution_time:   nil # :exec_duree
       },
     }
 
@@ -123,9 +124,10 @@ defmodule Tasker.TacheFixtures do
     else task end
 
     # - DÉPENDANTE -
+    task =
     case attrs[:deps_before] do
-      nil     -> nil
-      false   -> nil
+      nil     -> task
+      false   -> task
       true    ->
         # Sans autre forme d'information, on fait une tâche
         # précédente qui est commencée depuis peu
@@ -170,6 +172,14 @@ defmodule Tasker.TacheFixtures do
         Tache.inject_natures(task, nature)
       natures when is_list(natures) ->
         Tache.inject_natures(task, natures)
+    end
+
+    # - Difficulté -
+    task =
+    case attrs[:difficulty] do
+    nil -> task
+    _ -> 
+      %{task | task_spec: %{task.task_spec | difficulty: attrs[:difficulty]}}
     end
 
     # - ASSIGNATION -
