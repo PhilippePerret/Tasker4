@@ -58,7 +58,7 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 
 #### Critères négatifs
 
-* Le temps de travail restant sur la tâche est supérieur au temps de travail restant avant la pause (remonter les horaires) et le temps de travail est inféieur à une demi-heure
+* Le temps de travail restant sur la tâche est supérieur au temps de travail restant avant la pause (remonter les horaires) et le temps de travail est inférieur à une demi-heure
 * Tâche longue alors que le travailleur privilégie les tâches courtes
 * Nature de tâche proche de la dernière ou des dernières (condition qui peut être exclusive si le travailleur le décide)
 * Tâche de difficulté équivalente (suivant réglage préférences)

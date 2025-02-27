@@ -423,7 +423,74 @@ defmodule TaskerWeb.OTCCalculsTest do
       assert(Enum.at(new_task_list, 0).id == task3.id)
       assert(Enum.at(new_task_list, 1).id == task1.id)
       assert(Enum.at(new_task_list, 2).id == task2.id)
+    end
 
+    test "le poids dépend du temps de travail restant avant la pause" do
+      # Il faut régler le temps de travail restant pour qu'il fasse
+      # moins d'une demi-heure. On se sert simplement, pour ça, des
+      # réglages propres au worker
+      vintgmin = time_from_now(20)
+      options = [
+        {:prefs, [
+          {:work_start_time,    "#{vintgmin.hour - 4}:00"},
+          {:morning_end_time,   "#{vintgmin.hour}:#{vintgmin.minute}"},
+          {:midday_start_time,  "#{vintgmin.hour + 2}:00"},
+          {:work_end_time,      "#{vintgmin.hour + 6}:00"}
+        ]}
+      ]
+
+      # Une tâche dont peu de travail a été fait
+      task1 = F.create_task(%{rank: true, started_at: time_from_now(-@day), expect_duration: 120, exec_duree: 20})
+      # Une tâche dont peu de travail reste à faire (10 minutes)
+      task2 = F.create_task(%{rank: true, started_at: time_from_now(-@day), expect_duration: 120, exec_duree: 110})
+      # Une tâche avec durée de travail, mais pas encore commencée
+      task3 = F.create_task(%{rank: true, started_at: time_from_now(-@day), expect_duration: 120, exec_duree: nil})
+      # Une tâche déjà travaillée dont le temps de travail n'est pas défini
+      task4 = F.create_task(%{rank: true, started_at: time_from_now(-@day), expect_duration: nil, exec_duree: 110})
+      # Une tâche non travaillée dont le temps de travail n'est pas défini
+      task5 = F.create_task(%{rank: true, started_at: time_from_now(-@day), expect_duration: nil, exec_duree: nil})
+      # Tâche non commencé mais avec un temps de travail inférieur au temps restant
+      task6 = F.create_task(%{rank: true, expect_duration: 15, exec_duree: nil})
+
+      options_recalc = RCalc.add_current_work_time_left(options)
+      [task1, task2, task3, task4, task5, task6]
+      |> Enum.with_index()
+      |> Enum.each(fn {task, index} ->
+        IO.puts "Test tâche #{index + 1}"
+        task = task
+        |> RCalc.calc_remoteness()
+        |> RCalc.add_weight(:work_time_left, options_recalc)
+        # |> IO.inspect(label: "Tâche retournée")
+        expected = 
+        case (index + 1) do
+          2 -> 5_000
+          6 -> 5_000
+          _ -> 0
+        end
+        assert(task.rank.value == expected)
+      end)
+
+      # Quand le temps restant est supérieur à 30 minutes
+      vintgmin = time_from_now(50)
+      options = [
+        {:prefs, [
+          {:work_start_time,    "#{vintgmin.hour - 4}:00"},
+          {:morning_end_time,   "#{vintgmin.hour}:#{vintgmin.minute}"},
+          {:midday_start_time,  "#{vintgmin.hour + 2}:00"},
+          {:work_end_time,      "#{vintgmin.hour + 6}:00"}
+        ]}
+      ]
+
+      options_recalc = RCalc.add_current_work_time_left(options)
+      [task1, task2, task3, task4, task5, task6]
+      |> Enum.each(fn task ->
+        task = task
+        |> RCalc.calc_remoteness()
+        |> RCalc.add_weight(:work_time_left, options_recalc)
+        # Aucune influence de poids
+        assert(task.rank.value == 0)
+      end)
+      
     end
 
   end #/descript add_weight

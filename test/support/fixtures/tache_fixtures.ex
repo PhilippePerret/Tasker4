@@ -81,8 +81,8 @@ defmodule Tasker.TacheFixtures do
         started_at:       nil,
         priority:         attrs[:priority],
         urgence:          attrs[:urgence],
-        expect_duration:  attrs[:duree],
-        execution_time:   attrs[:exec_duree]
+        expect_duration:  attrs[:duree]||attrs[:expect_duration],
+        execution_time:   attrs[:exec_duree]||attrs[:execution_time]
       },
     }
 
@@ -148,7 +148,7 @@ defmodule Tasker.TacheFixtures do
     nil   -> task
     false -> task
     nombre when is_integer(nombre) ->
-      (1..nombre) |> Enum.each(fn index -> 
+      (1..nombre) |> Enum.each(fn _index -> 
         Tache.create_dependency(task, create_task())
       end)
       Tache.get_task!(task.id)

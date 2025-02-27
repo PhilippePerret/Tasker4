@@ -44,6 +44,9 @@ defmodule Tasker.TaskRankCalculator do
     almost_finished:    %{weight:     250,      time_factor: nil},
     # Une tâche avec des tâches dépendantes d'elle prend des points
     with_dependencies:  %{weight:     200,      time_factor: nil}, 
+    # En fonction du temps de travail restant dans la journée et du
+    # temps de travail sur la tâche
+    work_time_left:     %{weight:    5_000,      time_factor: nil},
     # En fonction de la durée de la tâche, proportionnellement aux
     # autres
     per_duration:       %{weight:     250,      time_factor: nil}
@@ -68,8 +71,9 @@ defmodule Tasker.TaskRankCalculator do
   @param {List of %Task{}} task_list Liste des structures Task.
   """
   def sort(task_list, options \\ []) when is_list(task_list) do
+    options = add_current_work_time_left(options)
     task_list
-    |> Enum.map(&calc_task_rank(&1))
+    |> Enum.map(&calc_task_rank(&1, options))
     |> add_weight_per_duration(options)
     |> Enum.sort_by(&(&1.rank.value), :desc)
     |> range_per_natures(options)
@@ -77,22 +81,38 @@ defmodule Tasker.TaskRankCalculator do
     |> Enum.map(fn {task, index} -> set_rank(task, :index, index) end)
   end
 
+  def add_current_work_time_left(options) do
+    if (options == []) or is_nil(options[:prefs][:morning_end_time]) do
+      options
+    else
+      morning_end   = horloge_to_minutes(options[:prefs][:morning_end_time])
+      day_end       = horloge_to_minutes(options[:prefs][:work_end_time])
+      cur_time = horloge_to_minutes("#{@now.hour}:#{@now.minute}")
+
+      time =
+      cond do
+      cur_time < morning_end  -> morning_end - cur_time
+      cur_time < day_end      -> day_end - cur_time
+      true -> 0 # on travaille hors horaires
+      end # |> IO.inspect(label: "time")
+      Keyword.put(options, :current_work_time_left, time)
+    end
+  end
+  defp horloge_to_minutes(horloge) do
+    [hour, min] = String.split(horloge, ":")
+    String.to_integer(hour) * 60 + String.to_integer(min)
+  end
+
   @doc """
   Fonction qui calcule le task_rank d'une tâche et le retourne.
-
-  # Examples
-
-    iex> task = RCalc.calc_task_rank(F.create_task())
-    iex> not is_nil(task)
-    true
 
   @param {Task} task    Une tâche à exécuter
   @return {Task} La tâche avec son rank calculé
   """
-  def calc_task_rank(%Task{} = task) do
+  def calc_task_rank(%Task{} = task, options) do
     %{ task | rank: %TaskRank{} }
     |> calc_remoteness()
-    |> add_weights()
+    |> add_weights(options)
   end
 
   @doc """
@@ -300,9 +320,20 @@ defmodule Tasker.TaskRankCalculator do
     set_rank(task, :remoteness, remoteness)
   end
 
-  defp add_weights(task) do
+  # Liste des clés qui ont besoin des options (préférences du worker)
+  @properties_with_options [:work_time_left]
+
+
+  defp add_weights(task, options) do
     @weight_keys
-    |> Enum.reduce(task, fn key, tk -> add_weight(tk, key) end)
+    |> Enum.reduce(task, fn key, tk ->
+      cond do
+      Enum.member?(@properties_with_options, key) -> 
+        add_weight(tk, key, options)
+      true -> 
+        add_weight(tk, key) 
+      end
+    end)
   end
 
   @doc """
@@ -314,6 +345,28 @@ defmodule Tasker.TaskRankCalculator do
   @return {%Task} La tâche concernée, avec dans son :rank la valeur
   de poids ajoutée.
   """
+  
+  # Temps de travail restant
+
+  def add_weight(task, :work_time_left, options) do
+    if options[:current_work_time_left] > 30 do
+      task
+    else
+      # <= Un temps de travail inférieur à la demi-heure
+      # => On privilégie les tâches à temps de travail restant courts
+      ttime = task.task_time
+      cond do
+      is_nil(ttime.expect_duration) -> 
+        task
+      true ->
+        work_left_tache = (ttime.expect_duration) - (ttime.execution_time || 0)
+        if work_left_tache < 30 do
+          set_rank(task, :value, task.rank.value + @weights[:work_time_left].weight)
+        else task end
+      end
+    end
+  end
+
   # Éloignement de l'échéance
   def add_weight(task, :remoteness) do
     headline = task.task_time.should_start_at
