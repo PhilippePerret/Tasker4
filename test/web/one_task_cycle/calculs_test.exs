@@ -191,6 +191,8 @@ defmodule TaskerWeb.OTCCalculsTest do
         # |> IO.inspect(label: "remote started")
         expect = @weights[:started_long_ago].weight * rem * @weights[:started_long_ago].time_factor
         # assert true
+        titre = "Assertion avec @eloignement = #{duree}"
+        debug_tasks([task], [], titre)
         assert equal_with_tolerance?(
           round(expect), 
           task.rank.value, 
@@ -327,7 +329,7 @@ defmodule TaskerWeb.OTCCalculsTest do
         ["sport", "pedago", "drama"]
       ] |> Enum.with_index()
       |> Enum.map(fn {natures, index} -> 
-        F.create_task(%{headline: time_from_now(index * 60), natures: natures})
+        F.create_task(%{rank: true, headline: time_from_now(2 * @day + index * 60), natures: natures})
       end)
     end
 
@@ -343,11 +345,13 @@ defmodule TaskerWeb.OTCCalculsTest do
         }
       ]
       task_list = tasks_for_sort_by_nature()
+      # |> debug_tasks([:natures], "Avant tri")
       task0 = Enum.at(task_list, 0)
       task1 = Enum.at(task_list, 1)
       task2 = Enum.at(task_list, 2)
       task3 = Enum.at(task_list, 3)
       new_task_list = RCalc.sort(task_list, options)
+      # |> debug_tasks([:natures], "Après classement")
       # Nouvel ordre
       assert(Enum.at(new_task_list, 0).id == task0.id)
       assert(Enum.at(new_task_list, 1).id == task1.id)

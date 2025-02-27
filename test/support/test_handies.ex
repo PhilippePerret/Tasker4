@@ -18,4 +18,45 @@ defmodule TestHandies do
       compar >= (sujet - delta) and compar <= (sujet + delta)
     end
   end
+
+  def debug_tasks(liste, properties \\ [], titre \\ nil) do
+    if !is_nil(titre) do
+      IO.puts "---> #{titre} <---"
+    end
+
+    liste
+    |> Enum.each(fn tk ->
+      props = [tk.id]
+      props = props ++ ["[rank=#{tk.rank.value}]"]
+      props = props ++ Enum.map(properties, fn prop -> 
+        case prop do
+          :natures ->    if !is_nil(titre) do
+      IO.puts "---> #{titre} <---"
+    end
+
+            first_nature = Enum.at(tk.natures, 0)
+            case first_nature do
+            nil -> "natures = []"
+            nature when is_binary(nature) -> 
+              "natures = " <> Enum.join(tk.natures, ", ")
+            _ ->
+              "natures = " <> (Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", "))
+            end
+          _ -> 
+            "prop = #{inspect tk[prop]}"
+        end
+      end)
+
+      IO.puts "- T. #{Enum.join(props, " - ")}"
+    end)
+
+    if !is_nil(titre) do
+      IO.puts "<--- /#{titre} --->"
+    end
+
+    liste
+  end
+
+
+
 end

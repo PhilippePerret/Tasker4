@@ -117,7 +117,7 @@ defmodule Tasker.TaskRankCalculator do
       |> Enum.map(fn {map, index} -> 
         poids = index * @weights[:per_duration].weight
         set_rank(map.task, :value, map.task.rank.value + poids)
-        |> IO.inspect(label: "TACHE AVEC POIDS DUREE")
+        # |> IO.inspect(label: "TACHE AVEC POIDS DUREE")
       end)
     end
   end
@@ -294,11 +294,12 @@ defmodule Tasker.TaskRankCalculator do
   # Éloignement de l'échéance
   def add_weight(task, :remoteness) do
     headline = task.task_time.should_start_at
-    if !is_nil(headline) and NaiveDateTime.compare(@now, headline) == :lt do
+    if task.rank.remoteness > 0 and !is_nil(headline) and NaiveDateTime.compare(@now, headline) == :lt do
       poids = 2 * @week / task.rank.remoteness * @weights[:remoteness].weight
       set_rank(task, :value, task.rank.value + poids)
     else task end
   end
+
   # Échéance expirée
   def add_weight(task, :headline_expired = prop) do
     ttime = task.task_time
@@ -348,16 +349,22 @@ defmodule Tasker.TaskRankCalculator do
 
   # Fonction qui ajoute du poids quand la tâche, sans échéance, a été
   # démarrée. Plus elle a été démarrée il y a longtemps et plus le
-  # poids est élevée.
+  # poids est élevé.
   # Attention : pour une tâche concernée, le remoteness est à 0, 
-  # puisque le remoteness ne compte que l'éloignement d'une tâche non
-  # démarée
+  # puisque le remoteness ne compte que l'éloignement d'une tâche NON
+  # DÉMARÉE
   def add_weight(task, :started_long_ago = key) do
     ttime = task.task_time
     if is_nil(ttime.should_start_at) and is_nil(ttime.should_end_at) and (!is_nil(ttime.started_at)) do
       start_remoteness = NaiveDateTime.diff(@now, ttime.started_at, :minute)
       time_emphasis = start_remoteness * @weights[key].time_factor
       poids = @weights[key].weight * time_emphasis
+      # IO.puts """
+      # CALCUL POIDS = 
+      # @weights[key].weight * start_remoteness * @weights[key].time_factor
+      # => #{@weights[key].weight} * #{start_remoteness} * #{@weights[key].time_factor}
+      # => #{poids}
+      # """
       set_rank(task, :value, task.rank.value + poids)
     else task end
   end
