@@ -411,6 +411,21 @@ defmodule TaskerWeb.OTCCalculsTest do
       assert(Enum.at(new_task_list, 3).id == task3.id)
     end
 
+    test "Entre deux tâches, celle avec (le plus grand nombre de) dépendances est privilégiée" do
+      task1 = F.create_task(%{deps_after: true})
+      task2 = F.create_task(%{deps_after: false})
+      task3 = F.create_task(%{deps_after: 2})
+
+      task_list = [task2, task3, task1]
+      # |> debug_tasks([:dependencies], "Avant classement")
+      new_task_list = RCalc.sort(task_list)
+      # |> debug_tasks([:dependencies], "Après classement")
+      assert(Enum.at(new_task_list, 0).id == task3.id)
+      assert(Enum.at(new_task_list, 1).id == task1.id)
+      assert(Enum.at(new_task_list, 2).id == task2.id)
+
+    end
+
   end #/descript add_weight
 
 end

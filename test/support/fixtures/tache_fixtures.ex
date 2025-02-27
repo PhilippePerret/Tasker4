@@ -143,18 +143,23 @@ defmodule Tasker.TacheFixtures do
     end
 
     # - DÉPENDANCE -
+    task =
     case attrs[:deps_after] do
-      nil   -> nil
-      false -> nil
-      true  -> 
-        # Sans autre forme d'information, on fait une tâche
-        # suivantte.
-        task_after = create_task()
-        Tache.create_dependency(task, task_after)
-      %Task{} ->
-        # Une tâche après est définie
-          Tache.create_dependency(task, attrs[:deps_after])
-      end
+    nil   -> task
+    false -> task
+    nombre when is_integer(nombre) ->
+      (1..nombre) |> Enum.each(fn index -> 
+        Tache.create_dependency(task, create_task())
+      end)
+      Tache.get_task!(task.id)
+    true  -> 
+      # Sans autre forme d'information, on fait une tâche
+      # suivantte.
+      Tache.create_dependency(task, create_task())
+    %Task{} ->
+      # Une tâche après est définie
+      Tache.create_dependency(task, attrs[:deps_after])
+    end
 
     # - NATURES -
     task =

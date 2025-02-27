@@ -57,6 +57,8 @@ defmodule Tasker.Tache do
 
   @param {%Task{}}  task_before La tâche avant (dont la suivante dépend)
   @param {%Task{}}  task_after  La tâche dépendante de la précédente
+
+  @return La tâche avant avec ses dépendances
   """
   def create_dependency(task_before, task_after) do
     data = %{
@@ -65,6 +67,8 @@ defmodule Tasker.Tache do
     }
     TaskDependencies.changeset(%TaskDependencies{}, data)
     |> Repo.insert!()
+
+    get_task!(task_before.id)
   end
 
   @doc """

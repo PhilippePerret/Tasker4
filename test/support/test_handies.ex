@@ -27,13 +27,17 @@ defmodule TestHandies do
     liste
     |> Enum.each(fn tk ->
       props = [tk.id]
-      props = props ++ ["[rank=#{tk.rank.value}]"]
+      rank = tk.rank && tk.rank.value || "---"
+      props = props ++ ["[rank=#{rank}]"]
       props = props ++ Enum.map(properties, fn prop -> 
         case prop do
-          :natures ->    if !is_nil(titre) do
-        end
-        first_nature = Enum.at(tk.natures, 0)
-        case first_nature do
+        :dependencies -> 
+          # Traitement des dépendances
+          "dépendances avant:#{Enum.count(tk.dependencies.tasks_before)} après:#{Enum.count(tk.dependencies.tasks_after)}"
+        :natures ->    
+          # Traitement des natures
+          first_nature = Enum.at(tk.natures, 0)
+          case first_nature do
           nil -> "natures = []"
           nature when is_binary(nature) -> 
             "natures = " <> Enum.join(tk.natures, ", ")
@@ -41,8 +45,8 @@ defmodule TestHandies do
             "natures = " <> (Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", "))
           end
         _ -> 
-          "prop = #{inspect tk[prop]}"
-      end
+            "prop = #{inspect tk[prop]}"
+        end
     end)
 
       IO.puts "- T. #{Enum.join(props, " - ")}"

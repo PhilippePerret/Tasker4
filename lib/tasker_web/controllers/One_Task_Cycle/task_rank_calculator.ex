@@ -42,6 +42,8 @@ defmodule Tasker.TaskRankCalculator do
     started_long_ago:   %{weight:     200,      time_factor: 0.001},
     # Une tâche accomplie à 90 %
     almost_finished:    %{weight:     250,      time_factor: nil},
+    # Une tâche avec des tâches dépendantes d'elle prend des points
+    with_dependencies:  %{weight:     200,      time_factor: nil}, 
     # En fonction de la durée de la tâche, proportionnellement aux
     # autres
     per_duration:       %{weight:     250,      time_factor: nil}
@@ -317,6 +319,15 @@ defmodule Tasker.TaskRankCalculator do
     headline = task.task_time.should_start_at
     if task.rank.remoteness > 0 and !is_nil(headline) and NaiveDateTime.compare(@now, headline) == :lt do
       poids = 2 * @week / task.rank.remoteness * @weights[:remoteness].weight
+      set_rank(task, :value, task.rank.value + poids)
+    else task end
+  end
+
+  # Tâche avec dépendances
+  def add_weight(task, :with_dependencies) do
+    nombre_dependances = Enum.count(task.dependencies.tasks_after)
+    if nombre_dependances > 0 do
+      poids = @weights[:with_dependencies].weight * nombre_dependances
       set_rank(task, :value, task.rank.value + poids)
     else task end
   end

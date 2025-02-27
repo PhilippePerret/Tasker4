@@ -52,9 +52,9 @@ Bien comprendre qu'il y a deux sortes de critères, ou plutôt deux actions de c
 * [OK] Une tâche sans échéance mais depuis trop longtemps dans la liste des tâches
 * [OK] Une tâche presque finie (temps restant < 10 % du temps estimé)
 * [OK] Tâche courte quand le travailleur les privilégie
-* Tâche de même nature que tâche précédente quand le travailleur les privilégie (sinon, c'est un critère discriminant)
-* Une tâche trop repoussée
-* Tâche dont d'autres tâches dépendent
+* [OK] Tâche de même nature que tâche précédente quand le travailleur les privilégie (sinon, c'est un critère discriminant)
+* [OK](naturellement traitéer avec autres conditions) Une tâche trop repoussée
+* [OK] Tâche dont d'autres tâches dépendent
 
 #### Critères négatifs
 
