@@ -1,0 +1,75 @@
+/* 
+Tous les styles pour le panneau de travail.
+*/
+:root {
+  --button-height: 100px;
+}
+
+div#main-task-container {
+  position:fixed;
+  --main-width: 1000px;
+  --main-height: 600px;
+  top: calc(50% - var(--main-height)/2);
+  left: calc(50% - var(--main-width)/2);
+  width: var(--main-width);
+  height: var(--main-height);
+  border: 1px solid #00FF00;
+  text-align: center;
+}
+
+div#main-task {
+  position: absolute;
+  --width: 600px;
+  --height: 300px;
+  top: calc(50% - (var(--height) / 2) - 2em);
+  left: calc(50% - ( var(--width) / 2) - 2em);
+  width: var(--width);
+  height: var(--height);
+  border: 1px solid #FF0000;
+  padding:2em;
+  border-radius:2em;
+}
+
+
+div#main-task-container button.btn {
+  position:absolute;
+  background: transparent;
+  padding: 1.5em;
+  border-radius: 2em;
+  cursor:pointer;
+}
+/* Contenant pour boutons alternatifs (un affiché/un masqué) */
+div#main-task-container div.bouton {
+  position: absolute;
+  display: inline-block;
+}
+/* Les boutons (alternatif) à l'intérieur d'un div.bouton */
+div#main-task-container div.bouton button.btn {
+  position:relative;
+}
+
+div#main-task-container div.bouton.start-stop {
+  right: 0px;
+  bottom: 0px;
+}
+
+button.btn-remove {
+  top:0;
+  left:0;
+}
+button.btn-to-the-end {
+  top:0;
+  right:0;
+}
+button.btn-after-next {
+  top: calc(var(--button-height));
+  right:0;
+}
+button.btn-later {
+  top: calc(var(--button-height) * 2.3);
+  right:0;
+}
+button.btn-out-day {
+  left: 160px;
+  top: 0;
+}

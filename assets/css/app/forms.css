@@ -1,0 +1,259 @@
+/* Spécialement pour les formulaires */
+
+textarea, 
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="number"], 
+input[type="datetime-local"], 
+select, select option,
+button {
+  font-size:inherit;
+  font-family:inherit;
+  font-style: inherit;
+}
+
+input[type="text"], 
+input[type="password"], 
+input[type="email"], 
+input[type="number"]{
+  padding-left:8px;
+  padding-right:8px;
+  outline: none;
+}
+
+textarea, select, select option {
+  outline: none;
+}
+
+/* Checkbox */
+input[type="checkbox"] {
+  transform: scale(1.4);
+  vertical-align:middle;
+}
+input[type="checkbox"] + label {
+  margin-left: 0.5em;
+}
+
+input[type="number"] {width: 80px}
+input[type="text"].small-number {width:50px}
+input[type="number"].small-number {width:50px}
+input[type="text"].very-small-number {width:40px}
+input[type="number"].very-small-number {width:40px}
+
+
+
+select, select option {
+  background: bottom;
+  background-color: white;
+  color: #666666;
+  border-color: #CCCCCC;
+}
+label + select {margin-left:1em}
+
+input.long { width: 75% }
+input.full { width: 95% }
+
+input.main {
+  font-size: 1.5em;
+}
+
+button, .btn {
+  cursor: pointer;
+}
+
+button.soft {
+  border: 1px solid #999;
+  background-color: #EEE;
+  border-radius: 4px;
+  font-family: AvenirN;
+  font-size: 0.9em;
+}
+
+button.main {
+  background-color: #49cb58;
+  color: white;
+  padding:7px 1.5em;
+}
+
+button.small {
+  border-radius: 6px;
+  background: inherit;
+  border: 1px solid #CCCCCC;
+  padding: 1px 0.6em 3px;
+}
+
+form {
+  border: 8px solid #EEEEEE;
+  border-radius: 1em;
+  padding: 2em 2.4em 2em 1.5em;
+  margin: 2em 0;
+}
+form:not(.max) {
+  max-width: 840px;
+  width: 840px;
+}
+div.max form, form.max {max-width: 100%}
+
+div.pink form {
+  border-color: pink;
+}
+div.medium form {
+  width: 40%!important;
+}
+div.medium form input:not([type="checkbox"]) {
+  width: 100%;
+}
+div.medium form div.bloc-form p {
+  margin-left: 0;
+}
+div.colored form {
+  border-color: cadetblue;
+  background-color: #8bd6d5 !important;
+}
+
+
+div.buttons {
+  text-align: right;
+  margin-top: 1em;
+}
+div.buttons button:not(.small) {
+  margin-left: 1em;
+}
+div.buttons button.small,
+div.buttons select {
+  margin-left: 12px;
+}
+
+div.bloc-form > div {
+  padding:0.4em 0;
+}
+
+div.bloc-form div.inline-fields > div {
+  display:inline-block;
+}
+div.bloc-form div.inline-fields:not(.no-gap) > div + div {
+  margin-left: 2em;
+}
+div.bloc-form div.inline-fields.small-gap > div + div {
+  margin-left: 0.5em;
+}
+div.bloc-form div.inline-fields > div.input-text-container + div.input-select-container {
+  margin-left: 4px;
+}
+
+div.bloc-form div.inline-fields > div label {
+  display: inline;
+  margin-right: 0.3em;
+}
+div.bloc-form div.inline-fields.fields-3 > div label {
+  margin-right: 0.5em;
+}
+
+div.actions {
+  text-align: right;
+  margin-top: 2em;
+}
+
+.btn {
+  font-family: Arial, Helvetica, Geneva;
+  font-size: inherit;
+  border: 1px solid;
+  padding: 0.35em 1.5em;
+  background-color: #EEEEEE;
+  border-radius: 8px;
+  vertical-align: middel;
+}
+button.btn.small {
+  font-size: 0.85em;
+  padding: 0.30em 1.2em;
+}
+button.btn.tiny {
+  font-size: 0.8em;
+  padding:4px 16px 3px;
+}
+div.actions .btn {
+  background-color: #76d276;
+  color:white;
+  border:2px solid rgb(44, 179, 44);
+}
+.btn:not(.big) {
+  font-size: 16pt;
+}
+
+form p.error {
+  font-style: italic;
+  text-align: left;
+  margin-left: 180px;
+}
+
+textarea {
+  width: 100%;
+  height: 60px;
+  resize: none;
+  font-size: 0.75em;
+}
+textarea:focus {
+  height: 200px;
+  font-size: 1em;
+}
+textarea.details {
+  height: 100px;
+}
+textarea.details:focus {
+  height: 400px;
+}
+
+/* Le container pour les récurrence */
+div.repeat-container {
+  margin-top: 20px;
+  background-color: lightskyblue;
+  padding: 12px 24px;
+  border-radius: 0.5em;
+}
+div.repeat-container > div.repeat-form > div {
+  margin: 8px 0;
+}
+
+form label {
+  display: block!important;
+  font-style: normal!important;
+  font-size: 14pt;
+}
+form div:not(.main) label {
+  color: #555555;
+  font-family: "Arial Narrow", Arial;
+}
+form div.main label {
+  font-family: "Arial black";
+  color: #333333;
+}
+/* div.input-checkbox-container est un div phoenix */
+div.input-checkbox-container > label {
+  font-family: inherit!important;
+  font-style: inherit!important;
+  font-size: inherit!important;
+  width: auto!important;
+}
+div.input-checkbox-container > label > input[type="checkbox"] {
+  margin-right: 1em;
+}
+
+/* Le formulaire pour éditer/créer un élément */
+div#element-form {
+  position: fixed;
+  width: 420px;
+  height: auto;
+  display:inline-block;
+  background-color: #6b9859;
+  padding: 0.5em 1em;
+  margin-left: 2em;
+  vertical-align: middle;
+  color:white;
+  border-radius: 0.5em;
+}
+div#element-form > div {margin: 0.5em 0}
+
+input.error {
+  background-color: #FFCCCC!important;
+}

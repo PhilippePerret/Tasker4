@@ -19,7 +19,7 @@
 #         de départ. Il crée aussi un fichier 'xlocales_natures.ex'
 #         qui définit les locales pour gettext 
 #         (dans lib/tasker/tache/).
-natures_locales_file = Path.absname(Path.join(['lib','tasker','tache','xlocales_natures.ex']))
+natures_locales_file = Path.absname(Path.join(["lib","tasker","tache","xlocales_natures.ex"]))
 # Pour refaire toute la table, ex-commenter le code suivant (4 
 # lignes). Sinon, seuls les nouveaux noms seront ajoutés
 natures_table_names = Tasker.Repo.all(Tasker.Tache.TaskNature)
