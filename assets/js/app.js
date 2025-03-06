@@ -16,6 +16,7 @@
 //
 import "./server_talk.js";
 import "./flash.js";
+import "./app/atwork.js";
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html";
