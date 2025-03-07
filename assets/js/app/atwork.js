@@ -8,6 +8,7 @@ class ClassAtWork {
 
   init(){
     this.observe()
+    console.log("TASKS", TASKS)
   }
   observe(){
     DListenClick(this.btnStart     , this.onClickStart.bind(this))

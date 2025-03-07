@@ -18,12 +18,24 @@ defmodule TaskerWeb.OneTaskCycleController do
   def main(conn, params) do
     IO.inspect(conn, label: "conn")
     render(conn, :main_panel, %{
-      projects:   Projet.list_projects(),
+      projects: projects_as_json_table(),
       candidates: Jason.encode!(get_candidate_tasks(conn.assigns.current_worker.id))
     })
   end
 
-  
+  defp projects_as_json_table do
+    Projet.list_projects() 
+    |> IO.inspect(label: "Projets")
+    |> Enum.reduce(%{}, fn p, accu -> 
+      p = p 
+      |> Map.from_struct()
+      |> Map.delete(:__meta__) 
+      # |> IO.inspect(label: "-projet")
+      Map.put(accu, p.id, p)
+    end)
+    # |> IO.inspect(label: "Projets en table")
+    |> Jason.encode!()
+  end
 
   @doc """
   Function qui relève les tâches candidates pour la session et les
