@@ -17,6 +17,7 @@ class ClassAtWork {
     DListenClick(this.btnLater     , this.onPushLater.bind(this))
     DListenClick(this.btnOutOfDay  , this.onOutOfDay.bind(this))
     DListenClick(this.btnSup       , this.onRemove.bind(this))
+    DListenClick(this.btnEdit      , this.onEdit.bind(this))
   }
 
   onClickStart(ev){
@@ -40,8 +41,12 @@ class ClassAtWork {
   onRemove(ev){
     console.log("Je dois apprendre à détruire la tâche.")
   }
+  onEdit(ev){
+    console.log("Je dois apprendre à éditer la tâche.")
+  }
 
   get btnSup(){return this._btnrem || (this._btnrem || DGet('button.btn-remove', this.obj))}
+  get btnEdit(){return this._btnedit || (this._btnedit || DGet('button.btn-edit', this.obj))}
   get btnStart(){return this._btnstart || (this._btnstart || DGet('button.btn-start', this.obj))}
   get btnStop(){return this._btnstop || (this._btnstop || DGet('button.btn-stop', this.obj))}
   get btnLater(){return this._btnlater || (this._btnlater || DGet('button.btn-later', this.obj))}

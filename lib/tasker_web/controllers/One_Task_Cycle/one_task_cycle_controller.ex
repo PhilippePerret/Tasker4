@@ -1,10 +1,18 @@
 defmodule TaskerWeb.OneTaskCycleController do
   use TaskerWeb, :controller
 
-  # import Ecto.Query
+  import Ecto.{Query}
+  alias Tasker.Repo
 
   alias Tasker.Projet
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskDependencies}
+
+  @task_properties ["id", "title", "project_id"]
+  @task_spec_properties ["details", "difficulty", "notes"]
+  @task_time_properties [
+    "started_at", "ended_at", "should_start_at", "should_end_at", 
+    "given_up_at", "priority", "urgence", "recurrence", 
+    "expect_duration", "execution_time", "deadline_trigger"]
 
 
   def main(conn, params) do
@@ -14,6 +22,8 @@ defmodule TaskerWeb.OneTaskCycleController do
       candidates: Jason.encode!(get_candidate_tasks(conn.assigns.current_worker.id))
     })
   end
+
+  
 
   @doc """
   Function qui relève les tâches candidates pour la session et les
@@ -29,27 +39,85 @@ defmodule TaskerWeb.OneTaskCycleController do
     result = Tasker.Repo.query!(sql, params)
     |> IO.inspect(label: "RÉSULT")
     # raise "pour voir"
-    result.rows
+    tasks = result.rows
     |> Enum.map(fn row -> 
       Enum.zip(result.columns, row) 
       |> Map.new()
       |> (fn map ->
-        %Task{
-          id: Ecto.UUID.load!(map["id"]),
-          title: map["title"],
-          task_spec: %TaskSpec{},
-          task_time: %TaskTime{}
-        }
+        # task = %Task{task_spec: %TaskSpec{},task_time: %TaskTime{}}
+        task = %{task_spec: %{}, task_time: %{}}
+
+        task =
+        Enum.reduce(@task_properties, task, fn prop, collec -> 
+          add_prop_and_value(collec, prop, map[prop], nil)
+        end)
+
+        task =
+        Enum.reduce(@task_time_properties, task, fn prop, collec ->
+          add_prop_and_value(collec, prop, map[prop], :task_time)
+        end)
+
+        task =
+        Enum.reduce(@task_spec_properties, task, fn prop, collec ->
+          add_prop_and_value(collec, prop, map[prop], :task_spec)
+        end)
       end).()
       |> IO.inspect(label: "ROW")
     end)
+    |> Enum.map(fn task -> 
+      task = Map.put(task, :task_spec, struct(TaskSpec, task.task_spec))
+      task = Map.put(task, :task_time, struct(TaskTime, task.task_time))
+      struct(Task, task)
+    end)
+    |> IO.inspect(label: "TÂCHES FINALES")
+
+    # On récupère tous les ids de tâche
+    task_ids = Enum.map(tasks, fn task -> task.id end)
+
+    # On récupère toutes leurs dépendances
+    # query = from p in TaskDependencies,
+    #   select: p.after_task_id
+    # query = from p in TaskDependencies,
+    #   select: %{p.before_task_id => [ TOUS LES p.after_task_id]},
+    #   where: p.before_task_id in ^task_ids
+    query = from p in TaskDependencies,
+      where: p.before_task_id in ^task_ids,
+      group_by: p.before_task_id,
+      select: %{before_task_id: p.before_task_id, after_task_ids: fragment("array_agg(?)", p.after_task_id)}
+
+    depends = Repo.all(query)
+    |> IO.inspect(label: "DÉPENDANCES")
     raise "pour voir"
-    # |> Tasker.TaskRankCalculator.sort()
+
+    Tasker.TaskRankCalculator.sort(tasks)
+  end
+
+  defp add_prop_and_value(task, prop, value, task_key) do
+    is_a_id = prop == "id" or String.ends_with?(prop, "_id")
+    value = cond do
+      is_nil(value) -> nil
+      is_a_id       -> Ecto.UUID.load!(value)
+      true          -> value
+    end
+    receiver =
+    if is_nil(task_key) do
+      task
+    else
+      Map.get(task, task_key)
+    end
+    receiver = Map.put(receiver, String.to_atom(prop), value)
+    if is_nil(task_key) do
+      receiver # c'est la tâche
+    else
+      Map.put(task, task_key, receiver)
+    end
+    # |> IO.inspect(label: "Retourné par add_prop_and_value")
   end
 
   @doc """
 
   """
+
   def candidates_request do
     """
     SELECT tks.*, tkt.*, tk.*
