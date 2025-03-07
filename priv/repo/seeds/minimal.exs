@@ -4,6 +4,13 @@
 
 defmodule Tasker.Seed do
 
+  def truncate(:tasks) do
+    Tasker.Repo.delete_all(Tasker.Tache.TaskSpec)
+    Tasker.Repo.delete_all(Tasker.Tache.TaskTime)
+    Tasker.Repo.delete_all(Tasker.Tache.Task)
+    Tasker.Repo.delete_all("tasks_natures")
+  end
+
   def insert(:worker, attrs) do
     attrs = Map.put(attrs, :hashed_password, Bcrypt.hash_pwd_salt(attrs.password))
     Tasker.Accounts.create_worker(attrs)
@@ -29,27 +36,84 @@ defmodule Tasker.Seed do
         attrs.task
       end
     # La tâche
-    Tasker.Tache.create_task(data_task)
+    {:ok, task} = Tasker.Tache.create_task(data_task)
     # Dépendances 
-    # TODO
+    if attrs[:after] do
+      Enum.each(attrs[:after], fn task_before -> 
+        Tasker.Tache.create_dependency(task_before, task)
+      end)
+    end
+    if attrs[:before] do
+      Enum.each(attrs[:after], fn task_after -> 
+        Tasker.Tache.create_dependency(task, task_after)
+      end)
+    end
+
     # Natures
-    # TODO
+    if attrs[:natures] do
+      Tasker.Tache.inject_natures(task, attrs[:natures])
+    end
+
     # Table task_states
     # TODO
-  end
-end
 
+    # On retourne la tâche
+    task
+  end
+
+  def insertion_un do
+    phil_data = %{
+      pseudo: "Phil",
+      email: "philippe.perret@yahoo.fr",
+      password: "xadcaX-huvdo9-xidkun"
+    }
+    insert(:worker, phil_data)
+
+    task = insert(:task, %{
+      project: %{title: "Tout premier projet"},
+      task: %{title: "Toute première tâche"}
+      })
+    IO.inspect(task, label: "\nPremière tâche")
+  end
+
+  
+  def insertion_deux do
+    task1 = insert(:task, %{
+      project: %{title: "Tout premier projet"},
+      task: %{
+        title: "Une tâche avec une tâche après"
+      },
+      natures: ["purchases", "ana_film"]
+    })
+    task2 = insert(:task, %{
+      project: %{title: "Tout premier projet"},
+      task: %{
+        title: "La tâche qui suit la tâche avant"
+      },
+      natures: ["drama"],
+      after: [task1]
+    })
+  end
+    
+  def insertion_trois do
+    task1 = insert(:task, %{
+      project: %{title: "Tout premier projet"},
+      task: %{title: "Une autre tâche avec une tâche après"}
+    })
+    task2 = insert(:task, %{
+      project: %{title: "Tout premier projet"},
+      task: %{title: "La autre tâche qui suit la tâche avant"},
+    after: [task1]
+    })
+  end
+    
+end
+  
 alias Tasker.Seed, as: S
 
-phil_data = %{
-  pseudo: "Phil",
-  email: "philippe.perret@yahoo.fr",
-  password: "xadcaX-huvdo9-xidkun"
-}
-S.insert(:worker, phil_data)
+# S.insertion_un()
 
-task = S.insert(:task, %{
-  project: %{title: "Tout premier projet"},
-  task: %{title: "Toute première tâche"}
-})
-IO.inspect(task, label: "\nPremière tâche")
+# === tâches ===
+S.truncate(:tasks)
+S.insertion_deux()
+S.insertion_trois()

@@ -396,8 +396,9 @@ defmodule Tasker.TaskRankCalculator do
   end
 
   # Tâche avec dépendances
+  # Note : task.dependencies ne contient que la liste des dépendances
   def add_weight(task, :with_dependencies) do
-    nombre_dependances = Enum.count(task.dependencies.tasks_after)
+    nombre_dependances = Enum.count(task.dependencies || [])
     if nombre_dependances > 0 do
       poids = @weights[:with_dependencies].weight * nombre_dependances
       set_rank(task, :value, task.rank.value + poids)

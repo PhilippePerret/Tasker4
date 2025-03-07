@@ -67,7 +67,7 @@ IO.puts "Nouvelles natures (#{Enum.count(new_natures)}/#{Enum.count(all_natures)
 # On fabrique le fichier des locales
 File.exists?(natures_locales_file) && File.rm(natures_locales_file)
 natures_gettext = all_natures
-|> Enum.map(fn nature_name -> ~s|  dgettext("natures", "#{nature_name}")| end)
+|> Enum.map(fn nat_name -> ~s|  dgettext("natures", "#{nat_name}")| end)
 |> Enum.join("\n")
 code = """
 # Fichier composé automatiquement par seeds.exs

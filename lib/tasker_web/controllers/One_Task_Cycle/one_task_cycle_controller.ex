@@ -5,7 +5,7 @@ defmodule TaskerWeb.OneTaskCycleController do
   alias Tasker.Repo
 
   alias Tasker.Projet
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskDependencies}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies}
 
   @task_properties ["id", "title", "project_id"]
   @task_spec_properties ["details", "difficulty", "notes"]
@@ -71,25 +71,69 @@ defmodule TaskerWeb.OneTaskCycleController do
     end)
     |> IO.inspect(label: "TÂCHES FINALES")
 
-    # On récupère tous les ids de tâche
+    # On récupère tous les ids de tâche pour récupérer les
+    # dépendances
     task_ids = Enum.map(tasks, fn task -> task.id end)
+    task_ids_binaires = Enum.map(task_ids, fn id -> Ecto.UUID.dump!(id) end)
 
     # On récupère toutes leurs dépendances
-    # query = from p in TaskDependencies,
-    #   select: p.after_task_id
-    # query = from p in TaskDependencies,
-    #   select: %{p.before_task_id => [ TOUS LES p.after_task_id]},
-    #   where: p.before_task_id in ^task_ids
     query = from p in TaskDependencies,
       where: p.before_task_id in ^task_ids,
       group_by: p.before_task_id,
       select: %{before_task_id: p.before_task_id, after_task_ids: fragment("array_agg(?)", p.after_task_id)}
+    dependances = Repo.all(query)
+    |> Enum.reduce(%{}, fn task_deps, collec ->
+      ids = task_deps.after_task_ids |> Enum.map(fn id -> Ecto.UUID.load!(id) end)
+      Map.put(collec, task_deps.before_task_id, ids)
+    end)
+    # |> IO.inspect(label: "DÉPENDANCES")
 
-    depends = Repo.all(query)
-    |> IO.inspect(label: "DÉPENDANCES")
-    raise "pour voir"
+    IO.inspect(task_ids_binaires, label: "IDS BINAIRES")
+    IO.inspect(task_ids, label: "IDS STRING")
+    query =
+    from nt in "tasks_natures",
+      where: nt.task_id in ^task_ids_binaires,
+      # group_by: nt.task_id #,
+      select: {nt.task_id, nt.nature_id}
+  
+    natures = Repo.all(query)
+    |> Enum.reduce(%{}, fn {tid, natid}, coll -> 
+      tid = Ecto.UUID.load!(tid)
+      list = Map.get(coll, tid, [])
+      list = list ++ [natid]
+      Map.put(coll, tid, list)
+    end)
+    # |> IO.inspect(label: "NATURES PAR TÂCHES")
+    # raise "Pour voir les tâches"
 
+    # Une table des tâches pour mettre les dépendances
+    tasks = tasks
+    |> Enum.map(fn task ->
+      task = %{task | dependencies: dependances[task.id] }
+      %{task | natures: Map.get(natures, task.id, nil)}
+    end)
+    # |> IO.inspect(label: "TÂCHES DÉFINITIVES -avant- CLASSEMENT")
+    # raise "pour voir"
+    
     Tasker.TaskRankCalculator.sort(tasks)
+    |> Enum.map(fn task -> 
+      task = Map.from_struct(task) 
+      task = Map.delete(task, :project)
+      task = Map.delete(task, :__meta__)
+
+      ttime = Map.from_struct(task.task_time)
+      ttime = Map.delete(ttime, :task)
+      ttime = Map.delete(ttime, :__meta__)
+      task = %{task | task_time: ttime}
+
+      tspec = Map.from_struct(task.task_spec)
+      tspec = Map.delete(tspec, :task)
+      tspec = Map.delete(tspec, :__meta__)
+      task = %{task | task_spec: tspec}
+
+      %{task | rank: Map.from_struct(task.rank)}
+    end)
+    |> IO.inspect(label: "TÂCHES DÉFINITIVES -après- CLASSEMENT")
   end
 
   defp add_prop_and_value(task, prop, value, task_key) do
