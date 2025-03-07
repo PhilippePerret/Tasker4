@@ -1,14 +1,32 @@
 <div id="main-task-container">
 
-  <button class="btn btn-to-the-end">À la fin</button>
-  <button class="btn btn-after-next">Après la<br/>suivante</button>
-  <button class="btn btn-later">Plus tard</button>
-  <button class="btn btn-out-day">Retirer du jour</button>
-  <button class="btn btn-remove">Détruire</button>
-  <button class="btn btn-edit">Modifier</button>
   <div class="bouton start-stop">
     <button class="btn btn-start">Commencer</button>
     <button class="btn btn-stop hidden">Finir</button>
+  </div>
+  
+  <!-- LIGNE BOUTONS HAUT À GAUCHE -->
+  <div class="buttons top-left">
+    <button class="btn btn-remove">Détruire</button>
+    <button class="btn btn-out-day">Retirer du jour</button>
+  </div>
+  
+  <!-- LIGNE BOUTONS BAS À GAUCHE -->
+  <div class="buttons bottom-left">
+    <button class="btn btn-edit">Modifier</button>
+    <button class="btn btn-projet">Projet</button>
+  </div>
+
+  <!-- COLONNE BOUTONS DROITES -->
+  <div class="buttons right-column">
+    <button class="btn btn-to-the-end">À la fin</button>
+    <button class="btn btn-after-next">Après la<br/>suivante</button>
+    <button class="btn btn-later">Plus tard</button>  
+  </div>
+
+  <!-- BOUTONS COLONNE GAUCHE -->
+  <div class="buttons left-column">
+    <button class="btn btn-a-vendre">À vendre</button>
   </div>
 
   <div id="main-task">
@@ -19,5 +37,6 @@
 </div>
 
 <script type="text/javascript">
-  const TASKS = <%= raw @candidates %>;
+  const TASKS     = <%= raw @candidates %>;
+  const PROJECTS  = <%= raw @projects %>;
 </script>

@@ -5,10 +5,10 @@ function DListenClick(o, m){o.addEventListener('click', m)}
  * 
  */
 class ClassAtWork {
-
   init(){
     this.observe()
     console.log("TASKS", TASKS)
+    console.log("PROJECTS", PROJECTS)
   }
   observe(){
     DListenClick(this.btnStart     , this.onClickStart.bind(this))
@@ -19,6 +19,7 @@ class ClassAtWork {
     DListenClick(this.btnOutOfDay  , this.onOutOfDay.bind(this))
     DListenClick(this.btnSup       , this.onRemove.bind(this))
     DListenClick(this.btnEdit      , this.onEdit.bind(this))
+    DListenClick(this.btnProjet    , this.onProjet(this))
   }
 
   onClickStart(ev){
@@ -45,6 +46,9 @@ class ClassAtWork {
   onEdit(ev){
     console.log("Je dois apprendre à éditer la tâche.")
   }
+  onProjet(ev){
+    Flash.notice("Je dois apprendre à afficher le projet.")
+  }
 
   get btnSup(){return this._btnrem || (this._btnrem || DGet('button.btn-remove', this.obj))}
   get btnEdit(){return this._btnedit || (this._btnedit || DGet('button.btn-edit', this.obj))}
@@ -54,6 +58,7 @@ class ClassAtWork {
   get btn2end(){return this._btn2end || (this._btn2end || DGet('button.btn-to-the-end', this.obj))}
   get btnAfterNext(){return this._btnaftnext || (this._btnaftnext || DGet('button.btn-after-next', this.obj))}
   get btnOutOfDay(){return this._btnoutday || (this._btnoutday || DGet('button.btn-out-day', this.obj))}
+  get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
 
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}
 }

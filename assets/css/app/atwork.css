@@ -32,12 +32,14 @@ div#main-task {
 
 
 div#main-task-container button.btn {
-  position:absolute;
-  background: transparent;
+  background: #F4FFF4;
   padding: 1.5em;
   border-radius: 2em;
   cursor:pointer;
+  opacity: 0.5
 }
+div#main-task-container button.btn:hover {opacity:1}
+
 /* Contenant pour boutons alternatifs (un affiché/un masqué) */
 div#main-task-container div.bouton {
   position: absolute;
@@ -53,23 +55,44 @@ div#main-task-container div.bouton.start-stop {
   bottom: 0px;
 }
 
-button.btn-remove {
-  top:0;
-  left:0;
+/* Les DIV contenant les boutons autour de la tâche */
+div.buttons {
+  position: absolute!important;
+  padding: 0;
+  margin: 0;
 }
-button.btn-to-the-end {
-  top:0;
-  right:0;
+div#main-task-container div.buttons > button {
+  position: relative;
+  margin-left: 0px;
+
 }
-button.btn-after-next {
-  top: calc(var(--button-height));
-  right:0;
+div.buttons.top-left {
+  top: 0; left: 0;
+  text-align: left;
 }
-button.btn-later {
-  top: calc(var(--button-height) * 2.3);
-  right:0;
+
+div.buttons.bottom-left {
+  bottom: 0px; left: 0;
+  text-align: left;
 }
-button.btn-out-day {
-  left: 160px;
-  top: 0;
+div.buttons.bottom-left button,
+div.buttons.top-left button {
+  margin:0;
+  margin-right: 10px
+}
+
+div.buttons.right-column {
+  top: 0; right: 0;
+  width: 200px;
+  max-width: 200px;
+}
+div.buttons.left-column {
+  top: 140px; left: 0;
+  vertical-align: top;
+  text-align: left;
+  width: 200px;
+  max-width: 200px;
+}
+div.buttons.left-column button {
+  margin-bottom: 8px;
 }
