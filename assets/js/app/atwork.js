@@ -9,7 +9,32 @@ class ClassAtWork {
     this.observe()
     console.log("TASKS", TASKS)
     console.log("PROJECTS", PROJECTS)
+    this.showCurrentTask()
+    this.TASKS_COUNT = TASKS.length
   }
+
+
+  /**
+   * Fonction qui affiche la tâche courante.
+   * 
+   * La tâche courante est TOUJOURS la tâche en haut de pile.
+   */
+  showCurrentTask(){
+    this.showTask(TASKS[0])
+  }
+
+  /**
+   * Fonction qui affiche la tâche fournie en argument.
+   * 
+   * @param {Object} task Les données de la tâche à afficher
+   * 
+   */
+  showTask(task){
+    DGet('div#current-task-title').innerHTML = task.title
+  }
+
+
+
   observe(){
     DListenClick(this.btnStart     , this.onClickStart.bind(this))
     DListenClick(this.btnStop      , this.onClickStop.bind(this))
@@ -29,13 +54,22 @@ class ClassAtWork {
     console.log("Je dois apprendre à stopper la tâche.")
   }
   onPushToTheEnd(ev){
-    console.log("Je dois apprendre à repousser la tâche à la fin.")
+    const first = TASKS.shift()
+    TASKS.push(first)
+    this.showCurrentTask()
   }
   onPushAfterNext(ev){
-    console.log("Je dois apprendre à repousser après la prochaine.")
+    const first = TASKS.shift()
+    console.log("Première tâche", first, TASKS)
+    TASKS.splice(1, 0, first)
+    this.showCurrentTask()
   }
   onPushLater(ev){
-    console.log("Je dois apprendre à repousser après (de façon aléatoire).")
+    const pos = Math.round(Math.random() * (this.TASKS_COUNT - 1) + 1)
+    const first = TASKS.shift()
+    TASKS.splice(pos, 0, first)
+    Flash.notice(`La tâche a été placée en position ${pos + 1}.`)
+    this.showCurrentTask()
   }
   onOutOfDay(ev){
     console.log("Je dois apprendre à sortir la tâche du jour.")

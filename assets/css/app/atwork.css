@@ -5,7 +5,7 @@ Tous les styles pour le panneau de travail.
   --button-height: 100px;
 }
 
-div#main-task-container {
+div#current-task-container {
   position:fixed;
   --main-width: 1000px;
   --main-height: 600px;
@@ -17,7 +17,7 @@ div#main-task-container {
   text-align: center;
 }
 
-div#main-task {
+div#current-task {
   position: absolute;
   --width: 600px;
   --height: 300px;
@@ -31,26 +31,26 @@ div#main-task {
 }
 
 
-div#main-task-container button.btn {
+div#current-task-container button.btn {
   background: #F4FFF4;
-  padding: 1.5em;
+  padding: 1.2em 1.5em;
   border-radius: 2em;
   cursor:pointer;
   opacity: 0.5
 }
-div#main-task-container button.btn:hover {opacity:1}
+div#current-task-container button.btn:hover {opacity:1}
 
 /* Contenant pour boutons alternatifs (un affiché/un masqué) */
-div#main-task-container div.bouton {
+div#current-task-container div.bouton {
   position: absolute;
   display: inline-block;
 }
 /* Les boutons (alternatif) à l'intérieur d'un div.bouton */
-div#main-task-container div.bouton button.btn {
+div#current-task-container div.bouton button.btn {
   position:relative;
 }
 
-div#main-task-container div.bouton.start-stop {
+div#current-task-container div.bouton.start-stop {
   right: 0px;
   bottom: 0px;
 }
@@ -61,7 +61,7 @@ div.buttons {
   padding: 0;
   margin: 0;
 }
-div#main-task-container div.buttons > button {
+div#current-task-container div.buttons > button {
   position: relative;
   margin-left: 0px;
 
@@ -83,16 +83,19 @@ div.buttons.top-left button {
 
 div.buttons.right-column {
   top: 0; right: 0;
-  width: 200px;
-  max-width: 200px;
 }
 div.buttons.left-column {
   top: 140px; left: 0;
-  vertical-align: top;
   text-align: left;
+}
+div.buttons.right-column,
+div.buttons.left-column {
+  vertical-align: top;
   width: 200px;
   max-width: 200px;
+  
 }
+div.buttons.right-column button,
 div.buttons.left-column button {
   margin-bottom: 8px;
 }
