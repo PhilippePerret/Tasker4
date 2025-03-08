@@ -2,13 +2,24 @@
 # 
 #     mix run priv/repo/seeds/minimal.exs
 
+ExUnit.start()
+Code.require_file("data_case.ex", "./test/support")
+Code.require_file("random_methods.ex", "./test/support/fixtures")
+Code.require_file("tache_fixtures.ex", "./test/support/fixtures")
+Code.require_file("projet_fixtures.ex", "./test/support/fixtures")
 defmodule Tasker.Seed do
+
+  alias Tasker.TacheFixtures, as: FXT
+  alias Tasker.ProjetFixtures, as: FXP
 
   def truncate(:tasks) do
     Tasker.Repo.delete_all(Tasker.Tache.TaskSpec)
     Tasker.Repo.delete_all(Tasker.Tache.TaskTime)
     Tasker.Repo.delete_all(Tasker.Tache.Task)
     Tasker.Repo.delete_all("tasks_natures")
+  end
+  def truncate(:projects) do
+    Tasker.Repo.delete_all(Tasker.Projet.Project)
   end
 
   def insert(:worker, attrs) do
@@ -26,94 +37,89 @@ defmodule Tasker.Seed do
     Tasker.Repo.insert!(struct(Tasker.Tache.TaskTime, attrs))
   end
 
+  @doc """
+  Création d'une tâche
+
+  @return {%Task} La tâche créée.
+  """
   def insert(:task, attrs) do
-    # Projet ?
-    data_task =
-      if attrs.project do
-        project = insert(:project, attrs.project)
-        Map.put(attrs.task, :project_id, project.id)
-      else
-        attrs.task
-      end
-    # La tâche
-    {:ok, task} = Tasker.Tache.create_task(data_task)
-    # Dépendances 
-    if attrs[:after] do
-      Enum.each(attrs[:after], fn task_before -> 
-        Tasker.Tache.create_dependency(task_before, task)
-      end)
-    end
-    if attrs[:before] do
-      Enum.each(attrs[:after], fn task_after -> 
-        Tasker.Tache.create_dependency(task, task_after)
-      end)
-    end
-
-    # Natures
-    if attrs[:natures] do
-      Tasker.Tache.inject_natures(task, attrs[:natures])
-    end
-
-    # Table task_states
-    # TODO
-
-    # On retourne la tâche
-    task
+    FXT.create_task(attrs)
   end
 
-  def insertion_un do
+  def insertion_people do
     phil_data = %{
       pseudo: "Phil",
       email: "philippe.perret@yahoo.fr",
       password: "xadcaX-huvdo9-xidkun"
     }
     insert(:worker, phil_data)
+  end
 
+  def insertion_une do
     task = insert(:task, %{
-      project: %{title: "Tout premier projet"},
-      task: %{title: "Toute première tâche"}
-      })
-    IO.inspect(task, label: "\nPremière tâche")
+      title: "Toute première tâche",
+      project: true,
+    })
   end
 
   
-  def insertion_deux do
+  def insertion_quatre_with_dependances do
+    projet = insert(:project)
     task1 = insert(:task, %{
-      project: %{title: "Tout premier projet"},
-      task: %{
-        title: "Une tâche avec une tâche après"
-      },
+      project: projet.id,
+      title: "Une tâche avec une tâche après",
       natures: ["purchases", "ana_film"]
     })
     task2 = insert(:task, %{
-      project: %{title: "Tout premier projet"},
-      task: %{
-        title: "La tâche qui suit la tâche avant"
-      },
+      project: projet.id,
+      title: "La tâche qui suit la tâche avant",
       natures: ["drama"],
-      after: [task1]
+      after: task1
     })
-  end
-    
-  def insertion_trois do
+
+    projet = insert(:project)
     task1 = insert(:task, %{
-      project: %{title: "Tout premier projet"},
-      task: %{title: "Une autre tâche avec une tâche après"}
+      project: projet.id,
+      title: "Une autre tâche avec une tâche après"
     })
     task2 = insert(:task, %{
-      project: %{title: "Tout premier projet"},
-      task: %{title: "La autre tâche qui suit la tâche avant"},
-    after: [task1]
+      project: projet.id,
+      title: "La autre tâche qui suit la tâche avant",
+      after: task1
     })
+  end
+
+  def insertion_dix_diverses do
+    ids_de_projets = project_ids([create_if_empty: true])
+    FXT.create_tasks(10, %{project: ids_de_projets})
+  end
+
+  defp project_ids(options \\ []) do
+    project_list() 
+    |> create_projects_if_empty(options)
+    |> Enum.map(fn p -> p.id end)
+  end
+
+  defp project_list do
+    Tasker.Projet.list_projects()
+  end
+
+  defp create_projects_if_empty(liste, options) do
+    if 0 === Enum.count(liste) and true === options[:create_if_empty] do
+      FXP.create_projects(3)
+    else liste end
   end
     
 end
   
 alias Tasker.Seed, as: S
 
-# S.insertion_un()
+# === Workers ===
+# S.insertion_people()
 
 # === tâches ===
 S.truncate(:tasks)
-S.insertion_deux()
-S.insertion_trois()
+S.truncate(:projects)
+S.insertion_une()
+S.insertion_quatre_with_dependances()
+S.insertion_dix_diverses()

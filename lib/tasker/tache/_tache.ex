@@ -60,16 +60,20 @@ defmodule Tasker.Tache do
 
   @return La tâche avant avec ses dépendances
   """
-  def create_dependency(task_before, task_after) do
-    data = %{
-      before_task_id: task_before.id, 
-      after_task_id:  task_after.id,
-    }
+  def create_dependency(task_before, task_after) when is_struct(task_before, Task) do
+    create_dependency(task_before.id, task_after)
+  end
+  def create_dependency(task_before, task_after) when is_struct(task_after, Task) do
+    create_dependency(task_before, task_after.id)
+  end
+  def create_dependency(tbefore_id, tafter_id) when is_binary(tbefore_id) and is_binary(tafter_id) do
+    data = %{ before_task_id: tbefore_id, after_task_id:  tafter_id }
     TaskDependencies.changeset(%TaskDependencies{}, data)
     |> Repo.insert!()
 
     get_task!(task_before.id)
   end
+
 
   @doc """
   Associe la tâche aux natures fournie

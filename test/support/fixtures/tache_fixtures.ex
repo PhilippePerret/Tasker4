@@ -6,10 +6,15 @@ defmodule Tasker.TacheFixtures do
 
   use Tasker.DataCase
 
+  alias Tasker.Projet.Project
   alias Tasker.Tache
+  alias Tasker.Tache.Task
 
   alias Tasker.Accounts.Worker
   alias Tasker.AccountsFixtures, as: WF
+  alias Tasker.ProjetFixtures, as: FXP
+
+  import Random.RandMethods
 
   # Les durées en minutes
   @hour   60
@@ -44,20 +49,35 @@ defmodule Tasker.TacheFixtures do
   end
 
   @doc """
+  Pour créer plusieurs tâches d'une seule commande
+
+  @param {Integer} nombre Le nombre de tâches à créer
+  @param {Map} attrs Les attributs communs à toutes les tâches créées
+
+  @return {List of Task} La liste des tâches créées
+  """
+  def create_tasks(nombre, attrs \\ %{}) do
+    (1..nombre)
+    |> Enum.map(fn _index -> create_task(attrs) end)
+  end
+
+  @doc """
   Fonction beaucoup plus "solide" que task_fixture ci-dessous qui
   permet de créer une tâche complète, avec ses fichiers associées
   dont task_spec, task_time et ?
 
   Les attrs possibles sont les suivants (tout paramètre absent est
-  considéré comme faux) :
+  considéré comme faux ou nil) :
 
-    :project      yes|no      Peut être fourni
+    :project      true|nil|Project|Project.id|Liste projets|Liste ids de projet
     :headline     yes|no      future|now|past
     :started      yes|no      far|now|near
     :deadline     yes|no      future|now|past
     :ended (IMPOSSIBLE <= archivée ailleurs)
-    :deps_before  yes|no      Dépendante d'une tâche avant (à faire)
-    :deps_after   yes|no      Des tâches futures dépendent d'elle
+    :before       true|Les tâches après (dépendances)
+    :after        true|Les tâches avant (dépendances)
+      ou  :deps_before  yes|no      Dépendante d'une tâche avant (à faire) inverse de :after
+          :deps_after   yes|no      Des tâches futures dépendent d'elle inverse de :before
     :worker       yes|no      (attributation de la tâche à un worker)
     :natures      yes|no      Liste des natures
     :rank         true    Ajout de la structure TaskRank
@@ -87,6 +107,14 @@ defmodule Tasker.TacheFixtures do
       },
     }
 
+    # Rationnaliser et mettre les clés
+    # (pour pouvoir faire %{ attrs | ... })
+    attrs = attrs
+    |> Map.put(:before, attrs[:before] || attrs[:deps_after])
+    |> Map.put(:after, attrs[:after] || attrs[:deps_before])
+    |> Map.put(:project, attrs[:project] || nil)
+    
+
     # - HEADLINE -
     dtask = set_spec_time(dtask, :should_start_at, attrs[:headline])
     # - DEADLINE -
@@ -96,11 +124,33 @@ defmodule Tasker.TacheFixtures do
       else attrs end
     dtask = set_spec_time(dtask, :should_end_at, attrs[:deadline])
 
+    # - PROJECT -
+    p = attrs[:project]
+    attrs =
+    cond do
+      p === :new ->
+        %{ attrs | project_id: FXP.create_project().id }
+      p === true  ->
+        %{ attrs | project_id: random_project().id }
+      p === false -> attrs
+      is_binary(p) -> # l'id du projet
+        %{attrs | project_id: p}
+      is_list(p) and is_binary(Enum.at(p,0)) -> # Liste d'id de projets
+        %{ attrs | project_id: Enum.random(p) }
+      is_list(p) and is_struct(Enum.at(p,0), Project) -> # Liste de projets
+        %{ attrs | project_id: Enum.random(p).id }
+      is_list(p) -> # Erreur
+        raise "Impossible de trouver le projet…"
+      true -> 
+        attrs
+    end
 
     {:ok, task} = Tache.create_task(dtask.task)
     task = Tache.get_task!(task.id)
     Tache.update_task_spec(task.task_spec, dtask.task_spec)
     Tache.update_task_time(task.task_time, dtask.task_time)
+    
+    
     # Il faut la relever pour avoir les bonnes valeurs
     task = Tache.get_task!(task.id)
 
@@ -123,12 +173,14 @@ defmodule Tasker.TacheFixtures do
       set_spec_time(task, :execution_time, attrs[:exec_duree])
     else task end
 
-    # - DÉPENDANTE -
-    task =
-    case attrs[:deps_before] do
-      nil     -> task
-      false   -> task
-      true    ->
+    # - DÉPENDANCE -
+    aft = attrs[:after]
+    cond do
+      is_integer(aft) ->
+        (1..aft) |> Enum.each(fn _index -> 
+          Tache.create_dependency(create_task(before: task), task.id)
+        end)
+      aft === true ->
         # Sans autre forme d'information, on fait une tâche
         # précédente qui est commencée depuis peu
         # Sinon, définir la tâche en appelant cette fonction
@@ -140,27 +192,28 @@ defmodule Tasker.TacheFixtures do
           should_end_at: random_time(:after, started)
         })
         Tache.create_dependency(task_before, task)
-      %Task{} ->
-        Tache.create_dependency(attrs[:deps_before], task)
+      is_struct(aft, Task) ->
+        # Une tâche
+        Tache.create_dependency(aft, task)
+      is_list(aft) ->
+        # Une liste de tâches ou d'identifiant de tâche
+        Enum.each(bef, fn tk -> Tache.create_dependency(tk, task.id) end)
     end
 
-    # - DÉPENDANCE -
-    task =
-    case attrs[:deps_after] do
-    nil   -> task
-    false -> task
-    nombre when is_integer(nombre) ->
-      (1..nombre) |> Enum.each(fn _index -> 
-        Tache.create_dependency(task, create_task())
-      end)
-      Tache.get_task!(task.id)
-    true  -> 
-      # Sans autre forme d'information, on fait une tâche
-      # suivantte.
-      Tache.create_dependency(task, create_task())
-    %Task{} ->
-      # Une tâche après est définie
-      Tache.create_dependency(task, attrs[:deps_after])
+    
+    bef = attrs[:before]
+    cond do
+      is_integer(bef) ->
+        (1..bef) |> Enum.each(fn _index -> 
+          Tache.create_dependency(task, create_task(after: task))
+        end)
+      bef === true ->
+        Tache.create_dependency(task, create_task(after: task))
+      is_struct(bef, Task) ->
+        Tache.create_dependency(task, bef)
+      is_list(bef) ->
+        # Liste de tâche ou d'id de tâche
+         Enum.each(bef, fn tk -> Tache.create_dependency(task.id, tk) end)
     end
 
     # - NATURES -
@@ -205,6 +258,25 @@ defmodule Tasker.TacheFixtures do
     # On retourne la tâche créée
     task
 
+  end
+
+  @doc """
+  Retourne un projet au hasard et le crée si nécessaire
+
+  @return {Projet.Project}
+  """
+  def random_project do
+    liste = Tasker.Projet.list_projects()
+    |> create_one_project_if_none()
+    |> Enum.at(0)
+  end
+
+  defp create_one_project_if_none(liste) do
+    if Enum.any?(liste) do
+      liste
+    else
+      [FXP.project_fixture()]
+    end
   end
 
   @doc """
@@ -344,85 +416,6 @@ defmodule Tasker.TacheFixtures do
   # @task_objets_count Enum.count(@task_objets) - 1
   defp random_objet do
     Enum.random(@task_objets)
-  end
-
-  @doc """
-  @return %NaiveDateTime{} La date de maintenant
-  """
-  def now do
-    NaiveDateTime.utc_now()
-  end
-
-  @doc """
-  Retourne une date aléatoire par rapport à maintenant
-
-  random_time/0   retourne une date autour de maintenant, avant ou 
-                  après, dans un intervalle de 1 000 000 de minutes
-
-  random_time/1   retourne une date soit avant soit après dans un
-                  intervalle aléatoire de minutes.
-                  :after ou :before en premier argument.
-
-  random_time/2   ( :after|:before, Integer.t() )
-                  retourne une date soit avant soit après dans un
-                  intervalle fixé de minutes.
-                  
-  random_time/2   (:after|:before, NaiveDateTime.t())
-                  Retourne une date avant ou après la date de réfé-
-                  rence dans un intervalle de 1 000 000 de minutes
-  
-  random_time/3   (:after|:before, NaiveDateTime.t(), Integer.t())
-                  Retourne une date avant ou après la date de réfé-
-                  rence dans un intervalle de minutes fixés (par le
-                  troisième argument)
-
-  random_time/3   (:between, NaiveDateTime.t(), NaiveDateTime.t())
-                  Retourne une date aléatoire entre les deux dates
-                  fournie.
-
-  """
-  # Sans rien du tout
-  def random_time() do
-    random_time(1_000_000)
-  end
-  # Juste avec le laps, c'est une date autour de maintenant
-  def random_time(max_laps) when is_integer(max_laps) do
-    random_time(NaiveDateTime.utc_now(), max_laps)
-  end
-  # Positionnée avant ou après sans laps précisé
-  # @param {Atom} position  Soit :after soit :before
-  def random_time(position) when is_atom(position) do
-    random_time(position, 1_000_000)
-  end
-  def random_time(ref_time) when not is_atom(ref_time) and not is_integer(ref_time) do
-    random_time(ref_time, 1_000_000)
-  end
-  # Positionnée avant ou après
-  def random_time(position, max_laps) when is_atom(position) and is_integer(max_laps) do
-    random_time(position, NaiveDateTime.utc_now(), max_laps)
-  end
-  def random_time(position, ref_time) when is_atom(position) and not is_integer(ref_time) do
-    random_time(position, ref_time, 1_000_000)
-  end
-  def random_time(ref_time, max_laps) when not is_atom(ref_time) and is_integer(max_laps) do
-    ref_time
-    |> NaiveDateTime.add(Enum.random((-max_laps..max_laps)), :minute)
-  end
-  # AVANT une date de référence fournie, dans un intervalle donné
-  # en minute
-  def random_time(:before, ref_time, max_laps) do
-    ref_time
-    |> NaiveDateTime.add(Enum.random((-max_laps..-1)), :minute)
-  end
-  # APRÈS une date de référence fournie, dans un intervalle donné
-  # en minute
-  def random_time(:after, ref_time, max_laps) do
-    ref_time
-    |> NaiveDateTime.add(Enum.random((1..max_laps)), :minute)
-  end
-  def random_time(:between, time_before, time_after) do
-    diff = NaiveDateTime.diff(time_after, time_before, :minute)
-    NaiveDateTime.add(time_before, Enum.random((0..diff)), :minute)
   end
 
 
