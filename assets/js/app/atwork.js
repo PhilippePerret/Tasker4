@@ -6,6 +6,7 @@ function DListenClick(o, m){o.addEventListener('click', m)}
  */
 class ClassAtWork {
   init(){
+    if ( ! this.btnAfterNext /* On n'est pas sur la bonne page */ ) return ;
     this.observe()
     console.log("TASKS", TASKS)
     console.log("PROJECTS", PROJECTS)
@@ -112,6 +113,12 @@ class ClassAtWork {
     this.forEachTask((tk, i) => tk.relative_index = Number(i))
   }
 
+  /**
+   * Boucle la méthode +method+ sur chaque tâche à faire.
+   * 
+   * Noter que la fonction +method+ peut utiliser en second argument
+   * l'index relatif de la tâche dans la liste.
+   */
   forEachTask(method){
     for(var i = 0, len = TASKS.length; i < len; ++i){
       method(TASKS[i], Number(i))
@@ -134,6 +141,4 @@ class ClassAtWork {
 
 window.AtWork = new ClassAtWork();
 
-window.addEventListener("load", function() {
-  AtWork.init()
-});
+window.addEventListener("load", function() {AtWork.init()});

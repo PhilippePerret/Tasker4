@@ -29,6 +29,30 @@ div#current-task {
   padding:2em;
   border-radius:2em;
 }
+/* Le TITRE de la tâche */
+div#current-task div#current-task-title {
+  text-align: left;
+  margin-left: 30px;
+  font-size: 1.2em
+}
+/* Le DÉTAIL de la tâche */
+div#current-task div#current-task-details {
+  margin-left: 0;
+}
+/* L'INDEX ABSOLU de la tâche */
+div#current-task span#current-task-absolute_index {
+  position: absolute;
+  top: 10px; left: 10px;
+  display:inline-block;
+  text-align:center;
+  vertical-align: middle;
+  line-height: 1.7em;
+  background-color: yellow;
+  color: grey;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+}
 
 
 div#current-task-container button.btn {
