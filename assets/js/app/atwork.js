@@ -24,6 +24,10 @@ class ClassAtWork {
         {title:'Ouvrir dossier principal', type:'open-folder', data: '/mon/dossier'}
       , {title:'Nouvelle version', type:'run-script', data: '/path/to/script.sh'}
     ]
+    TASKS[0].notes = [
+      {title: "Une première note de Phil", details: "C'est le détail de la note, qui peut être longue.", author: "Phil"},
+      {title: "Une première note de Marion", details: "C'est le détail de la note, qui peut être longue.", author: "Marion"}
+    ]
     // On définit l'index absolu des tâches
     this.forEachTask((tk, index) => tk.absolute_index = index)
     this.showCurrentTask()
@@ -52,7 +56,7 @@ class ClassAtWork {
    */
   showTask(task){
     this.setField('title', task.title)
-    this.setField('details', task.details)
+    this.setField('details', task.details || "")
     this.setField('absolute_index', task.absolute_index + 1)
     this.setField('relative_index', task.relative_index + 1)
     this.setField('tags', this.buildTags(task))
@@ -62,7 +66,7 @@ class ClassAtWork {
   }
   setField(fName, fValue){
     if ( 'string' == typeof fValue || 'number' == typeof fValue) {
-      this.field(fName).innerHTML = fValue || `[${fName} non défini]`
+      this.field(fName).innerHTML = fValue || "" //`[${fName} non défini]`
     } else if (fValue.length) {
       this.field(fName).innerHTML = ""
       fValue.forEach(o => this.field(fName).appendChild(o))
@@ -93,7 +97,17 @@ class ClassAtWork {
     return scripts
   }
   buildNotes(task){
-    return `[Notes de la tâche ${task.id}]`
+    let notes = "";
+    if ( task.notes && task.notes.length ){
+      notes = task.notes.map(dnote => {
+        const o = DCreate('DIV', {class: 'note'})
+        o.appendChild(DCreate('DIV', {class: 'title', text: dnote.title}))
+        const details = `${dnote.details} <span class="author">${dnote.author}</span>` 
+        o.appendChild(DCreate('DIV', {class: 'details', text: details}))
+        return o
+      })
+    }
+    return notes
   }
 
 

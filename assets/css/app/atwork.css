@@ -8,8 +8,8 @@ Tous les styles pour le panneau de travail.
 div#current-task-container {
   position:fixed;
   --main-width: 1000px;
-  --main-height: 600px;
-  top: calc(50% - var(--main-height)/2);
+  --main-height: 700px;
+  top: 100px;
   left: calc(50% - var(--main-width)/2);
   width: var(--main-width);
   height: var(--main-height);
@@ -24,14 +24,14 @@ div#current-task {
   position: absolute;
   --width: 600px;
   --height: 300px;
-  top: calc(50% - (var(--height) / 2) - 2em);
+  top: 90px;
   left: calc(50% - ( var(--width) / 2) - 2em);
   width: var(--width);
-  height: var(--height);
+  /* height: var(--height); */
   max-height: 800px;
   border: 1px solid #FF0000;
   padding:2em;
-  padding-bottom: 4em;
+  padding-bottom: 1em;
   border-radius:2em;
 }
 
@@ -54,7 +54,6 @@ div#current-task div#current-task-details {
 div#current-task div#current-task-tags {
   margin-left: 0;
   max-height: 3em;
-  font-size: 13pt;
   padding: 4px;
   overflow: hidden;
 }
@@ -64,6 +63,7 @@ div#current-task span.mini-tool {
   border-radius: 12px;
   padding: 0 12px 1px;
   margin-left: 12px;
+  font-size: 12pt;
   cursor:pointer;
 }
 
@@ -74,6 +74,27 @@ div#current-task div#current-task-scripts {
   font-size: 13pt;
   padding: 4px;
   overflow: hidden;
+}
+
+/* La ligne de NOTES de la tâche */
+div#current-task div#current-task-notes {
+  margin-left: 0;
+  text-align: left;
+  padding: 4px;
+  height: 120px;
+  max-height: 120px;
+  overflow: scroll;
+}
+div#current-task div#current-task-notes div.note {
+
+}
+div#current-task div#current-task-notes div.title {
+  font-weight: bold;
+  font-size: 13pt;
+}
+div#current-task div#current-task-notes div.details {
+  font-weight: normal;
+  font-size: 12pt;
 }
 
 /* L'INDEX ABSOLU de la tâche */
