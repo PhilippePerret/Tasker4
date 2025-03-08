@@ -3,7 +3,7 @@ defmodule TaskerWeb.TasksOpController do
 
   import Ecto.Query
 
-  alias Tasker.{Repo, Tache}
+  alias Tasker.{Repo, Tache, ToolBox, Helper}
   alias Tasker.Tache.TaskDependencies
 
   @doc """
@@ -46,11 +46,16 @@ defmodule TaskerWeb.TasksOpController do
     end
   end
 
-  def exec_op("save_working_time", %{"laps" => laps, "task_id" => task_id}) do
-    IO.puts "Je dois enregistrer le temps de la tâche #{task_id} avec : #{inspect laps}"
-    start = Helper.mseconds_to_naive(laps["start"])
-    stop  = Helper.mseconds_to_naive(laps["stop"])
-    %{ok: true}
+  def exec_op("save_working_time", %{"laps" => dlaps, "task_id" => task_id}) do
+    IO.puts "Je dois enregistrer le temps de la tâche #{task_id} avec : #{inspect dlaps}"
+    start = Helper.mseconds_to_naive(dlaps["start"])
+    stop  = Helper.mseconds_to_naive(dlaps["stop"])
+    laps = %{start: start, stop: stop, task_id: task_id}
+    IO.inspect(laps, label: "Donnée Laps")
+    ToolBox.create_laps(laps)
+    # TODO : ajouter les minutes à la tâche
+    # En fait il faut faire la somme de tous les temps de la tâche
+    %{ok: true, execution_time: nil}
   end
 
 

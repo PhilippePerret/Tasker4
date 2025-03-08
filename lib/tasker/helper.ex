@@ -59,4 +59,8 @@ defmodule Tasker.Helper do
     [segs, reste]
   end
 
+  def mseconds_to_naive(mseconds) do
+    DateTime.from_unix!(mseconds, :millisecond) |> DateTime.to_naive()
+  end
+
 end

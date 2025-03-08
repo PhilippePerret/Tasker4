@@ -110,15 +110,25 @@ div#current-task span#current-task-absolute_index {
 }
 
 
-div#current-task-container button.btn {
+div#current-task-container button.btn,
+div#current-task-container div#horloge {
   background: #F4FFF4;
   padding: 1.2em 1.5em;
   border-radius: 2em;
+}
+div#current-task-container button.btn {
   cursor:pointer;
   opacity: 0.5
 }
+
 div#current-task-container button.btn:hover {opacity:1}
 
+div#current-task-container div#horloge {
+  position:relative;
+  display:inline-block;
+  font-family: Monospace;
+  font-size: 22pt;
+}
 /* Contenant pour boutons alternatifs (un affiché/un masqué) */
 div#current-task-container div.bouton {
   position: absolute;

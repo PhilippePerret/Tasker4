@@ -41,6 +41,15 @@ class ClassAtWork {
       }
     }
 
+    /**
+     * Si un temps de départ était enregistré, on le réactive
+     */
+    let z ;
+    if ( (z = sessionStorage.getItem('running-start-time')) ){
+      z = Number(z)
+      this.toggleStartStopButtons()
+    }
+
     // On affiche la tâche courante
     this.showCurrentTask()
   }
@@ -193,7 +202,8 @@ class ClassAtWork {
   }
   afterSaveLaps(retour){
     if ( retour.ok ){
-
+      sessionStorage.removeItem('')
+      Flash.notice("Temps de travail enregistré.")
     } else {
       Flash.error(retour.error)
     }
@@ -239,6 +249,7 @@ class ClassAtWork {
   toggleStartStopButtons(){
     this.btnStart.classList[this.running?'add':'remove']('hidden')
     this.btnStop.classList[this.running?'remove':'add']('hidden')
+    this.horloge[this.running?'start':'stop']()
   }
 
   /**
@@ -275,7 +286,7 @@ class ClassAtWork {
   get btnOutOfDay(){return this._btnoutday || (this._btnoutday || DGet('button.btn-out-day', this.obj))}
   get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
-
+  get horloge(){return this._horloge || (this._horloge = Horloge)}
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}
 }
 

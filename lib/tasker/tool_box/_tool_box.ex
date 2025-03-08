@@ -5,7 +5,7 @@ defmodule Tasker.ToolBox do
 
   # alias Tasker.Tache.{Task, TaskSpec}
 
-  alias Tasker.ToolBox.Note
+  alias Tasker.ToolBox.{Note, Laps}
 
 
   @doc """
@@ -105,5 +105,12 @@ defmodule Tasker.ToolBox do
   def change_note(%Note{} = note, attrs \\ %{}) do
     Note.changeset(note, attrs)
   end
+
+  def create_laps(attrs \\ %{}) do
+    Laps.changeset(%Laps{}, attrs)
+    |> Repo.insert!()
+  end
+
+
 
 end
