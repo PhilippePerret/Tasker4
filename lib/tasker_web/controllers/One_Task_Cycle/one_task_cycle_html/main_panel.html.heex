@@ -1,28 +1,28 @@
 <div id="current-task-container">
 
   <div class="bouton start-stop">
-    <button class="btn btn-start">Commencer</button>
-    <button class="btn btn-stop hidden">Finir</button>
+    <button class="btn btn-start"><%= dgettext("tasker", "Start (work)") %></button>
+    <button class="btn btn-stop hidden"><%= dgettext("tasker", "Stop (work)") %></button>
   </div>
   
   <!-- LIGNE BOUTONS HAUT À GAUCHE -->
   <div class="buttons top-left">
-    <button class="btn btn-remove">Détruire</button>
-    <button class="btn btn-out-day">Retirer du jour</button>
+    <button class="btn btn-remove"><%= dgettext("tasker", "Destroy") %></button>
+    <button class="btn btn-out-day"><%= dgettext("tasker", "Out of day") %></button>
   </div>
   
   <!-- LIGNE BOUTONS BAS À GAUCHE -->
   <div class="buttons bottom-left">
-    <button class="btn btn-edit">Modifier</button>
-    <button class="btn btn-projet">Projet</button>
+    <button class="btn btn-edit"><%= gettext("Edit") %></button>
+    <button class="btn btn-projet"><%= dgettext("tasker", "Project") %></button>
   </div>
 
   <!-- BOUTONS COLONNE DROITES -->
   <div class="buttons right-column">
-    <button class="btn btn-to-the-end">À la fin</button>
-    <button class="btn btn-after-next">Après la<br/>suivante</button>
-    <button class="btn btn-later">Plus tard</button>
-    <button class="btn btn-reset-order small">Ordre initial</button>
+    <button class="btn btn-to-the-end"><%= dgettext("tasker", "End (to the end)") %></button>
+    <button class="btn btn-after-next"><%= dgettext("tasker", "After next") %></button>
+    <button class="btn btn-later"><%= dgettext("tasker", "Later") %></button>
+    <button class="btn btn-reset-order small"><%= dgettext("tasker", "Reset order") %></button>
   </div>
 
   <!-- BOUTONS COLONNE GAUCHE -->

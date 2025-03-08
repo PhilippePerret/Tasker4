@@ -7,6 +7,11 @@ function DListenClick(o, m){o.addEventListener('click', m)}
 class ClassAtWork {
   init(){
     if ( ! this.btnAfterNext /* On n'est pas sur la bonne page */ ) return ;
+    if ( !sessionStorage.getItem('zen-state') ) {
+      sessionStorage.setItem('zen-state', 'false')
+    }
+    this.zenState = eval(sessionStorage.getItem('zen-state'))
+    this.setZenMode()
     this.observe()
     console.log("TASKS", TASKS)
     console.log("PROJECTS", PROJECTS)
@@ -58,8 +63,24 @@ class ClassAtWork {
     DListenClick(this.btnOutOfDay   , this.onOutOfDay.bind(this))
     DListenClick(this.btnSup        , this.onRemove.bind(this))
     DListenClick(this.btnEdit       , this.onEdit.bind(this))
-    DListenClick(this.btnProjet     , this.onProjet(this))
-    DListenClick(this.btnResetOrder , this.onResetOrder(this))
+    DListenClick(this.btnProjet     , this.onProjet.bind(this))
+    DListenClick(this.btnResetOrder , this.onResetOrder.bind(this))
+    DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
+  }
+  get boutonsZenMode(){return [this.btnResetOrder, this.btnProjet, this.btnEdit, 
+    this.btnOutOfDay, this.btnLater, this.btnAfterNext, this.btn2end
+  ]}
+
+  onToggleZenMode(ev){
+    this.zenState = !this.zenState
+    sessionStorage.setItem('zen-state', this.zenState ? 'true' : 'false')
+    this.setZenMode()
+  }
+  setZenMode(){
+    console.info("Zen mode (nouvel état)", this.zenState)
+    const method = this.zenState ? 'add' : 'remove' ;
+    this.boutonsZenMode.forEach(btn => btn.classList[method]('invisible'))
+    this.btnZen.classList[this.zenState?'add':'remove']('on')
   }
 
   onClickStart(ev){
@@ -125,6 +146,7 @@ class ClassAtWork {
     }
   }
 
+  get btnZen(){return this._btnzen || (this._btnzen || DGet('button.btn-zen', this.obj))}
   get btnSup(){return this._btnrem || (this._btnrem || DGet('button.btn-remove', this.obj))}
   get btnEdit(){return this._btnedit || (this._btnedit || DGet('button.btn-edit', this.obj))}
   get btnStart(){return this._btnstart || (this._btnstart || DGet('button.btn-start', this.obj))}

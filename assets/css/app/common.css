@@ -12,6 +12,7 @@
 .discret {
   opacity: 0.5;
 }
+.invisible {visibility: hidden;}
 .disabled {
   font-style: italic;
   color: #AAAAAA;

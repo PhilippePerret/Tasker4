@@ -83,6 +83,13 @@ button.small {
   padding: 1px 0.6em 3px;
 }
 
+button.on {
+  background-color: #CCCCCC;
+  color: #999999;
+  border: 1px solid #BBBBBB;
+  border-radius: 8px;
+}
+
 form {
   border: 8px solid #EEEEEE;
   border-radius: 1em;
