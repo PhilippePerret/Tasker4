@@ -8,13 +8,16 @@ defmodule Tasker.ProjetFixtures do
 
   @doc """
   Crée +nombre+ projets et les retourne.
-  
+
   """
   def create_projects(nombre, attrs \\ %{}) do
     (1..nombre)
     |> Enum.map(fn _index -> project_fixture(attrs) end)
   end
-
+  def create_projet(attrs \\ %{}) do
+    project_fixture(attrs)
+  end
+  
   @doc """
   Generate a project.
   """

@@ -27,8 +27,8 @@ defmodule Tasker.Seed do
     Tasker.Accounts.create_worker(attrs)
     # Tasker.Repo.insert!(struct(Tasker.Accounts.Worker, attrs))
   end
-  def insert(:project, attrs) do
-    Tasker.Repo.insert!(struct(Tasker.Projet.Project, attrs))
+  def insert(:project, attrs \\ %{}) do
+    FXP.create_projet(attrs)
   end
   def insert(:task_spec, attrs) do
     Tasker.Repo.insert!(struct(Tasker.Tache.TaskSpec, attrs))

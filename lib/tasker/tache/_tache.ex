@@ -71,7 +71,7 @@ defmodule Tasker.Tache do
     TaskDependencies.changeset(%TaskDependencies{}, data)
     |> Repo.insert!()
 
-    get_task!(task_before.id)
+    get_task!(tbefore_id)
   end
 
 

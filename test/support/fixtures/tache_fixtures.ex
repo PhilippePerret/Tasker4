@@ -113,6 +113,7 @@ defmodule Tasker.TacheFixtures do
     |> Map.put(:before, attrs[:before] || attrs[:deps_after])
     |> Map.put(:after, attrs[:after] || attrs[:deps_before])
     |> Map.put(:project, attrs[:project] || nil)
+    |> Map.put(:project_id, attrs[:project_id] || nil)
     
 
     # - HEADLINE -
@@ -197,10 +198,12 @@ defmodule Tasker.TacheFixtures do
         Tache.create_dependency(aft, task)
       is_list(aft) ->
         # Une liste de tâches ou d'identifiant de tâche
-        Enum.each(bef, fn tk -> Tache.create_dependency(tk, task.id) end)
+        Enum.each(aft, fn tk -> Tache.create_dependency(tk, task.id) end)
+      true -> 
+        # Sinon, on ne fait rien
+        nil
     end
 
-    
     bef = attrs[:before]
     cond do
       is_integer(bef) ->
@@ -214,6 +217,9 @@ defmodule Tasker.TacheFixtures do
       is_list(bef) ->
         # Liste de tâche ou d'id de tâche
          Enum.each(bef, fn tk -> Tache.create_dependency(task.id, tk) end)
+      true -> 
+      # Sinon, on ne fait rien
+      nil
     end
 
     # - NATURES -

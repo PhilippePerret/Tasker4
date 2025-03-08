@@ -1,11 +1,12 @@
 defmodule Random.RandMethods do
 
   @lorem_words ~w(Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum Curabitur pretium tincidunt lacus Nulla gravida orci a odio Nullam varius turpis et commodo pharetra est eros bibendum elit nec luctus magna felis sollicitudin mauris Integer in mauris eu nibh euismod gravida Duis ac tellus et risus vulputate vehicula Donec lobortis risus a elit Etiam tempor ultricies mi Proin gravida orci porttitor iaculis sapien eros vehicula velit eget egestas augue orci ac sem Donec bibendum quam in tellus Nullam cursus pulvinar lectus Pellentesque egestas nisl)
-  def random_text(longueur \\ 200, text \\ "") when String.length(text) < longueur do
+  def random_text(expected_len \\ 200, actual_len \\ 0, text \\ "") when actual_len < expected_len do
     text = "#{text} #{Enum.random(@lorem_words)}"
+    random_text(expected_len, String.length(text), text)
   end
-  def random_text(longueur, text) do
-    String.capitalize(text)
+  def random_text(_expected_len, _actual_len, text) do
+    String.capitalize(String.trim(text))
   end
 
   @adjectifs ["fabuleux", "incroyable", "inouï", "invraisemblable", "décoiffant", "véritable", "déconcertant"]
