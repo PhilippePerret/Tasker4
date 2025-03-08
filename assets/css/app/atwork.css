@@ -85,9 +85,6 @@ div#current-task div#current-task-notes {
   max-height: 120px;
   overflow: scroll;
 }
-div#current-task div#current-task-notes div.note {
-
-}
 div#current-task div#current-task-notes div.title {
   font-weight: bold;
   font-size: 13pt;

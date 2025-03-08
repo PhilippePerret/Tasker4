@@ -46,6 +46,14 @@ defmodule TaskerWeb.TasksOpController do
     end
   end
 
+  def exec_op("save_working_time", %{"laps" => laps, "task_id" => task_id}) do
+    IO.puts "Je dois enregistrer le temps de la tâche #{task_id} avec : #{inspect laps}"
+    start = Helper.mseconds_to_naive(laps["start"])
+    stop  = Helper.mseconds_to_naive(laps["stop"])
+    %{ok: true}
+  end
+
+
   defp delete_all_dependencies_of(task_id) do
     # task_id = uuid(task_id)
     from(td in TaskDependencies, 

@@ -6,7 +6,11 @@ function DListenClick(o, m){o.addEventListener('click', m)}
  */
 class ClassAtWork {
   init(){
-    if ( ! this.btnAfterNext /* On n'est pas sur la bonne page */ ) return ;
+    if ( ! this.btnAfterNext /* On n'est pas sur la page de travail */ ) return ;
+    
+    /**
+     * Mode Zen
+     */
     if ( !sessionStorage.getItem('zen-state') ) {
       sessionStorage.setItem('zen-state', 'false')
     }
@@ -18,6 +22,30 @@ class ClassAtWork {
     this.TASKS_COUNT = TASKS.length
 
     // --- POUR DÉFINIR LES TAILLES ---
+    // this.__defineVirtualFistTaskForEssais()
+
+    // On définit l'index absolu des tâches
+    this.forEachTask((tk, index) => tk.absolute_index = index)
+
+    /**
+     * Si une tâche était en cours avant le rechargement, on la
+     * reprend
+     */
+    let indexCurTask;
+    if ( (indexCurTask = sessionStorage.getItem('current-task-index')) ){
+      indexCurTask = Number(indexCurTask)
+      const lastIndex = TASKS.length - 1
+      while ( TASKS[0].absolute_index != indexCurTask ){
+        const first = TASKS.shift()
+        TASKS.splice(lastIndex, 0, first)
+      }
+    }
+
+    // On affiche la tâche courante
+    this.showCurrentTask()
+  }
+
+  __defineVirtualFistTaskForEssais(){
     TASKS[0].details = "Ceci<br>Est<br>Un<br>Long<br>Détail<br>Pour<br>Voir."
     TASKS[0].tags = ['premier', 'deuxième', 'troisième', 'quatrième']
     TASKS[0].scripts = [
@@ -28,9 +56,6 @@ class ClassAtWork {
       {title: "Une première note de Phil", details: "C'est le détail de la note, qui peut être longue.", author: "Phil"},
       {title: "Une première note de Marion", details: "C'est le détail de la note, qui peut être longue.", author: "Marion"}
     ]
-    // On définit l'index absolu des tâches
-    this.forEachTask((tk, index) => tk.absolute_index = index)
-    this.showCurrentTask()
   }
 
   /**
@@ -46,6 +71,7 @@ class ClassAtWork {
   showCurrentTask(){
     this.redefineRelativeIndexes()
     this.showTask(TASKS[0])
+    sessionStorage.setItem('current-task-index', String(TASKS[0].absolute_index))
   }
 
   /**
@@ -143,10 +169,36 @@ class ClassAtWork {
 
   onClickStart(ev){
     console.log("Je dois apprendre à démarrer la tâche.")
+    this.runningStartTime = Number(new Date())
+    sessionStorage.setItem('running-start-time', String(this.runningStartTime))
+    this.running = true
+    this.toggleStartStopButtons()
   }
   onClickStop(ev){
     console.log("Je dois apprendre à stopper la tâche.")
+    if ( !this.runningStartTime) {
+      // Page rechargée en cours de travail
+      this.runningStartTime = Number(sessionStorage.getItem('running-start-time'))
+    }
+    this.runningStopTime = Number(new Date())
+    this.running = false
+    this.toggleStartStopButtons()
+
+    const laps = {start: this.runningStartTime, stop: this.runningStopTime}
+    ServerTalk.dial({
+        route: '/tasksop/save_working_time'
+      , data: {laps: laps, task_id: this.current_task.id}
+      , callback: this.afterSaveLaps.bind(this)
+    })
   }
+  afterSaveLaps(retour){
+    if ( retour.ok ){
+
+    } else {
+      Flash.error(retour.error)
+    }
+  }
+
   onPushToTheEnd(ev){
     const first = TASKS.shift()
     TASKS.push(first)
@@ -182,6 +234,13 @@ class ClassAtWork {
     TASKS.sort(function(a,b){return a.absolute_index > b.absolute_index ? 1 : -1})
     this.showCurrentTask()
   }
+
+
+  toggleStartStopButtons(){
+    this.btnStart.classList[this.running?'add':'remove']('hidden')
+    this.btnStop.classList[this.running?'remove':'add']('hidden')
+  }
+
   /**
    * Pour redéfinir l'index relatif
    * 
