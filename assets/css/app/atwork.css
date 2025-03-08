@@ -17,6 +17,9 @@ div#current-task-container {
   text-align: center;
 }
 
+/* 
+  === ASPECT DE LA TÂCHE COURANT ===
+*/
 div#current-task {
   position: absolute;
   --width: 600px;
@@ -25,9 +28,15 @@ div#current-task {
   left: calc(50% - ( var(--width) / 2) - 2em);
   width: var(--width);
   height: var(--height);
+  max-height: 800px;
   border: 1px solid #FF0000;
   padding:2em;
+  padding-bottom: 4em;
   border-radius:2em;
+}
+
+div#current-task > div {
+  margin-top: 8px;
 }
 /* Le TITRE de la tâche */
 div#current-task div#current-task-title {
@@ -38,7 +47,35 @@ div#current-task div#current-task-title {
 /* Le DÉTAIL de la tâche */
 div#current-task div#current-task-details {
   margin-left: 0;
+  max-height: 180px;
+  overflow: scroll
 }
+/* La ligne de TAGS de la tâche */
+div#current-task div#current-task-tags {
+  margin-left: 0;
+  max-height: 3em;
+  font-size: 13pt;
+  padding: 4px;
+  overflow: hidden;
+}
+/* Spans pour les tags et les scripts */
+div#current-task span.mini-tool {
+  border: 1px solid #999;
+  border-radius: 12px;
+  padding: 0 12px 1px;
+  margin-left: 12px;
+  cursor:pointer;
+}
+
+/* La ligne de SCRIPTS de la tâche */
+div#current-task div#current-task-scripts {
+  margin-left: 0;
+  text-align: left;
+  font-size: 13pt;
+  padding: 4px;
+  overflow: hidden;
+}
+
 /* L'INDEX ABSOLU de la tâche */
 div#current-task span#current-task-absolute_index {
   position: absolute;

@@ -13,14 +13,26 @@ class ClassAtWork {
     this.zenState = eval(sessionStorage.getItem('zen-state'))
     this.setZenMode()
     this.observe()
-    console.log("TASKS", TASKS)
-    console.log("PROJECTS", PROJECTS)
+    // console.log("TASKS", TASKS)
+    // console.log("PROJECTS", PROJECTS)
     this.TASKS_COUNT = TASKS.length
+
+    // --- POUR DÉFINIR LES TAILLES ---
+    TASKS[0].details = "Ceci<br>Est<br>Un<br>Long<br>Détail<br>Pour<br>Voir."
+    TASKS[0].tags = ['premier', 'deuxième', 'troisième', 'quatrième']
+    TASKS[0].scripts = [
+        {title:'Ouvrir dossier principal', type:'open-folder', data: '/mon/dossier'}
+      , {title:'Nouvelle version', type:'run-script', data: '/path/to/script.sh'}
+    ]
     // On définit l'index absolu des tâches
     this.forEachTask((tk, index) => tk.absolute_index = index)
     this.showCurrentTask()
   }
 
+  /**
+   * @return {Object} La tâche courante (données)
+   */
+  get current_task(){return TASKS[0]}
 
   /**
    * Fonction qui affiche la tâche courante.
@@ -43,13 +55,45 @@ class ClassAtWork {
     this.setField('details', task.details)
     this.setField('absolute_index', task.absolute_index + 1)
     this.setField('relative_index', task.relative_index + 1)
+    this.setField('tags', this.buildTags(task))
+    this.setField('scripts', this.buildScriptsTools(task))
+    this.setField('notes', this.buildNotes(task))
     
   }
   setField(fName, fValue){
-    this.field(fName).innerHTML = fValue || `[${fName} non défini]`
+    if ( 'string' == typeof fValue || 'number' == typeof fValue) {
+      this.field(fName).innerHTML = fValue || `[${fName} non défini]`
+    } else if (fValue.length) {
+      this.field(fName).innerHTML = ""
+      fValue.forEach(o => this.field(fName).appendChild(o))
+    }
   }
   field(fName){
     return DGet(`#current-task-${fName}`)
+  }
+
+  buildTags(task){
+    let tags = "";
+    if ( task.tags && task.tags.length ) {
+      tags = task.tags.map(tag => {
+        const o = DCreate('SPAN', {class: 'mini-tool', text: tag})
+        return o
+      })
+    }
+    return tags
+  }
+  buildScriptsTools(task){
+    let scripts = "";
+    if ( task.scripts && task.scripts.length ){
+      scripts = task.scripts.map(script => {
+        const o = DCreate('SPAN', {class:'mini-tool', text: `🪛 ${script.title}`})
+        return o
+      })
+    }
+    return scripts
+  }
+  buildNotes(task){
+    return `[Notes de la tâche ${task.id}]`
   }
 
 
@@ -107,7 +151,9 @@ class ClassAtWork {
     this.showCurrentTask()
   }
   onOutOfDay(ev){
-    console.log("Je dois apprendre à sortir du jour la tâche.")
+    TASKS.shift()
+    this.showCurrentTask()
+    Flash.notice("Il suffira de recharger la page pour la remettre.")
   }
   onRemove(ev){
     console.log("Je dois apprendre à détruire la tâche.")
@@ -119,8 +165,7 @@ class ClassAtWork {
     Flash.notice("Je dois apprendre à afficher le projet.")
   }
   onResetOrder(ev){
-    Flash.notice("Je dois apprendre à remettre l'ordre inital")
-    TASKS.sort(function(a,b){return a.absolute_index < b.absolute_index ? 1 : -1})
+    TASKS.sort(function(a,b){return a.absolute_index > b.absolute_index ? 1 : -1})
     this.showCurrentTask()
   }
   /**
