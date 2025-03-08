@@ -108,6 +108,9 @@ div.buttons.top-left button {
 div.buttons.right-column {
   top: 0; right: 0;
 }
+div.buttons.right-column button {
+  width: 150px;
+}
 div.buttons.left-column {
   top: 140px; left: 0;
   text-align: left;
