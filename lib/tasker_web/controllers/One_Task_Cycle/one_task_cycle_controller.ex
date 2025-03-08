@@ -15,8 +15,7 @@ defmodule TaskerWeb.OneTaskCycleController do
     "expect_duration", "execution_time", "deadline_trigger"]
 
 
-  def main(conn, params) do
-    IO.inspect(conn, label: "conn")
+  def main(conn, _params) do
     render(conn, :main_panel, %{
       projects: projects_as_json_table(),
       candidates: Jason.encode!(get_candidate_tasks(conn.assigns.current_worker.id))
@@ -25,7 +24,7 @@ defmodule TaskerWeb.OneTaskCycleController do
 
   defp projects_as_json_table do
     Projet.list_projects() 
-    |> IO.inspect(label: "Projets")
+    # |> IO.inspect(label: "Projets")
     |> Enum.reduce(%{}, fn p, accu -> 
       p = p 
       |> Map.from_struct()
@@ -49,7 +48,7 @@ defmodule TaskerWeb.OneTaskCycleController do
     sql = candidates_request()
     params = [Ecto.UUID.dump!(worker_id)] # Remplace par l'ID réel du worker
     result = Tasker.Repo.query!(sql, params)
-    |> IO.inspect(label: "RÉSULT")
+    # |> IO.inspect(label: "RÉSULT")
     # raise "pour voir"
     tasks = result.rows
     |> Enum.map(fn row -> 
@@ -69,19 +68,18 @@ defmodule TaskerWeb.OneTaskCycleController do
           add_prop_and_value(collec, prop, map[prop], :task_time)
         end)
 
-        task =
         Enum.reduce(@task_spec_properties, task, fn prop, collec ->
           add_prop_and_value(collec, prop, map[prop], :task_spec)
         end)
       end).()
-      |> IO.inspect(label: "ROW")
+      # |> IO.inspect(label: "ROW")
     end)
     |> Enum.map(fn task -> 
       task = Map.put(task, :task_spec, struct(TaskSpec, task.task_spec))
       task = Map.put(task, :task_time, struct(TaskTime, task.task_time))
       struct(Task, task)
     end)
-    |> IO.inspect(label: "TÂCHES FINALES")
+    # |> IO.inspect(label: "TÂCHES FINALES")
 
     # On récupère tous les ids de tâche pour récupérer les
     # dépendances
@@ -100,8 +98,6 @@ defmodule TaskerWeb.OneTaskCycleController do
     end)
     # |> IO.inspect(label: "DÉPENDANCES")
 
-    IO.inspect(task_ids_binaires, label: "IDS BINAIRES")
-    IO.inspect(task_ids, label: "IDS STRING")
     query =
     from nt in "tasks_natures",
       where: nt.task_id in ^task_ids_binaires,
@@ -145,7 +141,7 @@ defmodule TaskerWeb.OneTaskCycleController do
 
       %{task | rank: Map.from_struct(task.rank)}
     end)
-    |> IO.inspect(label: "TÂCHES DÉFINITIVES -après- CLASSEMENT")
+    # |> IO.inspect(label: "TÂCHES DÉFINITIVES -après- CLASSEMENT")
   end
 
   defp add_prop_and_value(task, prop, value, task_key) do
