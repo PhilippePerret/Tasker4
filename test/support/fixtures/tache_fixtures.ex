@@ -146,7 +146,7 @@ defmodule Tasker.TacheFixtures do
         attrs
     end
 
-    {:ok, task} = Tache.create_task(dtask.task)
+    {:ok, task} = Tache.create_task(Map.merge(dtask.task, %{project_id: attrs.project_id}))
     task = Tache.get_task!(task.id)
     Tache.update_task_spec(task.task_spec, dtask.task_spec)
     Tache.update_task_time(task.task_time, dtask.task_time)

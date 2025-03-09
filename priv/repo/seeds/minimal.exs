@@ -118,8 +118,8 @@ alias Tasker.Seed, as: S
 # S.insertion_people()
 
 # === tâches ===
-S.truncate(:tasks)
-S.truncate(:projects)
-S.insertion_une()
-S.insertion_quatre_with_dependances()
-S.insertion_dix_diverses()
+# S.truncate(:tasks)
+# S.truncate(:projects)
+# S.insertion_une()
+# S.insertion_quatre_with_dependances()
+# S.insertion_dix_diverses()
