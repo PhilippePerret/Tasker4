@@ -16,6 +16,9 @@ defmodule TaskerWeb.TaskHTML do
 
   def task_form(assigns)
 
+  attr :changeset, Ecto.Changeset, required: true
+  def bloc_task_scripts(assigns)
+
   @hour   60          # heure   = 60 minutes
   @day    7 * @hour   # journée = 7 heures
   @week   5 * @day    # semaine = 5 jours ouvrés pour 7 heures

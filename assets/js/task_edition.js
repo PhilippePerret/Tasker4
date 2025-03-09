@@ -65,11 +65,11 @@ class Task {
    *  - règle le select des natures.
    */
   static initNaturesValues(){
-    let natureIds = this.fieldNatures.value
-    if ( NullIfEmpty(natureIds) ) {
-      natureIds = []
-    } else {
+    let natureIds = NullIfEmpty(this.fieldNatures.value)
+    if ( natureIds ) {
       natureIds = natureIds.split(",")
+    } else {
+      natureIds = []
     }
     // console.info("natureIds", natureIds)
     this.setNaturesToMenu(natureIds)
