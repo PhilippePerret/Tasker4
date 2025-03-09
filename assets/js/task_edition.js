@@ -26,7 +26,11 @@ class Task {
     this.taskDeps = new TaskDependencies()
     this.taskDeps.init()
 
+    // Préparation du menu des natures
     this.menuNatures && this.initNaturesValues()
+
+    // Préparation des types de script
+    this.prepareScriptBlock()
     
   } // init
 
@@ -56,6 +60,40 @@ class Task {
     if (ev.key == 'Enter'){ return StopEvent(ev) }
   }
 
+  // ======== SCRIPT DE TÂCHE ========
+  static prepareScriptBlock(){
+    this.feedScriptTypes()
+    this.observeScriptBlock()
+  }
+  static feedScriptTypes(){
+    const menu = this.menuScriptTypes;
+    Object.values(SCRIPT_DATA).forEach(dscript => {
+      const opt = DCreate('OPTION',{})
+      opt.setAttribute('value', dscript.id)
+      opt.innerHTML = dscript.hname
+      menu.appendChild(opt)
+    })
+  }
+  static observeScriptBlock(){
+    this.menuScriptTypes.addEventListener('change', this.onChooseScriptType.bind(this))
+    this.btnAddScript.addEventListener('click', this.onAddScript.bind(this))
+    this.btnSaveScripts.addEventListener('click', this.onSaveScript.bind(this))
+  }
+  static onAddScript(ev){
+    console.log("Je dois apprendre à ajouter un script.")
+  }
+  static onSaveScript(ev){
+    console.log("Je dois apprendre à sauver les scripts de la tâche.")
+  }
+  static onChooseScriptType(ev){
+    console.log("Je dois apprendre à régler le choix d'un script.")
+  }
+  static get btnAddScript(){return this._btnaddscript || (this._btnaddscript = DGet("button.btn-add", this.scriptsBlock))}
+  static get btnSaveScripts(){return this._btnsavescpt || (this._btnsavescpt = DGet("button.btn-save-script", this.scriptsBlock))}
+  static get menuScriptTypes(){return this._menuscpttypes || (this._menuscpttypes = DGet('select.script-type', this.scriptsBlock))}
+  static get scriptsBlock(){return this._scriptsblock || (this._scriptsblock = DGet('div#task_scripts-container'))}
+
+  // ======== NATURES ==========
   /**
    * Fonction appelée à l'initialisation du formulaire, lorsque la
    * tâche contient la donnée "natures", qui prépare le formulaire

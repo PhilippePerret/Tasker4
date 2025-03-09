@@ -264,3 +264,20 @@ div#element-form > div {margin: 0.5em 0}
 input.error {
   background-color: #FFCCCC!important;
 }
+
+/* Pour les scripts dans le formulaire de tâche */
+div.script-form {
+  border: 1px solid #AAAAAA;
+  border-radius: 1em;
+  padding: 1em;
+}
+div.script-form label {
+  display:inline-block!important;
+  width: 120px;
+}
+div.script-form label+select {
+  margin-left: 0;
+}
+div.script-form input.script-title {
+  width: 400px;
+}

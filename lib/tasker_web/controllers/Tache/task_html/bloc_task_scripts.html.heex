@@ -1,17 +1,21 @@
 <div id="task_scripts-container">
-  <div class="title">Scripts de la tâche</div>
+  <h3>Scripts de la tâche</h3>
   <!-- Listing des scripts -->
   <div class="scripts-list">
     
     <!-- Formulaire de script -->
     <div class="script-form">
-      <label><%= gettext("Label") %></label> <input type="text" class="script-title" />
-      <label><%= gettext("Type") %></label><select class="script-type"></select>
-      <label><%= gettext("Argument") %></label><textarea class="script-argument"></textarea>
+      <div><label><%= dgettext("tasker", "Human Label") %></label> <input type="text" class="script-title" placeholder="Titre évocateur de l'action précise du script" /></div>
+      <div><label><%= dgettext("tasker", "Script Type") %></label><select class="script-type"></select></div>
+      <div><label><%= dgettext("tasker", "Script Argument") %></label><textarea class="script-argument" placeholder="L'argument unique du script (une table si plusieurs données), en fonction de son type précis."></textarea></div>
     </div>
     <!-- /Formulaire de script -->
   
   </div>
-  <!-- /Listing des scripts -->
+  <!-- ///Listing des scripts -->
 
+  <div class="buttons">
+    <button class="btn-add fleft" title="Ajouter un script">＋</button>
+    <button class="btn-save-script btn small">Enregistrer les scripts</button>
+  </div>
 </div>
