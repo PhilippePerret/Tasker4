@@ -29,6 +29,7 @@ defmodule TaskerWeb.TaskController do
     task_params = task_params
     |> convert_string_values_to_real_values()
     |> create_project_if_needed(conn)
+    |> create_or_update_scripts(conn)
   
     case Tache.create_task(task_params) do
     {:ok, task} ->
@@ -49,12 +50,12 @@ defmodule TaskerWeb.TaskController do
     render(conn, :show, task: task)
   end
 
-
   def update(conn, %{"id" => id, "task" => task_params}) do
     # IO.inspect(task_params, label: "-> update (params)")
     task_params = task_params
     |> convert_string_values_to_real_values()
     |> create_project_if_needed(conn)
+    |> create_or_update_scripts(conn)
     |> IO.inspect(label: "\nParamp à l'entrée de update")
 
     task = Tache.get_task!(id)
@@ -98,6 +99,13 @@ defmodule TaskerWeb.TaskController do
 
   # ----- Functional Methods -----
 
+  @doc """
+  À la création ou l'actualisation de la tâche, on regarde si un 
+  nouveau projet a été défini. Si c'est le cas, on le crée.
+
+  @return {Map} La liste des paramètres de création/update de la
+  tâche.
+  """
   def create_project_if_needed(task_params, conn) do
     project_id =
       case task_params["new_project"] do
@@ -115,6 +123,24 @@ defmodule TaskerWeb.TaskController do
       end  
     Map.put(task_params, "project_id", project_id)
   end
+
+
+  @doc """
+  Fonction qui crée au besoin les scripts associés à la tâche à 
+  enregistrer ou updater.
+
+  @return {Map} La table des paramètres d'enregistrement, sans
+  aucun changement ici puisque seul le script porte la marque de la
+  tâche, mais pas l'inverse.
+  """
+  def create_or_update_scripts(task_params, conn) do
+
+    task_params
+  end
+
+
+
+
 
   defp common_render(conn, :new) do
     task_changeset = %Task{

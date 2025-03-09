@@ -9,6 +9,7 @@
     <!-- Formulaire de script -->
     <div class="script-form">
       <button type="button" class="btn-close small fright">🗑️</button>
+      <input type="hidden" class="script-id" value="" />
       <div><label><%= dgettext("tasker", "Human Label") %></label> <input type="text" class="script-title" placeholder="Titre évocateur de l'action précise du script" /></div>
       <div><label><%= dgettext("tasker", "Script Type") %></label><select class="script-type"></select><div class="script-description tiny" style="margin-left:124px;"></div></div>
       <div><label><%= dgettext("tasker", "Script Argument") %></label><textarea class="script-argument" placeholder="L'argument unique du script (une table si plusieurs données), en fonction de son type précis."></textarea></div>

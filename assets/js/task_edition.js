@@ -188,9 +188,13 @@ class TaskScript {
    */
   static setData(){
     let data = NullIfEmpty(this.fieldData.value)
-    if ( data ) {
+    if ( data && data.length ) {
       data = JSON.parse(data)
-      console.log("Je dois dispatcher les données script", data)
+      this.listing.innerHTML = ""
+      data.forEach(dataScript => {
+        const script = this.onAddScript(null)
+        script.setData(dataScript)
+      })
     } else {
       this.instancieFirstBlocScript()
     }
@@ -202,7 +206,7 @@ class TaskScript {
   static getData(){
     const scriptList = []
     DGetAll('div.script-form', this.listing).forEach(form => {
-      const data = {title: null, type: null, argument: null}
+      const data = {id: null, title: null, type: null, argument: null}
       for(var prop in data){
         data[prop] = DGet(`.script-${prop}`, form).value.trim()
       }
@@ -232,6 +236,7 @@ class TaskScript {
     const o = this.CLONE_BLOCK.cloneNode(true)
     this.listing.appendChild(o)
     this.current = new TaskScript(o)
+    return this.current
   }
   static get fieldData(){return this._fielddata || (this._fielddata = DGet('input#task-scripts', this.obj))}
   static get listing(){return this._listing || (this._listing = DGet('div.scripts-list', this.obj))}
@@ -263,6 +268,7 @@ class TaskScript {
     return false
   }
   setData(data){
+    this.fieldId.value        = data.id || ""
     this.fieldTitle.value     = data.title || ""
     this.fieldArgument.value  = data.argument || ""
     this.menuType.value       = data.type || ""
@@ -274,6 +280,7 @@ class TaskScript {
     this.fieldDescription.innerHTML = dScript.description
     this.fieldArgument.setAttribute('placeholder', "Attendu : " + dScript.argument)
   }
+  get fieldId(){return this._fieldid || (this._fieldid = DGet('input.script-id', this.obj))}
   get fieldTitle(){return this._fieldtitle || (this._fieldtitle = DGet('input.script-title', this.obj))}
   get fieldArgument(){return this._fieldarg || (this._fieldarg = DGet('textarea.script-argument', this.obj))}
   get fieldDescription(){return this._fielddes ||(this._fielddes = DGet('.script-description', this.obj))}
