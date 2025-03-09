@@ -7,6 +7,7 @@ defmodule Tasker.Projet.Project do
   schema "projects" do
     field :title, :string
     field :details, :string
+    field :folder, :string
 
     timestamps(type: :utc_datetime)
   end
@@ -14,7 +15,7 @@ defmodule Tasker.Projet.Project do
   @doc false
   def changeset(project, attrs) do
     project
-    |> cast(attrs, [:title, :details])
+    |> cast(attrs, [:title, :details, :folder])
     |> validate_required([:title])
     |> validate_length(:title, min: 5, max: 255)
     |> unsafe_validate_unique(:title, Tasker.Repo)

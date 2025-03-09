@@ -6,6 +6,7 @@ defmodule Tasker.Repo.Migrations.CreateProjects do
       add :id, :binary_id, primary_key: true
       add :title, :string
       add :details, :text
+      add :folder, :string
 
       timestamps(type: :utc_datetime)
     end

@@ -2,8 +2,9 @@
   <.error :if={@changeset.action}>
     Oops, something went wrong! Please check the errors below.
   </.error>
-  <.input field={f[:title]} type="text" label="Title" />
-  <.input field={f[:details]} type="text" label="Details" />
+  <.input field={f[:title]} type="text" label={gettext("Title")} />
+  <.input field={f[:details]} type="text" label={dgettext("tasker", "Details")} />
+  <.input field={f[:folder]} type="text" label={gettext("Folder")} />
   <:actions>
     <.button>Save Project</.button>
   </:actions>

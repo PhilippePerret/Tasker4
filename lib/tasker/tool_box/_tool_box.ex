@@ -5,7 +5,7 @@ defmodule Tasker.ToolBox do
 
   # alias Tasker.Tache.{Task, TaskSpec}
 
-  alias Tasker.ToolBox.{Note, Laps}
+  alias Tasker.ToolBox.{Note, Laps, TaskScript}
 
 
   @doc """
@@ -106,11 +106,20 @@ defmodule Tasker.ToolBox do
     Note.changeset(note, attrs)
   end
 
+  # === LAPS ====
+  # Les temps de travail d'une tâche
+
   def create_laps(attrs \\ %{}) do
     Laps.changeset(%Laps{}, attrs)
     |> Repo.insert!()
   end
 
+  # ========= SCRIPTS DE TÂCHE =============
 
+  def create_task_script(attrs \\ %{}) do
+    TaskScript.changeset(%TaskScript{}, attrs)
+    |> Repo.insert!()
+  end
 
+  
 end
