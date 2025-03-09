@@ -171,7 +171,7 @@ class ClassAtWork {
     this.setZenMode()
   }
   setZenMode(){
-    console.info("Zen mode (nouvel état)", this.zenState)
+    // console.info("Zen mode (nouvel état)", this.zenState)
     const method = this.zenState ? 'add' : 'remove' ;
     this.boutonsZenMode.forEach(btn => btn.classList[method]('invisible'))
     this.btnZen.classList[this.zenState?'add':'remove']('on')
