@@ -137,7 +137,7 @@ defmodule TaskerWeb.TaskController do
   """
   def create_or_update_scripts(task_params, %Task{} = task) do
     data_scripts = Jason.decode!(task_params["task-scripts"])
-    IO.inspect(data_scripts, label: "Données pour les script")
+    # IO.inspect(data_scripts, label: "Données pour les script")
     data_scripts = 
     if data_scripts do
       data_scripts
@@ -151,7 +151,7 @@ defmodule TaskerWeb.TaskController do
               Map.put(accu, String.to_atom(key), value)
             end
           end)
-          IO.inspect(data_script, label: "data script")
+          # IO.inspect(data_script, label: "data script")
           new_script = ToolBox.create_task_script(Map.merge(data_script, %{task_id: task.id}))
           new_script.id
         else 
@@ -160,9 +160,13 @@ defmodule TaskerWeb.TaskController do
         %{ dscript | "id" => script_id }
       end)
     end
-    IO.inspect(data_scripts, label: "Données scripts APRÈS")
+    # IO.inspect(data_scripts, label: "Données scripts APRÈS")
 
+    # TODO Il faudrait supprimer les scripts qui ont été détruits
+    
 
+    # Pour remonter au client les ids des éventuels nouveaux
+    # script.
     %{task_params | "task-scripts" => data_scripts}
   end
   def create_or_update_scripts(task_params) do
