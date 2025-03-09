@@ -1,12 +1,16 @@
 <div id="task_scripts-container">
   <h3>Scripts de la tâche</h3>
+  <!-- Donnée cachée -->
+  <input type="hidden" name="task-scripts" id="task-scripts" value="">
+
   <!-- Listing des scripts -->
   <div class="scripts-list">
     
     <!-- Formulaire de script -->
     <div class="script-form">
+      <button type="button" class="btn-close small fright">🗑️</button>
       <div><label><%= dgettext("tasker", "Human Label") %></label> <input type="text" class="script-title" placeholder="Titre évocateur de l'action précise du script" /></div>
-      <div><label><%= dgettext("tasker", "Script Type") %></label><select class="script-type"></select></div>
+      <div><label><%= dgettext("tasker", "Script Type") %></label><select class="script-type"></select><div class="script-description tiny" style="margin-left:124px;"></div></div>
       <div><label><%= dgettext("tasker", "Script Argument") %></label><textarea class="script-argument" placeholder="L'argument unique du script (une table si plusieurs données), en fonction de son type précis."></textarea></div>
     </div>
     <!-- /Formulaire de script -->
@@ -15,7 +19,6 @@
   <!-- ///Listing des scripts -->
 
   <div class="buttons">
-    <button class="btn-add fleft" title="Ajouter un script">＋</button>
-    <button class="btn-save-script btn small">Enregistrer les scripts</button>
+    <button type="button" class="btn-add fleft" title="Ajouter un script">＋</button>
   </div>
 </div>

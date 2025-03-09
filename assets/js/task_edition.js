@@ -52,8 +52,8 @@ class Task {
    */
   static beforeSave(ev){
     // console.info("Ce que je dois faire avant de sauver.")
-    // Maintenant on ne fait plus rien puisque les valeurs sont 
-    // consignées en direct
+    TaskScript.getData()
+    
     return true
   }
   static stopEnterKey(ev){
@@ -61,37 +61,10 @@ class Task {
   }
 
   // ======== SCRIPT DE TÂCHE ========
+
   static prepareScriptBlock(){
-    this.feedScriptTypes()
-    this.observeScriptBlock()
+    TaskScript.init()
   }
-  static feedScriptTypes(){
-    const menu = this.menuScriptTypes;
-    Object.values(SCRIPT_DATA).forEach(dscript => {
-      const opt = DCreate('OPTION',{})
-      opt.setAttribute('value', dscript.id)
-      opt.innerHTML = dscript.hname
-      menu.appendChild(opt)
-    })
-  }
-  static observeScriptBlock(){
-    this.menuScriptTypes.addEventListener('change', this.onChooseScriptType.bind(this))
-    this.btnAddScript.addEventListener('click', this.onAddScript.bind(this))
-    this.btnSaveScripts.addEventListener('click', this.onSaveScript.bind(this))
-  }
-  static onAddScript(ev){
-    console.log("Je dois apprendre à ajouter un script.")
-  }
-  static onSaveScript(ev){
-    console.log("Je dois apprendre à sauver les scripts de la tâche.")
-  }
-  static onChooseScriptType(ev){
-    console.log("Je dois apprendre à régler le choix d'un script.")
-  }
-  static get btnAddScript(){return this._btnaddscript || (this._btnaddscript = DGet("button.btn-add", this.scriptsBlock))}
-  static get btnSaveScripts(){return this._btnsavescpt || (this._btnsavescpt = DGet("button.btn-save-script", this.scriptsBlock))}
-  static get menuScriptTypes(){return this._menuscpttypes || (this._menuscpttypes = DGet('select.script-type', this.scriptsBlock))}
-  static get scriptsBlock(){return this._scriptsblock || (this._scriptsblock = DGet('div#task_scripts-container'))}
 
   // ======== NATURES ==========
   /**
@@ -196,6 +169,118 @@ class Notes {
   }
 }
 
+/*
+
+  ========== SCRIPTS ================
+
+*/
+class TaskScript {
+
+  static init(){
+    this.CLONE_BLOCK = DGet('div.script-form').cloneNode(true)
+    this.feedScriptTypes()
+    this.observe()
+    this.setData()
+  }
+
+  /**
+   * Méthode mettant en place les scripts de la tâche
+   */
+  static setData(){
+    let data = NullIfEmpty(this.fieldData.value)
+    if ( data ) {
+      data = JSON.parse(data)
+      console.log("Je dois dispatcher les données script", data)
+    } else {
+      this.instancieFirstBlocScript()
+    }
+  }
+  /**
+   * Méthode appelée pour obtenir les données des scripts de la
+   * tâche.
+   */
+  static getData(){
+    const scriptList = []
+    DGetAll('div.script-form', this.listing).forEach(form => {
+      const data = {title: null, type: null, argument: null}
+      for(var prop in data){
+        data[prop] = DGet(`.script-${prop}`, form).value.trim()
+      }
+      data.title && data.type && scriptList.push(data)
+    })
+    this.fieldData.value = JSON.sringify(scriptList)
+    return scriptList
+  }
+  static instancieFirstBlocScript(){
+    this.current = new TaskScript(DGet('div.script-form'))
+  }
+  static feedScriptTypes(){
+    const menu = DGet('select.script-type', DGet('div.script-form'))
+    menu.appendChild(DCreate('OPTION', {value: '---'}))
+    Object.values(SCRIPT_DATA).forEach(dscript => {
+      const opt = DCreate('OPTION',{})
+      opt.setAttribute('value', dscript.id)
+      opt.innerHTML = dscript.hname
+      menu.appendChild(opt)
+    })
+  }
+  static observe(){
+    this.btnAddScript.addEventListener('click', this.onAddScript.bind(this))
+  }
+  
+  static onAddScript(ev){
+    const o = this.CLONE_BLOCK.cloneNode(true)
+    this.listing.appendChild(o)
+    this.current = new TaskScript(o)
+  }
+  static get fieldData(){return this._fielddata || (this._fielddata = DGet('input#task-scripts', this.obj))}
+  static get listing(){return this._listing || (this._listing = DGet('div.scripts-list', this.obj))}
+  static get btnAddScript(){return this._btnaddscript || (this._btnaddscript = DGet("button.btn-add", this.obj))}
+  static get btnSaveScripts(){return this._btnsavescpt || (this._btnsavescpt = DGet("button.btn-save-script", this.obj))}
+  static get obj(){return this._obj || (this._obj = DGet('div#task_scripts-container'))}
+
+
+  constructor(o){
+    this.obj = o
+    this.prepare()
+    this.observe()
+  }
+  prepare(){
+  }
+  observe(){
+    this.btnRemove.addEventListener('click', this.onRemove.bind(this))
+    this.menuType.addEventListener('change', this.onChooseType.bind(this))
+  }
+  // Suppression du script
+  onRemove(ev){
+    const nombreScripts = DGetAll('div.script-form', this.constructor.listing).length
+    if ( nombreScripts > 1 ) {
+      this.obj.remove()
+    } else {
+      this.setData({})
+    }
+    ev.stopPropagation()
+    return false
+  }
+  setData(data){
+    this.fieldTitle.value     = data.title || ""
+    this.fieldArgument.value  = data.argument || ""
+    this.menuType.value       = data.type || ""
+    this.onChooseType()
+  }
+  // Choix d'un type
+  onChooseType(ev){
+    const dScript = SCRIPT_DATA[this.menuType.value]
+    this.fieldDescription.innerHTML = dScript.description
+    this.fieldArgument.setAttribute('placeholder', "Attendu : " + dScript.argument)
+  }
+  get fieldTitle(){return this._fieldtitle || (this._fieldtitle = DGet('input.script-title', this.obj))}
+  get fieldArgument(){return this._fieldarg || (this._fieldarg = DGet('textarea.script-argument', this.obj))}
+  get fieldDescription(){return this._fielddes ||(this._fielddes = DGet('.script-description', this.obj))}
+  get btnRemove(){return this._btnclose || (this._btnclose = DGet('button.btn-close', this.obj))}
+  get menuType(){return this._menutype || (this._menutype = DGet('select.script-type', this.obj))}
+
+}
 
 // ========= DÉPENDANCES ============
 
