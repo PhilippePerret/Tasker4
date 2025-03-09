@@ -339,12 +339,12 @@ msgstr ""
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:4
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Start (work)"
-msgstr "Start"
+msgstr "START"
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Stop (work)"
-msgstr "Stop"
+msgstr "STOP"
 
 #: lib/tasker_web/components/layouts/root.html.heex:57
 #, elixir-autogen, elixir-format

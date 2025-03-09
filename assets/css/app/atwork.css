@@ -109,7 +109,11 @@ div#current-task span#current-task-absolute_index {
   border-radius: 20px;
 }
 
+/* 
 
+======== ASPECT DES BOUTONS ==========
+
+*/
 div#current-task-container button.btn,
 div#current-task-container div#horloge {
   background: #F4FFF4;
@@ -118,10 +122,14 @@ div#current-task-container div#horloge {
 }
 div#current-task-container button.btn {
   cursor:pointer;
+}
+div#current-task-container button.btn:not(.btn-start):not(.btn-stop) {
   opacity: 0.5
 }
 
-div#current-task-container button.btn:hover {opacity:1}
+div#current-task-container button.btn:hover {
+  opacity:1
+}
 
 div#current-task-container div#horloge {
   position:relative;
@@ -153,8 +161,13 @@ div.buttons {
 div#current-task-container div.buttons > button {
   position: relative;
   margin-left: 0px;
-
 }
+
+div#current-task-container button.main {
+  background-color: green!important;
+  color: white!important;
+}
+
 div.buttons.top-left {
   top: 0; left: 0;
   text-align: left;
