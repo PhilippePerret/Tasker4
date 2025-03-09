@@ -10,9 +10,19 @@ class HorlogeClass {
   show(){this.obj.classList.remove('invisible')}
   hide(){this.obj.classList.add('invisible')}
 
-  start(){
+  /**
+   * Pour démarrer l'horloge
+   * 
+   * L'horloge peut être démarrée de deux façons : lorsqu'on commence
+   * à travailler une tâche, ou lorsqu'on recharge la page alors 
+   * qu'une tâche était en route. +z+ contient toujours le temps de
+   * départ.
+   * 
+   * @param {Number} z Temps de départ en secondes
+   */
+  start(z){
     this.show();
-    this.startTime = (new Date()).getTime()
+    this.startTime = z || (new Date()).getTime()
     this.timer = setInterval(this.run.bind(this), 500)
   }
   stop(){

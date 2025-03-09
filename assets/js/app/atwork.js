@@ -46,7 +46,8 @@ class ClassAtWork {
      */
     let z ;
     if ( (z = sessionStorage.getItem('running-start-time')) ){
-      z = Number(z)
+      this.running = true
+      this.runningStartTime = Number(z)
       this.toggleStartStopButtons()
     }
 
@@ -177,14 +178,12 @@ class ClassAtWork {
   }
 
   onClickStart(ev){
-    console.log("Je dois apprendre à démarrer la tâche.")
     this.runningStartTime = Number(new Date())
     sessionStorage.setItem('running-start-time', String(this.runningStartTime))
     this.running = true
     this.toggleStartStopButtons()
   }
   onClickStop(ev){
-    console.log("Je dois apprendre à stopper la tâche.")
     if ( !this.runningStartTime) {
       // Page rechargée en cours de travail
       this.runningStartTime = Number(sessionStorage.getItem('running-start-time'))
@@ -202,7 +201,7 @@ class ClassAtWork {
   }
   afterSaveLaps(retour){
     if ( retour.ok ){
-      sessionStorage.removeItem('')
+      sessionStorage.removeItem('running-start-time')
       Flash.notice("Temps de travail enregistré.")
     } else {
       Flash.error(retour.error)
@@ -249,7 +248,11 @@ class ClassAtWork {
   toggleStartStopButtons(){
     this.btnStart.classList[this.running?'add':'remove']('hidden')
     this.btnStop.classList[this.running?'remove':'add']('hidden')
-    this.horloge[this.running?'start':'stop']()
+    if ( this.running ) {
+      this.horloge.start(this.runningStartTime)
+    } else {
+      this.horloge.stop()
+    }
   }
 
   /**
