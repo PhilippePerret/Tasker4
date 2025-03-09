@@ -2,11 +2,14 @@
 <script type="text/javascript" src={src_locales_js}></script>
 <script type="text/javascript">const TASK_ID = "<%= @changeset.data.id %>";</script>
 
+
 <div class="right">
   <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
 </div>
 
 <.simple_form :let={f} for={@changeset} action={@action}>
+  
+  <input type="hidden" name="task[id]" value={@changeset.data.id} />
   
   <.bouton_save_tache />
   

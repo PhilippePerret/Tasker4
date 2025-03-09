@@ -52,8 +52,12 @@ class Task {
    */
   static beforeSave(ev){
     // console.info("Ce que je dois faire avant de sauver.")
-    TaskScript.getData()
-    
+    try {
+      TaskScript.getData()
+    } catch (err) {
+      console.error(err)
+    }
+    // return confirm("Dois-je enregistrer ?");
     return true
   }
   static stopEnterKey(ev){
@@ -212,7 +216,7 @@ class TaskScript {
       }
       data.title && data.type && scriptList.push(data)
     })
-    this.fieldData.value = JSON.sringify(scriptList)
+    this.fieldData.value = JSON.stringify(scriptList)
     return scriptList
   }
   static instancieFirstBlocScript(){
@@ -220,7 +224,6 @@ class TaskScript {
   }
   static feedScriptTypes(){
     const menu = DGet('select.script-type', DGet('div.script-form'))
-    menu.appendChild(DCreate('OPTION', {value: '---'}))
     Object.values(SCRIPT_DATA).forEach(dscript => {
       const opt = DCreate('OPTION',{})
       opt.setAttribute('value', dscript.id)

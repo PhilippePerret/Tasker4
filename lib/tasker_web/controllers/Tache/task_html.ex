@@ -113,7 +113,7 @@ defmodule TaskerWeb.TaskHTML do
     |> assign(:bouton_name, dgettext("tasker", "Save Task"))
     ~H"""
     <div class="buttons">
-      <button type="submit" class="soft" onclick="return Task.beforeSave()">{@bouton_name}</button>
+      <button type="submit" class="soft" onclick="return Task.beforeSave.call(Task)">{@bouton_name}</button>
     </div>
 
     """

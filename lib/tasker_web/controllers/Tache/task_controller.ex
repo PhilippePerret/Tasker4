@@ -5,6 +5,8 @@ defmodule TaskerWeb.TaskController do
 
   alias Tasker.{Repo, Tache}
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
+  alias Tasker.ToolBox
+  alias ToolBox.TaskScript
 
   def index(conn, _params) do
     tasks = Tache.list_tasks() |> Repo.preload(:project)
@@ -29,10 +31,10 @@ defmodule TaskerWeb.TaskController do
     task_params = task_params
     |> convert_string_values_to_real_values()
     |> create_project_if_needed(conn)
-    |> create_or_update_scripts(conn)
   
     case Tache.create_task(task_params) do
     {:ok, task} ->
+      create_or_update_scripts(task_params, task)
       conn
       |> put_flash(:info, dgettext("tasker", "Task created successfully."))
       |> redirect(to: ~p"/tasks/#{task}/edit")
@@ -55,7 +57,7 @@ defmodule TaskerWeb.TaskController do
     task_params = task_params
     |> convert_string_values_to_real_values()
     |> create_project_if_needed(conn)
-    |> create_or_update_scripts(conn)
+    |> create_or_update_scripts()
     |> IO.inspect(label: "\nParamp à l'entrée de update")
 
     task = Tache.get_task!(id)
@@ -133,14 +135,40 @@ defmodule TaskerWeb.TaskController do
   aucun changement ici puisque seul le script porte la marque de la
   tâche, mais pas l'inverse.
   """
-  def create_or_update_scripts(task_params, conn) do
+  def create_or_update_scripts(task_params, %Task{} = task) do
+    data_scripts = Jason.decode!(task_params["task-scripts"])
+    IO.inspect(data_scripts, label: "Données pour les script")
+    data_scripts = 
+    if data_scripts do
+      data_scripts
+      |> Enum.map(fn dscript ->
+        script_id =
+        if dscript["id"] == "" do
+          data_script = Enum.reduce(dscript, %{}, fn {key, value}, accu ->
+            if key == "id" do
+              accu
+            else
+              Map.put(accu, String.to_atom(key), value)
+            end
+          end)
+          IO.inspect(data_script, label: "data script")
+          new_script = ToolBox.create_task_script(Map.merge(data_script, %{task_id: task.id}))
+          new_script.id
+        else 
+          dscript["id"] 
+        end
+        %{ dscript | "id" => script_id }
+      end)
+    end
+    IO.inspect(data_scripts, label: "Données scripts APRÈS")
 
-    task_params
+
+    %{task_params | "task-scripts" => data_scripts}
   end
-
-
-
-
+  def create_or_update_scripts(task_params) do
+    IO.inspect(task_params, label: "task params")
+    create_or_update_scripts(task_params, Tache.get_task!(task_params["id"]))
+  end
 
   defp common_render(conn, :new) do
     task_changeset = %Task{
