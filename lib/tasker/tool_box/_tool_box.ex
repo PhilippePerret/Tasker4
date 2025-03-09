@@ -129,8 +129,9 @@ defmodule Tasker.ToolBox do
     Repo.delete(query)
   end
   def delete_scripts(ids) when is_list(ids) do
+    IO.inspect(ids, label: "List des ids")
     query = from s in TaskScript, where: s.id in ^ids
-    Repo.delete(query)
+    Repo.delete_all(query)
   end
   
 end

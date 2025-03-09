@@ -67,16 +67,19 @@ defmodule TaskerWeb.TaskController do
     # rences, mais ça serait bien de donner la possibilité d'en 
     # créer des nouvelles dans le formulaire (champ qui servirait 
     # aussi à les sélectionner dans la liste)
-    list_of_natures = task_params["natures"]
-    |> String.split(",")
-    |> Enum.map(fn nat_id ->
-      Repo.one!(from nt in TaskNature, where: nt.id == ^nat_id)
-    end)
-    # |> IO.inspect(label: "Structures natures")
-    task_params = Map.put(task_params, "natures", list_of_natures)
+    task_params = 
+    if task_params["natures"] && task_params["natures"] != "" do
+      list_of_natures = task_params["natures"]
+      |> String.split(",")
+      |> Enum.map(fn nat_id ->
+        Repo.one!(from nt in TaskNature, where: nt.id == ^nat_id)
+      end)
+      # |> IO.inspect(label: "Structures natures")
+      Map.put(task_params, "natures", list_of_natures)
+    else task_params end
 
     # Traiter les notes ?
-    # TODP
+    # TODO
 
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
@@ -136,9 +139,10 @@ defmodule TaskerWeb.TaskController do
   tâche, mais pas l'inverse.
   """
   def create_or_update_scripts(task_params, %Task{} = task) do
-    if task_params["erased-scripts"] do
+    if task_params["erased-scripts"] && task_params["erased-scripts"] != "" do
       # S'il y a des scripts à détruire
-      String.split(task_params["erased-scripts"],";")
+      task_params["erased-scripts"]
+      |> String.split(";")
       |> ToolBox.delete_scripts()
     end
     data_scripts = Jason.decode!(task_params["task-scripts"])
@@ -167,15 +171,10 @@ defmodule TaskerWeb.TaskController do
     end
     # IO.inspect(data_scripts, label: "Données scripts APRÈS")
 
-    # TODO Il faudrait supprimer les scripts qui ont été détruits
-
-
-    # Pour remonter au client les ids des éventuels nouveaux
-    # script.
-    %{task_params | "task-scripts" => data_scripts}
+    # Pour la suite
+    task_params
   end
   def create_or_update_scripts(task_params) do
-    IO.inspect(task_params, label: "task params")
     create_or_update_scripts(task_params, Tache.get_task!(task_params["id"]))
   end
 
