@@ -16,23 +16,87 @@ msgstr ""
 msgid "Natures"
 msgstr ""
 
-#: lib/tasker/tache/xlocales_natures.ex:5
-#: lib/tasker/tache/xlocales_natures.ex:6
-#: lib/tasker/tache/xlocales_natures.ex:7
 #: lib/tasker/tache/xlocales_natures.ex:8
-#: lib/tasker/tache/xlocales_natures.ex:9
+#, elixir-autogen, elixir-format
+msgid "Accounting"
+msgstr ""
+
 #: lib/tasker/tache/xlocales_natures.ex:10
-#: lib/tasker/tache/xlocales_natures.ex:11
+#, elixir-autogen, elixir-format
+msgid "Design"
+msgstr ""
+
 #: lib/tasker/tache/xlocales_natures.ex:12
-#: lib/tasker/tache/xlocales_natures.ex:13
+#, elixir-autogen, elixir-format
+msgid "Documentation"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:11
+#, elixir-autogen, elixir-format
+msgid "Dramaturgy"
+msgstr ""
+
 #: lib/tasker/tache/xlocales_natures.ex:14
-#: lib/tasker/tache/xlocales_natures.ex:15
-#: lib/tasker/tache/xlocales_natures.ex:16
-#: lib/tasker/tache/xlocales_natures.ex:17
-#: lib/tasker/tache/xlocales_natures.ex:18
+#, elixir-autogen, elixir-format
+msgid "Exercise (Pedagogy)"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:6
+#, elixir-autogen, elixir-format
+msgid "Film Analysis"
+msgstr ""
+
 #: lib/tasker/tache/xlocales_natures.ex:19
+#, elixir-autogen, elixir-format
+msgid "Information"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:7
+#, elixir-autogen, elixir-format
+msgid "Music Analysis"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:13
+#, elixir-autogen, elixir-format
+msgid "Pedagogy"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:9
+#, elixir-autogen, elixir-format
+msgid "Personal Finances"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:15
+#, elixir-autogen, elixir-format
+msgid "Programming"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:16
+#, elixir-autogen, elixir-format
+msgid "Programming Test"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:5
+#, elixir-autogen, elixir-format
+msgid "Purchases"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:17
+#, elixir-autogen, elixir-format
+msgid "Report"
+msgstr ""
+
 #: lib/tasker/tache/xlocales_natures.ex:20
+#, elixir-autogen, elixir-format
+msgid "Research"
+msgstr ""
+
 #: lib/tasker/tache/xlocales_natures.ex:21
 #, elixir-autogen, elixir-format
-msgid "true"
+msgid "Sports"
+msgstr ""
+
+#: lib/tasker/tache/xlocales_natures.ex:18
+#, elixir-autogen, elixir-format
+msgid "Writing"
 msgstr ""

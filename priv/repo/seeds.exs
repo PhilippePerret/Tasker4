@@ -20,7 +20,10 @@
 #         qui définit les locales pour gettext 
 #         (dans lib/tasker/tache/).
 natures_locales_file = Path.absname(Path.join(["lib","tasker","tache","xlocales_natures.ex"]))
-# Pour refaire toute la table, ex-commenter le code suivant (4 
+
+Tasker.Repo.delete_all(Tasker.Tache.TaskNature)
+
+# Pour refaire toute la table, ex-commenter le code suivant (les 4 
 # lignes). Sinon, seuls les nouveaux noms seront ajoutés
 natures_table_names = Tasker.Repo.all(Tasker.Tache.TaskNature)
 |> Enum.reduce(%{}, fn nature, accu ->
@@ -62,7 +65,7 @@ old_natures = natures_table_names |> Enum.map(fn {key, name} -> name end)
 all_natures = new_natures ++ old_natures
 
 IO.puts "Nouvelles natures (#{Enum.count(new_natures)}/#{Enum.count(all_natures)}) : #{Enum.join(new_natures, ", ")}"
-
+IO.puts "Toutes les natures : #{Enum.join(all_natures, ", ")}"
 
 # On fabrique le fichier des locales
 File.exists?(natures_locales_file) && File.rm(natures_locales_file)

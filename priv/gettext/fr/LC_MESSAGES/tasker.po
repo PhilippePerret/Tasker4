@@ -306,7 +306,7 @@ msgstr "Incohérences dans les dépendances. Je ne peux pas les enregistrer."
 msgid "Select natures"
 msgstr "Choisir les tâches"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:24
 #, elixir-autogen, elixir-format
 msgid "After next"
 msgstr "Après suivante"
@@ -316,12 +316,12 @@ msgstr "Après suivante"
 msgid "Destroy"
 msgstr "Détruire"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:22
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "End (to the end)"
 msgstr "À la fin"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:24
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "Later"
 msgstr "Plus tard"
@@ -331,7 +331,7 @@ msgstr "Plus tard"
 msgid "Out of day"
 msgstr "Retirer du jour"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:25
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "Reset order"
 msgstr "Ordre initial"
