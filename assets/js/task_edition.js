@@ -65,9 +65,13 @@ class Task {
    *  - règle le select des natures.
    */
   static initNaturesValues(){
-    const natureIds = this.fieldNatures.value.split(",")
+    let natureIds = this.fieldNatures.value
+    if ( NullIfEmpty(natureIds) ) {
+      natureIds = []
+    } else {
+      natureIds = natureIds.split(",")
+    }
     // console.info("natureIds", natureIds)
-    // this.menuNatures.selectedOptions = natureIds
     this.setNaturesToMenu(natureIds)
     this.displayTaskNatureList(this.getNaturesFromMenu())
   }
