@@ -47,6 +47,7 @@ defmodule Tasker.Tache do
     |> Repo.preload(task_spec: [:notes])
     |> Repo.preload(:task_time)
     |> Repo.preload(:natures)
+    |> Map.put(:scripts, get_task_scripts(id, :as_json))
     |> Map.put(:dependencies, get_dependencies(id))
   end
 
@@ -107,6 +108,30 @@ defmodule Tasker.Tache do
   end
   def assign_to(%Task{} = task, %Tasker.Accounts.Worker{} = worker) do
     assign_to(task, worker.id)
+  end
+
+  @doc """
+  Fonction qui relève les scripts de la tâche d'identifiant +task_id+
+
+  @return {List} La liste des données scripts
+  """
+  def get_task_scripts(task_id) do
+    query = from s in Tasker.ToolBox.TaskScript, 
+              where: s.task_id == ^task_id
+    Repo.all(query)
+    |> IO.inspect(label: "Scripts relevés")
+  end
+  def get_task_scripts(task_id, :as_json) do
+    get_task_scripts(task_id)
+    |> Enum.map(fn script ->
+      %{
+        id: script.id, 
+        title: script.title,
+        type: script.type,
+        argument: script.argument
+      }
+    end)
+    |> Jason.encode!()
   end
 
   @doc """

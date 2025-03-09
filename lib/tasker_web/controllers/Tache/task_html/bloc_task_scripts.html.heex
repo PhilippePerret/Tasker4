@@ -1,14 +1,15 @@
 <div id="task_scripts-container">
   <h3>Scripts de la tâche</h3>
   <!-- Donnée cachée -->
-  <input type="hidden" name="task[task-scripts]" id="task-scripts" value="">
+  <input type="hidden" name="task[task-scripts]" id="task-scripts" value={assigns.changeset.data.scripts} />
+  <input type="hidden" name="task[erased-scripts]" id="task-erased-scripts"/>
 
   <!-- Listing des scripts -->
   <div class="scripts-list">
     
     <!-- Formulaire de script -->
     <div class="script-form">
-      <button type="button" class="btn-close small fright">🗑️</button>
+      <button type="button" class="btn-close tiny fright">🗑️</button>
       <input type="hidden" class="script-id" value="" />
       <div><label><%= dgettext("tasker", "Human Label") %></label> <input type="text" class="script-title" placeholder="Titre évocateur de l'action précise du script" /></div>
       <div><label><%= dgettext("tasker", "Script Type") %></label><select class="script-type"></select><div class="script-description tiny" style="margin-left:124px;"></div></div>

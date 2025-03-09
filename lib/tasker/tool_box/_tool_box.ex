@@ -121,5 +121,16 @@ defmodule Tasker.ToolBox do
     |> Repo.insert!()
   end
 
+  def delete_script(%TaskScript{} = script) do
+    Repo.delete(script)
+  end
+  def delete_script(script_id) when is_binary(script_id) do
+    query = from s in TaskScript, where: s.id == ^script_id
+    Repo.delete(query)
+  end
+  def delete_scripts(ids) when is_list(ids) do
+    query = from s in TaskScript, where: s.id in ^ids
+    Repo.delete(query)
+  end
   
 end

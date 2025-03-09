@@ -29,8 +29,8 @@ class Task {
     // Préparation du menu des natures
     this.menuNatures && this.initNaturesValues()
 
-    // Préparation des types de script
-    this.prepareScriptBlock()
+    // Préparation du bloc des scripts de tâche
+    TaskScript.init()
     
   } // init
 
@@ -62,12 +62,6 @@ class Task {
   }
   static stopEnterKey(ev){
     if (ev.key == 'Enter'){ return StopEvent(ev) }
-  }
-
-  // ======== SCRIPT DE TÂCHE ========
-
-  static prepareScriptBlock(){
-    TaskScript.init()
   }
 
   // ======== NATURES ==========
@@ -181,8 +175,8 @@ class Notes {
 class TaskScript {
 
   static init(){
-    this.CLONE_BLOCK = DGet('div.script-form').cloneNode(true)
     this.feedScriptTypes()
+    this.CLONE_BLOCK = DGet('div.script-form').cloneNode(true)
     this.observe()
     this.setData()
   }
@@ -191,6 +185,7 @@ class TaskScript {
    * Méthode mettant en place les scripts de la tâche
    */
   static setData(){
+    console.log("-> TaskScript.setData")
     let data = NullIfEmpty(this.fieldData.value)
     if ( data && data.length ) {
       data = JSON.parse(data)
@@ -239,9 +234,37 @@ class TaskScript {
     const o = this.CLONE_BLOCK.cloneNode(true)
     this.listing.appendChild(o)
     this.current = new TaskScript(o)
+    this.current.focus()
     return this.current
   }
+
+  /**
+   * Suppression du script fourni en argument. S'il a déjà été 
+   * enregistré, il faut le mémoriser pour pouvoir le détruire à 
+   * l'enregistrement de la tâche.
+   * 
+   * @param {TaskScript} script Le script à détruire
+   * @param {Event Click} ev L'évènement déclenché
+   */
+  static onRemove(script, ev){
+    const nombreScripts = DGetAll('div.script-form', this.listing).length
+    if ( script.id ) {
+      let eraseds = NullIfEmpty(this.fieldErased.value)
+      eraseds = eraseds ? eraseds.split(';') : []
+      eraseds.push(script.id)
+      this.fieldErased.value = eraseds.join(';')
+    }
+    if ( nombreScripts > 1 ) {
+      script.obj.remove()
+    } else {
+      // Dernier bloc, on ne fait que vider ses champs
+      script.setData({})
+    }
+    return false
+  }
+
   static get fieldData(){return this._fielddata || (this._fielddata = DGet('input#task-scripts', this.obj))}
+  static get fieldErased(){return this._fielddels || (this._fielddels = DGet('input#task-erased-scripts', this.obj))}
   static get listing(){return this._listing || (this._listing = DGet('div.scripts-list', this.obj))}
   static get btnAddScript(){return this._btnaddscript || (this._btnaddscript = DGet("button.btn-add", this.obj))}
   static get btnSaveScripts(){return this._btnsavescpt || (this._btnsavescpt = DGet("button.btn-save-script", this.obj))}
@@ -256,26 +279,19 @@ class TaskScript {
   prepare(){
   }
   observe(){
-    this.btnRemove.addEventListener('click', this.onRemove.bind(this))
+    this.btnRemove.addEventListener('click', TaskScript.onRemove.bind(TaskScript, this))
     this.menuType.addEventListener('change', this.onChooseType.bind(this))
   }
-  // Suppression du script
-  onRemove(ev){
-    const nombreScripts = DGetAll('div.script-form', this.constructor.listing).length
-    if ( nombreScripts > 1 ) {
-      this.obj.remove()
-    } else {
-      this.setData({})
-    }
-    ev.stopPropagation()
-    return false
-  }
   setData(data){
+    console.log("<script>.setData", data)
     this.fieldId.value        = data.id || ""
     this.fieldTitle.value     = data.title || ""
     this.fieldArgument.value  = data.argument || ""
-    this.menuType.value       = data.type || ""
+    this.menuType.value       = data.type || "---"
     this.onChooseType()
+  }
+  focus(){
+    this.fieldTitle.focus()
   }
   // Choix d'un type
   onChooseType(ev){
@@ -283,12 +299,15 @@ class TaskScript {
     this.fieldDescription.innerHTML = dScript.description
     this.fieldArgument.setAttribute('placeholder', "Attendu : " + dScript.argument)
   }
+
+  get id(){return NullIfEmpty(this.fieldId.value) }
+
   get fieldId(){return this._fieldid || (this._fieldid = DGet('input.script-id', this.obj))}
   get fieldTitle(){return this._fieldtitle || (this._fieldtitle = DGet('input.script-title', this.obj))}
   get fieldArgument(){return this._fieldarg || (this._fieldarg = DGet('textarea.script-argument', this.obj))}
   get fieldDescription(){return this._fielddes ||(this._fielddes = DGet('.script-description', this.obj))}
-  get btnRemove(){return this._btnclose || (this._btnclose = DGet('button.btn-close', this.obj))}
   get menuType(){return this._menutype || (this._menutype = DGet('select.script-type', this.obj))}
+  get btnRemove(){return this._btnclose || (this._btnclose = DGet('button.btn-close', this.obj))}
 
 }
 

@@ -136,6 +136,11 @@ defmodule TaskerWeb.TaskController do
   tâche, mais pas l'inverse.
   """
   def create_or_update_scripts(task_params, %Task{} = task) do
+    if task_params["erased-scripts"] do
+      # S'il y a des scripts à détruire
+      String.split(task_params["erased-scripts"],";")
+      |> ToolBox.delete_scripts()
+    end
     data_scripts = Jason.decode!(task_params["task-scripts"])
     # IO.inspect(data_scripts, label: "Données pour les script")
     data_scripts = 
@@ -163,7 +168,7 @@ defmodule TaskerWeb.TaskController do
     # IO.inspect(data_scripts, label: "Données scripts APRÈS")
 
     # TODO Il faudrait supprimer les scripts qui ont été détruits
-    
+
 
     # Pour remonter au client les ids des éventuels nouveaux
     # script.
