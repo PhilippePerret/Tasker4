@@ -3,7 +3,7 @@ defmodule Tasker.ToolBox do
   import Ecto.Query, warn: false
   alias Tasker.Repo
 
-  # alias Tasker.Tache.{Task, TaskSpec}
+  alias Tasker.Tache.{NoteTaskSpec}
 
   alias Tasker.ToolBox.{Note, Laps, TaskScript}
 
@@ -50,10 +50,15 @@ defmodule Tasker.ToolBox do
   def create_note(attrs \\ %{}) do
     task_spec = Tasker.Tache.get_task_spec!(attrs.task_spec_id)
 
+    {:ok, note} =
     %Note{}
-    |> Ecto.build_assoc(task_spec, :notes)
     |> Note.changeset(attrs)
     |> Repo.insert()
+
+    # Associer la note à la task_spec via la table de jointure
+    Repo.insert!(%NoteTaskSpec{note_id: note.id, task_spec_id: task_spec.id})
+
+    {:ok, note}
   end
 
   @doc """
@@ -72,6 +77,12 @@ defmodule Tasker.ToolBox do
     note
     |> Note.changeset(attrs)
     |> Repo.update
+  end
+  # La même que précédente, mais en envoyant juste les attributs de
+  # la note, donc bien sûr +id+ qui permettra de récupérer la note
+  def update_note(attrs) when is_map(attrs) do
+    get_note!(attrs["id"]||attrs[:id])
+    |> update_note(attrs)
   end
 
 

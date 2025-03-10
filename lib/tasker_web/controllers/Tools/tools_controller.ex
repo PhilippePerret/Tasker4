@@ -1,6 +1,18 @@
 defmodule TaskerWeb.ToolsController do
   use TaskerWeb, :controller
 
+  alias Tasker.ToolBox
+
+  @doc """
+  Pour remplacer les clés {String} par des clés {Atom} dans la map
+  +map+
+  """
+  def atomize(map) when is_map(map) do
+    Enum.reduce(map, %{}, fn {key, value}, accu ->
+      Map.put(accu, String.to_atom(key), value)
+    end)
+  end
+
   @doc """
   Appelée pour jouer un script.
   Le nom du script (script_name) est automatiquement tiré du nom de
@@ -20,20 +32,39 @@ defmodule TaskerWeb.ToolsController do
     |> halt()
   end
 
-  def run("create_note", args) do
-    
-    IO.inspect(args, label: "avec les arguments")
-    Map.merge(%{note: args}, %{ok: true, error: nil})
+  @doc """
+  Fonction générique 'run' qui permet de jouer tous les outils utiles
+  pour la gestions de ces outils.
+
+  @return {Map} Le retour à renvoyer au serveur, avec obligatoirement
+  la clé :ok à True en cas de succès et à False en cas d'échec, en 
+  renseignant :error avec l'erreur rencontrée.
+  """
+
+  # Enregistrement des notes
+  def run("save_note", args) do
+    args = atomize(args)
+    if args[:id] == "" do
+      # Création de la note
+      case ToolBox.create_note(args) do
+      {:ok, note} -> %{note: note, ok: true}
+      {:error, err} -> %{note: nil, ok: false, error: err}
+      end
+    else
+      # Update de la note
+      case ToolBox.update_note(args) do
+      {:ok, note} -> %{note: note, ok: true}
+      {:error, err} -> %{note: nil, ok: false, error: err}
+      end
+    end
   end
 
-  @doc """
-  Récupération de la liste des tâches avant ou après une date de
-  référence.
-  @param {Map} args Paramètres
-  @param {String} args.type 'next' ou 'prev' pour dire les tâches 
-                            avant ou après la date de référence.
-  @param {String} args.date_ref La date de référence (ou nil)
-  """
+  # Récupération de la liste des tâches 
+  # (avant ou après une date de référence.)
+  # @param {Map} args Paramètres
+  # @param {String} args.type 'next' ou 'prev' pour dire les tâches 
+                            # avant ou après la date de référence.
+  # @param {String} args.date_ref La date de référence (ou nil)
   def run("get_task_list", args) do
     date_ref = args["date_ref"]
     date_ref = 

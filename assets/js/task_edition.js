@@ -4,16 +4,6 @@ import "./task_edition/task_dependencies.js"
 import "./task_edition/task_notes.js"
 import "./task_edition/repeat.js"
 
-/**
- * Script pour la gestion de l'édition JS de la tâche
- * Ce fichier a été initié pour gérer les notes.
- */
-function StopEvent(ev){
-  ev.stopPropagation();
-  ev.preventDefault();
-  return false
-}
-
 class Task {
   static init(){
     // D'abord il faut empêcher de soumettre le formulaire en
@@ -36,6 +26,9 @@ class Task {
 
     // Préparation du bloc des scripts de tâche
     TaskScript.init()
+
+    // Préparation du bloc des notes
+    Blocnotes.init()
     
   } // init
 
@@ -66,7 +59,7 @@ class Task {
     return true
   }
   static stopEnterKey(ev){
-    if (ev.key == 'Enter'){ return StopEvent(ev) }
+    if (ev.key == 'Enter'){ return stopEvent(ev) }
   }
 
   // ======== NATURES ==========

@@ -185,26 +185,21 @@ defmodule TaskerWeb.TaskHTML do
 
     ~H"""
     <div id="blocnotes-container">
+      <input type="hidden" id="blocnotes-notes" value={@all_notes} />
       <div id="blocnotes-note-list">
-        <%= for note <- @all_notes do %>
-          <div class="task-note">
-            <span class="tiny-buttons fright">[edit][remove]</span>
-            <div class="title">{note.title}</div>
-            <div class="details">{note.details}</div>
-          </div>
-        <% end %>
       </div>
       <div id="blocnotes-note-form">
-        <input type="hidden" value={@task_spec.id} id="new_note_task_spec_id" />
+        <input type="hidden" value={@task_spec.id} id="edit_note-task_spec_id" />
+        <input type="hidden" id="edit_note-id" />
         <div>
-          <input type="text" value="" id="new_note_title" style="border:1px solid #999;" class="long" placeholder="Titre de la note" />
+          <input type="text" value="" id="edit_note-title" style="border:1px solid #999;" class="long" placeholder="Titre de la note" />
         </div>
         <div style="margin-top:12px;">
-          <textarea id="new_note_details" placeholder="Détail de la note" style="height:120px;"></textarea>
+          <textarea id="edit_note-details" placeholder="Détail de la note" style="height:120px;"></textarea>
         </div>
-      </div>
-      <div class="buttons">
-        <button type="button" class="soft btn-add" onclick="Notes.create()">{@bouton_save_name}</button>
+        <div class="buttons">
+          <button type="button" class="soft btn-save">{@bouton_save_name}</button>
+        </div>
       </div>
     </div>
     """
