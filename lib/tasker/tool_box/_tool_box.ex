@@ -95,6 +95,9 @@ defmodule Tasker.ToolBox do
   @doc """
   Détruit une note
 
+  À la destruction, il faut détruire la note et son association avec 
+  la tâche (par sa TaskSpec)
+
   ## Examples
 
       iex> delete_note(note)
@@ -105,7 +108,15 @@ defmodule Tasker.ToolBox do
 
   """
   def delete_note(%Note{} = note) do
-    Repo.delete(note)
+    query = from asso in "notes_tasks", where: asso.note_id == ^note.id
+    asso = Repo.one(query)
+    case Repo.delete(asso) do
+    {:ok, _} -> Repo.delete(note)
+    {:error, changeset} -> {:error, changeset}
+    end
+  end
+  def delete_note(note_id) when is_binary(note_id) do
+    delete_note(get_note!(note_id))
   end
 
 

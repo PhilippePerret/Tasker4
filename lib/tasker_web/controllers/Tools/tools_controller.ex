@@ -22,9 +22,11 @@ defmodule TaskerWeb.ToolsController do
   def run_script(
       conn, 
       %{"script" => script_name, "script_args" => script_args} = params
-    ) 
-    do 
-    IO.inspect(params, label: "PARAMS")
+    ) do 
+    # IO.inspect(params, label: "PARAMS")
+    # IO.inspect(conn, label: "CONN data")
+
+    script_args = Map.put(script_args, "worker_id", conn.assigns.current_worker.id)
 
     retour = run(script_name, script_args)
     conn
@@ -44,6 +46,8 @@ defmodule TaskerWeb.ToolsController do
   # Enregistrement des notes
   def run("save_note", args) do
     args = atomize(args)
+    args = Map.put(args, :author_id, args.worker_id)
+    # |> IO.inspect(label: "Arguments pour note")
     if args[:id] == "" do
       # Création de la note
       case ToolBox.create_note(args) do
@@ -56,6 +60,20 @@ defmodule TaskerWeb.ToolsController do
       {:ok, note} -> %{note: note, ok: true}
       {:error, err} -> %{note: nil, ok: false, error: err}
       end
+    end
+  end
+
+  # Suppression d'une note
+  #
+  # Note : elle doit être supprimée 1) dans la table des notes et 2) dans la table des associations avec les tâches.
+  def run("remove_note", args) do
+    note_id = args["note_id"]
+    case ToolBox.delete_note(note_id) do
+    {:ok, _} -> 
+      %{ok: true}
+    {:error, changeset} ->
+      IO.inspect(changeset, label: "Impossible de détruire la note")
+      %{ok: false, error: "Problème à la destruction de la note (consulter la consoler serveur)."}
     end
   end
 

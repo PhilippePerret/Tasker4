@@ -7,7 +7,7 @@
   <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
 </div>
 
-<.simple_form :let={f} for={@changeset} action={@action}>
+<.simple_form :let={f} for={@changeset} action={@action} id="task-form">
   
   <input type="hidden" name="task[id]" value={@changeset.data.id} />
   

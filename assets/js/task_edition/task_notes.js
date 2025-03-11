@@ -51,24 +51,49 @@ class Blocnotes {
     this.data = data
   }
 
+  // Persistent Data
   get id(){return this.data.id}
   get title(){return this.data.title}
   get details(){return this.data.details}
   get task_spec_id(){return this.data.task_spec_id}
+  get author(){return this.data.author}
+  get inserted_at(){return this.data.inserted_at}
+  // Volatile Data
+  get pseudo(){return this.author ? this.author.pseudo : "anonyme"}
+  get humanDate(){return this._hdate || (this.hdata = this.defineHumanDate())}
 
   // Pour construire l'affichage de la note
   build(){
     const o = DCreate('DIV', {class:'note'})
-    o.appendChild(DCreate('span', {class:'note-btn-sup tiny fright', text:'🗑️'}))
-    o.appendChild(DCreate('span', {class:'note-btn-edit tiny fright', text:'📝'}))
+    o.appendChild(DCreate('button', {class:'note-btn-sup tiny fright', type:'button', text:'🗑️', title: 'Supprimer la note'}))
+    o.appendChild(DCreate('button', {class:'note-btn-edit tiny fright', type:'button', text:'📝', title: 'Éditer la note'}))
     o.appendChild(DCreate('DIV', {class:'note-title', text: this.title}))
-    o.appendChild(DCreate('DIV', {class:'note-details', text: this.details}))
+    o.appendChild(DCreate('DIV', {class:'note-details', text: `${this.details || ""}`}))
+    const aut = DCreate('SPAN', {class:'author', text: this.pseudo})
+    const dat = DCreate('SPAN', {class:'date', text: `, le ${this.humanDate}`})
+    const dad = DCreate('DIV', {class:'note-author-date'})
+    dad.appendChild(aut);dad.appendChild(dat)
+    o.appendChild(dad)
     if ( this.obj ) {
       this.obj.replaceNode(o)
     } else {
       this.constructor.listing.appendChild(o)
     }
     this.obj = o
+    this.observe()
+  }
+
+  observe(){
+    this.btnEdit.addEventListener('click', this.onEdit.bind(this))
+    this.btnSup.addEventListener('click', this.onSup.bind(this))
+  }
+
+  onEdit(ev){
+    NoteEditor.edit(this)
+  }
+  onSup(ev){
+    if ( !confirm("Voulez-vous vraiment détruire cette note ?") ) return ;
+    this.remove()
   }
 
   // Pour créer ou actualiser la note
@@ -82,14 +107,13 @@ class Blocnotes {
   save(){
     if ( ! NoteEditor.areValidData(this.data) ) return ;
     ServerTalk.dial({
-      route: "/tools/save_note",
-      data: {script_args: this.data},
-      callback: this.afterSave.bind(this)
+        route: "/tools/save_note"
+      , data: {script_args: this.data}
+      , callback: this.afterSave.bind(this)
     })
-
   }
   afterSave(retour){
-    console.info("-> afterSave", retour)
+    // console.info("-> afterSave", retour)
     if (retour.ok){
       this.data = retour.note
       // Créer ou actualiser l'objet d'affichage de la note
@@ -99,6 +123,27 @@ class Blocnotes {
       console.error(retour)
     }
   }
+
+  remove(){
+    ServerTalk.dial({
+        route: "/tools/remove_note"
+      , data: {script_args: {note_id: this.id}}
+      , callback: this.afterRemove.bind(this)
+    })
+  }
+  afterRemove(retour){
+    if (retour.ok) {
+      this.obj.remove()
+    } else {Flash.error(retour.error)}
+  }
+
+  defineHumanDate(){
+    const d = new Date(this.inserted_at)
+    return d.toLocaleDateString()
+  }
+
+  get btnEdit(){return this._btnedit || (this._btnedit = DGet('button.note-btn-edit', this.obj))}
+  get btnSup(){return this._btnsup || (this._btnsup = DGet('button.note-btn-sup', this.obj))}
 }
 
 /**

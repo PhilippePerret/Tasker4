@@ -38,7 +38,7 @@ class Task {
 
   static get fieldDureeUnit(){return DGet('select#task_time_exp_duree_unit')}
   static get fieldDureeValue(){return DGet('input#task_time_exp_duree_value')}
-  static get obj(){return this._obj || (this._obj = DGet('form'))}  
+  static get obj(){return this._obj || (this._obj = DGet('form#task-form'))}  
   
   static onChangeDureeUnit(ev) {
     const unit = this.fieldDureeUnit.value

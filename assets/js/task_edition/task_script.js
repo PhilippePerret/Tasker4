@@ -117,7 +117,7 @@ class TaskScript {
     this.menuType.addEventListener('change', this.onChooseType.bind(this))
   }
   setData(data){
-    console.log("<script>.setData", data)
+    // console.log("<script>.setData", data)
     this.fieldId.value        = data.id || ""
     this.fieldTitle.value     = data.title || ""
     this.fieldArgument.value  = data.argument || ""
