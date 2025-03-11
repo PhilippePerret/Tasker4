@@ -51,7 +51,7 @@ defmodule TaskerWeb.ToolsController do
     if args[:id] == "" do
       # Création de la note
       case ToolBox.create_note(args) do
-      {:ok, note} -> %{note: note, ok: true}
+      {:ok, note} -> %{note: ToolBox.get_note!(note.id), ok: true}
       {:error, err} -> %{note: nil, ok: false, error: err}
       end
     else

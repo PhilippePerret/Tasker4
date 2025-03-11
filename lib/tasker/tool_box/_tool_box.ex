@@ -108,10 +108,9 @@ defmodule Tasker.ToolBox do
 
   """
   def delete_note(%Note{} = note) do
-    query = from asso in "notes_tasks", where: asso.note_id == ^note.id
-    asso = Repo.one(query)
-    case Repo.delete(asso) do
-    {:ok, _} -> Repo.delete(note)
+    note_id = Ecto.UUID.dump!(note.id)
+    case Repo.delete_all(from asso in "notes_tasks", where: asso.note_id == ^note_id) do
+    {1, _} -> Repo.delete(note)
     {:error, changeset} -> {:error, changeset}
     end
   end

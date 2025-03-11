@@ -176,7 +176,7 @@ defmodule TaskerWeb.TaskHTML do
   def blocnotes(assigns) do
     changeset = assigns.changeset
     task_spec = changeset.data.task_spec
-    |> IO.inspect(label: "\nTASK_SPEC")
+    # |> IO.inspect(label: "TASK_SPEC")
 
     assigns = assigns 
     |> assign(all_notes: Jason.encode!(task_spec.notes))
