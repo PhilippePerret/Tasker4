@@ -147,7 +147,7 @@ defmodule TaskerWeb.TaskController do
     end
     data_scripts = Jason.decode!(task_params["task-scripts"])
     # IO.inspect(data_scripts, label: "Données pour les script")
-    data_scripts = 
+
     if data_scripts do
       data_scripts
       |> Enum.map(fn dscript ->

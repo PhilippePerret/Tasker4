@@ -176,10 +176,10 @@ defmodule TaskerWeb.TaskHTML do
   def blocnotes(assigns) do
     changeset = assigns.changeset
     task_spec = changeset.data.task_spec
-    # |> IO.inspect(label: "\nTASK_SPEC")
+    |> IO.inspect(label: "\nTASK_SPEC")
 
     assigns = assigns 
-    |> assign(all_notes: task_spec.notes)
+    |> assign(all_notes: Jason.encode!(task_spec.notes))
     |> assign(task_spec: task_spec)
     |> assign(bouton_save_name: dgettext("tasker", "Save this note"))
 

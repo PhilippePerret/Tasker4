@@ -44,7 +44,8 @@ defmodule Tasker.Tache do
   """
   def get_task!(id) do
     Repo.get!(Task, id)
-    |> Repo.preload(task_spec: [:notes])
+    # |> Repo.preload(task_spec: [:notes])
+    |> Repo.preload(task_spec: [notes: [:author]])
     |> Repo.preload(:task_time)
     |> Repo.preload(:natures)
     |> Map.put(:scripts, get_task_scripts(id, :as_json))

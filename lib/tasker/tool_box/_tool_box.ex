@@ -33,7 +33,10 @@ defmodule Tasker.ToolBox do
     ** (Ecto.NoResultsError)
 
   """
-  def get_note!(id), do: Repo.get!(Note, id)
+  def get_note!(id) do 
+    Repo.get!(Note, id)
+    |> Repo.preload(:author)
+  end
   
   @doc """
   Pour créer une note
@@ -56,9 +59,12 @@ defmodule Tasker.ToolBox do
     |> Repo.insert()
 
     # Associer la note à la task_spec via la table de jointure
-    Repo.insert!(%NoteTaskSpec{note_id: note.id, task_spec_id: task_spec.id})
-
-    {:ok, note}
+    case Repo.insert(%NoteTaskSpec{note_id: note.id, task_spec_id: task_spec.id}) do
+    {:ok, _} -> {:ok, note}
+    {:error, changeset} ->
+      IO.inspect(changeset, label: "Association Tâche-Note impossible")
+      {:error, "Impossible d'associer la note à la tâche (consulter la console)"} 
+    end
   end
 
   @doc """

@@ -3,6 +3,8 @@ defmodule Tasker.ToolBox.Note do
   import Ecto.Changeset
   alias Tasker.Tache.NoteTaskSpec
 
+  @derive {Jason.Encoder, only: [:id, :title, :details, :author, :inserted_at]}
+
   @primary_key {:id, :binary_id, autogenerate: true}
   @foreign_key_type :binary_id
   schema "notes" do

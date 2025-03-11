@@ -26,8 +26,16 @@ class Blocnotes {
    * À l'ouverture, on construit le listing des notes de la tâche
    */
   static buildNotes(){
-    const dataNotes = NullIfEmpty(DGet('input#blocnotes-notes', this.obj).value)
-    console.log("Je dois apprendre à construire la liste des notes existantes", dataNotes)
+    let dataNotes = NullIfEmpty(DGet('input#blocnotes-notes', this.obj).value)
+    if ( dataNotes === null ) return ;
+    dataNotes = JSON.parse(dataNotes)
+    console.log("Affichage des notes", dataNotes)
+
+    dataNotes.forEach(dnote => {
+      Object.assign(dnote, {task_spec_id: Task.TaskSpecId})
+      const note = new Blocnotes(dnote)
+      note.build()
+    })
   }
 
   static get listing(){

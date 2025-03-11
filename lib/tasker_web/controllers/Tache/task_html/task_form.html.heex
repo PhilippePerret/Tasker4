@@ -26,6 +26,8 @@
   
   <%= if @changeset.data.task_spec.id do %>
 
+    <input type="hidden" id="task_spec_id" value={@changeset.data.task_spec.id} />
+
     <.inputs_for :let={fp} field={f[:task_spec]}>
       <.input field={fp[:details]} type="textarea" class={["details"]} label={dgettext("tasker", "Details")} />
     </.inputs_for>
