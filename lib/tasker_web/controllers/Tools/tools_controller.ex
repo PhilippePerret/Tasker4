@@ -21,7 +21,7 @@ defmodule TaskerWeb.ToolsController do
   """
   def run_script(
       conn, 
-      %{"script" => script_name, "script_args" => script_args} = params
+      %{"script" => script_name, "script_args" => script_args} = _params
     ) do 
     # IO.inspect(params, label: "PARAMS")
     # IO.inspect(conn, label: "CONN data")

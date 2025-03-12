@@ -2,7 +2,9 @@
 
 <div id="current-task-container">
 
-  <div class="bouton start-stop">
+  <!-- LIGNE BOUTONS BAS À DROITE -->
+  <div class="buttons bottom-right">
+    <button class="btn btn-done main small"><%= dgettext("tasker", "Done (task)") %></button>
     <button class="btn btn-start main" style="width:200px;"><%= dgettext("tasker", "Start (work)") %></button>
     <button class="btn btn-stop main hidden" style="width:200px;"><%= dgettext("tasker", "Stop (work)") %></button>
   </div>
@@ -30,7 +32,7 @@
 
   <!-- BOUTONS COLONNE GAUCHE -->
   <div class="buttons left-column">
-    <button class="btn btn-a-vendre hidden">À vendre</button>
+    <button class="btn btn-random"><%= dgettext("tasker", "Random task") %></button>
   </div>
 
   <div id="current-task">

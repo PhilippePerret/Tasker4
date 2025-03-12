@@ -147,7 +147,7 @@ div#current-task-container div.bouton button.btn {
   position:relative;
 }
 
-div#current-task-container div.bouton.start-stop {
+div#current-task-container div.buttons.bottom-right {
   right: 0px;
   bottom: 0px;
 }
@@ -186,7 +186,8 @@ div.buttons.top-left button {
 div.buttons.right-column {
   top: 0; right: 0;
 }
-div.buttons.right-column button {
+div.buttons.right-column button,
+div.buttons.left-column button {
   width: 150px;
 }
 div.buttons.left-column {

@@ -84,6 +84,37 @@ class ClassAtWork {
     sessionStorage.setItem('current-task-index', String(TASKS[0].absolute_index))
   }
 
+  removeCurrentTask(){
+    if ( this.running ) {
+      sessionStorage.removeItem('running-start-time')
+      this.running = false
+    }
+    TASKS.shift()
+    this.showCurrentTask()
+  }
+
+  /**
+   * Pour jouer l'opération +operation+ sur la tâche courante puis
+   * appeler la fonction +callback+ avec, éventuellement les données
+   * +extraData+ ajoutées.
+   * 
+   * Cette opération doit être définie par une fonction elixir :
+   *    exec_op("+operation+", %{"task_id" => task_id} = _params)
+   * dans le fichier tasks_op_controller.ex
+   * 
+   * @param {String} operation L'opération à jouer sur la tâche
+   * @param {Function} callback La fonction de retour
+   * @param {Object|Undefined} extraData les données supplémentaires
+   */
+  runOnCurrentTask(operation, callback, extraData){
+    const data = Object.assign(extraData||{}, {task_id: this.current_task.id})
+    ServerTalk.dial({
+        route: `/taskop/${operation}`
+      , data: data
+      , callback: callback
+    })
+  }
+
   /**
    * Fonction qui affiche la tâche fournie en argument.
    * 
@@ -103,9 +134,11 @@ class ClassAtWork {
   setField(fName, fValue){
     if ( 'string' == typeof fValue || 'number' == typeof fValue) {
       this.field(fName).innerHTML = fValue || "" //`[${fName} non défini]`
-    } else if (fValue.length) {
+    } else if (fValue && fValue.length) {
       this.field(fName).innerHTML = ""
       fValue.forEach(o => this.field(fName).appendChild(o))
+    } else {
+      console.error("Impossible de régler la valeur du champ '%s' à ", fName, fValue)
     }
   }
   field(fName){
@@ -133,13 +166,15 @@ class ClassAtWork {
     return scripts
   }
   buildNotes(task){
+    console.info("tâche pour notes", task)
     let notes = "";
     if ( task.notes && task.notes.length ){
       notes = task.notes.map(dnote => {
         const o = DCreate('DIV', {class: 'note'})
         o.appendChild(DCreate('DIV', {class: 'title', text: dnote.title}))
-        const details = `${dnote.details} <span class="author">${dnote.author}</span>` 
+        const details = `${dnote.details} <span class="author">${dnote.author}</span><span class="date">, le ${dnote.date}</span>` 
         o.appendChild(DCreate('DIV', {class: 'details', text: details}))
+
         return o
       })
     }
@@ -151,6 +186,7 @@ class ClassAtWork {
   observe(){
     DListenClick(this.btnStart      , this.onClickStart.bind(this))
     DListenClick(this.btnStop       , this.onClickStop.bind(this))
+    DListenClick(this.btnDone       , this.onClickDone.bind(this))
     DListenClick(this.btn2end       , this.onPushToTheEnd.bind(this))
     DListenClick(this.btnAfterNext  , this.onPushAfterNext.bind(this))
     DListenClick(this.btnLater      , this.onPushLater.bind(this))
@@ -160,6 +196,8 @@ class ClassAtWork {
     DListenClick(this.btnProjet     , this.onProjet.bind(this))
     DListenClick(this.btnResetOrder , this.onResetOrder.bind(this))
     DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
+    DListenClick(this.btnRandom     , this.onRandomTask.bind(this))
+
   }
   get boutonsZenMode(){return [this.btnResetOrder, this.btnProjet, this.btnEdit, 
     this.btnOutOfDay, this.btnLater, this.btnAfterNext, this.btn2end
@@ -193,11 +231,31 @@ class ClassAtWork {
     this.toggleStartStopButtons()
 
     const laps = {start: this.runningStartTime, stop: this.runningStopTime}
-    ServerTalk.dial({
-        route: '/tasksop/save_working_time'
-      , data: {laps: laps, task_id: this.current_task.id}
-      , callback: this.afterSaveLaps.bind(this)
-    })
+    this.runOnCurrentTask(
+        'save_working_time'
+      , this.afterSaveLaps.bind(this)
+      , {laps: laps}
+    )
+  }
+  onClickDone(ev){
+    if (!this.runningStartTime){
+      /**
+       * La tâche a été démarrée, et on utilise le bouton "Effectuée" 
+       * pour en marquer la fin, sans passer par le bouton "Stop".
+       * Il faut donc faire comme s'il avait arrêté la tâche quand 
+       * même
+       */
+      this.onClickStop(ev)
+    }
+    this.runOnCurrentTask('is_done', this.afterSetDone.bind(this))
+  }
+  afterSetDone(retour){
+    if (retour.ok) {
+      this.removeCurrentTask()
+    } else { 
+      console.error(retour)
+      Flash.error(retour.error) 
+    }
   }
   afterSaveLaps(retour){
     if ( retour.ok ){
@@ -206,6 +264,14 @@ class ClassAtWork {
     } else {
       Flash.error(retour.error)
     }
+  }
+
+  // Pour choisir une tâche au hasard
+  onRandomTask(ev){
+    const randIndex = parseInt(Math.random(TASKS.length) * 10)
+    const task = TASKS.splice(randIndex, 1)[0]
+    TASKS.unshift(task)
+    this.showCurrentTask()
   }
 
   onPushToTheEnd(ev){
@@ -226,15 +292,25 @@ class ClassAtWork {
     this.showCurrentTask()
   }
   onOutOfDay(ev){
-    TASKS.shift()
-    this.showCurrentTask()
+    this.removeCurrentTask()
     Flash.notice("Il suffira de recharger la page pour la remettre.")
   }
   onRemove(ev){
-    console.log("Je dois apprendre à détruire la tâche.")
+    if ( !confirm("Voulez-vous vraiment détruire définitivement cette tâche ?") ) retur ;
+    this.runOnCurrentTask('remove', this.afterRemove.bind(this))
+  }
+  afterRemove(retour){
+    if (retour.ok) {
+      this.removeCurrentTask()
+    } else {
+      console.error(retour)
+      Flash.error(retour.error)
+    }
   }
   onEdit(ev){
-    console.log("Je dois apprendre à éditer la tâche.")
+    const loc = window.location
+    const url = `${loc.protocol}//${loc.host}/tasks/${this.current_task.id}/edit?back=atwork`
+    window.location = url
   }
   onProjet(ev){
     Flash.notice("Je dois apprendre à afficher le projet.")
@@ -283,11 +359,13 @@ class ClassAtWork {
   get btnEdit(){return this._btnedit || (this._btnedit || DGet('button.btn-edit', this.obj))}
   get btnStart(){return this._btnstart || (this._btnstart || DGet('button.btn-start', this.obj))}
   get btnStop(){return this._btnstop || (this._btnstop || DGet('button.btn-stop', this.obj))}
+  get btnDone(){return this._btndone || (this._btndone || DGet('button.btn-done', this.obj))}
   get btnLater(){return this._btnlater || (this._btnlater || DGet('button.btn-later', this.obj))}
   get btn2end(){return this._btn2end || (this._btn2end || DGet('button.btn-to-the-end', this.obj))}
   get btnAfterNext(){return this._btnaftnext || (this._btnaftnext || DGet('button.btn-after-next', this.obj))}
   get btnOutOfDay(){return this._btnoutday || (this._btnoutday || DGet('button.btn-out-day', this.obj))}
   get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
+  get btnRandom(){return this._btnrand || (this._btnrand || DGet('button.btn-random', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
   get horloge(){return this._horloge || (this._horloge = Horloge)}
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}

@@ -58,6 +58,14 @@ defmodule TaskerWeb.TasksOpController do
     %{ok: true, execution_time: nil}
   end
 
+  def exec_op("is_done", %{"task_id" => task_id}) do
+    %{ok: false, error: "Je dois apprendre à marquer la tâche #{task_id} achevée"}
+  end
+
+  def exec_op("remove", %{"task_id" => task_id}) do
+    %{ok: false, error: "Je dois apprendre à détruire définitivement la tâche #{task_id}."}
+  end
+
 
   defp delete_all_dependencies_of(task_id) do
     # task_id = uuid(task_id)
