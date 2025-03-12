@@ -279,7 +279,7 @@ defmodule Tasker.Tache do
   end
   defp code_archive_task(task) do
     data = Map.from_struct(task)
-    data = Map.merge(data, %{
+    Map.merge(data, %{
       project:    Map.delete(Map.from_struct(task.project), :__meta__),
       task_time:  Map.drop(Map.from_struct(task.task_time), [:__meta__, :task]),
       task_spec:  Map.drop(Map.from_struct(task.task_spec), [:__meta__, :task])
@@ -322,13 +322,13 @@ defmodule Tasker.Tache do
     else false end
   end
   # Dans tous les autres cas
-  defp is_empty?(foo), do: false
+  defp is_empty?(_foo), do: false
 
   @nullish_values ["[]", "nil", "null", "{}"]
   defp is_nullish?(foo) when is_binary(foo) do
     Enum.member?(@nullish_values, foo)
   end
-  defp is_nullish?(foo), do: false
+  defp is_nullish?(_foo), do: false
 
 
   @doc """

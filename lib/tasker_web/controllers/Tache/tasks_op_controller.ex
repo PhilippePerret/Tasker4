@@ -61,7 +61,7 @@ defmodule TaskerWeb.TasksOpController do
   def exec_op("is_done", %{"task_id" => task_id}) do
     task = Tache.get_task!(task_id)
     Tache.archive_task(task)
-    # remove_task(task_id, "marquage effectuée") <====== À REMETTRE
+    remove_task(task_id, "marquage effectuée")
     %{ok: true}
   end
 
