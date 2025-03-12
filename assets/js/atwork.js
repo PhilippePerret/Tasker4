@@ -109,7 +109,7 @@ class ClassAtWork {
   runOnCurrentTask(operation, callback, extraData){
     const data = Object.assign(extraData||{}, {task_id: this.current_task.id})
     ServerTalk.dial({
-        route: `/taskop/${operation}`
+        route: `/tasksop/${operation}`
       , data: data
       , callback: callback
     })

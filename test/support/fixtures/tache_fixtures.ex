@@ -411,14 +411,14 @@ defmodule Tasker.TacheFixtures do
   Retourne un titre de tâche aléatoire
   """
   def random_title do
-    "#{random_action()} #{random_objet()} n°#{:rand.uniform(1000)} du #{random_time(:before)}"
+    "#{random_action()} #{random_objet()} n°#{:rand.uniform(1000)} du #{random_time(:before).day}"
   end
   @task_actions ["Concevoir", "Rechercher","Lire","Consulter", "Corriger", "Revoir", "Discuter"]
   # @task_actions_count Enum.count(@task_actions) - 1
   defp random_action do
     Enum.random(@task_actions)
   end
-  @task_objets ["le document", "la recette", "le rapport", "le compte-rendu", "le manuscrit", "le vade mecum", "la affaire"]
+  @task_objets ["le document", "la structure", "la recette", "le rapport", "le plan", "le compte-rendu", "le manuscrit", "le vade mecum", "l’affaire"]
   # @task_objets_count Enum.count(@task_objets) - 1
   defp random_objet do
     Enum.random(@task_objets)

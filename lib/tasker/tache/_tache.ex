@@ -44,7 +44,7 @@ defmodule Tasker.Tache do
   """
   def get_task!(id) do
     Repo.get!(Task, id)
-    # |> Repo.preload(task_spec: [:notes])
+    |> Repo.preload(:project)
     |> Repo.preload(task_spec: [notes: [:author]])
     |> Repo.preload(:task_time)
     |> Repo.preload(:natures)
@@ -236,7 +236,7 @@ defmodule Tasker.Tache do
   end
 
   @doc """
-  Deletes a task.
+  Destruction d'une tâche (avec la tâche ou son identifiant binaire)
 
   ## Examples
 
@@ -249,6 +249,9 @@ defmodule Tasker.Tache do
   """
   def delete_task(%Task{} = task) do
     Repo.delete(task)
+  end
+  def delete_task(task_id) when is_binary(task_id) do
+    Repo.delete(get_task!(task_id))
   end
 
   @doc """
@@ -263,6 +266,69 @@ defmodule Tasker.Tache do
   def change_task(%Task{} = task, attrs \\ %{}) do
     Task.changeset(task, attrs)
   end
+
+  @doc """
+  Archivage de la tâche.
+
+  Pour le moment, ça ne consiste qu'à l'enregistrer dans un format 
+  simple dans un fichier.
+  """
+  def archive_task(%Task{} = task) do
+    code_json = code_archive_task(task)
+    File.write!(archive_path(), code_json <> "\n", [:create, :append])
+  end
+  defp code_archive_task(task) do
+    data = Map.from_struct(task)
+    data = Map.merge(data, %{
+      project:    Map.delete(Map.from_struct(task.project), :__meta__),
+      task_time:  Map.drop(Map.from_struct(task.task_time), [:__meta__, :task]),
+      task_spec:  Map.drop(Map.from_struct(task.task_spec), [:__meta__, :task])
+    })
+    |> Map.drop([:__meta__])
+    # On supprime toutes les données vides à l'intérieur des maps
+    |> Enum.reduce(%{}, fn {key, value}, coll -> 
+      if Enumerable.impl_for(value) do
+        new_value = Enum.reduce(value, %{}, fn {key, value}, coll ->
+          if (is_nil(value) or is_empty?(value) or is_nullish?(value)) do
+            coll
+          else
+            Map.put(coll, key, value)
+          end
+        end)
+        Map.put(coll, key, new_value)
+      else coll end
+    end)
+    # On filtre seulement les données non vides/nulles/etc.
+    |> Enum.reduce(%{}, fn {key, value}, coll ->
+      if (is_nil(value) or is_empty?(value) or is_nullish?(value)) do
+        coll
+      else
+        Map.put(coll, key, value)
+      end
+    end)
+    # |> IO.inspect(label: "DONNÉES ARCHIVES")
+    |> Map.merge(%{app_version: Tasker.version(), date: NaiveDateTime.utc_now()})
+    # |> IO.inspect(label: "DONNÉES FINALES ARCHIVES")
+    |> Jason.encode!()
+    # |> IO.inspect(label: "Données Jsonées")
+  end
+  defp archive_path do
+    Path.join([:code.priv_dir(:tasker), "archives", "tasks.dat"])
+  end
+
+  defp is_empty?(foo) when is_list(foo) or is_map(foo) do
+    if Enumerable.impl_for(foo) do
+      Enum.empty?(foo)
+    else false end
+  end
+  # Dans tous les autres cas
+  defp is_empty?(foo), do: false
+
+  @nullish_values ["[]", "nil", "null", "{}"]
+  defp is_nullish?(foo) when is_binary(foo) do
+    Enum.member?(@nullish_values, foo)
+  end
+  defp is_nullish?(foo), do: false
 
 
   @doc """

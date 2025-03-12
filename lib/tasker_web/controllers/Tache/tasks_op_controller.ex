@@ -59,13 +59,24 @@ defmodule TaskerWeb.TasksOpController do
   end
 
   def exec_op("is_done", %{"task_id" => task_id}) do
-    %{ok: false, error: "Je dois apprendre à marquer la tâche #{task_id} achevée"}
+    task = Tache.get_task!(task_id)
+    Tache.archive_task(task)
+    # remove_task(task_id, "marquage effectuée") <====== À REMETTRE
+    %{ok: true}
   end
 
   def exec_op("remove", %{"task_id" => task_id}) do
-    %{ok: false, error: "Je dois apprendre à détruire définitivement la tâche #{task_id}."}
+    remove_task(task_id, "destruction")
   end
 
+  defp remove_task(task_id, step) when is_binary(task_id) do
+    case Tache.delete_task(task_id) do
+    {:ok, _} -> %{ok: true}
+    {:error, changeset} ->
+      IO.inspect(changeset, label: "Erreur lors de l'étape : #{step} de la tâche")
+      %{ok: false, error: "Impossible d'exécuter l'étape de tâche : #{step} (consulter la console serveur)"}
+    end
+  end
 
   defp delete_all_dependencies_of(task_id) do
     # task_id = uuid(task_id)

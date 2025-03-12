@@ -6,7 +6,7 @@ defmodule Tasker.Repo.Migrations.CreateTaskSpecs do
       add :id, :binary_id, primary_key: true
       add :details, :text
       add :difficulty, :integer, default: nil
-      add :task_id, references(:tasks, on_delete: :nothing, type: :binary_id)
+      add :task_id, references(:tasks, on_delete: :delete_all, type: :binary_id)
 
       timestamps(type: :utc_datetime)
     end
