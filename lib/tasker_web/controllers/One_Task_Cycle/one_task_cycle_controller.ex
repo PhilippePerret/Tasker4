@@ -114,11 +114,31 @@ defmodule TaskerWeb.OneTaskCycleController do
     # |> IO.inspect(label: "NATURES PAR TÂCHES")
     # raise "Pour voir les tâches"
 
+
+    query =
+      from n in Tasker.ToolBox.Note,
+      join: nt in "notes_tasks", 
+        on: n.id == nt.note_id,
+      join: tsp in TaskSpec, 
+        on: tsp.id == nt.task_spec_id,
+      join: tk in Task, 
+        on: tk.task_spec_id == tsp.id,
+      join: w in Tasker.Accounts.Worker, 
+        on: n.author_id == w.id,
+      where: tk.id in ^task_ids_binaires,
+      select: %{task_id: tk.id, note: %{id: n.id, title: n.title, details: n.details, author: w.pseudo}}
+
+    notes = Repo.all(query)
+    |> Enum.reduce(%{}, fn data, coll ->
+      Map.put(coll, data.task_id, data)
+    end)
+
     # Une table des tâches pour mettre les dépendances
     tasks = tasks
     |> Enum.map(fn task ->
       task = %{task | dependencies: dependances[task.id] }
-      %{task | natures: Map.get(natures, task.id, nil)}
+      task = %{task | natures: Map.get(natures, task.id, nil)}
+      Map.put(task, :notes, Map.get(notes, task.id, nil))
     end)
     # |> IO.inspect(label: "TÂCHES DÉFINITIVES -avant- CLASSEMENT")
     # raise "pour voir"
