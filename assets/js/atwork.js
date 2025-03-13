@@ -1,6 +1,9 @@
 'use strict';
 function DListen(o, e, m){o.addEventListener(e, m)}
 function DListenClick(o, m){o.addEventListener('click', m)}
+
+const NOW = new Date()
+
 /**
  * 
  */
@@ -22,9 +25,6 @@ class ClassAtWork {
     // console.log("TASKS", TASKS)
     // console.log("PROJECTS", PROJECTS)
     this.TASKS_COUNT = TASKS.length
-
-    // --- POUR DÉFINIR LES TAILLES ---
-    // this.__defineVirtualFistTaskForEssais()
 
     // On définit l'index absolu des tâches
     this.forEachTask((tk, index) => tk.absolute_index = index)
@@ -60,21 +60,88 @@ class ClassAtWork {
       this.toggleStartStopButtons()
     }
 
+    /**
+     * Cas où la liste contient une tâche exclusive.
+     * Rappel : une tâche exclusive, qui ne peut qu'être unique sur 
+     * un temps, éclipse toutes les autres. C'est par exemple un coup
+     * de fil ou un rendez-vous qui ne peut être supprimé.
+     * Voir le détail du fonctionnement sur la fonction
+     */
+    this.checkExclusiveTask()
+
     // On affiche la tâche courante
     this.showCurrentTask()
   }
 
-  __defineVirtualFistTaskForEssais(){
-    TASKS[0].details = "Ceci<br>Est<br>Un<br>Long<br>Détail<br>Pour<br>Voir."
-    TASKS[0].tags = ['premier', 'deuxième', 'troisième', 'quatrième']
-    TASKS[0].scripts = [
-        {title:'Ouvrir dossier principal', type:'open-folder', data: '/mon/dossier'}
-      , {title:'Nouvelle version', type:'run-script', data: '/path/to/script.sh'}
-    ]
-    TASKS[0].notes = [
-      {title: "Une première note de Phil", details: "C'est le détail de la note, qui peut être longue.", author: "Phil"},
-      {title: "Une première note de Marion", details: "C'est le détail de la note, qui peut être longue.", author: "Marion"}
-    ]
+  /**
+   * Étude du cas d'une TÂCHE EXCLUSIVE
+   * 
+   * Les cas possibles :
+   *    1)  Pas de tâche exclusive 
+   *        => ne rien faire
+   *    2)  Une tâche exclusive déjà commencée 
+   *        => la remettre
+   *    3)  Une tâche exclusive qui commence juste maintenant
+   *        => la mettre
+   *    4)  Une tâche exclusive qui commence dans peu de temps
+   *        => la programmer
+   * 
+   * Note : il peut y avoir plusieurs tâches exclusives dans une 
+   * session de travail, surtout si elle est longue.
+   */
+  checkExclusiveTask(){
+    const exclusiveTasks = TASKS.filter(tk => {return tk.task_time.priority == 5})
+    // console.info("exclusiveTasks", exclusiveTasks)
+    if ( exclusiveTasks.length == 0 ) return ; // cas 1
+    exclusiveTasks.forEach(tk => {
+      const start = new Date(tk.task_time.should_start_at)
+      const stop  = new Date(tk.task_time.should_end_at)
+      Object.assign(tk, {start_at: start, end_at: stop})
+      if ( start > NOW ) {
+        /**
+         * Une tâche exclusive à déclencher plus tard
+         */
+        const diffMilliseconds = NOW.getTime() - start.getTime()
+        var timer = setTimeout(this.lockExclusiveTask.bind(this, tk), diffMilliseconds)
+        Object.assign(tk, {exclusive_timer: timer})
+      } else {
+        /**
+         * Une tâche exclusive déjà en cours
+         */
+        this.lockExclusiveTask(tk)
+      }
+    })
+  }
+
+  lockExclusiveTask(task){
+    if ( task.exclusive_timer ) {
+      clearTimeout(task.exclusive_timer);
+      delete task.exclusive_timer
+    }
+    // On met la tâche exclusive en tâche courante
+    this.currentTask = task
+    this.showCurrentTask()
+    // Pour bloquer l'interface, on met un div qui couvre tout
+    this.UIMask = new UIMasker({
+        counterback: task.end_at.getTime()
+      , title: MESSAGE['end_exclusive_in']
+      , ontime: this.unlockExclusiveTask.bind(this, task, true)
+      , onclick: "Vous devez attendre la fin de la tâche."
+      , onforceStop: this.unlockExclusiveTask.bind(this, task, false)
+    })
+    this.UIMask.activate()
+  }
+  unlockExclusiveTask(task, regularEnd){
+    if ( task.exclusive_timer ) {
+      clearTimeout(task.exclusive_timer);
+      delete task.exclusive_timer
+    }
+    let markDone = regularEnd || confirm(MESSAGE['ask_for_end_exclusive_task'])
+    if (markDone) {
+      this.runOnCurrentTask('is_done', this.afterSetDone.bind(this))
+    } else {
+      // Pour le moment, on ne fait rien
+    }
   }
 
   /**
@@ -109,7 +176,12 @@ class ClassAtWork {
   /**
    * @return {Object} La tâche courante (données)
    */
-  get current_task(){return TASKS[0]}
+  get currentTask(){return TASKS[0]}
+  set currentTask(tk){
+    TASKS.splice(tk.relative_index, 1)
+    TASKS.unshift(tk)
+  }
+  setCurrentTask(task){this.currentTask = task}
 
   /**
    * Fonction qui affiche la tâche courante.
@@ -145,7 +217,7 @@ class ClassAtWork {
    * @param {Object|Undefined} extraData les données supplémentaires
    */
   runOnCurrentTask(operation, callback, extraData){
-    const data = Object.assign(extraData||{}, {task_id: this.current_task.id})
+    const data = Object.assign(extraData||{}, {task_id: this.currentTask.id})
     ServerTalk.dial({
         route: `/tasksop/${operation}`
       , data: data
@@ -353,7 +425,7 @@ class ClassAtWork {
   onEdit(ev){
     this.register_task_order()
     const loc = window.location
-    const url = `${loc.protocol}//${loc.host}/tasks/${this.current_task.id}/edit?back=atwork`
+    const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit?back=atwork`
     window.location = url
   }
   onProjet(ev){
@@ -411,7 +483,7 @@ class ClassAtWork {
   get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
   get btnRandom(){return this._btnrand || (this._btnrand || DGet('button.btn-random', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
-  get horloge(){return this._horloge || (this._horloge = Horloge)}
+  get horloge(){return this._horloge || (this._horloge = new Horloge())}
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}
 }
 

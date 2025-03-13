@@ -5,7 +5,19 @@
 
 class HorlogeClass {
 
-  constructor(){}
+  static s2h(s){
+    let h = Math.round(s / 3600)
+    s = s % 3600
+    let m = Math.round(s / 60)
+    if ( m < 10 ) m = `0${m}` ;
+    s = s % 60
+    if ( s < 10 ) s = `0${s}` ;
+    return `${h}:${m}:${s}`
+  }
+
+  constructor(){
+
+  }
 
   show(){this.obj.classList.remove('invisible')}
   hide(){this.obj.classList.add('invisible')}
@@ -35,17 +47,10 @@ class HorlogeClass {
     const laps = (new Date()).getTime() - this.startTime
     this.obj.innerHTML = this.s2h(Math.round(laps / 1000))
   }
-  s2h(s){
-    let h = Math.round(s / 3600)
-    s = s % 3600
-    let m = Math.round(s / 60)
-    if ( m < 10 ) m = `0${m}` ;
-    s = s % 60
-    if ( s < 10 ) s = `0${s}` ;
-    return `${h}:${m}:${s}`
-  }
+  s2h(s){return this.constructor.s2h(s)}
 
   get obj(){return this._obj || (this._obj = DGet('div#horloge'))}
 
 }
-window.Horloge = new HorlogeClass()
+
+window.Horloge = HorlogeClass

@@ -5,6 +5,8 @@ defmodule TaskerWeb.OneTaskCycleHTML do
 
   embed_templates "one_task_cycle_html/*"
 
+  def locales(assigns)
+
   # Juste pour éviter l'erreur de formatage VSCode
   slot :inner_block, required: true
   def js_constants(assigns) do
