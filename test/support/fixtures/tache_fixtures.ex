@@ -93,15 +93,15 @@ defmodule Tasker.TacheFixtures do
         project_id: attrs[:project_id],
       },
       task_spec: %{
-        details: attrs[:details],
-        difficulty: attrs[:difficulty]
+        details:      attrs[:details],
+        difficulty:   attrs[:difficulty],
+        priority:     attrs[:priority],
+        urgence:      attrs[:urgence]
       },
       task_time: %{
         should_start_at:  nil,
         should_end_at:    nil,
         started_at:       nil,
-        priority:         attrs[:priority],
-        urgence:          attrs[:urgence],
         expect_duration:  attrs[:duree]||attrs[:expect_duration],
         execution_time:   nil # :exec_duree
       },
@@ -303,17 +303,24 @@ defmodule Tasker.TacheFixtures do
   Generate a task_spec.
   """
   def task_spec_fixture(attrs \\ %{}) do
-    task = task_fixture()
-    {:ok, task_spec} =
-      attrs
-      |> Enum.into(%{
-        task_id: task.id,
-        details: "some details"
-      })
-      |> Tasker.Tache.create_task_spec()
-
+    attrs = task_spec_valid_attrs(attrs)
+    {:ok, task_spec} = Tasker.Tache.create_task_spec(attrs)
     task_spec
   end
+
+  def task_spec_valid_attrs(attrs \\ %{}) do
+    a =%{
+      task_id:          attrs[:task_id] || task_fixture().id,
+      details:          RandMethods.random_text(400),
+      difficulty:       Enum.random(0..5),
+      priority:         Enum.random(0..5),
+      urgence:          Enum.random(0..5)
+    }
+    # Pour le retour
+    Map.merge(a, attrs)
+  end
+
+
 
   @doc """
   Generate a task_time.
@@ -340,8 +347,6 @@ defmodule Tasker.TacheFixtures do
       ended_at:         nil,
       execution_time:   nil,
       expect_duration:  nil,
-      priority:         Enum.random(0..5),
-      urgence:          Enum.random(0..5),
       recurrence:       "*/10 * * * *",
       given_up_at:      nil
     }

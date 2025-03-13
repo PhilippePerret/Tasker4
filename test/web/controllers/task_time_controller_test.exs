@@ -3,9 +3,9 @@ defmodule TaskerWeb.TaskTimeControllerTest do
 
   import Tasker.TacheFixtures
 
-  @create_attrs %{priority: 42, started_at: ~N[2025-02-12 16:25:00], should_start_at: ~N[2025-02-12 16:25:00], should_end_at: ~N[2025-02-12 16:25:00], ended_at: ~N[2025-02-12 16:25:00], given_up_at: ~N[2025-02-12 16:25:00], urgence: 42, recurrence: "some recurrence", expect_duration: 42, execution_time: 42}
-  @update_attrs %{priority: 43, started_at: ~N[2025-02-13 16:25:00], should_start_at: ~N[2025-02-13 16:25:00], should_end_at: ~N[2025-02-13 16:25:00], ended_at: ~N[2025-02-13 16:25:00], given_up_at: ~N[2025-02-13 16:25:00], urgence: 43, recurrence: "some updated recurrence", expect_duration: 43, execution_time: 43}
-  @invalid_attrs %{priority: nil, started_at: nil, should_start_at: nil, should_end_at: nil, ended_at: nil, given_up_at: nil, urgence: nil, recurrence: nil, expect_duration: nil, execution_time: nil}
+  @create_attrs %{started_at: ~N[2025-02-12 16:25:00], should_start_at: ~N[2025-02-12 16:25:00], should_end_at: ~N[2025-02-12 16:25:00], ended_at: ~N[2025-02-12 16:25:00], given_up_at: ~N[2025-02-12 16:25:00], recurrence: "some recurrence", expect_duration: 42, execution_time: 42}
+  @update_attrs %{started_at: ~N[2025-02-13 16:25:00], should_start_at: ~N[2025-02-13 16:25:00], should_end_at: ~N[2025-02-13 16:25:00], ended_at: ~N[2025-02-13 16:25:00], given_up_at: ~N[2025-02-13 16:25:00], recurrence: "some updated recurrence", expect_duration: 43, execution_time: 43}
+  @invalid_attrs %{started_at: nil, should_start_at: nil, should_end_at: nil, ended_at: nil, given_up_at: nil, recurrence: nil, expect_duration: nil, execution_time: nil}
 
   describe "index" do
     test "lists all task_times", %{conn: conn} do

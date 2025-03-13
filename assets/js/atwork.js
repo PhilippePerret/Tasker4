@@ -97,7 +97,7 @@ class ClassAtWork {
     Object.assign(task, {
       title: "Essai de tâche exclusive forcée"
     })
-    Object.assign(task.task_time, {
+    Object.assign(task.task_spec, {
         priority: 5
       , should_start_at: new Date(Date.now() + 5 * 1000) // commencera 5 secondes plus tard
       , should_end_at: new Date(Date.now() + 10 * 1000) // finira 5 seconds plus tard
@@ -121,7 +121,7 @@ class ClassAtWork {
    * session de travail, surtout si elle est longue.
    */
   checkExclusiveTask(){
-    const exclusiveTasks = TASKS.filter(tk => {return tk.task_time.priority == 5})
+    const exclusiveTasks = TASKS.filter(tk => {return tk.task_spec.priority == 5})
     // console.info("exclusiveTasks", exclusiveTasks)
     if ( exclusiveTasks.length == 0 ) return ; // cas 1
     exclusiveTasks.forEach(tk => {

@@ -8,10 +8,10 @@ defmodule TaskerWeb.OneTaskCycleController do
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies}
 
   @task_properties ["id", "title", "project_id"]
-  @task_spec_properties ["details", "difficulty", "notes"]
+  @task_spec_properties ["details", "priority", "urgence", "difficulty", "notes"]
   @task_time_properties [
     "started_at", "ended_at", "should_start_at", "should_end_at", 
-    "given_up_at", "priority", "urgence", "recurrence", 
+    "given_up_at", "recurrence", 
     "expect_duration", "execution_time", "deadline_trigger"]
 
 
@@ -68,6 +68,7 @@ defmodule TaskerWeb.OneTaskCycleController do
           add_prop_and_value(collec, prop, map[prop], :task_time)
         end)
 
+        # Dernier, retourné
         Enum.reduce(@task_spec_properties, task, fn prop, collec ->
           add_prop_and_value(collec, prop, map[prop], :task_spec)
         end)

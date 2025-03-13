@@ -120,13 +120,11 @@ defmodule Tasker.TacheTest do
     test "create_task_time/1 with valid data creates a task_time" do
       valid_attrs = task_time_valid_attrs()
       assert {:ok, %TaskTime{} = task_time} = Tache.create_task_time(valid_attrs)
-      assert task_time.priority == valid_attrs.priority
       assert are_same_time(task_time.started_at, valid_attrs.started_at)
       assert are_same_time(task_time.should_start_at, valid_attrs.should_start_at)
       assert are_same_time(task_time.should_end_at, valid_attrs.should_end_at)
       assert are_same_time(task_time.ended_at, valid_attrs.ended_at)
       assert are_same_time(task_time.given_up_at, valid_attrs.given_up_at)
-      assert task_time.urgence == valid_attrs.urgence
       assert task_time.recurrence == valid_attrs.recurrence
       assert task_time.expect_duration == valid_attrs.expect_duration
       assert task_time.execution_time == valid_attrs.execution_time
@@ -141,13 +139,11 @@ defmodule Tasker.TacheTest do
       update_attrs = task_time_valid_attrs()
 
       assert {:ok, %TaskTime{} = task_time} = Tache.update_task_time(task_time, update_attrs)
-      assert task_time.priority == update_attrs.priority
       assert are_same_time(task_time.started_at, update_attrs.started_at)
       assert are_same_time(task_time.should_start_at, update_attrs.should_start_at)
       assert are_same_time(task_time.should_end_at, update_attrs.should_end_at)
       assert are_same_time(task_time.ended_at, update_attrs.ended_at)
       assert are_same_time(task_time.given_up_at, update_attrs.given_up_at)
-      assert task_time.urgence == update_attrs.urgence
       assert task_time.recurrence == update_attrs.recurrence
       assert task_time.expect_duration == update_attrs.expect_duration
       assert task_time.execution_time == update_attrs.execution_time

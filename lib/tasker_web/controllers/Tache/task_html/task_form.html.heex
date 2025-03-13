@@ -35,6 +35,11 @@
 
     <.inputs_for :let={fp} field={f[:task_spec]}>
       <.input field={fp[:details]} type="textarea" class={["details"]} label={dgettext("tasker", "Details")} />
+      <div class="inline-fields">
+        <.input field={fp[:priority]} type="select" class="no-left-margin" value={fp[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
+        <.input field={fp[:urgence]} type="select" class="no-left-margin" value={fp[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
+        <.input field={fp[:difficulty]} type="select" class="no-left-margin" value={fp[:difficulty].value || "nil"} options={options_difficulty()} label={dgettext("tasker", "Difficulty")} />
+      </div>
     </.inputs_for>
     
     <.inputs_for :let={ft} field={f[:task_time]}>
@@ -42,11 +47,6 @@
         <.input id="start-at" field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Start")} />
         <.input id="end-at" field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "End")} />
         <.duration_field changeset={@changeset} expected_duration={ft[:expect_duration].value}/>
-      </div>
-      <div class="inline-fields">
-        <.input field={ft[:priority]} type="select" class="no-left-margin" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
-        <.input field={ft[:urgence]} type="select" class="no-left-margin" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
-        <.input field={ft[:difficulty]} type="select" class="no-left-margin" value={ft[:difficulty].value || "nil"} options={options_difficulty()} label={dgettext("tasker", "Difficulty")} />
       </div>
       
       <.bloc_natures changeset={@changeset} natures={@data.natures} lang={@lang} />

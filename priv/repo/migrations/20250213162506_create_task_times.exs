@@ -9,8 +9,6 @@ defmodule Tasker.Repo.Migrations.CreateTaskTimes do
       add :started_at, :naive_datetime
       add :ended_at, :naive_datetime
       add :given_up_at, :naive_datetime
-      add :priority, :integer
-      add :urgence, :integer
       add :recurrence, :string
       add :expect_duration, :integer
       add :execution_time, :integer

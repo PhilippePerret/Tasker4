@@ -8,7 +8,9 @@ defmodule Tasker.Tache.TaskSpec do
   @foreign_key_type :binary_id
   schema "task_specs" do
     field :details, :string
-    field :difficulty, :integer, default: nil
+    field :priority, :integer
+    field :urgence, :integer
+    field :difficulty, :integer
     belongs_to :task, Tasker.Tache.Task
     many_to_many :notes, Tasker.ToolBox.Note, join_through: NoteTaskSpec
 
@@ -18,7 +20,7 @@ defmodule Tasker.Tache.TaskSpec do
   @doc false
   def changeset(task_spec, attrs) do
     task_spec
-    |> cast(attrs, [:details, :task_id])
+    |> cast(attrs, [:details, :task_id, :priority, :urgence, :difficulty])
     |> validate_required([:task_id])
   end
 
