@@ -1,7 +1,7 @@
 defprotocol TFormat do
   @doc "Convertit une valeur en string formatée"
   def to_s(value, options \\ [])
-  @doc "Convertit un valeur en durée humaine"
+  @doc "Convertit une valeur en durée humaine"
   def to_duree(value, options \\ [])
 end
 
@@ -27,7 +27,7 @@ defimpl TFormat, for: Integer do
       0 -> "0 h 00"
       _ ->
         hrs = div(value, 60)
-        mns = rem(value, hrs)
+        mns = rem(value, 60)
         mns = (mns < 10) && "0#{mns}" || mns
         "#{hrs} h #{mns}"
     end
