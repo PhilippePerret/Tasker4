@@ -13,6 +13,8 @@ defmodule Tasker.Tache.Task do
 
     field :rank, :map, virtual: true
     field :dependencies, :map, virtual: true
+    field :scripts, :map, virtual: true
+    field :notes, :map, virtual: true
 
     many_to_many :natures, 
       Tasker.Tache.TaskNature, 

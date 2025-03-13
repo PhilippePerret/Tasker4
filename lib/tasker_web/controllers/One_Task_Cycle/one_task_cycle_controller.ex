@@ -114,7 +114,21 @@ defmodule TaskerWeb.OneTaskCycleController do
     # |> IO.inspect(label: "NATURES PAR TÂCHES")
     # raise "Pour voir les tâches"
 
+    # Relève des scripts des tâches qui ont été retenues
+    query = 
+      from s in Tasker.ToolBox.TaskScript,
+        join: tk in Task,
+          on: s.task_id == tk.id,
+        where: tk.id in ^task_ids,
+        select: {tk.id, %{title: s.title, type: s.type, argument: s.argument}}
+    
+    scripts = Repo.all(query)
+    |> Enum.reduce(%{}, fn {task_id, script}, coll ->
+      scripts_task = coll[task_id] || []
+      Map.put(coll, task_id, scripts_task ++ [script])
+    end)
 
+    # Relève des notes des tâches qui ont été retenues
     query =
       from n in Tasker.ToolBox.Note,
       join: nt in "notes_tasks", 
@@ -122,27 +136,37 @@ defmodule TaskerWeb.OneTaskCycleController do
       join: tsp in TaskSpec, 
         on: tsp.id == nt.task_spec_id,
       join: tk in Task, 
-        on: tk.task_spec_id == tsp.id,
+        on: tsp.task_id == tk.id,
       join: w in Tasker.Accounts.Worker, 
         on: n.author_id == w.id,
-      where: tk.id in ^task_ids_binaires,
+      where: tk.id in ^task_ids,
       select: %{task_id: tk.id, note: %{id: n.id, title: n.title, details: n.details, author: w.pseudo}}
 
     notes = Repo.all(query)
     |> Enum.reduce(%{}, fn data, coll ->
-      Map.put(coll, data.task_id, data)
+      notes_task = coll[data.task_id] || []
+      Map.put(coll, data.task_id, notes_task ++ [data.note])
     end)
 
     # Une table des tâches pour mettre les dépendances
+    # 
+    # Note, ci-dessous, on peut faire %{task | ...} pour ajouter les
+    # propriétés uniquement parce qu'elles ont été déclarées comme
+    # champ virtuels dans le schéma de la tâche :
+    #     field :notes, :map, virtual: true
+    # 
     tasks = tasks
     |> Enum.map(fn task ->
       task = %{task | dependencies: dependances[task.id] }
       task = %{task | natures: Map.get(natures, task.id, nil)}
-      Map.put(task, :notes, Map.get(notes, task.id, nil))
+      task = %{task | scripts: Map.get(scripts, task.id, nil)}
+      task = %{task | notes: Map.get(notes, task.id, nil)}
     end)
     # |> IO.inspect(label: "TÂCHES DÉFINITIVES -avant- CLASSEMENT")
     # raise "pour voir"
     
+    # On tire ensuite une Map simple de la tâche %Task{}
+    # en ne gardant que les propriétés utiles
     Tasker.TaskRankCalculator.sort(tasks)
     |> Enum.map(fn task -> 
       task = Map.from_struct(task) 
