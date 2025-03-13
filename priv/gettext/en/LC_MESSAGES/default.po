@@ -455,7 +455,7 @@ msgstr ""
 msgid "exclusive (priority)"
 msgstr "exclusive"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:22
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:21
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr ""

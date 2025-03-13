@@ -10,7 +10,17 @@ const NOW = new Date()
 class ClassAtWork {
   init(){
     if ( ! this.btnAfterNext /* On n'est pas sur la page de travail */ ) return ;
-    
+    // console.log(" -> <ClassAtWork>.init")
+    // console.log("TASKS", TASKS)
+    // console.log("PROJECTS", PROJECTS)
+
+    /**
+     * Pour des essais en direct, on peut modifier de force certaines
+     * données de tâche. Ne pas oublier de retirer ça en mode pro-
+     * duction
+     */
+    this.__modifyTasksForTries()
+
     /**
      * Mode Zen
      */
@@ -20,10 +30,7 @@ class ClassAtWork {
     this.zenState = eval(sessionStorage.getItem('zen-state'))
     this.setZenMode()
 
-
     this.observe()
-    // console.log("TASKS", TASKS)
-    // console.log("PROJECTS", PROJECTS)
     this.TASKS_COUNT = TASKS.length
 
     // On définit l'index absolu des tâches
@@ -73,6 +80,30 @@ class ClassAtWork {
     this.showCurrentTask()
   }
 
+  __modifyTasksForTries(){
+    
+    // Pour ne rien tenter
+    return
+    
+    /**
+     * On va modifier la troisième tâche pour qu'elle devienne
+     * exclusive (elle doit donc passer en tête)
+     */
+    const task = TASKS[2]
+    if ( !task ) {
+      Flash.error("Il n'y a pas assez de tâche pour en faire une exclusive (il en faut au moins 3, recharger le seeds).")
+      return false
+    }
+    Object.assign(task, {
+      title: "Essai de tâche exclusive forcée"
+    })
+    Object.assign(task.task_time, {
+        priority: 5
+      , should_start_at: new Date(Date.now() + 5 * 1000) // commencera 5 secondes plus tard
+      , should_end_at: new Date(Date.now() + 10 * 1000) // finira 5 seconds plus tard
+    })
+  }
+
   /**
    * Étude du cas d'une TÂCHE EXCLUSIVE
    * 
@@ -101,13 +132,15 @@ class ClassAtWork {
         /**
          * Une tâche exclusive à déclencher plus tard
          */
-        const diffMilliseconds = NOW.getTime() - start.getTime()
+        const diffMilliseconds = start.getTime() - NOW.getTime()
+        // console.info("Tâche exclusive à déclencher dans %s secondes", parseInt(diffMilliseconds / 1000), tk)
         var timer = setTimeout(this.lockExclusiveTask.bind(this, tk), diffMilliseconds)
         Object.assign(tk, {exclusive_timer: timer})
       } else {
         /**
          * Une tâche exclusive déjà en cours
          */
+        // console.info("Tâche exclusive à déclencher tout de suite", tk)
         this.lockExclusiveTask(tk)
       }
     })
@@ -118,13 +151,21 @@ class ClassAtWork {
       clearTimeout(task.exclusive_timer);
       delete task.exclusive_timer
     }
+    // Si une tâche courante était en cours de travail, il faut
+    // demander ce que l'on doit faire. Si le worker veut enregistrer
+    // le temps, on simule le clic sur le bouton stop.
+    if ( this.running ){
+      if (confirm(MESSAGE['can_i_save_execution_current'])){
+        this.onClickStop(null)
+      }
+    }
     // On met la tâche exclusive en tâche courante
     this.currentTask = task
     this.showCurrentTask()
     // Pour bloquer l'interface, on met un div qui couvre tout
     this.UIMask = new UIMasker({
         counterback: task.end_at.getTime()
-      , title: MESSAGE['end_exclusive_in']
+      , title: `${MESSAGE['in_progress']} ${task.title}` // MESSAGE['end_exclusive_in']
       , ontime: this.unlockExclusiveTask.bind(this, task, true)
       , onclick: "Vous devez attendre la fin de la tâche."
       , onforceStop: this.unlockExclusiveTask.bind(this, task, false)
@@ -276,7 +317,7 @@ class ClassAtWork {
     return scripts
   }
   buildNotes(task){
-    console.info("tâche pour notes", task)
+    // console.info("tâche pour notes", task)
     let notes = "";
     if ( task.notes && task.notes.length ){
       notes = task.notes.map(dnote => {

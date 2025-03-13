@@ -91,7 +91,7 @@ msgstr ""
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:22
 #: lib/tasker_web/controllers/Projet/project_html/show.html.heex:2
 #: lib/tasker_web/controllers/Tache/task_html/index.html.heex:13
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:12
@@ -307,42 +307,42 @@ msgstr ""
 msgid "Select natures"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:30
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "After next"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:16
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Destroy"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:29
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "End (to the end)"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:31
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:30
 #, elixir-autogen, elixir-format
 msgid "Later"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:17
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Out of day"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:32
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Reset order"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:10
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:9
 #, elixir-autogen, elixir-format
 msgid "Start (work)"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:11
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:10
 #, elixir-autogen, elixir-format
 msgid "Stop (work)"
 msgstr ""
@@ -357,17 +357,12 @@ msgstr ""
 msgid "Back to work"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:9
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:8
 #, elixir-autogen, elixir-format
 msgid "Done (task)"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales_per_template.html.heex:3
-#, elixir-autogen, elixir-format
-msgid "En exclusive in in"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html.ex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "End of the exclusive task in…"
 msgstr ""
@@ -377,7 +372,7 @@ msgstr ""
 msgid "Human Label"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:37
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Random task"
 msgstr ""
@@ -392,8 +387,17 @@ msgstr ""
 msgid "Script Type"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html.ex:24
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales_per_template.html.heex:4
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Should I mark the end of this exclusive task?"
+msgstr ""
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Can I log the working time on the current task? (Otherwise, it will not be recorded)"
+msgstr ""
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "In progress:"
 msgstr ""

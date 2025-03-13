@@ -13,18 +13,17 @@
 messages = %{
 
   end_exclusive_in:             dgettext("tasker", "End of the exclusive task in…"),
-  ask_for_end_exclusive_task:   dgettext("tasker", "Should I mark the end of this exclusive task?")
-
+  ask_for_end_exclusive_task:   dgettext("tasker", "Should I mark the end of this exclusive task?"),
+  in_progress:                  dgettext("tasker", "In progress:"),
+  can_i_save_execution_current: dgettext("tasker", "Can I log the working time on the current task? (Otherwise, it will not be recorded)")
 
 } |> Enum.map(fn {key_msg, msg} -> 
     ~s(, #{key_msg}: "#{msg}")
   end)
   |> Enum.join("\n")
-%>
-<script type="text/javascript">
-window.MESSAGE = {
-    prem: "justepoursansvirgule"
-  <%= raw(messages) %>
-}
 
-</script>
+  messages = ~s({prem: "justeprem"#{messages}})
+%>
+<.js_constants>
+const MESSAGE = <%= raw(messages) %>
+</.js_constants>
