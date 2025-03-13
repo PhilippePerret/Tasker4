@@ -70,7 +70,7 @@ defmodule TaskerWeb.TasksOpController do
   end
 
   defp remove_task(task_id, step) when is_binary(task_id) do
-    case Tache.delete_task(task_id) do
+    case Tache.delete_task(task_id, allow_stale: true) do
     {:ok, _} -> %{ok: true}
     {:error, changeset} ->
       IO.inspect(changeset, label: "Erreur lors de l'étape : #{step} de la tâche")

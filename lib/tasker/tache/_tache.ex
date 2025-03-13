@@ -247,11 +247,12 @@ defmodule Tasker.Tache do
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_task(%Task{} = task) do
-    Repo.delete(task)
+  def delete_task(foo, options \\ [])
+  def delete_task(%Task{} = task, options) do
+    Repo.delete(task, options)
   end
-  def delete_task(task_id) when is_binary(task_id) do
-    Repo.delete(get_task!(task_id))
+  def delete_task(task_id, options) when is_binary(task_id) do
+    Repo.delete(get_task!(task_id), options)
   end
 
   @doc """
@@ -288,13 +289,9 @@ defmodule Tasker.Tache do
     # On supprime toutes les données vides à l'intérieur des maps
     |> Enum.reduce(%{}, fn {key, value}, coll -> 
       if Enumerable.impl_for(value) do
-        new_value = Enum.reduce(value, %{}, fn {key, value}, coll ->
-          if (is_nil(value) or is_empty?(value) or is_nullish?(value)) do
-            coll
-          else
-            Map.put(coll, key, value)
-          end
-        end)
+        IO.inspect(value, label: "Value avant réduction")
+        new_value = Enum.reduce(value, %{}, &reduit/2 )
+        |> IO.inspect(label: "Nouvelle valeur")
         Map.put(coll, key, new_value)
       else coll end
     end)
@@ -329,6 +326,30 @@ defmodule Tasker.Tache do
     Enum.member?(@nullish_values, foo)
   end
   defp is_nullish?(_foo), do: false
+
+
+  def reduit(map, collector) when is_map(map) do
+    map =
+    if Enumerable.impl_for(map) do
+      map
+    else
+      Map.from_struct(map) 
+      |> Map.delete(:__meta__)
+      |> Map.delete(:tasks) # pour les natures ou les autres relations many-to-many
+    end
+    map 
+    |> Enum.reduce(collector, &reduit/2 )
+  end
+  def reduit({key, value}, collector) when is_atom(key) do
+    if (is_nil(value) or is_empty?(value) or is_nullish?(value)) do
+      collector
+    else
+      Map.put(collector, key, value)
+    end
+  end
+  def reduit(foo, collector) do
+    raise "Je ne sais pas réduire #{inspect foo}"
+  end
 
 
   @doc """
