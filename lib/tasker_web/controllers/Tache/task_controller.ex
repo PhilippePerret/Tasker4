@@ -24,7 +24,6 @@ defmodule TaskerWeb.TaskController do
   
   def edit(conn, %{"id" => id} = params) do
     conn = if params["back"] do
-      IO.puts "back est défini à #{params["back"]}"
       conn |> assign(:back, params["back"])
     else conn end
     common_render(conn, :edit, id)
