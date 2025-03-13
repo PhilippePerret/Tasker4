@@ -418,6 +418,11 @@ class ClassAtWork {
   afterSaveLaps(retour){
     if ( retour.ok ){
       sessionStorage.removeItem('running-start-time')
+      if ( this.currentTask.id != retour.task_id ){
+        Flash.error("Bizarre, la tâche courante à changé… Je ne peux pas actualiser son execution_time")
+      } else {
+        this.currentTask.task_time.execution_time = retour.execution_time
+      }
       Flash.notice("Temps de travail enregistré.")
     } else {
       Flash.error(retour.error)

@@ -47,15 +47,12 @@ defmodule TaskerWeb.TasksOpController do
   end
 
   def exec_op("save_working_time", %{"laps" => dlaps, "task_id" => task_id}) do
-    IO.puts "Je dois enregistrer le temps de la tâche #{task_id} avec : #{inspect dlaps}"
     start = Helper.mseconds_to_naive(dlaps["start"])
     stop  = Helper.mseconds_to_naive(dlaps["stop"])
     laps = %{start: start, stop: stop, task_id: task_id}
-    IO.inspect(laps, label: "Donnée Laps")
     ToolBox.create_laps(laps)
-    # TODO : ajouter les minutes à la tâche
-    # En fait il faut faire la somme de tous les temps de la tâche
-    %{ok: true, execution_time: nil}
+    ex_time = Tache.update_execution_time(task_id)
+    %{ok: true, execution_time: ex_time, task_id: task_id}
   end
 
   def exec_op("is_done", %{"task_id" => task_id}) do

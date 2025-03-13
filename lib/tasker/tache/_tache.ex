@@ -6,6 +6,7 @@ defmodule Tasker.Tache do
   alias Tasker.Repo
 
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies, TasksWorkers}
+  alias Tasker.ToolBox
 
   @now NaiveDateTime.utc_now()
   
@@ -588,4 +589,45 @@ defmodule Tasker.Tache do
   def change_task_time(%TaskTime{} = task_time, attrs \\ %{}) do
     TaskTime.changeset(task_time, attrs)
   end
+
+  @doc """
+  Actualisation de la durée d'exécution de la tâche.
+
+  Rappel : la durée d'exécution de la tâche est constitué de la 
+  somme de tous les 'laps' {Tasker.ToolBox.Laps} enregistrés
+  pour le task_time de la tâche.
+
+  @param {Binary} task_id Identifiant de la tâche
+  
+  @return {Integer} Le nombre de minutes correspondant au temps où la
+  tâche a été jouée.
+  """
+  def update_execution_time(task_id) when is_binary(task_id) do
+    
+    query = 
+    from laps in ToolBox.Laps,
+      where: laps.task_id == ^task_id,
+      select: %{start: laps.start, stop: laps.stop}
+
+    ex_time =
+    Repo.all(query)
+    |> Enum.reduce(0, fn row, x -> 
+      x + NaiveDateTime.diff(row.stop, row.start)
+    end)
+
+    # Transformer les secondes accumulées en minutes
+    ex_time = round(ex_time / 60)
+
+    # Actualiser
+    query =
+      from tt in TaskTime,
+      where: tt.task_id == ^task_id,
+      update: [set: [execution_time: ^ex_time ]]
+
+      Repo.update_all(query, [])
+
+    # Retourner le temps d'exécutation total
+    ex_time
+  end
+
 end
