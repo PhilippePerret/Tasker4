@@ -25,7 +25,7 @@
   <.input field={f[:title]} class={["full", "main"]} placeholder="Titre de la tâche" />
   
   <div class="inline-fields">
-    <.input id="project_id" field={f[:project_id]} class={["main"]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
+    <.input id="project_id" field={f[:project_id]} class={["main", "no-left-margin"]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
     <.input field={f[:new_project]} style="width:200px;" label={ dgettext("tasker", "New") } />
   </div>
   
@@ -44,8 +44,9 @@
         <.duration_field changeset={@changeset} expected_duration={ft[:expect_duration].value}/>
       </div>
       <div class="inline-fields">
-        <.input field={ft[:priority]} type="select" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
-        <.input field={ft[:urgence]} type="select" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
+        <.input field={ft[:priority]} type="select" class="no-left-margin" value={ft[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
+        <.input field={ft[:urgence]} type="select" class="no-left-margin" value={ft[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
+        <.input field={ft[:difficulty]} type="select" class="no-left-margin" value={ft[:difficulty].value || "nil"} options={options_difficulty()} label={dgettext("tasker", "Difficulty")} />
       </div>
       
       <.bloc_natures changeset={@changeset} natures={@data.natures} lang={@lang} />

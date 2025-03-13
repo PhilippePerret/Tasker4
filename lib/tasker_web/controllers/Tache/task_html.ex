@@ -59,6 +59,17 @@ defmodule TaskerWeb.TaskHTML do
     ]
   end
 
+  def options_difficulty do
+    [
+      {"---", "nil"},
+      {gettext("Very hard (difficulty)"), 5},
+      {gettext("Hard (difficulty)"), 4},
+      {gettext("Moderate (difficulty)"), 3},
+      {gettext("Easy (difficulty)"), 2},
+      {gettext("Very easy (difficulty)"), 1}
+    ]
+  end
+
  
   @doc """
   Composant HEX pour la liste des natures

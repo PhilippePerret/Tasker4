@@ -49,7 +49,7 @@ select, select option {
   color: #666666;
   border-color: #CCCCCC;
 }
-label + select {margin-left:1em}
+label + select:not(.no-left-margin) {margin-left:1em}
 
 input.long { width: 75% }
 input.full { width: 95% }
