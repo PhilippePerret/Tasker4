@@ -78,11 +78,18 @@ class ClassAtWork {
 
     // On affiche la tâche courante
     this.showCurrentTask()
+
+    // On affiche le nombre de tâche courante
+    this.setTaskCount()
+  }
+
+  setTaskCount(){
+    DGet('div#current-task-count').innerHTML = TASKS.length
   }
 
   __modifyTasksForTries(){
     
-    // Pour ne rien tenter
+    // Pour ne rien tenter (mode normal)
     return
     
     /**
