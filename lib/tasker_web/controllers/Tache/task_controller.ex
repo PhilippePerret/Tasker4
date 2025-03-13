@@ -154,20 +154,22 @@ defmodule TaskerWeb.TaskController do
     if data_scripts do
       data_scripts
       |> Enum.map(fn dscript ->
+        # Un nouveau script
+        data_script = Enum.reduce(dscript, %{}, fn {key, value}, accu ->
+          if key == "id" and dscript["id"] == "" do
+            accu
+          else
+            Map.put(accu, String.to_atom(key), value)
+          end
+        end) |> Map.merge(%{task_id: task.id})
         script_id =
         if dscript["id"] == "" do
-          data_script = Enum.reduce(dscript, %{}, fn {key, value}, accu ->
-            if key == "id" do
-              accu
-            else
-              Map.put(accu, String.to_atom(key), value)
-            end
-          end)
           # IO.inspect(data_script, label: "data script")
-          new_script = ToolBox.create_task_script(Map.merge(data_script, %{task_id: task.id}))
+          new_script = ToolBox.create_task_script(data_script)
           new_script.id
         else 
-          dscript["id"] 
+          ToolBox.update_task_script(data_script)
+          data_script.id
         end
         %{ dscript | "id" => script_id }
       end)

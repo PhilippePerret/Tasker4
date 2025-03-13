@@ -143,9 +143,19 @@ defmodule Tasker.ToolBox do
 
   # ========= SCRIPTS DE TÂCHE =============
 
+  def get_script!(script_id) do
+    Repo.get!(TaskScript, script_id)
+  end
+
   def create_task_script(attrs \\ %{}) do
     TaskScript.changeset(%TaskScript{}, attrs)
     |> Repo.insert!()
+  end
+
+  def update_task_script(attrs) do
+    script = get_script!(attrs.id)
+    TaskScript.changeset(script, attrs)
+    |> Repo.update!()
   end
 
   def delete_script(%TaskScript{} = script) do
