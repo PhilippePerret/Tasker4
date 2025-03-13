@@ -67,27 +67,27 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#: lib/tasker_web/controllers/Tache/task_html.ex:424
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:415
+#: lib/tasker_web/controllers/Tache/task_html.ex:426
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:421
+#: lib/tasker_web/controllers/Tache/task_html.ex:432
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:420
+#: lib/tasker_web/controllers/Tache/task_html.ex:431
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:417
+#: lib/tasker_web/controllers/Tache/task_html.ex:428
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
@@ -148,7 +148,7 @@ msgstr "très faible"
 msgid "[SPACE]"
 msgstr " "
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:310
+#: lib/tasker_web/controllers/Tache/task_html.ex:321
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr "Tous les"
@@ -445,7 +445,7 @@ msgstr "vous allez recevoir un mèl avec des instructions. "
 msgid "(click to edit)"
 msgstr "(cliquez pour modifier)"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:263
+#: lib/tasker_web/controllers/Tache/task_html.ex:274
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr "Durée estimée"
@@ -469,3 +469,28 @@ msgstr "Dossier"
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr "Titre"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:68
+#, elixir-autogen, elixir-format
+msgid "Easy (difficulty)"
+msgstr "Facile"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:66
+#, elixir-autogen, elixir-format
+msgid "Hard (difficulty)"
+msgstr "Difficile"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:67
+#, elixir-autogen, elixir-format
+msgid "Moderate (difficulty)"
+msgstr "Moyenne"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:69
+#, elixir-autogen, elixir-format
+msgid "Very easy (difficulty)"
+msgstr "Très facile"
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:65
+#, elixir-autogen, elixir-format
+msgid "Very hard (difficulty)"
+msgstr "Très difficile"

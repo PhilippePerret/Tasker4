@@ -67,27 +67,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#: lib/tasker_web/controllers/Tache/task_html.ex:424
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:415
+#: lib/tasker_web/controllers/Tache/task_html.ex:426
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:421
+#: lib/tasker_web/controllers/Tache/task_html.ex:432
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:420
+#: lib/tasker_web/controllers/Tache/task_html.ex:431
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:417
+#: lib/tasker_web/controllers/Tache/task_html.ex:428
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
@@ -148,7 +148,7 @@ msgstr ""
 msgid "[SPACE]"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:310
+#: lib/tasker_web/controllers/Tache/task_html.ex:321
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr ""
@@ -445,7 +445,7 @@ msgstr ""
 msgid "(click to edit)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:263
+#: lib/tasker_web/controllers/Tache/task_html.ex:274
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr ""
@@ -468,4 +468,29 @@ msgstr ""
 #: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:5
 #, elixir-autogen, elixir-format
 msgid "Title"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:68
+#, elixir-autogen, elixir-format
+msgid "Easy (difficulty)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:66
+#, elixir-autogen, elixir-format
+msgid "Hard (difficulty)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:67
+#, elixir-autogen, elixir-format
+msgid "Moderate (difficulty)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:69
+#, elixir-autogen, elixir-format
+msgid "Very easy (difficulty)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_html.ex:65
+#, elixir-autogen, elixir-format
+msgid "Very hard (difficulty)"
 msgstr ""
