@@ -50,7 +50,7 @@
 
 <!-- Composant HEEX utilisé juste pour éviter l'erreur de formatage VSCode -->
 <.js_constants>
-  const TASKS     = <%= raw @candidates %>;
+  let TASKS       = <%= raw @candidates %>;
   const PROJECTS  = <%= raw @projects %>;
 </.js_constants>
 <script src={~p"/assets/js/atwork.js"}></script>

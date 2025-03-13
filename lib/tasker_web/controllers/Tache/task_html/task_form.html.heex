@@ -4,7 +4,12 @@
 
 
 <div class="right">
-  <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+  <%= case assigns[:back] do %>
+  <% "atwork" -> %>
+    <.back navigate={~p"/work"}>↖︎ <%= dgettext("tasker", "Back to work") %></.back>
+  <% nil -> %>
+    <.back navigate={~p"/tasks"}>↖︎ <%= dgettext("tasker", "Back to tasks") %></.back>
+  <% end %>
 </div>
 
 <.simple_form :let={f} for={@changeset} action={@action} id="task-form">

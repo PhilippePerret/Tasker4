@@ -1,3 +1,5 @@
 <h2><%= dgettext("tasker", "Edit Task") %>  <div class="tiny">{@task.id}</div></h2>
 
-<.task_form changeset={@changeset} data={@data} lang={@lang} action={~p"/tasks/#{@task}"} projects={@projects} />
+<% IO.inspect(assigns, label: "Assigns dans edit.html") %>
+
+<.task_form changeset={@changeset} data={@data} back={assigns[:back]} lang={@lang} action={~p"/tasks/#{@task}"} projects={@projects} />

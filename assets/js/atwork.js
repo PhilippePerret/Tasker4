@@ -16,6 +16,8 @@ class ClassAtWork {
     }
     this.zenState = eval(sessionStorage.getItem('zen-state'))
     this.setZenMode()
+
+
     this.observe()
     // console.log("TASKS", TASKS)
     // console.log("PROJECTS", PROJECTS)
@@ -26,6 +28,13 @@ class ClassAtWork {
 
     // On définit l'index absolu des tâches
     this.forEachTask((tk, index) => tk.absolute_index = index)
+
+    /**
+     * Si un ordre de tâche a été enregistré, ce qui arrive par
+     * exemple lorsque l'on part modifier une tâche et qu'on 
+     * revient, alors il faut remettre cet ordre.
+     */
+    if ( sessionStorage.getItem('task-order') ) this.reorder_tasks() ;
 
     /**
      * Si une tâche était en cours avant le rechargement, on la
@@ -66,6 +75,35 @@ class ClassAtWork {
       {title: "Une première note de Phil", details: "C'est le détail de la note, qui peut être longue.", author: "Phil"},
       {title: "Une première note de Marion", details: "C'est le détail de la note, qui peut être longue.", author: "Marion"}
     ]
+  }
+
+  /**
+   * Pour remettre TASKS dans l'ordre où il a été enregistré dans
+   * task-order
+   */
+  reorder_tasks(){
+    const orderedTaskIds = sessionStorage.getItem('task-order').split(',')
+    // console.info("Ordre tâches récupéré", orderedTaskIds)
+    const task_table = {}
+    TASKS.forEach(tk => Object.assign(task_table, {[tk.id]: tk}))
+    TASKS = [];
+    orderedTaskIds.forEach(tk_id => {
+      TASKS.push(task_table[tk_id])
+      delete task_table[tk_id]
+    })
+    // On met enfin les tâches qui ont pu être ajoutées entre temps
+    for (var tkid in task_table) { TASKS.push(task_table[tkid]) }
+    // console.info("TASKS après reclassement", TASKS)
+    sessionStorage.removeItem('task-order')
+  }
+  /**
+   * Fonction qui consigne l'ordre actuel des tâches dans l'item de
+   * session task-order pour le remettre en revenant sur la page.
+   */
+  register_task_order(){
+    const order = TASKS.map(tk => {return tk.id}).join(',')
+    console.info("Ordre tâches consigné", order)
+    sessionStorage.setItem('task-order', order)
   }
 
   /**
@@ -187,12 +225,12 @@ class ClassAtWork {
     DListenClick(this.btnStart      , this.onClickStart.bind(this))
     DListenClick(this.btnStop       , this.onClickStop.bind(this))
     DListenClick(this.btnDone       , this.onClickDone.bind(this))
+    DListenClick(this.btnEdit       , this.onEdit.bind(this))
     DListenClick(this.btn2end       , this.onPushToTheEnd.bind(this))
     DListenClick(this.btnAfterNext  , this.onPushAfterNext.bind(this))
     DListenClick(this.btnLater      , this.onPushLater.bind(this))
     DListenClick(this.btnOutOfDay   , this.onOutOfDay.bind(this))
     DListenClick(this.btnSup        , this.onRemove.bind(this))
-    DListenClick(this.btnEdit       , this.onEdit.bind(this))
     DListenClick(this.btnProjet     , this.onProjet.bind(this))
     DListenClick(this.btnResetOrder , this.onResetOrder.bind(this))
     DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
@@ -307,7 +345,13 @@ class ClassAtWork {
       Flash.error(retour.error)
     }
   }
+  /**
+   * Édition de la tâche
+   * Avant d'y aller, on enregistre l'état actuel de la liste pour 
+   * pouvoir le remettre au retour.
+   */
   onEdit(ev){
+    this.register_task_order()
     const loc = window.location
     const url = `${loc.protocol}//${loc.host}/tasks/${this.current_task.id}/edit?back=atwork`
     window.location = url
