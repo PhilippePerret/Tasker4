@@ -115,7 +115,7 @@ end
 alias Tasker.Seed, as: S
 
 # === Workers ===
-# S.insertion_people()
+S.insertion_people()
 
 # === tâches ===
 S.truncate(:tasks)
