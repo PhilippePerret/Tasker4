@@ -67,13 +67,14 @@ defmodule TaskerWeb.TaskController do
 
     task = Tache.get_task!(id)
 
-    # Traiter les natures
+    # Traiter les NATURES
     # Note : pour les nouvelles, il faut les mettre dans les préfé-
     # rences, mais ça serait bien de donner la possibilité d'en 
     # créer des nouvelles dans le formulaire (champ qui servirait 
     # aussi à les sélectionner dans la liste)
+    param_natures = task_params["natures"]
     task_params = 
-    if task_params["natures"] && task_params["natures"] != "" do
+    if param_natures && param_natures != "" && param_natures != [] do
       list_of_natures = task_params["natures"]
       |> String.split(",")
       |> Enum.map(fn nat_id ->
@@ -86,13 +87,11 @@ defmodule TaskerWeb.TaskController do
     IO.inspect(task_params, label: "task_params AVANT Tache.update_task")
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
-        IO.inspect(task, label: "OK après update (task)")
         conn
         |> put_flash(:info, dgettext("tasker", "Task updated successfully."))
         |> redirect(to: ~p"/tasks/#{task}/edit")
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset, label: "ERREUR À L'UPDATE")
         common_conn_render(conn, :edit, changeset)
     end
   end
@@ -228,10 +227,14 @@ defmodule TaskerWeb.TaskController do
     attrs
     |> convert_nil_string_values()
   end
+
+  @defaul_values_per_key %{
+    "natures" => []
+  }
   defp convert_nil_string_values(attrs) do
     Enum.into(attrs, %{}, fn 
       {k, "nil"} -> {k, nil}
-      {k, ""} -> {k, nil}
+      {k, ""} -> {k, Map.get(@defaul_values_per_key, k, nil)}
       {k, "[]"} -> {k, nil}
       {k, %{} = map} -> {k, convert_nil_string_values(map)}
       pair -> pair
