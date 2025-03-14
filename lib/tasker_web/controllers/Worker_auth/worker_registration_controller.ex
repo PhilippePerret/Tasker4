@@ -11,7 +11,7 @@ defmodule TaskerWeb.WorkerRegistrationController do
   end
 
   def create(conn, %{"worker" => worker_params}) do
-    case Accounts.register_worker(worker_params) do
+    case Accounts.create_worker(worker_params) do
       {:ok, worker} ->
         {:ok, _} =
           Accounts.deliver_worker_confirmation_instructions(

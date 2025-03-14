@@ -22,10 +22,14 @@ defmodule Tasker.Seed do
     Tasker.Repo.delete_all(Tasker.Projet.Project)
   end
 
+  # Retourne le worker
   def insert(:worker, attrs) do
     attrs = Map.put(attrs, :hashed_password, Bcrypt.hash_pwd_salt(attrs.password))
-    Tasker.Accounts.create_worker(attrs)
-    # Tasker.Repo.insert!(struct(Tasker.Accounts.Worker, attrs))
+    {:ok, worker} = Tasker.Accounts.create_worker(attrs)
+    worker
+  end
+  def insert(:worker_settings, attrs) do
+    Tasker.Accounts.create_worker_settings(attrs)
   end
   def insert(:project, attrs \\ %{}) do
     FXP.create_projet(attrs)

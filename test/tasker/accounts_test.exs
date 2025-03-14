@@ -111,9 +111,9 @@ defmodule Tasker.AccountsTest do
     end
   end
 
-  describe "register_worker/1" do
+  describe "create_worker/1" do
     test "requires email and password to be set" do
-      {:error, changeset} = Accounts.register_worker(%{})
+      {:error, changeset} = Accounts.create_worker(%{})
 
       assert %{
                password: ["can't be blank"],
@@ -122,7 +122,7 @@ defmodule Tasker.AccountsTest do
     end
 
     test "validates email and password when given" do
-      {:error, changeset} = Accounts.register_worker(%{email: "not valid", password: "not valid"})
+      {:error, changeset} = Accounts.create_worker(%{email: "not valid", password: "not valid"})
 
       assert %{
                email: ["must have the @ sign and no spaces"],
@@ -132,24 +132,24 @@ defmodule Tasker.AccountsTest do
 
     test "validates maximum values for email and password for security" do
       too_long = String.duplicate("db", 100)
-      {:error, changeset} = Accounts.register_worker(%{email: too_long, password: too_long})
+      {:error, changeset} = Accounts.create_worker(%{email: too_long, password: too_long})
       assert "should be at most 160 character(s)" in errors_on(changeset).email
       assert "should be at most 72 character(s)" in errors_on(changeset).password
     end
 
     test "validates email uniqueness" do
       %{email: email} = worker_fixture()
-      {:error, changeset} = Accounts.register_worker(%{email: email})
+      {:error, changeset} = Accounts.create_worker(%{email: email})
       assert "has already been taken" in errors_on(changeset).email
 
       # Now try with the upper cased email too, to check that email case is ignored.
-      {:error, changeset} = Accounts.register_worker(%{email: String.upcase(email)})
+      {:error, changeset} = Accounts.create_worker(%{email: String.upcase(email)})
       assert "has already been taken" in errors_on(changeset).email
     end
 
     test "registers workers with a hashed password" do
       email = unique_worker_email()
-      {:ok, worker} = Accounts.register_worker(valid_worker_attributes(email: email))
+      {:ok, worker} = Accounts.create_worker(valid_worker_attributes(email: email))
       assert worker.email == email
       assert is_binary(worker.hashed_password)
       assert is_nil(worker.confirmed_at)

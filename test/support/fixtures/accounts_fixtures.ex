@@ -21,7 +21,7 @@ defmodule Tasker.AccountsFixtures do
     {:ok, worker} =
       attrs
       |> valid_worker_attributes()
-      |> Tasker.Accounts.register_worker()
+      |> Tasker.Accounts.create_worker()
     worker
   end
   def create_worker(attrs \\ %{}), do: worker_fixture(attrs)

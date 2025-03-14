@@ -60,16 +60,21 @@ defmodule Tasker.Accounts do
     |> create_worker_settings()
   end
 
+  @doc """
+  Pour créer la fiche de réglage du worker
+  """
+  defp create_worker_settings(attrs) when is_map(attrs) do
+    attrs = Map.merge(default_worker_settings(), attrs)
+    Repo.insert!(struct(WorkerSettings, attrs))
+  end
+
   defp create_worker_settings(res) do
     case res do
     {:ok, worker} ->
-      Repo.insert!(
-        struct(WorkerSettings, 
-          Map.put(default_worker_settings(), :worker_id, worker.id)
-        )
-      )
+      create_worker_settings(Map.merge(default_worker_settings(), %{worker_id: worker.id}))
       res
-    {:error, _} -> res
+    {:error, _} -> 
+      res
     end
   end
 
@@ -187,26 +192,6 @@ defmodule Tasker.Accounts do
       when is_binary(email) and is_binary(password) do
     worker = Repo.get_by(Worker, email: email)
     if Worker.valid_password?(worker, password), do: worker
-  end
-
-  ## Worker registration
-
-  @doc """
-  Registers a worker.
-
-  ## Examples
-
-      iex> register_worker(%{field: value})
-      {:ok, %Worker{}}
-
-      iex> register_worker(%{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def register_worker(attrs) do
-    %Worker{}
-    |> Worker.registration_changeset(attrs)
-    |> Repo.insert()
   end
 
   @doc """
