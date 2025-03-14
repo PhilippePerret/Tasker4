@@ -68,12 +68,28 @@ defmodule Tasker.Tache.TaskTime do
   defp treate_recurrence_if_any(attrs) do
     recurrence = Map.get(attrs, "recurrence")
     if recurrence && recurrence != "" do
+      # 
       # Quand c'est une tâche récurrente
+      # 
       now = NaiveDateTime.utc_now()
       start_at = Crontab.Scheduler.get_next_run_date!(~e[#{recurrence}], now)
-      duration = Map.get(attrs, "expect_duration")
-      end_at = if duration do
-        NaiveDateTime.add(start_at, duration, :minute)
+      # Un "DÉLAI DE RÉALISATION" est-il défini ?
+      # Rappel : le "délai de réalisation" concerne le laps de temps
+      # dans lequel la tâche doit être réalisée, quelle que soit sa
+      # durée de réalisation (qui est le temps que prendra la réali-
+      # sation de la tâche).
+      # Pour une tâche récurrente, pour calculer ce délai de réalisa-
+      # tion, on prend le should_end_at et should_start_at actuels,
+      # s'ils existent.
+      should_start = Map.get(attrs, "should_start_at", nil)
+      should_end   = Map.get(attrs, "should_end_at", nil)
+      delai_realisation = if should_start && should_end do
+        should_start = NaiveDateTime.from_iso8601!("#{should_start}:00")
+        should_end   = NaiveDateTime.from_iso8601!("#{should_end}:00")
+        NaiveDateTime.diff(should_end, should_start, :minute)
+      else nil end
+      end_at = if delai_realisation do
+        NaiveDateTime.add(start_at, delai_realisation, :minute)
       else nil end
       Map.merge(attrs, %{
         "should_start_at" => start_at,
