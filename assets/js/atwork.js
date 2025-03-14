@@ -24,6 +24,7 @@ class ClassAtWork {
     /**
      * Mode Zen
      */
+    this.btnZen.classList.remove('invisible')
     if ( !sessionStorage.getItem('zen-state') ) {
       sessionStorage.setItem('zen-state', 'false')
     }
