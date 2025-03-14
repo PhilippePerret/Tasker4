@@ -324,12 +324,7 @@ defmodule TaskerWeb.TaskHTML do
 
     ~H"""
     <input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
-    <input 
-      type="checkbox" 
-      onchange="Repeat.onChange(this)" 
-      style="display:inline-block;margin-right:1em;vertical-align:bottom;transform:scale(1.8);" 
-    /><div id="recurrence-container" class="repeat-container hidden">
-      
+    <div id="recurrence-container" class="repeat-container hidden">
     
     <div id="repeat-summary" class="small mgb-1"></div>
 

@@ -272,8 +272,6 @@ defmodule Tasker.Tache do
   @doc """
   Archivage de la tâche.
 
-  Pour le moment, ça ne consiste qu'à l'enregistrer dans un format 
-  simple dans un fichier.
   """
   def archive_task(%Task{} = task) do
     code_json = code_archive_task(task)

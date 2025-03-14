@@ -55,10 +55,10 @@ setState(state){
     cron = cron == "" ? undefined : cron
     // Si la valeur est définie, on régle l'interface
     if ( cron ) this.setCronUI(cron)
+    this.onChangeRepeatField(null)
   }
   this.activeCB.checked = isActif
   this.obj.classList[isActif ? 'remove' : 'add']("hidden")
-  this.onChangeRepeatField(null)
 }
 
 toggleState(){
@@ -67,8 +67,8 @@ toggleState(){
 }
 
 getState(){
-  var cron = this.hiddenField.value
-  return cron == "" ? 'OFF' : 'ON'
+  var cron = NullIfEmpty(this.hiddenField.value)
+  return cron ? 'ON' : 'OFF'
 }
 prepare(){
   this.data.prepared = true
