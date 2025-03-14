@@ -105,7 +105,7 @@ msgstr "Projet"
 msgid "Remove"
 msgstr "Détruire"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:153
+#: lib/tasker_web/controllers/Tache/task_html.ex:152
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr "Enregistrer la tâche"
@@ -162,17 +162,17 @@ msgstr "Urgence"
 msgid "New"
 msgstr "Nouveau"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:191
+#: lib/tasker_web/controllers/Tache/task_html.ex:190
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr "Durée d'exécution"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:200
+#: lib/tasker_web/controllers/Tache/task_html.ex:199
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr "Statut temporel de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:445
+#: lib/tasker_web/controllers/Tache/task_html.ex:444
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr "Abandonnée le"
@@ -212,7 +212,7 @@ msgstr "la date d'abandon est déjà définie !"
 msgid "cannot be set: end date already defined"
 msgstr "la date de fin est déjà définie !"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:224
+#: lib/tasker_web/controllers/Tache/task_html.ex:223
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr "Enregistrer cette note"
@@ -232,22 +232,22 @@ msgstr "Fin"
 msgid "Start"
 msgstr "Début"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:496
+#: lib/tasker_web/controllers/Tache/task_html.ex:495
 #, elixir-autogen, elixir-format
 msgid "All the tasks above can only be executed after the execution of this task."
 msgstr "Toutes les tâches ci-dessus ne pourront être exécutées qu’après l’exécution de cette tâche-ci."
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:471
+#: lib/tasker_web/controllers/Tache/task_html.ex:470
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Next Tasks"
 msgstr "Tâches après"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:470
+#: lib/tasker_web/controllers/Tache/task_html.ex:469
 #, elixir-autogen, elixir-format
 msgid "Previous Tasks"
 msgstr "Tâches avant"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:493
+#: lib/tasker_web/controllers/Tache/task_html.ex:492
 #, elixir-autogen, elixir-format
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr "La tâche éditée ne pourra être exécutée qu’après la réalisation de toutes les tâches ci-dessus."
@@ -267,7 +267,7 @@ msgstr "Aucune tâche trouvée. Impossible donc d'en choisir."
 msgid "Select tasks"
 msgstr "Choisir les tâches"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:472
+#: lib/tasker_web/controllers/Tache/task_html.ex:471
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task flow"
 msgstr "Tâche"
@@ -282,7 +282,7 @@ msgstr "Une tâche ne peut être dépendante d'elle-même."
 msgid "A title must be given to the note!"
 msgstr "Il faut donner un titre à la note !"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:116
+#: lib/tasker_web/controllers/Tache/task_html.ex:115
 #, elixir-autogen, elixir-format
 msgid "Choose task natures"
 msgstr "Choisir les natures"
@@ -292,7 +292,7 @@ msgstr "Choisir les natures"
 msgid "Double dependency between task __BEFORE__ and task __AFTER__."
 msgstr "Double dépendance entre la tâche __BEFORE__ et la tâche __AFTER__."
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:114
+#: lib/tasker_web/controllers/Tache/task_html.ex:113
 #, elixir-autogen, elixir-format
 msgid "Hold Meta Key to select multiple values."
 msgstr "Maintenez la touche Méta pour sélectionner plusieurs natures."
@@ -305,7 +305,7 @@ msgstr "Incohérences dans les dépendances. Je ne peux pas les enregistrer."
 #: lib/tasker_web/controllers/Tache/task_controller.ex:345
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Select natures"
-msgstr "Choisir les tâches"
+msgstr "Choisir les natures"
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:31
 #, elixir-autogen, elixir-format
@@ -355,7 +355,7 @@ msgstr "Mode Zen"
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:9
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Back to work"
-msgstr "Liste des tâches"
+msgstr "Retour au travail"
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:10
 #, elixir-autogen, elixir-format
