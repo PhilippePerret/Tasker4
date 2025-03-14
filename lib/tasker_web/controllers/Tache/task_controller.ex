@@ -3,7 +3,7 @@ defmodule TaskerWeb.TaskController do
 
   import Ecto.Query
 
-  alias Tasker.{Repo, Tache}
+  alias Tasker.{Repo, Projet, Tache}
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
   alias Tasker.ToolBox
   alias ToolBox.TaskScript
@@ -141,14 +141,14 @@ defmodule TaskerWeb.TaskController do
   aucun changement ici puisque seul le script porte la marque de la
   tâche, mais pas l'inverse.
   """
-  def create_or_update_scripts(task_params, %Task{} = task) do
+  def create_or_update_scripts(%{"task-scripts" => task_scripts} = task_params, %Task{} = task) do
     if task_params["erased-scripts"] && task_params["erased-scripts"] != "" do
       # S'il y a des scripts à détruire
       task_params["erased-scripts"]
       |> String.split(";")
       |> ToolBox.delete_scripts()
     end
-    data_scripts = Jason.decode!(task_params["task-scripts"])
+    data_scripts = Jason.decode!(task_scripts)
     # IO.inspect(data_scripts, label: "Données pour les script")
 
     if data_scripts do
@@ -179,14 +179,18 @@ defmodule TaskerWeb.TaskController do
     # Pour la suite
     task_params
   end
-  def create_or_update_scripts(task_params) do
+  def create_or_update_scripts(%{"task-scripts" => task_scripts} = task_params) do
     create_or_update_scripts(task_params, Tache.get_task!(task_params["id"]))
   end
+  def create_or_update_scripts(task_params, _task), do: task_params
+
 
   defp common_render(conn, :new) do
     task_changeset = %Task{
       task_spec: %TaskSpec{notes: []},
-      task_time: %TaskTime{}
+      task_time: %TaskTime{},
+      project: %Projet.Project{},
+      natures: []
     } |> Ecto.Changeset.change()
     common_conn_render(conn, :new, task_changeset)
   end
@@ -203,7 +207,6 @@ defmodule TaskerWeb.TaskController do
     }
 
     natures_string = task_changeset.data.natures |> Enum.map(& &1.id) |> Enum.join(",")
-    IO.inspect(natures_string, label: "\nnatures_string")
     task_changeset = %{task_changeset | data: %{task_changeset.data | natures: natures_string}}
 
 

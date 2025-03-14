@@ -29,7 +29,7 @@ class Blocnotes {
     let dataNotes = NullIfEmpty(DGet('input#blocnotes-notes', this.obj).value)
     if ( dataNotes === null ) return ;
     dataNotes = JSON.parse(dataNotes)
-    console.log("Affichage des notes", dataNotes)
+    // console.log("Affichage des notes", dataNotes)
 
     dataNotes.forEach(dnote => {
       Object.assign(dnote, {task_spec_id: Task.TaskSpecId})

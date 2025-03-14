@@ -26,7 +26,7 @@
   
   <div class="inline-fields">
     <.input id="project_id" field={f[:project_id]} class={["main", "no-left-margin"]} type="select" style="width:360px;max-width:360px;" label={dgettext("tasker", "Project")} options={Enum.map(@projects, &{&1.title, &1.id})} />
-    <.input field={f[:new_project]} style="width:200px;" label={ dgettext("tasker", "New") } />
+    <.input field={f[:new_project]} style="width:320px;" label={ dgettext("tasker", "New") } />
   </div>
   
   <%= if @changeset.data.task_spec.id do %>

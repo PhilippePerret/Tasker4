@@ -19,7 +19,6 @@ class TaskScript {
    * Méthode mettant en place les scripts de la tâche
    */
   static setData(){
-    console.log("-> TaskScript.setData")
     let data = NullIfEmpty(this.fieldData.value)
     if ( data && data.length ) {
       data = JSON.parse(data)
