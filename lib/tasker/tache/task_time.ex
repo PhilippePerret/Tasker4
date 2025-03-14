@@ -1,6 +1,7 @@
 defmodule Tasker.Tache.TaskTime do
   use Ecto.Schema
   import Ecto.Changeset
+  import Crontab.CronExpression
 
   use Gettext, backend: TaskerWeb.Gettext
 
@@ -30,6 +31,7 @@ defmodule Tasker.Tache.TaskTime do
   def changeset(task_time, attrs) do
     attrs = attrs
     |> convert_expect_duration()
+    |> treate_recurrence_if_any()
 
     task_time
     |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :recurrence, :expect_duration, :execution_time, :deadline_trigger])
@@ -54,6 +56,33 @@ defmodule Tasker.Tache.TaskTime do
     end
   end
   defp convert_expect_duration(attrs), do: attrs
+
+  # Traitement en cas de tâche à récurrence
+  # Chaque fois (i.e. à chaque modification de la tâche, même
+  # lorsqu'elle ne modifie pas sa récurrence), on regarde si la
+  # tâche est récurrente et, le cas échéant, on définit ses temps
+  # en fonction du cron
+  # 
+  # @param {Map} attrs  Les attributs. Note : ils font forcément 
+  #                     définis puisque traités avant déjà.
+  defp treate_recurrence_if_any(attrs) do
+    recurrence = Map.get(attrs, "recurrence")
+    if recurrence && recurrence != "" do
+      # Quand c'est une tâche récurrente
+      now = NaiveDateTime.utc_now()
+      start_at = Crontab.Scheduler.get_next_run_date!(~e[#{recurrence}], now)
+      duration = Map.get(attrs, "expect_duration")
+      end_at = if duration do
+        NaiveDateTime.add(start_at, duration, :minute)
+      else nil end
+      Map.merge(attrs, %{
+        "should_start_at" => start_at,
+        "should_end_at"   => end_at
+      })
+    else # <= Ce n'est pas une tâche récurrente
+      attrs
+    end
+  end
 
   # --- Méthodes de validations des attributs ---
   

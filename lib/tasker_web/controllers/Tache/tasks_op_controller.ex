@@ -55,10 +55,16 @@ defmodule TaskerWeb.TasksOpController do
     %{ok: true, execution_time: ex_time, task_id: task_id}
   end
 
+  # Marque de la tâche comme effectuée
   def exec_op("is_done", %{"task_id" => task_id}) do
     task = Tache.get_task!(task_id)
     Tache.archive_task(task)
-    remove_task(task_id, "marquage effectuée")
+    if task.task_time.recurrence do
+      IO.inspect(task.task_time.recurrence, label: "RÉCURRENCE (traitement spécial)")
+      Tache.update_task_time(task.task_time)
+    else
+      remove_task(task_id, "marquage effectuée")
+    end
     %{ok: true}
   end
 

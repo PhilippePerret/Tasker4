@@ -272,6 +272,11 @@ defmodule Tasker.Tache do
   @doc """
   Archivage de la tâche.
 
+  Attention au cas spécial : une tâche récurrente. Dans ce cas-là,
+  on crée une instance pour archive, mais on ne détruit pas la tâche,
+  qu'on va au contraire updater pour quelle trouve sa prochaine 
+  itération.
+
   """
   def archive_task(%Task{} = task) do
     code_json = code_archive_task(task)
