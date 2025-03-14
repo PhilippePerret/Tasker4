@@ -13,6 +13,7 @@
     <%= gettext("Oops, something went wrong! Please check the errors below.") %>
   </.error>
 
+  <.input field={f[:pseudo]} type="text" label={gettext("Pseudo")} required />
   <.input field={f[:email]} type="email" label={gettext("Email")} required />
   <.input field={f[:password]} type="password" label={gettext("Password")} required />
 
