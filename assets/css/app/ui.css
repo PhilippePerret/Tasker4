@@ -99,9 +99,8 @@ div#flash-group {
   background-color: white;
   width: 450px;
   border: 1px solid transparent;
-  padding: 0.5em 1em;
   right: 1em;
-  top: 60px;
+  top: 50px;
   max-width: 450px;
   font-family: PPOptima;
   z-index: 1500;
@@ -114,31 +113,30 @@ div#flash-group > div > p {
   font-style: normal!important;
   font-weight: normal!important;
 }
-div#flash-group div#flash-error {
+div#flash-group div.flash-message.error {
   position:relative;
   color: red!important;
-  /* border-color: red!important; */
-  background-color: #FFEEEE;
+  background-color: #ffbdbd;
 }
-div#flash-group div#flash-error button.close-btn {
+div#flash-group div.flash-message.error button.close-btn {
   background-color: red;
 }
-div#flash-group div#flash-info {
+div#flash-group div.flash-info {
   position:relative;
   border-color: green!important;
   background-color: #CCFFCC;
   color: green;
 }
-div#flash-group div#flash-info button.close-btn {
+div#flash-group div.flash-info button.close-btn {
   background-color: green;
 }
-div#flash-group div#flash-notice {
+div#flash-group div.flash-message.notice {
   position:relative;
   border-color: blue!important;
   background-color: #CCCCFF;
   color:blue;
 }
-div#flash-group div#flash-notice button.close-btn {
+div#flash-group div.flash-message.notice button.close-btn {
   background-color: blue;
 }
 div#flash-group button.close-btn {
