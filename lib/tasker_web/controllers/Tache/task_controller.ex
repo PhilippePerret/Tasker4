@@ -56,12 +56,14 @@ defmodule TaskerWeb.TaskController do
   end
 
   def update(conn, %{"id" => id, "task" => task_params}) do
-    # IO.inspect(task_params, label: "-> update (params)")
+    IO.inspect(task_params, label: "-> update (params)")
     task_params = task_params
     |> convert_string_values_to_real_values()
+    |> IO.inspect(label: "task_params après convert string")
     |> create_project_if_needed(conn)
+    |> IO.inspect(label: "task_params après création projet (si nécessaire)")
     |> create_or_update_scripts()
-    |> IO.inspect(label: "\nParamp à l'entrée de update")
+    |> IO.inspect(label: "task_params après premiers traitements")
 
     task = Tache.get_task!(id)
 
@@ -81,16 +83,16 @@ defmodule TaskerWeb.TaskController do
       Map.put(task_params, "natures", list_of_natures)
     else task_params end
 
-    # Traiter les notes ?
-    # TODO
-
+    IO.inspect(task_params, label: "task_params AVANT Tache.update_task")
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
+        IO.inspect(task, label: "OK après update (task)")
         conn
         |> put_flash(:info, dgettext("tasker", "Task updated successfully."))
         |> redirect(to: ~p"/tasks/#{task}/edit")
 
       {:error, %Ecto.Changeset{} = changeset} ->
+        IO.inspect(changeset, label: "ERREUR À L'UPDATE")
         common_conn_render(conn, :edit, changeset)
     end
   end
@@ -117,7 +119,7 @@ defmodule TaskerWeb.TaskController do
   def create_project_if_needed(task_params, conn) do
     project_id =
       case task_params["new_project"] do
-        "" -> 
+        nil -> 
           # Pas de nouveau titre
           task_params["project_id"]
         new_title ->
@@ -148,33 +150,36 @@ defmodule TaskerWeb.TaskController do
       |> String.split(";")
       |> ToolBox.delete_scripts()
     end
-    data_scripts = Jason.decode!(task_scripts)
-    # IO.inspect(data_scripts, label: "Données pour les script")
 
-    if data_scripts do
-      data_scripts
-      |> Enum.map(fn dscript ->
-        # Un nouveau script
-        data_script = Enum.reduce(dscript, %{}, fn {key, value}, accu ->
-          if key == "id" and dscript["id"] == "" do
-            accu
-          else
-            Map.put(accu, String.to_atom(key), value)
+    if task_scripts do
+      data_scripts = Jason.decode!(task_scripts)
+      # IO.inspect(data_scripts, label: "Données pour les script")
+
+      if data_scripts do
+        data_scripts
+        |> Enum.map(fn dscript ->
+          # Un nouveau script
+          data_script = Enum.reduce(dscript, %{}, fn {key, value}, accu ->
+            if key == "id" and dscript["id"] == "" do
+              accu
+            else
+              Map.put(accu, String.to_atom(key), value)
+            end
+          end) |> Map.merge(%{task_id: task.id})
+          script_id =
+          if dscript["id"] == "" do
+            # IO.inspect(data_script, label: "data script")
+            new_script = ToolBox.create_task_script(data_script)
+            new_script.id
+          else 
+            ToolBox.update_task_script(data_script)
+            data_script.id
           end
-        end) |> Map.merge(%{task_id: task.id})
-        script_id =
-        if dscript["id"] == "" do
-          # IO.inspect(data_script, label: "data script")
-          new_script = ToolBox.create_task_script(data_script)
-          new_script.id
-        else 
-          ToolBox.update_task_script(data_script)
-          data_script.id
-        end
-        %{ dscript | "id" => script_id }
-      end)
+          %{ dscript | "id" => script_id }
+        end)
+      end
+      # IO.inspect(data_scripts, label: "Données scripts APRÈS")
     end
-    # IO.inspect(data_scripts, label: "Données scripts APRÈS")
 
     # Pour la suite
     task_params
@@ -209,9 +214,6 @@ defmodule TaskerWeb.TaskController do
     natures_string = task_changeset.data.natures |> Enum.map(& &1.id) |> Enum.join(",")
     task_changeset = %{task_changeset | data: %{task_changeset.data | natures: natures_string}}
 
-
-
-
     ensure_fichier_locales_JS()
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
@@ -229,6 +231,8 @@ defmodule TaskerWeb.TaskController do
   defp convert_nil_string_values(attrs) do
     Enum.into(attrs, %{}, fn 
       {k, "nil"} -> {k, nil}
+      {k, ""} -> {k, nil}
+      {k, "[]"} -> {k, nil}
       {k, %{} = map} -> {k, convert_nil_string_values(map)}
       pair -> pair
     end)

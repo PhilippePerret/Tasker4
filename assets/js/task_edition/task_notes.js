@@ -18,8 +18,10 @@ const NOTES_PROPERTIES = {
 
 class Blocnotes {
   static init(){
-    NoteEditor.init()
-    this.buildNotes()
+    if ( DGet('input#blocnotes-notes') ) {
+      NoteEditor.init()
+      this.buildNotes()
+    }
   }
 
   /**

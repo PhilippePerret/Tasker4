@@ -9,10 +9,12 @@
 class TaskScript {
 
   static init(){
-    this.feedScriptTypes()
-    this.CLONE_BLOCK = DGet('div.script-form').cloneNode(true)
-    this.observe()
-    this.setData()
+    if ( DGet('div.script-form') ) {
+      this.feedScriptTypes()
+      this.CLONE_BLOCK = DGet('div.script-form').cloneNode(true)
+      this.observe()
+      this.setData()
+    }
   }
 
   /**
@@ -27,7 +29,7 @@ class TaskScript {
         const script = this.onAddScript(null)
         script.setData(dataScript)
       })
-    } else {
+    } else if (DGet('div.script-form')) {
       this.instancieFirstBlocScript()
     }
   }
