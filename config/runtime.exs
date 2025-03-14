@@ -45,7 +45,7 @@ if config_env() == :prod do
   #     environment variable SECRET_KEY_BASE is missing.
   #     You can generate one by calling: mix phx.gen.secret
   #     """
-  secret_key_base = "7EijiZg9cgAXNMTEjPR7Nj39xiilpw+RdFn3SX25xJnpj+sYm6w6rv2l8wYz+aLb"
+  secret_key_base = "2Ck/iblvrirJt5F1TJlBhDIZe+AHxk1Fw6UOhLVFLp7yqbpeQ6NarQnmbg15sTrU"
 
   # host = System.get_env("PHX_HOST") || "localhost.com"
   host = "localhost"

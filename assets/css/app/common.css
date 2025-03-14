@@ -9,6 +9,8 @@
 .tiny {font-size:10pt}
 .very-tiny {font-size: 8pt}
 
+.no-width {width: auto!important;}
+
 .hidden {display:none}
 .discret {
   opacity: 0.5;

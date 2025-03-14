@@ -13,7 +13,7 @@
 
     <.input field={f[:email]} type="email" label={gettext("Email")} required />
     <.input field={f[:password]} type="password" label={gettext("Password")} required />
-    <.input field={f[:remember_me]} type="checkbox" label={gettext("Keep me logged in")} />
+    <.input field={f[:remember_me]} type="checkbox" class="no-width" label={gettext("Keep me logged in")} />
     <:actions>
       <.button phx-disable-with={gettext("Logging in...")}>
         <%= gettext("Log in") %> <span aria-hidden="true"></span>
