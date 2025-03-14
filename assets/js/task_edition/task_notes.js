@@ -120,6 +120,8 @@ class Blocnotes {
       this.data = retour.note
       // Créer ou actualiser l'objet d'affichage de la note
       this.build()
+      // On peut vider le formulaire
+      NoteEditor.reset()
     } else {
       Flash.error(retour.error)
       console.error(retour)
@@ -172,12 +174,18 @@ class NoteEditor {
     this.setData(note)
   }
 
+  /**
+   * Pour vider tous les champs
+   */
+  static reset(){
+    this.forEachProp(prop => this.field(prop).value = "")
+  }
+
   static setData(note){
     this.forEachProp(prop => this.field(prop).value = note[prop])
   }
   static getData(){
     const res = this.forEachProp(prop => {
-      console.info("prop = ", prop)
       return this.field(prop).value
     })
     console.info("Récupération des données : ", res)
@@ -228,6 +236,11 @@ class NoteEditor {
   static get fields(){
     return this._fields || (this._fields = this.defineFields())
   }
+
+
+  // ==== PRIVATE METHODS ========
+
+
   static defineFields(){
     const m = {}
     for (var prop in NOTES_PROPERTIES){
