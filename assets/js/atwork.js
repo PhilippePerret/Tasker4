@@ -479,7 +479,8 @@ class ClassAtWork {
   onEdit(ev){
     this.register_task_order()
     const loc = window.location
-    const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit?back=atwork`
+    const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit`
+    sessionStorage.setItem("back", `/work|${MESSAGE['back_to_work']}`)
     window.location = url
   }
   onProjet(ev){

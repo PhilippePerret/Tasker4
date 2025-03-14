@@ -23,9 +23,6 @@ defmodule TaskerWeb.TaskController do
   end
   
   def edit(conn, %{"id" => id} = params) do
-    conn = if params["back"] do
-      conn |> assign(:back, params["back"])
-    else conn end
     common_render(conn, :edit, id)
   end
 
@@ -55,15 +52,15 @@ defmodule TaskerWeb.TaskController do
     render(conn, :show, task: task)
   end
 
-  def update(conn, %{"id" => id, "task" => task_params}) do
-    IO.inspect(task_params, label: "-> update (params)")
+  def update(conn, %{"id" => id, "task" => task_params} = params) do
+    # IO.inspect(task_params, label: "-> update (params)")
     task_params = task_params
     |> convert_string_values_to_real_values()
-    |> IO.inspect(label: "task_params après convert string")
+    # |> IO.inspect(label: "task_params après convert string")
     |> create_project_if_needed(conn)
-    |> IO.inspect(label: "task_params après création projet (si nécessaire)")
+    # |> IO.inspect(label: "task_params après création projet (si nécessaire)")
     |> create_or_update_scripts()
-    |> IO.inspect(label: "task_params après premiers traitements")
+    # |> IO.inspect(label: "task_params après premiers traitements")
 
     task = Tache.get_task!(id)
 
@@ -84,7 +81,6 @@ defmodule TaskerWeb.TaskController do
       Map.put(task_params, "natures", list_of_natures)
     else task_params end
 
-    IO.inspect(task_params, label: "task_params AVANT Tache.update_task")
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
         conn

@@ -106,7 +106,7 @@ div#flash-group {
   z-index: 1500;
 }
 div#flash-group > div {
-  padding:  0.5em 1em;
+  /* padding:  0.5em 1em; */
 }
 div#flash-group > div > p {
   font-family: PPOptima!important;
@@ -121,13 +121,14 @@ div#flash-group div.flash-message.error {
 div#flash-group div.flash-message.error button.close-btn {
   background-color: red;
 }
-div#flash-group div.flash-info {
+div#flash-group div#flash-info p.message {
   position:relative;
   border-color: green!important;
   background-color: #CCFFCC;
   color: green;
+  padding:  0.5em 1em;
 }
-div#flash-group div.flash-info button.close-btn {
+div#flash-group div#flash-info button.close-btn {
   background-color: green;
 }
 div#flash-group div.flash-message.notice {

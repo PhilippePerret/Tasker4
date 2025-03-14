@@ -121,7 +121,7 @@ defmodule Tasker.Tache do
     query = from s in Tasker.ToolBox.TaskScript, 
               where: s.task_id == ^task_id
     Repo.all(query)
-    |> IO.inspect(label: "Scripts relevés")
+    # |> IO.inspect(label: "Scripts relevés")
   end
   def get_task_scripts(task_id, :as_json) do
     get_task_scripts(task_id)
