@@ -174,7 +174,7 @@ class ClassAtWork {
         counterback: task.end_at.getTime()
       , title: `${MESSAGE['in_progress']} ${task.title}` // MESSAGE['end_exclusive_in']
       , ontime: this.unlockExclusiveTask.bind(this, task, true)
-      , onclick: "Vous devez attendre la fin de la tâche."
+      , onclick: MESSAGE['wait_for_the_end_of_the_task']
       , onforceStop: this.unlockExclusiveTask.bind(this, task, false)
     })
     this.UIMask.activate()
@@ -330,7 +330,7 @@ class ClassAtWork {
       notes = task.notes.map(dnote => {
         const o = DCreate('DIV', {class: 'note'})
         o.appendChild(DCreate('DIV', {class: 'title', text: dnote.title}))
-        const details = `${dnote.details} <span class="author">${dnote.author}</span><span class="date">, le ${dnote.date}</span>` 
+        const details = `${dnote.details} <span class="author">${dnote.author}</span><span class="date">, ${MESSAGE['le_pour_date']}${dnote.date}</span>` 
         o.appendChild(DCreate('DIV', {class: 'details', text: details}))
 
         return o
@@ -419,11 +419,11 @@ class ClassAtWork {
     if ( retour.ok ){
       sessionStorage.removeItem('running-start-time')
       if ( this.currentTask.id != retour.task_id ){
-        Flash.error("Bizarre, la tâche courante à changé… Je ne peux pas actualiser son execution_time")
+        Flash.error(MESSAGE['strange_task_has_changed'])
       } else {
         this.currentTask.task_time.execution_time = retour.execution_time
       }
-      Flash.notice("Temps de travail enregistré.")
+      Flash.notice(MESSAGE['execution_time_registered'])
     } else {
       Flash.error(retour.error)
     }
@@ -451,15 +451,15 @@ class ClassAtWork {
     const pos = Math.round(Math.random() * (this.TASKS_COUNT - 1) + 1)
     const first = TASKS.shift()
     TASKS.splice(pos, 0, first)
-    Flash.notice(`La tâche a été placée en position ${pos + 1}.`)
+    Flash.notice(MESSAGE['task_placed_in_position'].replace('$1', String(pos + 1)))
     this.showCurrentTask()
   }
   onOutOfDay(ev){
     this.removeCurrentTask()
-    Flash.notice("Il suffira de recharger la page pour la remettre.")
+    Flash.notice(MESSAGE['reload_page_to_replace'])
   }
   onRemove(ev){
-    if ( !confirm("Voulez-vous vraiment détruire définitivement cette tâche ?") ) retur ;
+    if ( !confirm(MESSAGE['dyou_want_to_delete_task']) ) return ;
     this.runOnCurrentTask('remove', this.afterRemove.bind(this))
   }
   afterRemove(retour){

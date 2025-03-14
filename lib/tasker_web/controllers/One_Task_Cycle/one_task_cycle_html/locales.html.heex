@@ -15,7 +15,14 @@ messages = %{
   end_exclusive_in:             dgettext("tasker", "End of the exclusive task in…"),
   ask_for_end_exclusive_task:   dgettext("tasker", "Should I mark the end of this exclusive task?"),
   in_progress:                  dgettext("tasker", "In progress:"),
-  can_i_save_execution_current: dgettext("tasker", "Can I log the working time on the current task? (Otherwise, it will not be recorded)")
+  can_i_save_execution_current: dgettext("tasker", "Can I log the working time on the current task? (Otherwise, it will not be recorded)"),
+  wait_for_the_end_of_the_task: dgettext("tasker", "You have to wait for the end of the task."),
+  le_pour_date:                 gettext("on (date)"),
+  strange_task_has_changed:     dgettext("tasker", "Strange… the current task has changed. I cant’t update its execution time."),
+  execution_time_registered:    dgettext("tasker", "Working time recorded"),
+  task_placed_in_position:      dgettext("tasker", "The task has been placed in position $1."),
+  reload_page_to_replace:       dgettext("tasker", "Reloading the page will be enought to restore it."),
+  dyou_want_to_delete_task:     dgettext("tasker", "Do you really want to permanently delete this task?")
 
 } |> Enum.map(fn {key_msg, msg} -> 
     ~s(, #{key_msg}: "#{msg}")
