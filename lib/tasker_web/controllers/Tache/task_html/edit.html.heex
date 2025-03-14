@@ -1,3 +1,7 @@
 <h2><%= dgettext("tasker", "Edit Task") %>  <div class="tiny">{@task.id}</div></h2>
 
+<.js_constants>
+  const LOCALES = <%= raw locales() %>
+</.js_constants>
+
 <.task_form changeset={@changeset} data={@data} back={assigns[:back]} lang={@lang} action={~p"/tasks/#{@task}"} projects={@projects} />

@@ -89,7 +89,6 @@ maskAllProperties(){
  * @param {String} uFreq  Fréquence générale du crontab ("minute", "day", "week", etc.)
  */
 showRequiredProperties(uFreq){
-  console.info("uFreq", uFreq)
   FieldsPerRepeatUnit[uFreq].forEach( fieldId => {
     DGet(`span.repeat-property.${fieldId}`, this.obj).style.visibility = 'visible'
   })
@@ -168,7 +167,6 @@ getCronData(){
  */
 setCronUI(cron) {
   const cronData = this.parseAndShowCronExpression(cron)
-  console.info("cronData = ", cronData)
 }
 
 genCronExpression(dataCron) {
@@ -213,7 +211,6 @@ parseAndShowCronExpression(cron) {
     const row = table_frequences[key];
     const rawValue = row.raw
     row.frequential = rawValue.startsWith('*/')
-    console.info("rawValue: '%s', uFreq: '%s'", rawValue, row.uFreq)
     if ( row.uFreq && rawValue != '*') {
       resultats.uFreq = String(row.uFreq)
       resultats.uFreqValue = 1
@@ -227,7 +224,6 @@ parseAndShowCronExpression(cron) {
       row.value  = rawValue // Number est superflu
     }
     // On peut définir les menus directement ici
-    console.info("Je mets le champ field_%s à %s", key, row.value)
     this['field_' + key].value = row.value
     // Et les valeurs retournées
     resultats[key] = row.value == '---' ? null : row.value;
@@ -266,7 +262,6 @@ showResumeHumain(crondata){
   }
   // Est-ce qu'une heure est déterminée
   if ( crondata.dHour ) {
-    console.info("crondata.dHour", crondata.dHour)
     sum.push("à")
     sum.push(`${crondata.dHour} h ${crondata.hMin}`)
   }

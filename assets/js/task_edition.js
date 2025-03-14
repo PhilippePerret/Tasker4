@@ -17,6 +17,10 @@ class Task {
       this.fieldDureeUnit.addEventListener('change', this.onChangeDureeUnit.bind(this))
     }
 
+    // Surveiller le menu priority (le choix "exclusive" doit
+    // entrainer une vérification)
+    this.menuPriority.addEventListener('change', this.onChangePriority.bind(this))
+
     // On crée une instance pour gérer les dépendances
     this.taskDeps = new TaskDependencies()
     this.taskDeps.init()
@@ -125,6 +129,31 @@ class Task {
     })
     return natures
   }
+
+
+  // ======= PRIORITÉ ========
+
+  static onChangePriority(ev){
+    const prior = this.menuPriority.value;
+    if ( prior != "5" ) return ;
+    const startat = NullIfEmpty(this.fieldStartAt.value)
+    const endat   = NullIfEmpty(this.fieldEndAt.value)
+    try {
+      if ( !startat || !endat ) {
+        throw LOCALES['set_start_stop_for_exclusive']
+      }
+    } catch (err) {
+      this.menuPriority.selectedIndex = 0
+      if (startat) this.fieldEndAt.focus();
+      else this.fieldStartAt.focus();
+      Flash.error(err)
+    }
+  }
+
+
+  static get fieldStartAt(){return DGet('input#start-at')}
+  static get fieldEndAt(){return DGet('input#end-at')}
+  static get menuPriority(){return DGet('select#task-priority')}
   static get fieldNatures(){return DGet('input#natures-value')}
   static get blocNatures(){return DGet('div#natures-select-container')}
   static get menuNatures(){return DGet('select#task-natures-select')}
