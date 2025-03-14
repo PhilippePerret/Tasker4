@@ -38,9 +38,9 @@ static get container(){return this._cont || (this._cont = DGet('div#recurrence-c
 
 constructor(mainConteneur){
   this.obj = mainConteneur;
-  this.activeCB = this.obj.previousSibling
   if ( ! this.data.prepared ) this.prepare()
 }
+
 
 /**
  * Fonction appelée au chargement du formulaire pour régler l'état du composant récurrence
@@ -51,8 +51,7 @@ setState(state){
   state = state || this.getState()
   const isActif = state == 'ON'
   if ( isActif ) {
-    var cron = this.hiddenField.value
-    cron = cron == "" ? undefined : cron
+    var cron = NullIfEmpty(this.hiddenField.value)
     // Si la valeur est définie, on régle l'interface
     if ( cron ) this.setCronUI(cron)
     this.onChangeRepeatField(null)
@@ -90,6 +89,7 @@ maskAllProperties(){
  * @param {String} uFreq  Fréquence générale du crontab ("minute", "day", "week", etc.)
  */
 showRequiredProperties(uFreq){
+  console.info("uFreq", uFreq)
   FieldsPerRepeatUnit[uFreq].forEach( fieldId => {
     DGet(`span.repeat-property.${fieldId}`, this.obj).style.visibility = 'visible'
   })
@@ -168,6 +168,7 @@ getCronData(){
  */
 setCronUI(cron) {
   const cronData = this.parseAndShowCronExpression(cron)
+  console.info("cronData = ", cronData)
 }
 
 genCronExpression(dataCron) {
@@ -192,11 +193,11 @@ genCronExpression(dataCron) {
 parseAndShowCronExpression(cron) {
   const [hMin, dHour, mDay, yMonth, wDay] = cron.split(" ");
   const table_frequences = {
-      hMin:   {raw: hMin    , value: undefined, uFreq: 'minute' , frequential: undefined}
-    , dHour:  {raw: dHour   , value: undefined, uFreq: 'hour'   , frequential: undefined}
-    , mDay:   {raw: mDay    , value: undefined, uFreq: 'day'    , frequential: undefined}
-    , yMonth: {raw: yMonth  , value: undefined, uFreq: 'month'  , frequential: undefined}
-    , wDay:   {raw: wDay    , value: undefined, uFreq: null     , frequential: false}
+      hMin:   {raw: hMin    , value: undefined, uFreq: 'hour'  , frequential: undefined}
+    , dHour:  {raw: dHour   , value: undefined, uFreq: 'day'   , frequential: undefined}
+    , mDay:   {raw: mDay    , value: undefined, uFreq: 'month' , frequential: undefined}
+    , wDay:   {raw: wDay    , value: undefined, uFreq: 'month' , frequential: false}
+    , yMonth: {raw: yMonth  , value: undefined, uFreq: 'year'  , frequential: undefined}
   }
   const resultats = {
       uFreq:      'hour'
@@ -212,21 +213,26 @@ parseAndShowCronExpression(cron) {
     const row = table_frequences[key];
     const rawValue = row.raw
     row.frequential = rawValue.startsWith('*/')
-    if ( row.frequential ) {
+    console.info("rawValue: '%s', uFreq: '%s'", rawValue, row.uFreq)
+    if ( row.uFreq && rawValue != '*') {
       resultats.uFreq = String(row.uFreq)
-      resultats. uFreqValue = Number(rawValue.split('/')[1])
+      resultats.uFreqValue = 1
+    }
+    if ( row.frequential ) {
+      resultats.uFreqValue = Number(rawValue.split('/')[1])
       row.value  = '---' // valeur de menu pour "rien"
     } else if (rawValue == '*') {
       row.value  = '---'
     } else {
-      row.value  = Number(rawValue) // Number est superflu
+      row.value  = rawValue // Number est superflu
     }
     // On peut définir les menus directement ici
+    console.info("Je mets le champ field_%s à %s", key, row.value)
     this['field_' + key].value = row.value
     // Et les valeurs retournées
     resultats[key] = row.value == '---' ? null : row.value;
   });
-  // On renseigne les deux derniers menus
+  // On renseigne les deux champs de fréquence
   ;['uFreq', 'uFreqValue'].forEach(key => this[`field_${key}`].value = resultats[key])
 
   // Affichage des champs nécessaires pour ce crontab
@@ -275,6 +281,7 @@ get field_dHour(){return this._menudhour || (this._menudhour = DGet('select[name
 get field_mDay(){return this._menumday || (this._menumday = DGet('select[name="at-mday"]', this.obj))}
 get field_wDay(){return this._menuwday || (this._menuwday = DGet('select[name="at-day"]', this.obj))}
 get field_yMonth(){return this._menuymonth || (this._menuymonth = DGet('select[name="at-month"]', this.obj))}
+get activeCB(){return this._cb || (this._cb = DGet('input#cb-recurrence'))}
 
 get hiddenField(){return this._hiddenfield || (this._hiddenfield = DGet('input#task-recurrence'))}
 

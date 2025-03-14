@@ -344,7 +344,7 @@ defmodule TaskerWeb.TaskHTML do
         <div class="inline-fields">
           <span class="repeat-property at-minute"> 
                 <label class="no-points">{@at_minute}</label>
-                <select class="repeat-at-minute" name="at-minute">
+                <select class="repeat-at-minute no-left-margin" name="at-minute">
                   <option value="---">---</option>
                   <%= for minute <- (0..59//5) do %>
                     <option value={minute}><%= minute %></option>
@@ -354,7 +354,7 @@ defmodule TaskerWeb.TaskHTML do
 
           <span class="repeat-property at-hour"> 
                   <label class="no-points">de l'heure</label>
-                  <select class="repeat-at-hour" name="at-hour">
+                  <select class="repeat-at-hour no-left-margin" name="at-hour">
                     <option value="---">---</option>
                     <option value="all">toutes</option>
                     <%= for hour <- (23..0//-1) do %>
@@ -367,7 +367,7 @@ defmodule TaskerWeb.TaskHTML do
         <div class="inline-fields">
           <span class="repeat-property at-day"> 
                   <label class="no-points">le </label>
-                  <select class="repeat-at-day" name="at-day">
+                  <select class="repeat-at-day no-left-margin" name="at-day">
                     <option value="---">---</option>
                     <%= for {titre, valeur} <- @data_week do %>
                       <option value={valeur}><%= titre %></option>
@@ -379,7 +379,7 @@ defmodule TaskerWeb.TaskHTML do
         <div class="inline-fields">
           <span class="repeat-property at-mday"> 
                   <label class="no-points">le </label>
-                  <select class="repeat-at-mday" name="at-mday">
+                  <select class="repeat-at-mday no-left-margin" name="at-mday">
                     <option value="---">---</option>
                     <%= for mday <- (1..31) do %>
                       <option value={mday}><%= mday %></option>
@@ -388,7 +388,7 @@ defmodule TaskerWeb.TaskHTML do
           </span>
           <span class="repeat-property at-month">
                   <label class="no-points"> du mois de</label>
-                  <select class="repeat-at-month" name="at-month">
+                  <select class="repeat-at-month no-left-margin" name="at-month">
                     <option value="---">---</option>
                     <%= for {title, value} <- @month_data do %>
                       <option value={value}><%= title %></option>
