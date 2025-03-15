@@ -72,6 +72,14 @@ defmodule TaskerWeb.TasksOpController do
     remove_task(task_id, "destruction")
   end
 
+  def exec_op("run_script", %{"task_id" => task_id, "script" => script}) do 
+    Tache.get_task!(task_id)
+    |> Tasker.TaskScript.run(script)
+  end
+
+
+  # ==== Private Functions =====
+
   defp remove_task(task_id, step) when is_binary(task_id) do
     case Tache.delete_task(task_id, allow_stale: true) do
     {:ok, _} -> %{ok: true}

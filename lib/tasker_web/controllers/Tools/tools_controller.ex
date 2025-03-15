@@ -18,6 +18,10 @@ defmodule TaskerWeb.ToolsController do
   Le nom du script (script_name) est automatiquement tiré du nom de
   la route. Les paramètres envoyés doivent contenir "script_args",
   même vide.
+
+  ATTENTION : Les "scripts" dont il est question ici n'ont rien à 
+  voir avec les "scripts de tâche" qui, eux, sont gérés par le module
+  Tache.task_script.ex
   """
   def run_script(
       conn, 

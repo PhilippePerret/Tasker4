@@ -40,7 +40,7 @@ window.SCRIPT_DATA = {
       , defaultTitle: "Nouvelle version du fichier qui…"
       , argument: '"/absolute/path/to/file-X.Y.Z" OU "relative/to/project" (-X.Y.Z sera recherché en tant que numéro de version courante)'
     }
-  , 'new-path-version': {
+  , 'new-patch-version': {
         hname: "Nouvelle version de patch de fichier"
       , description: "Créer une nouvelle version de path du fichier (le 'x' dans 12.5.x)"
       , defaultTitle: "Nouvelle version du fichier qui…"

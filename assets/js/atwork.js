@@ -126,7 +126,7 @@ class ClassAtWork {
         tasks_out.push(TASKS.splice(tk.relative_index, 1))
       }
     })
-    console.info("Tâches restantes", TASKS)
+
     if ( TASKS.length == 0 ) {
       if ( confirm(MESSAGE['no_tasks_left_after_filter_restore']) ) { 
         tasks_out.forEach(tk => TASKS.push(tk))
@@ -371,11 +371,24 @@ class ClassAtWork {
     if ( task.scripts && task.scripts.length ){
       scripts = task.scripts.map(script => {
         const o = DCreate('SPAN', {class:'mini-tool', text: `🪛 ${script.title}`})
+        DListenClick(o, this.onRunScript.bind(this, script))
         return o
       })
     }
     return scripts
   }
+  onRunScript(script, ev){
+    this.runOnCurrentTask('run_script', this.afterRunScript.bind(this), {script: script})
+  }
+  afterRunScript(retour){
+    if (retour.ok) {
+      console.log("Retour de script", retour)
+      Flash.success(MESSAGE['run_script_successfully'])
+    } else {
+      Flash.error(retour.error)
+    }
+  }
+
   buildNotes(task){
     // console.info("tâche pour notes", task)
     let notes = "";
