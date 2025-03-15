@@ -18,17 +18,34 @@ defmodule TaskerWeb.TaskHTML do
   def locales() do
     locales = 
     %{
-      set_start_stop_for_exclusive: dgettext("tasker", "For an exclusive task, you must first set the start and end date-times.")
+      set_start_stop_for_exclusive: dgettext("tasker", "For an exclusive task, you must first set the start and end date-times."),
+      Task_natures: dgettext("tasker", "Task natures")
     } 
     |> Enum.map(fn {key_id, key_str} -> 
       ~s(#{key_id}: "#{String.replace(key_str, "\"", "“")}")
     end) 
-    |> Enum.join("\n")
+    |> Enum.join(",\n")
+
+    # Pour le moment, c'est redondant avec la constante MESSAGE
+    # fabriquée pour le travail (atwork.js)
+    messages = 
+    %{
+      array_or_table_required: gettext("Array or Table required"),
+      OK: gettext("OK"),
+      Cancel: gettext("Cancel")
+    }
+    |> Enum.map(fn {key_id, key_str} -> 
+      ~s(#{key_id}: "#{String.replace(key_str, "\"", "“")}")
+    end) 
+    |> Enum.join(",\n")
 
 
     """
     {
     #{locales}
+    };
+    const MESSAGE = {
+    #{messages}
     }
     """
   end
@@ -110,7 +127,6 @@ defmodule TaskerWeb.TaskHTML do
     assigns = assigns
     |> assign(:title, dgettext("natures", "Natures"))
     |> assign(:options_natures, options_natures(assigns.natures))
-    |> assign(:explication, dgettext("tasker", "Hold Meta Key to select multiple values."))
     |> assign(:natures_choosed, assigns.changeset.data.natures||[])
     |> assign(:bouton_choose, dgettext("tasker", "Choose task natures"))
 
@@ -119,28 +135,20 @@ defmodule TaskerWeb.TaskHTML do
       <input id="natures-value" type="hidden" name="task[natures]" value={@natures_choosed} />
       <label onclick="Task.toggleMenuNatures()">{@title}</label>
       <div id="natures-list" onclick="Task.toggleMenuNatures()">[{@bouton_choose}]</div>
-      <div id="natures-select-container" class="hidden shadowed" style="position:absolute;top:1em;left:0;z-index:500;">
-        <select 
-          id="task-natures-select" 
-          size="10"
-          onchange="Task.onChangeNatures(this)" multiple>
-          {raw @options_natures}
-        </select>
-        <div class="buttons">
-          <button type="button" onclick="Task.onCloseMenuNatures()">OK</button>
-        </div>
-        <div class="explication">{@explication}</div>
-      </div>
+      <div id="natures-select-container"></div>
+      <script type="text/javascript">
+        const NATURES = <%= raw @options_natures %>
+      </script>
     </div>
     """
   end
   defp options_natures(map_natures) do
-    map_natures
+    map_natures = map_natures
     |> Enum.map(fn {key, value} ->
-      ~s(<option value="#{key}">#{Gettext.dgettext(TaskerWeb.Gettext, "natures", value)}</option>)
+      ~s(#{key}: "#{Gettext.dgettext(TaskerWeb.Gettext, "natures", value)}",)
     end)
-    |> Enum.join("")
-    # |> IO.inspect(label: "Les menus")
+    |> Enum.join("\n")
+    "{#{map_natures}}"
   end
 
   @doc """

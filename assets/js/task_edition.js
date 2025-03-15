@@ -26,7 +26,7 @@ class Task {
     this.taskDeps.init()
 
     // Préparation du menu des natures
-    this.menuNatures && this.initNaturesValues()
+    this.prepareNaturesChooser()
 
     // Préparation du bloc des scripts de tâche
     TaskScript.init()
@@ -76,58 +76,47 @@ class Task {
    * tâche contient la donnée "natures", qui prépare le formulaire
    * au niveau des natures. C'est-à-dire qui : 
    *  - relève la valeur dans le champ caché
-   *  - règle l'affichage de la liste des natures correspondantes
-   *  - règle le select des natures.
+   *  - règle l'affichage de la liste des natures correspondantes (en
+   *    utilisant CBoxier)
    */
-  static initNaturesValues(){
+  static prepareNaturesChooser(){
     let natureIds = NullIfEmpty(this.fieldNatures.value)
     if ( natureIds ) {
       natureIds = natureIds.split(",")
     } else {
       natureIds = []
     }
-    // console.info("natureIds", natureIds)
-    this.setNaturesToMenu(natureIds)
-    this.displayTaskNatureList(this.getNaturesFromMenu())
-  }
-  static onCloseMenuNatures(){
-    this.onChangeNatures()
-    this.toggleMenuNatures()
-  }
-  static onChangeNatures(){
-    const natures = this.getNaturesFromMenu()
-    this.fieldNatures.value = Object.keys(natures).join(",")
-    this.displayTaskNatureList(natures)
-  }
-  static toggleMenuNatures(){
-    const blocNature = this.blocNatures
-    const isOpened = blocNature.dataset.state == 'opened'
-    blocNature.classList[isOpened?'add':'remove']('hidden')
-    blocNature.dataset.state = isOpened ? 'closed' : 'opened'
-  }
-  static displayTaskNatureList(natures){
-    natures = Object.values(natures || this.getNaturesFromMenu())
-    // console.info("natures", natures)
-    let msg;
-    if ( natures.length ) {
-      msg = Object.values(natures).join(", ") +
-            '<span class="explication"> ' + LANG["(click to edit)"] + '</span>.'
-    } else {
-      msg = LANG["tasker_Select natures"]
+    const values = {}
+    const data = {
+        id: "nature-chooser"
+      , title: LOCALES['Task_natures']
+      , onOk: this.onChooseNatures.bind(this)
+      , values: NATURES
+      , container: DGet("div#natures-select-container")
     }
-    DGet('div#natures-list').innerHTML = msg
+    const options = {
+        okName: "Choisir ces natures"
+      , checkeds: natureIds
+      , return_checked_keys: true
+    }
+    this.natureChooser = new CBoxier(data, options)
+    // console.info("natureIds", natureIds)
+    this.displayTaskNatureList(natureIds)
   }
-  static setNaturesToMenu(natureIds){
-    natureIds.forEach(nat_id => {
-      this.menuNatures.querySelector(`option[value="${nat_id}"]`).selected = true
-    })
+
+  static onChooseNatures(natureIds){
+    this.fieldNatures.value = natureIds.join(",")
+    this.displayTaskNatureList(natureIds)
   }
-  static getNaturesFromMenu(){
-    const natures = {}
-    Array.from(this.menuNatures.selectedOptions).forEach(option => {
-      Object.assign(natures, {[option.value]: option.text})
-    })
-    return natures
+
+  // Pour ouvrir la fenêtre du choix des natures
+  static toggleMenuNatures(){
+    this.natureChooser.show()
+  }
+
+  // Pour afficher la liste des natures
+  static displayTaskNatureList(natureIds){
+    Flash.error("Je dois apprendre à afficher la liste des natures.")
   }
 
 
