@@ -4,4 +4,6 @@
 
 <.project_form changeset={@changeset} action={~p"/projects"} />
 
-<.back navigate={~p"/projects"}><%= dgettext("tasker", "Back to projects") %></.back>
+<div class="right">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>

@@ -285,6 +285,7 @@ msgstr ""
 msgid "No confirmation instructions received?"
 msgstr ""
 
+#: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:3
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:13
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:5
 #: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:10
@@ -461,11 +462,13 @@ msgid "Edit"
 msgstr ""
 
 #: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:7
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:9
 #, elixir-autogen, elixir-format
 msgid "Folder"
 msgstr ""
 
 #: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:5
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:7
 #, elixir-autogen, elixir-format
 msgid "Title"
 msgstr ""
@@ -537,3 +540,13 @@ msgstr ""
 #, elixir-autogen, elixir-format
 msgid "Select All"
 msgstr ""
+
+#: lib/tasker_web/controllers/Projet/project_html.ex:17
+#, elixir-autogen, elixir-format
+msgid "CLOSE_GUIL"
+msgstr "\""
+
+#: lib/tasker_web/controllers/Projet/project_html.ex:17
+#, elixir-autogen, elixir-format
+msgid "OPEN_GUIL"
+msgstr "\""

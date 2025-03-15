@@ -1,15 +1,21 @@
-<h2>
-  <%= dgettext("tasker", "Project") %> {@project.title}
-  <div class="actions">
-    <.link href={~p"/projects/#{@project}/edit"}>
-      <.button><%= dgettext("tasker", "Edit project") %></.button>
-    </.link>
-  </div>
-</h2>
+<h2><%= dgettext("tasker", "Project") %> <.project_title project={@project} /></h2>
+<div class="right">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>
 
 <.list>
-  <:item title="Title">{@project.title}</:item>
-  <:item title="Details">{@project.details}</:item>
+  <:item title={gettext("Title")}>{@project.title}</:item>
+  <:item title={dgettext("tasker", "Details")}>{@project.details}</:item>
+  <:item title={gettext("Folder")}>{@project.folder}</:item>
 </.list>
 
-<.back navigate={~p"/projects"}>Back to projects</.back>
+<div class="actions">
+  <.link href={~p"/projects/#{@project}/edit"}>
+    <.button><%= dgettext("tasker", "Edit project") %></.button>
+  </.link>
+</div>
+
+
+<div class="right" style="margin-top:2em;">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>

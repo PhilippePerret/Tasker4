@@ -16,8 +16,13 @@ msgstr ""
 msgid "Are you sure?"
 msgstr "Êtes-vous certain ?"
 
-#: lib/tasker_web/controllers/Projet/project_html/edit.html.heex:7
-#: lib/tasker_web/controllers/Projet/project_html/new.html.heex:7
+#: lib/tasker_web/controllers/Projet/project_html/edit.html.heex:4
+#: lib/tasker_web/controllers/Projet/project_html/edit.html.heex:10
+#: lib/tasker_web/controllers/Projet/project_html/index.html.heex:11
+#: lib/tasker_web/controllers/Projet/project_html/index.html.heex:31
+#: lib/tasker_web/controllers/Projet/project_html/new.html.heex:8
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:3
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "Back to projects"
 msgstr "Liste des projets"
@@ -39,7 +44,7 @@ msgstr "Créé le"
 msgid "Edit"
 msgstr "Modifier"
 
-#: lib/tasker_web/controllers/Projet/project_html/edit.html.heex:2
+#: lib/tasker_web/controllers/Projet/project_html/edit.html.heex:1
 #, elixir-autogen, elixir-format
 msgid "Edit Project"
 msgstr "Modification du projet"
@@ -49,7 +54,7 @@ msgstr "Modification du projet"
 msgid "Edit Task"
 msgstr "Modification de la tâche"
 
-#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:5
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:14
 #, elixir-autogen, elixir-format
 msgid "Edit project"
 msgstr "Modifier le projet"
@@ -92,7 +97,7 @@ msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Un problème est survenu. Vérifiez les points ci-dessous."
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:24
-#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:2
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:1
 #: lib/tasker_web/controllers/Tache/task_html/index.html.heex:13
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:12
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:23
@@ -137,6 +142,7 @@ msgid "Updated at"
 msgstr "Modifié le"
 
 #: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:6
+#: lib/tasker_web/controllers/Projet/project_html/show.html.heex:8
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Details"
@@ -469,27 +475,52 @@ msgstr "Natures de la tâche"
 msgid "The script was executed successfully!"
 msgstr "Le script a été joué avec succès."
 
-#: lib/tasker_web/controllers/Tache/task_script.ex:35
+#: lib/tasker_web/controllers/Tache/task_script.ex:50
 #, elixir-autogen, elixir-format
 msgid "Can’t open folder."
 msgstr "Impossible d’ouvrir le dossier."
 
-#: lib/tasker_web/controllers/Tache/task_script.ex:67
+#: lib/tasker_web/controllers/Tache/task_script.ex:109
 #, elixir-autogen, elixir-format
 msgid "Project folder not defined."
 msgstr "Le dossier du projet n’est pas défini."
 
-#: lib/tasker_web/controllers/Tache/task_script.ex:68
+#: lib/tasker_web/controllers/Tache/task_script.ex:110
 #, elixir-autogen, elixir-format
 msgid "Project folder not found."
 msgstr "Le dossier du projet est introuvable."
 
-#: lib/tasker_web/controllers/Tache/task_script.ex:71
+#: lib/tasker_web/controllers/Tache/task_script.ex:113
 #, elixir-autogen, elixir-format
 msgid "The path element '%{fullpath}' could not be found."
 msgstr "L’élément de chemin ‘%{fullpath}‘ est introuvable."
 
-#: lib/tasker_web/controllers/Tache/task_script.ex:73
+#: lib/tasker_web/controllers/Tache/task_script.ex:115
 #, elixir-autogen, elixir-format
 msgid "Unable to find the path element '%{fullpath}' in the project."
 msgstr "Impossible de trouver dans le projet l'élément de chemin ‘%{fullpath}‘."
+
+#: lib/tasker_web/controllers/Tache/task_script.ex:76
+#, elixir-autogen, elixir-format
+msgid "Can’t change version."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/task_script.ex:82
+#, elixir-autogen, elixir-format
+msgid "Note a versioned file"
+msgstr ""
+
+#: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:9
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Save Project"
+msgstr "Enregistrer le projet"
+
+#: lib/tasker/projet/project.ex:31
+#, elixir-autogen, elixir-format
+msgid "The project folder must be an absolute path."
+msgstr ""
+
+#: lib/tasker/projet/project.ex:33
+#, elixir-autogen, elixir-format
+msgid "The project folder ‘%{path}’ could not be found."
+msgstr ""

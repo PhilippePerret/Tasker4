@@ -7,6 +7,10 @@
   </div>
 </h2>
 
+<div class="right">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>
+
 <.table id="projects" rows={@projects} row_click={&JS.navigate(~p"/projects/#{&1}")}>
   <:col :let={project} label="Title">{project.title}</:col>
   <:col :let={project} label="Details">{project.details}</:col>
@@ -22,3 +26,7 @@
     </.link>
   </:action>
 </.table>
+
+<div class="right">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>

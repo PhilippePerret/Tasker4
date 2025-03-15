@@ -1,4 +1,4 @@
-<h2><%= dgettext("tasker", "Edit Project") %> <%= gettext("OPEN_GUIL") %>{@project.title}<%= gettext("CLOSE_GUIL") %></h2>
+<h2><%= dgettext("tasker", "Edit Project") %> <.project_title project={@project} /></h2>
 
 <div class="right">
   <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
