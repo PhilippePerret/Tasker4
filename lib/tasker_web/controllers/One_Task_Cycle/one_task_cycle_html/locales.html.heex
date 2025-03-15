@@ -12,6 +12,13 @@
 
 messages = %{
 
+  Filter:                       gettext("Filter"),
+  OK:                           gettext("OK"),
+  Cancel:                       gettext("Cancel"),
+  select_all:                   gettext("Select All"),
+  deselect_all:                 gettext("Deselect All"),
+  array_or_table_required:      gettext("Array or Table required"),
+  filter_per_project:           dgettext("tasker", "Filter per project"),
   back_to_work:                 dgettext("tasker", "Back to work"),
   end_exclusive_in:             dgettext("tasker", "End of the exclusive task in…"),
   ask_for_end_exclusive_task:   dgettext("tasker", "Should I mark the end of this exclusive task?"),
@@ -23,7 +30,9 @@ messages = %{
   execution_time_registered:    dgettext("tasker", "Working time recorded"),
   task_placed_in_position:      dgettext("tasker", "The task has been placed in position $1."),
   reload_page_to_replace:       dgettext("tasker", "Reloading the page will be enought to restore it."),
-  dyou_want_to_delete_task:     dgettext("tasker", "Do you really want to permanently delete this task?")
+  dyou_want_to_delete_task:     dgettext("tasker", "Do you really want to permanently delete this task?"),
+  keeping_one_nonetheless:      dgettext("tasker", "I’m keeping one nonetheless."),
+  no_tasks_left_after_filter_restore:  dgettext("tasker","There are no tasks left. Should I restore the filtered tasks?")
 
 } |> Enum.map(fn {key_msg, msg} -> 
     ~s(, #{key_msg}: "#{msg}")

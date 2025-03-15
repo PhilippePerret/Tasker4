@@ -17,6 +17,7 @@
 import "./handy_methods.js";
 import "./server_talk.js";
 import "./flash.js";
+import "./cboxier.js";
 import "./horloge.js";
 import "./scripts_data.js";
 import "./ui_masker.js"

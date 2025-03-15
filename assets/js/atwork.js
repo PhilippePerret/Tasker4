@@ -37,6 +37,9 @@ class ClassAtWork {
     // On définit l'index absolu des tâches
     this.forEachTask((tk, index) => tk.absolute_index = index)
 
+    // Préparation du "CBoxier" pour filtrer par projet
+    this.prepareFiltreProjets()
+
     /**
      * Si un ordre de tâche a été enregistré, ce qui arrive par
      * exemple lorsque l'on part modifier une tâche et qu'on 
@@ -86,6 +89,55 @@ class ClassAtWork {
 
   setTaskCount(){
     DGet('div#current-task-count').innerHTML = TASKS.length
+  }
+
+  prepareFiltreProjets(){
+    const values = Object.values(PROJECTS).map(p => {
+      return {key: p.id, label: p.title, checked: true}
+    })
+    const data = {
+        values: values
+      , title: MESSAGE['filter_per_project']
+      , onOk: this.onFiltreProjets.bind(this)
+      , container: DGet('div#container-filter-per-project')
+    }
+    const options = {
+        okName: MESSAGE['Filter'] 
+      // , return_checked_keys: true
+    }
+    this.projectFilter = new CBoxier(data, options)
+  }
+  /**
+   * Application du filtre par projet
+   * 
+   */
+  onFiltreProjets(projectsIn){
+    const tasks_out = [] // pour le remettre si aucune ne reste
+    this.redefineRelativeIndexes()
+    console.info("Je dois apprendre à filtrer les tâches avec ", TASKS, projectsIn)
+    
+    const reversed_tasks = TASKS.reverse().map(tk => {return tk})
+    reversed_tasks.forEach(tk => {
+      if ( projectsIn[tk.project_id] === true ) {
+        // Cette tâche doit être conservée
+        console.info("ON GARDE", tk)
+      } else {
+        console.info("Retrait de tâche d'index %s", tk.relative_index, tk)
+        tasks_out.push(TASKS.splice(tk.relative_index, 1))
+      }
+    })
+    console.info("Tâches restantes", TASKS)
+    if ( TASKS.length == 0 ) {
+      if ( confirm(MESSAGE['no_tasks_left_after_filter_restore']) ) { 
+        tasks_out.forEach(tk => TASKS.push(tk))
+      } else {
+        // Il faut toujours garder au moins une tâche
+        Flash.notice(MESSAGE['keeping_one_nonetheless'])
+        TASKS.push(tasks_out[0])
+      }
+    }
+    this.redefineRelativeIndexes()
+    this.showCurrentTask()
   }
 
   __modifyTasksForTries(){
@@ -356,12 +408,17 @@ class ClassAtWork {
     DListenClick(this.btnResetOrder , this.onResetOrder.bind(this))
     DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
     DListenClick(this.btnRandom     , this.onRandomTask.bind(this))
+    DListenClick(this.btnFilterbyProject, this.onFilterByProject.bind(this))
 
   }
   get boutonsZenMode(){return [this.btnResetOrder, this.btnProjet, this.btnEdit, 
     this.btnOutOfDay, this.btnLater, this.btnAfterNext, this.btn2end
   ]}
 
+  onFilterByProject(ev){
+    this.projectFilter.show()
+    return stopEvent(ev)
+  }
   onToggleZenMode(ev){
     this.zenState = !this.zenState
     sessionStorage.setItem('zen-state', this.zenState ? 'true' : 'false')
@@ -538,6 +595,7 @@ class ClassAtWork {
   get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
   get btnRandom(){return this._btnrand || (this._btnrand || DGet('button.btn-random', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
+  get btnFilterbyProject(){return this._btnfpp || (this._btnfpp = DGet('button.btn-filter-per-project', this.obj))}
   get horloge(){return this._horloge || (this._horloge = new Horloge())}
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}
 }

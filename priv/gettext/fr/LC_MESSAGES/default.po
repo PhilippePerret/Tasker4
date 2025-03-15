@@ -153,22 +153,22 @@ msgstr " "
 msgid "Every"
 msgstr "Tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:349
+#: lib/tasker_web/controllers/Tache/task_controller.ex:345
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tous les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:351
+#: lib/tasker_web/controllers/Tache/task_controller.ex:347
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr "Résumé"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:350
+#: lib/tasker_web/controllers/Tache/task_controller.ex:346
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
 msgstr "toutes les"
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:348
+#: lib/tasker_web/controllers/Tache/task_controller.ex:344
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
 msgstr "Toutes les"
@@ -440,7 +440,7 @@ msgstr "Travailleur créé avec succès."
 msgid "you will receive an email with instructions shortly."
 msgstr "vous allez recevoir un mèl avec des instructions. "
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:352
+#: lib/tasker_web/controllers/Tache/task_controller.ex:348
 #, elixir-autogen, elixir-format
 msgid "(click to edit)"
 msgstr "(cliquez pour modifier)"
@@ -500,7 +500,37 @@ msgstr "Très difficile"
 msgid "Pseudo"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:20
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "on (date)"
 msgstr "le "
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Array or Table required"
+msgstr "Il faut une liste ou une table"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:17
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr "Annuler"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:19
+#, elixir-autogen, elixir-format
+msgid "Deselect All"
+msgstr "Tout déselectionner"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:15
+#, elixir-autogen, elixir-format
+msgid "Filter"
+msgstr "Filtrer"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:16
+#, elixir-autogen, elixir-format
+msgid "OK"
+msgstr "OK"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:18
+#, elixir-autogen, elixir-format
+msgid "Select All"
+msgstr "Tout sélectionner"
