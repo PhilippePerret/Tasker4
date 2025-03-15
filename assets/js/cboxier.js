@@ -61,7 +61,7 @@
  *    checkeds:     Liste des valeurs (key) cochées
  *                  Note : elles peuvent être précisées aussi par les
  *                  data.
- *    type:         Le type du cboxier. Pour le moment, on peut choi-
+ *    displayType:  Le type du cboxier. Pour le moment, on peut choi-
  *                  sir ces types :
  *                  todo    Les choix les uns au-dessus des autres
  *                  flex3   3 choix côte à côte
@@ -126,7 +126,7 @@ class CBoxier {
   build(){
     this.cbs = {} // table pour consigner les cb par clé
 
-    const o = DCreate('DIV', {class:'cboxier hidden'})
+    const o = DCreate('DIV', {class:`cboxier hidden ${this.options.displayType}`})
 
     // --- Construction du titre ---
     if ( this.data.title ) {
@@ -236,6 +236,7 @@ class CBoxier {
   static normalizeOptions(options){
     options.okName      || Object.assign(options, {okName: MESSAGE['OK']})
     options.cancelName  || Object.assign(options, {cancelName: MESSAGE['Cancel']})
+    options.displayType || Object.assign(options, {displayType: 'flex'})
     return options
   }
 
@@ -253,8 +254,6 @@ class CBoxier {
     return `
     div.cboxier {
       position: absolute;
-      min-width: 400px;
-      max-width: 800px;
       min-height: 300px;
       max-height: 800px;
       background-color: white;
@@ -264,17 +263,41 @@ class CBoxier {
       font-size: 0.9em;
       padding: 1em;
       z-index: 200;
-    }
+      }
+      div.cboxier.todo {
+        min-width: 200px;
+        max-width: 200px;
+       }
+      div.cboxier:not(.todo){
+        min-width: 400px;
+        max-width: 800px;
+      }
     div.cboxier div.title {
       font-size: 1.1em;
       font-weight: bold;
       margin-bottom: 1em;
     }
-    div.cboxier div.cboxier-cbs {
-      max-height: 600px;
-      overflow: scroll;
-    }
-    div.cboxier div.cboxier-cbs span.cboxier-cb {
+      div.cboxier div.cboxier-cbs {
+        max-height: 600px;
+        overflow: scroll;
+      }
+      div.cboxier.todo div.cboxier-cbs {
+        display: 'flex';
+        flex-wrap: wrap;
+      }
+      div.cboxier:not(.todo) div.cboxier-cbs {
+        display: block;
+      }
+      div.cboxier.todo div.cboxier-cbs span.cboxier-cb {
+        display: block;
+      }
+      div.cboxier:not(.todo) div.cboxier-cbs span.cboxier-cb {
+        display:inline-block;
+        min-width: 200px;
+      }
+
+    div.cboxier div.cboxier-cbs span.cboxier-cb label {
+      display: inline!important;
     }
     div.cboxier div.buttons {
       position:absolute;
@@ -282,6 +305,7 @@ class CBoxier {
       width: calc(100% - 2em);
       padding:1em;
       text-align: right;
+      margin-top:1em;
     }
     div.cboxier div.buttons button {
       width: auto!important;
