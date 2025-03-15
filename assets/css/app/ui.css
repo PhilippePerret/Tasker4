@@ -97,11 +97,11 @@ th.titre-projet {
 div#flash-group {
   position: fixed;
   background-color: white;
-  width: 450px;
+  /* width: 640px; */
   border: 1px solid transparent;
   right: 1em;
   top: 50px;
-  max-width: 450px;
+  max-width: 640px;
   font-family: PPOptima;
   z-index: 1500;
 }
@@ -113,10 +113,16 @@ div#flash-group > div > p {
   font-style: normal!important;
   font-weight: normal!important;
 }
+div#flash-group div.flash-message {
+  padding:0.3em 1em;
+}
 div#flash-group div.flash-message.error {
   position:relative;
   color: red!important;
   background-color: #ffbdbd;
+}
+div#flash-group div.flash-message.error:before {
+  content: "🤪 ";
 }
 div#flash-group div.flash-message.error button.close-btn {
   background-color: red;
@@ -126,7 +132,7 @@ div#flash-group div#flash-info p.message {
   border-color: green!important;
   background-color: #CCFFCC;
   color: green;
-  padding:  0.5em 1em;
+  padding:  0.3em 1em;
 }
 div#flash-group div#flash-info button.close-btn {
   background-color: green;
@@ -139,6 +145,14 @@ div#flash-group div.flash-message.notice {
 }
 div#flash-group div.flash-message.notice button.close-btn {
   background-color: blue;
+}
+div#flash-group div.flash-message.success {
+  border-color: green!important;
+  background-color: #CCFFCC;
+  color: green;
+}
+div#flash-group div.flash-message.success:before {
+  content: "🥳 "
 }
 div#flash-group button.close-btn {
   all: unset;
