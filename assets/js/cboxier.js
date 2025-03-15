@@ -107,8 +107,8 @@ class CBoxier {
    */
   constructor(data, options){
     this.data     = this.c.normalizeData(data)
-    this.values   = this.checkAndFormateValues(this.data.values)
     this.options  = this.c.normalizeOptions(options)
+    this.values   = this.checkAndFormateValues(this.data.values, this.options)
     this.build()
     this.observe()
   }
@@ -215,7 +215,8 @@ class CBoxier {
     var cbIndex = 0, good_values = [];
     if ( undefined == values.length) {
       for( var k in values) {
-        good_values.push({index: ++cbIndex, key: k, label: values[k], checked: false, class: null})
+        const checked = options.checkeds.includes(k)
+        good_values.push({index: ++cbIndex, key: k, label: values[k], checked: checked, class: null})
       }
     } else { 
       good_values = values.map(x => {return Object.assign(x, {index: ++cbIndex})})
@@ -237,6 +238,7 @@ class CBoxier {
     options.okName      || Object.assign(options, {okName: MESSAGE['OK']})
     options.cancelName  || Object.assign(options, {cancelName: MESSAGE['Cancel']})
     options.displayType || Object.assign(options, {displayType: 'flex'})
+    options.checkeds    || Object.assign(options, {checkeds: []})
     return options
   }
 
