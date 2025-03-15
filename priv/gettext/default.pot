@@ -503,12 +503,12 @@ msgstr ""
 msgid "Pseudo"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:29
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:35
 #, elixir-autogen, elixir-format
 msgid "on (date)"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:20
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:24
 #: lib/tasker_web/controllers/Tache/task_html.ex:34
 #, elixir-autogen, elixir-format
 msgid "Array or Table required"
@@ -549,4 +549,24 @@ msgstr ""
 #: lib/tasker_web/controllers/Projet/project_html.ex:17
 #, elixir-autogen, elixir-format
 msgid "OPEN_GUIL"
+msgstr ""
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:23
+#, elixir-autogen, elixir-format
+msgid "Hide list"
+msgstr ""
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:22
+#, elixir-autogen, elixir-format
+msgid "Show list"
+msgstr ""
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "End of sorting"
+msgstr ""
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:20
+#, elixir-autogen, elixir-format
+msgid "Sort"
 msgstr ""

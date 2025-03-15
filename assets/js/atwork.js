@@ -444,6 +444,7 @@ class ClassAtWork {
     DListenClick(this.btnSup        , this.onRemove.bind(this))
     DListenClick(this.btnProjet     , this.onProjet.bind(this))
     DListenClick(this.btnResetOrder , this.onResetOrder.bind(this))
+    DListenClick(this.btnShowList   , this.onShowList.bind(this))
     DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
     DListenClick(this.btnRandom     , this.onRandomTask.bind(this))
     DListenClick(this.btnFilterbyProject, this.onFilterByProject.bind(this))
@@ -595,6 +596,56 @@ class ClassAtWork {
     this.showCurrentTask()
   }
 
+  /** 
+   * Quand on clique sur le bouton pour voir la liste des tâches
+   * 
+   * Note : je voudrais un affichage où on peut les voir comme des
+   * cartes les unes derrière les autres.
+   */
+  onShowList(ev){
+    if ( ev /* la toute première fois */) {
+      if ( this.taskListOpen ) {
+        this.taskListOpen = false
+        this.btnShowList.innerHTML = MESSAGE['sort']
+        this.showCurrentTask()
+        return this.removeTaskList()
+      } else {
+        this.btnShowList.innerHTML = MESSAGE['end_sort']
+      }
+      Flash.notice(MESSAGE['click_task_move_forward'])
+    }
+    var top = 100, left = 200
+    const tks = TASKS.map(tk => {return tk})
+    tks.reverse().forEach(tk => {
+      top += 80
+      left += 40
+      const d = DCreate('DIV', {class: 'details', text: tk.task_spec.details})
+      const t = DCreate('DIV', {class: 'title', text: tk.title})
+      const o = DCreate('DIV', {class: 'task-as-list', style:`top:${top}px;left:${left}px;`})
+      o.appendChild(t)
+      o.appendChild(d)
+      o.dataset.task_id = tk.id
+      DListenClick(o, this.onClickTaskInList.bind(this, tk)) 
+      document.body.appendChild(o)
+    })
+    this.taskListOpen = true
+    return ev && stopEvent(ev)
+  }
+
+  onClickTaskInList(tk, ev){
+    // console.info("J'ai cliqué la tâche (que je dois passer devant", tk, tk.id)
+    if ( tk.relative_index == 0 ) return
+    TASKS.splice(tk.relative_index, 1)
+    TASKS.splice(tk.relative_index - 1, 0, tk)
+    this.removeTaskList()
+    this.redefineRelativeIndexes()
+    this.onShowList(null)
+    return stopEvent(ev)
+  }
+  removeTaskList(){
+    DGetAll('div.task-as-list').forEach(o => o.remove())
+  }
+
 
   toggleStartStopButtons(){
     this.btnStart.classList[this.running?'add':'remove']('hidden')
@@ -642,6 +693,7 @@ class ClassAtWork {
   get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
   get btnRandom(){return this._btnrand || (this._btnrand || DGet('button.btn-random', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
+  get btnShowList(){return this._btnshowlist || (this._btnshowlist = DGet('button.btn-show-list', this.obj))}
   get btnFilterbyProject(){return this._btnfpp || (this._btnfpp = DGet('button.btn-filter-per-project', this.obj))}
   get btnFilterbyNature(){return this._btnfpn || (this._btnfpn = DGet('button.btn-filter-per-nature', this.obj))}
   get horloge(){return this._horloge || (this._horloge = new Horloge())}

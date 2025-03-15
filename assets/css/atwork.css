@@ -219,3 +219,28 @@ div.buttons.right-column button,
 div.buttons.left-column button {
   margin-bottom: 8px;
 }
+
+
+/* 
+
+  === ASPECT DES CARTES EN LISTING ===
+
+  */
+
+div.task-as-list {
+  position: absolute;
+  z-index: 200;
+  padding: 1em 2em 2em;
+  border: 2px solid darkblue;
+  background-color: #f6ffff;
+  border-radius: 1em;
+  width: 400px;
+  min-height: 300px;
+}
+div.task-as-list div.title {
+  font-weight: bold;
+  margin-bottom:  12px;
+}
+div.task-as-list div.details {
+  font-size: 0.85em;
+}
