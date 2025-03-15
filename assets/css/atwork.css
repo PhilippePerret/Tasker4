@@ -78,6 +78,7 @@ div#current-task span.mini-tool {
   margin-left: 12px;
   font-size: 12pt;
   cursor:pointer;
+  white-space: nowrap;
 }
 
 /* La ligne de SCRIPTS de la tâche */

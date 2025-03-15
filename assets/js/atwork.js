@@ -40,6 +40,9 @@ class ClassAtWork {
     // Préparation du "CBoxier" pour filtrer par projet
     this.prepareFiltreProjets()
 
+    // Préparation du CBoxier pour filtrer par nature
+    this.prepareFiltreNature()
+
     /**
      * Si un ordre de tâche a été enregistré, ce qui arrive par
      * exemple lorsque l'on part modifier une tâche et qu'on 
@@ -103,9 +106,26 @@ class ClassAtWork {
     }
     const options = {
         okName: MESSAGE['Filter'] 
-      // , return_checked_keys: true
+      , return_checked_keys: true
     }
     this.projectFilter = new CBoxier(data, options)
+  }
+
+  prepareFiltreNature(){
+    const values = Object.values(NATURES).map(p => {
+      return {key: p.id, label: p.name, checked: false}
+    })
+    const data = {
+        values: values
+      , title: MESSAGE['filter_per_nature']
+      , onOk: this.onFiltreNatures.bind(this)
+      , container: DGet('div#container-filter-per-nature')
+    }
+    const options = {
+        okName: MESSAGE['Filter'] 
+      , return_checked_keys: true
+    }
+    this.natureFilter = new CBoxier(data, options)
   }
   /**
    * Application du filtre par projet
@@ -138,6 +158,11 @@ class ClassAtWork {
     }
     this.redefineRelativeIndexes()
     this.showCurrentTask()
+  }
+
+  onFiltreNatures(naturesIn){
+    console.info("Je dois apprendre à filtre avec : ", naturesIn)
+    Flash.error("Je dois apprendre à filtrer par nature")
   }
 
   __modifyTasksForTries(){
@@ -422,12 +447,17 @@ class ClassAtWork {
     DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
     DListenClick(this.btnRandom     , this.onRandomTask.bind(this))
     DListenClick(this.btnFilterbyProject, this.onFilterByProject.bind(this))
+    DListenClick(this.btnFilterbyNature, this.onFilterByNature.bind(this))
 
   }
   get boutonsZenMode(){return [this.btnResetOrder, this.btnProjet, this.btnEdit, 
     this.btnOutOfDay, this.btnLater, this.btnAfterNext, this.btn2end
   ]}
 
+  onFilterByNature(ev){
+    this.natureFilter.show()
+    return stopEvent(ev)
+  }
   onFilterByProject(ev){
     this.projectFilter.show()
     return stopEvent(ev)
@@ -613,6 +643,7 @@ class ClassAtWork {
   get btnRandom(){return this._btnrand || (this._btnrand || DGet('button.btn-random', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
   get btnFilterbyProject(){return this._btnfpp || (this._btnfpp = DGet('button.btn-filter-per-project', this.obj))}
+  get btnFilterbyNature(){return this._btnfpn || (this._btnfpn = DGet('button.btn-filter-per-nature', this.obj))}
   get horloge(){return this._horloge || (this._horloge = new Horloge())}
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}
 }

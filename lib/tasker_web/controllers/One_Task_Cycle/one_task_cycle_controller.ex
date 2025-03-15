@@ -7,6 +7,7 @@ defmodule TaskerWeb.OneTaskCycleController do
   alias Tasker.Projet
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskDependencies}
   # TaskNature
+  alias Tasker.Tache
 
   @task_properties ["id", "title", "project_id"]
   @task_spec_properties ["details", "priority", "urgence", "difficulty", "notes"]
@@ -19,6 +20,7 @@ defmodule TaskerWeb.OneTaskCycleController do
   def main(conn, _params) do
     render(conn, :main_panel, %{
       projects: projects_as_json_table(),
+      natures: natures_as_json_table(),
       candidates: Jason.encode!(get_candidate_tasks(conn.assigns.current_worker.id))
     })
   end
@@ -34,6 +36,17 @@ defmodule TaskerWeb.OneTaskCycleController do
       Map.put(accu, p.id, p)
     end)
     # |> IO.inspect(label: "Projets en table")
+    |> Jason.encode!()
+  end
+
+  defp natures_as_json_table do
+    Tache.list_natures()
+    |> Enum.reduce(%{}, fn p, accu -> 
+      p = p 
+      |> Map.from_struct()
+      |> Map.take([:id, :name]) 
+      Map.put(accu, p.id, p)
+    end)
     |> Jason.encode!()
   end
 
