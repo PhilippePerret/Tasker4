@@ -116,7 +116,13 @@ class Task {
 
   // Pour afficher la liste des natures
   static displayTaskNatureList(natureIds){
-    Flash.error("Je dois apprendre à afficher la liste des natures.")
+    let content;
+    if (natureIds.length) {
+      content = natureIds.map(key => {return NATURES[key]}).join(", ")
+    } else {
+      content = "[" + LOCALES['Choose_task_natures'] + "]"
+    }
+    DGet('div#natures-list').innerHTML = content
   }
 
 
