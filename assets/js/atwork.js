@@ -548,13 +548,17 @@ class ClassAtWork {
    */
   onEdit(ev){
     this.register_task_order()
+    sessionStorage.setItem("back", `/work|${MESSAGE['back_to_work']}`)
     const loc = window.location
     const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit`
-    sessionStorage.setItem("back", `/work|${MESSAGE['back_to_work']}`)
     window.location = url
   }
   onProjet(ev){
-    Flash.notice("Je dois apprendre à afficher le projet.")
+    this.register_task_order()
+    sessionStorage.setItem("back", `/work|${MESSAGE['back_to_work']}`)
+    const loc = window.location
+    const url = `${loc.protocol}//${loc.host}/projects/${this.currentTask.project_id}/edit`
+    window.location = url
   }
   onResetOrder(ev){
     TASKS.sort(function(a,b){return a.absolute_index > b.absolute_index ? 1 : -1})

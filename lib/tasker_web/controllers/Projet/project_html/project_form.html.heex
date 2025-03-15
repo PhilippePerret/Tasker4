@@ -1,11 +1,11 @@
 <.simple_form :let={f} for={@changeset} action={@action}>
   <.error :if={@changeset.action}>
-    Oops, something went wrong! Please check the errors below.
+    <%= gettext("Oops, something went wrong! Please check the errors below.") %>
   </.error>
   <.input field={f[:title]} type="text" label={gettext("Title")} />
-  <.input field={f[:details]} type="text" label={dgettext("tasker", "Details")} />
-  <.input field={f[:folder]} type="text" label={gettext("Folder")} />
+  <.input field={f[:details]} type="textarea" label={dgettext("tasker", "Details")} />
+  <.input field={f[:folder]} type="text" class={["long"]} label={gettext("Folder")} />
   <:actions>
-    <.button>Save Project</.button>
+    <.button><%= dgettext("tasker", "Save Project") %></.button>
   </:actions>
 </.simple_form>

@@ -1,7 +1,11 @@
-<h2>
-  <%= dgettext("tasker", "Edit Project") %> {@project.title}
-</h2>
+<h2><%= dgettext("tasker", "Edit Project") %> <%= gettext("OPEN_GUIL") %>{@project.title}<%= gettext("CLOSE_GUIL") %></h2>
+
+<div class="right">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>
 
 <.project_form changeset={@changeset} action={~p"/projects/#{@project}"} />
 
-<.back navigate={~p"/projects"}><%= dgettext("tasker", "Back to projects") %></.back>
+<div class="right">
+  <button class="back-btn" data-default_back={~s(/projects|#{dgettext("tasker", "Back to projects")})}></button>
+</div>
