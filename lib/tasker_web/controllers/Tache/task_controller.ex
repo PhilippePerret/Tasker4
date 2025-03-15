@@ -6,7 +6,7 @@ defmodule TaskerWeb.TaskController do
   alias Tasker.{Repo, Projet, Tache}
   alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
   alias Tasker.ToolBox
-  alias ToolBox.TaskScript
+  # alias ToolBox.TaskScript
 
   def index(conn, _params) do
     tasks = Tache.list_tasks() |> Repo.preload(:project)
@@ -22,7 +22,7 @@ defmodule TaskerWeb.TaskController do
     common_render(conn, :new)
   end
   
-  def edit(conn, %{"id" => id} = params) do
+  def edit(conn, %{"id" => id}) do
     common_render(conn, :edit, id)
   end
 
@@ -52,8 +52,7 @@ defmodule TaskerWeb.TaskController do
     render(conn, :show, task: task)
   end
 
-  def update(conn, %{"id" => id, "task" => task_params} = params) do
-    # IO.inspect(task_params, label: "-> update (params)")
+  def update(conn, %{"id" => id, "task" => task_params} = _params) do
     task_params = task_params
     |> convert_string_values_to_real_values()
     # |> IO.inspect(label: "task_params après convert string")
@@ -179,10 +178,13 @@ defmodule TaskerWeb.TaskController do
     # Pour la suite
     task_params
   end
-  def create_or_update_scripts(%{"task-scripts" => task_scripts} = task_params) do
+  
+  def create_or_update_scripts(task_params, _task), do: task_params
+  
+  def create_or_update_scripts(%{"task-scripts" => _task_scripts} = task_params) do
     create_or_update_scripts(task_params, Tache.get_task!(task_params["id"]))
   end
-  def create_or_update_scripts(task_params, _task), do: task_params
+
 
 
   defp common_render(conn, :new) do

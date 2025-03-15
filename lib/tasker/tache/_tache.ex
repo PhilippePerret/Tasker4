@@ -351,7 +351,7 @@ defmodule Tasker.Tache do
       Map.put(collector, key, value)
     end
   end
-  def reduit(foo, collector) do
+  def reduit(foo, _collector) do
     raise "Je ne sais pas réduire #{inspect foo}"
   end
 
@@ -558,7 +558,7 @@ defmodule Tasker.Tache do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_task_time(%TaskTime{} = task_time, attrs) do
+  def update_task_time(%TaskTime{} = task_time, attrs \\ %{}) do
     task_time
     |> TaskTime.changeset(attrs)
     |> Repo.update()

@@ -60,9 +60,7 @@ defmodule Tasker.Accounts do
     |> create_worker_settings()
   end
 
-  @doc """
-  Pour créer la fiche de réglage du worker
-  """
+  # Pour créer la fiche de réglage du worker
   defp create_worker_settings(attrs) when is_map(attrs) do
     attrs = Map.merge(default_worker_settings(), attrs)
     Repo.insert!(struct(WorkerSettings, attrs))

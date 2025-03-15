@@ -217,17 +217,17 @@ defmodule Tasker.TaskRankCalculator do
   end
 
 
-  defp debug_liste_taches(liste) do
-    liste |> Enum.map(fn tk ->
-      natures = 
-      case Enum.at(tk.natures, 0) do
-      nature when is_binary(nature) -> Enum.join(tk.natures, ", ")
-      _ -> Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", ")
-      end
-      IO.puts "- T. #{tk.id} rank:#{tk.rank.value} -- #{natures}"
-    end)
-    liste
-  end
+  # defp debug_liste_taches(liste) do
+  #   liste |> Enum.map(fn tk ->
+  #     natures = 
+  #     case Enum.at(tk.natures, 0) do
+  #     nature when is_binary(nature) -> Enum.join(tk.natures, ", ")
+  #     _ -> Enum.map(tk.natures, fn nat -> nat.id end) |> Enum.join(", ")
+  #     end
+  #     IO.puts "- T. #{tk.id} rank:#{tk.rank.value} -- #{natures}"
+  #   end)
+  #   liste
+  # end
 
   # On retourne true dès qu'une nature commune a été trouvée
   defp share_natures?(tk1, tk2) do

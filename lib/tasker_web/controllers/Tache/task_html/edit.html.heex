@@ -4,4 +4,4 @@
   const LOCALES = <%= raw locales() %>
 </.js_constants>
 
-<.task_form changeset={@changeset} data={@data} back={assigns[:back]} lang={@lang} action={~p"/tasks/#{@task}"} projects={@projects} />
+<.task_form changeset={@changeset} data={@data} lang={@lang} action={~p"/tasks/#{@task}"} projects={@projects} />

@@ -5,7 +5,8 @@ defmodule TaskerWeb.OneTaskCycleController do
   alias Tasker.Repo
 
   alias Tasker.Projet
-  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature, TaskDependencies}
+  alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskDependencies}
+  # TaskNature
 
   @task_properties ["id", "title", "project_id"]
   @task_spec_properties ["details", "priority", "urgence", "difficulty", "notes"]
@@ -161,7 +162,7 @@ defmodule TaskerWeb.OneTaskCycleController do
       task = %{task | dependencies: dependances[task.id] }
       task = %{task | natures: Map.get(natures, task.id, nil)}
       task = %{task | scripts: Map.get(scripts, task.id, nil)}
-      task = %{task | notes: Map.get(notes, task.id, nil)}
+      %{task | notes: Map.get(notes, task.id, nil)}
     end)
     # |> IO.inspect(label: "TÂCHES DÉFINITIVES -avant- CLASSEMENT")
     # raise "pour voir"

@@ -24,6 +24,10 @@ div#current-task-count {
   padding: 0.5em;
   left: 8px;
   top: 42px;
+  width: 24px;
+  color:rgb(56, 76, 228);
+  text-align: center;
+  font-weight: bold;
 }
 
 /* 

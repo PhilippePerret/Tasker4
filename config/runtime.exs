@@ -48,7 +48,7 @@ if config_env() == :prod do
   secret_key_base = "2Ck/iblvrirJt5F1TJlBhDIZe+AHxk1Fw6UOhLVFLp7yqbpeQ6NarQnmbg15sTrU"
 
   # host = System.get_env("PHX_HOST") || "localhost.com"
-  host = "localhost"
+  
   # port = String.to_integer(System.get_env("PORT") || "4000")
   port = "4001"
 
