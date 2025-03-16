@@ -456,7 +456,7 @@ msgstr "Durée estimée"
 msgid "exclusive (priority)"
 msgstr "exclusive"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:23
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr "Modifier"
@@ -566,6 +566,7 @@ msgstr "Montrer la liste"
 msgid "End of sorting"
 msgstr "Fin de tri"
 
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:34
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:20
 #, elixir-autogen, elixir-format
 msgid "Sort"

@@ -11,22 +11,28 @@ class Task {
     DGetAll('input[type="text"]').forEach(input => {
       input.addEventListener('keydown', this.stopEnterKey.bind(this))
     })
-    // Surveiller le menu de la durée attendue : quand on choisit 
-    // "---" on doit masquer le champ du nombre et inversement
-    if ( this.fieldDureeUnit ) {
-      this.fieldDureeUnit.addEventListener('change', this.onChangeDureeUnit.bind(this))
-    }
 
-    // Surveiller le menu priority (le choix "exclusive" doit
-    // entrainer une vérification)
-    this.menuPriority.addEventListener('change', this.onChangePriority.bind(this))
+    // Est-on avec l'éditeur complet ?
+    const isFullEditor = this.fieldDureeUnit && this.menuPriority
+    
+    if ( isFullEditor ) {
+      
+      // Surveiller le menu de la durée attendue : quand on choisit 
+      // "---" on doit masquer le champ du nombre et inversement
+      this.fieldDureeUnit.addEventListener('change', this.onChangeDureeUnit.bind(this))
+
+      // Surveiller le menu priority (le choix "exclusive" doit
+      // entrainer une vérification)
+      // Observation du menu priorité
+      this.menuPriority.addEventListener('change', this.onChangePriority.bind(this))
+
+      // Préparation du menu des natures
+      this.prepareNaturesChooser()
+    }
 
     // On crée une instance pour gérer les dépendances
     this.taskDeps = new TaskDependencies()
     this.taskDeps.init()
-
-    // Préparation du menu des natures
-    this.prepareNaturesChooser()
 
     // Préparation du bloc des scripts de tâche
     TaskScript.init()

@@ -19,10 +19,9 @@ defmodule TaskerWeb.OneTaskCycleController do
 
   def main(conn, _params) do
     candidates = get_candidate_tasks(conn.assigns.current_worker.id)
-    candidates = []
     if Enum.count(candidates) == 0 do
       conn
-      |> put_flash(:error, "Il faut au moins une tâche, pour travailler !")
+      |> put_flash(:error, dgettext("tasker", "You need at least one task to work on."))
       |> redirect(to: ~p"/tasks/new")
     else
       render(conn, :at_work, %{
