@@ -5,6 +5,13 @@ function DListenClick(o, m){o.addEventListener('click', m)}
 const NOW = new Date()
 
 /**
+ * Pour conserver les tâches mises de côté quand c'est le filtre
+ * NB : On utilise la fonction resetAllTasks() pour remettre 
+ * toutes les tâches
+ */
+window.TASKS_OUT = []
+
+/**
  * 
  */
 class ClassAtWork {
@@ -94,6 +101,11 @@ class ClassAtWork {
     DGet('div#current-task-count').innerHTML = TASKS.length
   }
 
+  resetAllTasks(){
+    TASKS_OUT.forEach(tk => TASKS.push(tk))
+    TASKS_OUT = []
+  }
+
   prepareFiltreProjets(){
     const values = Object.values(PROJECTS).map(p => {
       return {key: p.id, label: p.title, checked: true}
@@ -160,9 +172,11 @@ class ClassAtWork {
       } else {
         // Il faut toujours garder au moins une tâche
         Flash.notice(MESSAGE['keeping_one_nonetheless'])
-        TASKS.push(tasks_out[0])
+        TASKS.push(tasks_out.shift())
       }
     }
+    // On garde les tâches filtrées
+    TASKS_OUT = tasks_out
     this.redefineRelativeIndexes()
     this.showCurrentTask()
   }
@@ -512,6 +526,7 @@ class ClassAtWork {
     } else {
       // Désactiver le filtre par nature
       delete this.naturesIn
+      this.resetAllTask()
       this.applyFiltersOnTasks()
     }
     return stopEvent(ev)
@@ -523,10 +538,12 @@ class ClassAtWork {
     } else {
       // Désactiver le filtre par projet
       delete this.projectsIn
+      this.resetAllTasks()
       this.applyFiltersOnTasks()
     }
     return stopEvent(ev)
   }
+
   invertButtonFilterState(btn){
     let newState;
     if ( btn.dataset.state == 'actif' ) {
