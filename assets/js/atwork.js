@@ -15,6 +15,19 @@ window.TASKS_OUT = []
  * 
  */
 class ClassAtWork {
+
+  /**
+   * Fonction qui affiche la tâche courante.
+   * 
+   * La tâche courante est TOUJOURS la tâche en haut de pile.
+   */
+  showCurrentTask(){
+    this.redefineRelativeIndexes()
+    this.showTask(TASKS[0])
+    sessionStorage.setItem('current-task-index', String(TASKS[0].absolute_index))
+  }
+
+
   init(){
     if ( ! this.btnAfterNext /* On n'est pas sur la page de travail */ ) return ;
     // console.log(" -> <ClassAtWork>.init")
@@ -373,16 +386,6 @@ class ClassAtWork {
   }
   setCurrentTask(task){this.currentTask = task}
 
-  /**
-   * Fonction qui affiche la tâche courante.
-   * 
-   * La tâche courante est TOUJOURS la tâche en haut de pile.
-   */
-  showCurrentTask(){
-    this.redefineRelativeIndexes()
-    this.showTask(TASKS[0])
-    sessionStorage.setItem('current-task-index', String(TASKS[0].absolute_index))
-  }
 
   removeCurrentTask(){
     if ( this.running ) {
@@ -423,7 +426,7 @@ class ClassAtWork {
    */
   showTask(task){
     this.setField('title', task.title)
-    this.setField('details', task.details || "")
+    this.setField('details', task.task_spec.details || "")
     this.setField('absolute_index', task.absolute_index + 1)
     this.setField('relative_index', task.relative_index + 1)
     this.setField('tags', this.buildTags(task))
