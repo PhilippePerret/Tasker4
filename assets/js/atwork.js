@@ -101,7 +101,8 @@ class ClassAtWork {
     const data = {
         values: values
       , title: MESSAGE['filter_per_project']
-      , onOk: this.onFiltreProjets.bind(this)
+      , onOk: this.onFiltrePerProjets.bind(this)
+      , onCancel: this.onFiltrePerProjets.bind(this)
       , container: DGet('div#container-filter-per-project')
     }
     const options = {
@@ -118,7 +119,8 @@ class ClassAtWork {
     const data = {
         values: values
       , title: MESSAGE['filter_per_nature']
-      , onOk: this.onFiltreNatures.bind(this)
+      , onOk: this.onFiltrePerNatures.bind(this)
+      , onCancel: this.onFiltrePerNatures.bind(this)
       , container: DGet('div#container-filter-per-nature')
     }
     const options = {
@@ -128,23 +130,27 @@ class ClassAtWork {
     }
     this.natureFilter = new CBoxier(data, options)
   }
+
   /**
-   * Application du filtre par projet
+   * Filtrage de la liste des tâches
    * 
+   * Ce filtrage, pour le moment, peut se faire suivant le projet ou
+   * suivant la nature.
    */
-  onFiltreProjets(projectsIn){
+  applyFiltersOnTasks(){
     const tasks_out = [] // pour le remettre si aucune ne reste
     this.redefineRelativeIndexes()
-    console.info("Je dois apprendre à filtrer les tâches avec ", TASKS, projectsIn)
     
+    // On travaille sur une liste inversée pour ne pas modifier les
+    // indexes des tâches
     const reversed_tasks = TASKS.reverse().map(tk => {return tk})
+
     reversed_tasks.forEach(tk => {
-      if ( projectsIn[tk.project_id] === true ) {
-        // Cette tâche doit être conservée
-        console.info("ON GARDE", tk)
-      } else {
-        console.info("Retrait de tâche d'index %s", tk.relative_index, tk)
-        tasks_out.push(TASKS.splice(tk.relative_index, 1))
+      const projectOk = (!this.projectsIn) || this.taskIsInProject(tk, this.projectsIn)
+      const natureOk  = (!this.naturesIn)  || this.taskHasNatures(tk, this.naturesIn)
+
+      if ( !(projectOk && natureOk) ) {
+        tasks_out.push(TASKS.splice(tk.relative_index, 1)[0])
       }
     })
 
@@ -161,9 +167,52 @@ class ClassAtWork {
     this.showCurrentTask()
   }
 
-  onFiltreNatures(naturesIn){
-    console.info("Je dois apprendre à filtre avec : ", naturesIn)
-    Flash.error("Je dois apprendre à filtrer par nature")
+  /**
+   * @return True quant la tâche +task+ contient au moins une des 
+   * natures de la liste +natures+
+   */
+  taskHasNatures(task, natures){
+    console.info("task", task)
+    if ( !task.natures || !task.natures.length) return false ;
+    for ( var nat of task.natures ){
+      if ( natures.includes(nat) ) return true
+    }
+    return false
+  }
+  /**
+   * @return True si la tâche +task+ appartient à un projet de 
+   * +projects+
+   * @param {Object} task Table des données de la tâche
+   * @param {Object} projects Liste des identifiants de projet. Table
+   *                 avec en clé l'identifiant du projet et en valeur
+   *                 True
+   */
+  taskIsInProject(task, projects){
+    return this.projectsIn[task.project_id] === true
+  }
+
+  /**
+   * Application du filtre par projet
+   * 
+   */
+  onFiltrePerProjets(projectsIn){
+    if ( undefined === projectsIn ) {
+      // Annulation
+      this.invertButtonFilterState(this.btnFilterbyProject)
+    } else {
+      this.projectsIn = projectsIn
+      this.applyFiltersOnTasks()
+    }
+  }
+  
+  onFiltrePerNatures(naturesIn){
+    if ( undefined === naturesIn ) {
+      // Annulation
+      this.invertButtonFilterState(this.btnFilterbyNature)
+    } else {
+      this.naturesIn = naturesIn
+      this.applyFiltersOnTasks()
+    }
   }
 
   __modifyTasksForTries(){
@@ -457,13 +506,39 @@ class ClassAtWork {
   ]}
 
   onFilterByNature(ev){
-    this.natureFilter.show()
+    const newStateActif = this.invertButtonFilterState(this.btnFilterbyNature)
+    if ( newStateActif ) {
+      this.natureFilter.show()
+    } else {
+      // Désactiver le filtre par nature
+      delete this.naturesIn
+      this.applyFiltersOnTasks()
+    }
     return stopEvent(ev)
   }
   onFilterByProject(ev){
-    this.projectFilter.show()
+    const newStateActif = this.invertButtonFilterState(this.btnFilterbyProject)
+    if ( newStateActif ) {
+      this.projectFilter.show()
+    } else {
+      // Désactiver le filtre par projet
+      delete this.projectsIn
+      this.applyFiltersOnTasks()
+    }
     return stopEvent(ev)
   }
+  invertButtonFilterState(btn){
+    let newState;
+    if ( btn.dataset.state == 'actif' ) {
+      newState = ''
+    } else {
+      newState = 'actif'
+    }
+    btn.dataset.state = newState
+    return newState == 'actif'
+  }
+
+
   onToggleZenMode(ev){
     this.zenState = !this.zenState
     sessionStorage.setItem('zen-state', this.zenState ? 'true' : 'false')

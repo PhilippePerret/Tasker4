@@ -145,6 +145,11 @@ div#current-task-container button.btn:hover {
   opacity:1
 }
 
+div#current-task-container button[data-state="actif"] {
+  background-color: green;
+  color: white;
+}
+
 div#current-task-container div#horloge {
   position:relative;
   display:inline-block;

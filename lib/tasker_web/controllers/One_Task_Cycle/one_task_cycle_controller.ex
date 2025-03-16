@@ -18,7 +18,7 @@ defmodule TaskerWeb.OneTaskCycleController do
 
 
   def main(conn, _params) do
-    render(conn, :main_panel, %{
+    render(conn, :at_work, %{
       projects: projects_as_json_table(),
       natures: natures_as_json_table(),
       candidates: Jason.encode!(get_candidate_tasks(conn.assigns.current_worker.id))
