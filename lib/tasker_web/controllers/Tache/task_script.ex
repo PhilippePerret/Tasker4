@@ -26,7 +26,7 @@ defmodule Tasker.TaskScript do
     run_script(data_script["type"], task, data_script["argument"])
   end
 
-  def run_script("worker-script", task, argument) do
+  def run_script("worker-script", _task, argument) do
     params = String.split(argument, " ")
     {cmd, params} = List.pop_at(params, 0)
     # En fonction de l'extension du fichier (si c'est un fichier) il 
@@ -100,7 +100,7 @@ defmodule Tasker.TaskScript do
 
   defp define_full_path(task, foopath) do
     is_absolute = String.starts_with?(foopath, "/")
-    is_relative = !is_absolute
+    _is_relative = !is_absolute
 
     fullpath = if is_absolute, do: foopath, else: path_in_project(task, foopath)
 

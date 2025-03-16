@@ -3,6 +3,10 @@
  * Pour obtenir une locale parmi toutes celles définies dans les
  * fichier gettext de l'application
  * 
+ * Pour actualiser les fichiers de locales :
+ * 
+ *    mix run lib/mix/tasks/generate_locales_js.ex
+ * 
  * @usage
  * 
  *      LOC('key-locale')   // => la traduction
@@ -27,7 +31,8 @@ class Locales {
    * @param {Integer} count Le nombre (pour pluriel) — non traité pour le moment
    */
   static get(key, variables, gender, count){
-    let str = LOCALES[key].trans || key
+    const dataLocale = LOCALES[key] || raise(`La locale « ${key} » est inconnue. Peut-être faut-il actualiser les fichiers locales-<LG>.js`)
+    let str = dataLocale.trans || key
 
     // En présence de variables
     if ( variables ) {

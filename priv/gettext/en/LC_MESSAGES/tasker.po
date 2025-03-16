@@ -96,7 +96,7 @@ msgstr ""
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:24
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:23
 #: lib/tasker_web/controllers/Projet/project_html/show.html.heex:1
 #: lib/tasker_web/controllers/Tache/task_html/index.html.heex:13
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:12
@@ -110,7 +110,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:161
+#: lib/tasker_web/controllers/Tache/task_html.ex:125
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr ""
@@ -168,17 +168,17 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:199
+#: lib/tasker_web/controllers/Tache/task_html.ex:163
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:208
+#: lib/tasker_web/controllers/Tache/task_html.ex:172
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:453
+#: lib/tasker_web/controllers/Tache/task_html.ex:417
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr ""
@@ -218,12 +218,12 @@ msgstr ""
 msgid "cannot be set: end date already defined"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:232
+#: lib/tasker_web/controllers/Tache/task_html.ex:196
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:339
+#: lib/tasker_web/controllers/Tache/locales_js.ex:36
 #, elixir-autogen, elixir-format
 msgid "Repeat this task"
 msgstr ""
@@ -238,113 +238,112 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:504
+#: lib/tasker_web/controllers/Tache/task_html.ex:468
 #, elixir-autogen, elixir-format
 msgid "All the tasks above can only be executed after the execution of this task."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:479
+#: lib/tasker_web/controllers/Tache/task_html.ex:443
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Next Tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:478
+#: lib/tasker_web/controllers/Tache/task_html.ex:442
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Previous Tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:501
+#: lib/tasker_web/controllers/Tache/task_html.ex:465
 #, elixir-autogen, elixir-format
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:340
+#: lib/tasker_web/controllers/Tache/locales_js.ex:37
 #, elixir-autogen, elixir-format
 msgid "No task selected, I’m stopping here."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:341
+#: lib/tasker_web/controllers/Tache/locales_js.ex:38
 #, elixir-autogen, elixir-format
 msgid "No tasks found. Therefore, none can be selected."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:342
+#: lib/tasker_web/controllers/Tache/locales_js.ex:39
 #, elixir-autogen, elixir-format
 msgid "Select tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:480
+#: lib/tasker_web/controllers/Tache/task_html.ex:444
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task flow"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:336
+#: lib/tasker_web/controllers/Tache/locales_js.ex:33
 #, elixir-autogen, elixir-format
 msgid "A task cannot be dependent on itself."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:338
+#: lib/tasker_web/controllers/Tache/locales_js.ex:35
 #, elixir-autogen, elixir-format
 msgid "A title must be given to the note!"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:23
-#: lib/tasker_web/controllers/Tache/task_html.ex:132
+#: lib/tasker_web/controllers/Tache/task_html.ex:96
 #, elixir-autogen, elixir-format
 msgid "Choose task natures"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:335
+#: lib/tasker_web/controllers/Tache/locales_js.ex:32
 #, elixir-autogen, elixir-format
 msgid "Double dependency between task __BEFORE__ and task __AFTER__."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:337
+#: lib/tasker_web/controllers/Tache/locales_js.ex:34
 #, elixir-autogen, elixir-format
 msgid "Inconsistencies in dependencies. I cannot save them."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:343
+#: lib/tasker_web/controllers/Tache/locales_js.ex:40
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Select natures"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:31
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:30
 #, elixir-autogen, elixir-format
 msgid "After next"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:17
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Destroy"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:30
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "End (to the end)"
 msgstr "End"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:32
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:31
 #, elixir-autogen, elixir-format
 msgid "Later"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:18
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:17
 #, elixir-autogen, elixir-format
 msgid "Out of day"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:33
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:32
 #, elixir-autogen, elixir-format
 msgid "Reset order"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:11
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:10
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Start (work)"
 msgstr "START"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:12
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:11
 #, elixir-autogen, elixir-format
 msgid "Stop (work)"
 msgstr "STOP"
@@ -354,19 +353,9 @@ msgstr "STOP"
 msgid "Zen Mode"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:29
-#, elixir-autogen, elixir-format, fuzzy
-msgid "Back to work"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:10
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:9
 #, elixir-autogen, elixir-format
 msgid "Done (task)"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:30
-#, elixir-autogen, elixir-format
-msgid "End of the exclusive task in…"
 msgstr ""
 
 #: lib/tasker_web/controllers/Tache/task_html/bloc_task_scripts.html.heex:14
@@ -374,7 +363,7 @@ msgstr ""
 msgid "Human Label"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:39
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:38
 #, elixir-autogen, elixir-format
 msgid "Random task"
 msgstr ""
@@ -389,90 +378,20 @@ msgstr ""
 msgid "Script Type"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:31
-#, elixir-autogen, elixir-format
-msgid "Should I mark the end of this exclusive task?"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:33
-#, elixir-autogen, elixir-format
-msgid "Can I log the working time on the current task? (Otherwise, it will not be recorded)"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:32
-#, elixir-autogen, elixir-format
-msgid "In progress:"
-msgstr ""
-
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:36
 #, elixir-autogen, elixir-format
 msgid "Difficulty"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:4
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:3
 #, elixir-autogen, elixir-format
 msgid "Current number of tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:40
-#, elixir-autogen, elixir-format
-msgid "Do you really want to permanently delete this task?"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:39
-#, elixir-autogen, elixir-format
-msgid "Reloading the page will be enought to restore it."
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:36
-#, elixir-autogen, elixir-format
-msgid "Strange… the current task has changed. I cant’t update its execution time."
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:38
-#, elixir-autogen, elixir-format
-msgid "The task has been placed in position $1."
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:37
-#, elixir-autogen, elixir-format
-msgid "Working time recorded"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:34
-#, elixir-autogen, elixir-format
-msgid "You have to wait for the end of the task."
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_html.ex:21
-#, elixir-autogen, elixir-format
-msgid "For an exclusive task, you must first set the start and end date-times."
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:40
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:27
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:39
+#: lib/tasker_web/controllers/Tache/locales_js.ex:44
 #, elixir-autogen, elixir-format
 msgid "Filter per project"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:41
-#, elixir-autogen, elixir-format
-msgid "I’m keeping one nonetheless."
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:42
-#, elixir-autogen, elixir-format
-msgid "There are no tasks left. Should I restore the filtered tasks?"
-msgstr ""
-
-#: lib/tasker_web/controllers/Tache/task_html.ex:22
-#, elixir-autogen, elixir-format
-msgid "Task natures"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:26
-#, elixir-autogen, elixir-format
-msgid "The script was executed successfully!"
 msgstr ""
 
 #: lib/tasker_web/controllers/Tache/task_script.ex:50
@@ -525,13 +444,8 @@ msgstr ""
 msgid "The project folder ‘%{path}’ could not be found."
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:25
-#, elixir-autogen, elixir-format
-msgid "Click on the task to move it forward by one. Click “Hide List” to finish."
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:42
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:28
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:41
+#: lib/tasker_web/controllers/Tache/locales_js.ex:45
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Filter per nature"
 msgstr ""
@@ -539,4 +453,79 @@ msgstr ""
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_controller.ex:24
 #, elixir-autogen, elixir-format
 msgid "You need at least one task to work on."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:46
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Back to work"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:50
+#, elixir-autogen, elixir-format
+msgid "Can I log the working time on the current task? (Otherwise, it will not be recorded)"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:42
+#, elixir-autogen, elixir-format
+msgid "Click on the task to move it forward by one. Click “Hide List” to finish."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:56
+#, elixir-autogen, elixir-format
+msgid "Do you really want to permanently delete this task?"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:47
+#, elixir-autogen, elixir-format
+msgid "End of the exclusive task in…"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:49
+#, elixir-autogen, elixir-format
+msgid "In progress:"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:57
+#, elixir-autogen, elixir-format
+msgid "I’m keeping one nonetheless."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:55
+#, elixir-autogen, elixir-format
+msgid "Reloading the page will be enought to restore it."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:48
+#, elixir-autogen, elixir-format
+msgid "Should I mark the end of this exclusive task?"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:52
+#, elixir-autogen, elixir-format
+msgid "Strange… the current task has changed. I cant’t update its execution time."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:43
+#, elixir-autogen, elixir-format
+msgid "The script was executed successfully!"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:54
+#, elixir-autogen, elixir-format
+msgid "The task has been placed in position $1."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:58
+#, elixir-autogen, elixir-format
+msgid "There are no tasks left. Should I restore the filtered tasks?"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:53
+#, elixir-autogen, elixir-format
+msgid "Working time recorded"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:51
+#, elixir-autogen, elixir-format
+msgid "You have to wait for the end of the task."
 msgstr ""

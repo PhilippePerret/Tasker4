@@ -211,7 +211,6 @@ defmodule TaskerWeb.TaskController do
     natures_string = task_changeset.data.natures |> Enum.map(& &1.id) |> Enum.join(",")
     task_changeset = %{task_changeset | data: %{task_changeset.data | natures: natures_string}}
 
-    ensure_fichier_locales_JS()
     conn
     |> assign(:projects, Tasker.Projet.list_projects())
     |> assign(:data, data)
@@ -262,92 +261,4 @@ defmodule TaskerWeb.TaskController do
       )
     )
   end
-
-
-  @doc """
-  Fonction préparant le fichier /priv/static/assets/js/locales.js qui
-  contient les locales utiles aux messages du fichier javascript.
-  Pour le moment, on ne l'actualise que lorsqu'il n'existe pas. Il 
-  faut donc détruire le fichier dans /priv/static/assets/js pour
-  forcer son actualisation.
-
-  Noter que pour créer de nouvelles locales qui n'existeraient pas il
-  ne suffit pas de les ajouter aux listes ci-dessous. Il faut les ex-
-  primer explicitement avec 'dgettext(domaine, locale)' et recharger
-  le contrôleur.
-  """
-  @locale_js_path Path.expand(Path.join(["priv","static","assets","js","_LOCALES_","locales-LANG.js"]))
-  @locales {nil, ~w(every every_fem Every Summary) ++ ["[SPACE]", "(click to edit)"]}
-  @locales_tasker {"tasker", [
-    "Double dependency between task __BEFORE__ and task __AFTER__.",
-    "Repeat this task", "No task selected, I’m stopping here.",
-    "Inconsistencies in dependencies. I cannot save them.",
-    "No tasks found. Therefore, none can be selected.", 
-    "A task cannot be dependent on itself.",
-    "A title must be given to the note!",
-    "Select tasks",
-    "Select natures"
-    ]}
-  @locales_ilya {"ilya", ~w(minute hour day week month minutes hours days weeks months monday tuesday wednesday thursday friday saturday sunday) ++ ["on (day)"]}
-  def ensure_fichier_locales_JS do
-    locale_js_path = String.replace(@locale_js_path, "LANG", Gettext.get_locale(TaskerWeb.Gettext))
-    if not File.exists?(locale_js_path) do
-      Gettext.put_locale(Gettext.get_locale(TaskerWeb.Gettext))
-      table_locale = [@locales, @locales_ilya, @locales_tasker]
-      |> Enum.reduce(%{}, fn {domain, locales}, accu1 ->
-        sous_table =
-          Enum.reduce(locales, accu1, fn locale, accu2 ->
-            if domain do
-              Map.put(accu2, "#{domain}_#{locale}", Gettext.dgettext(TaskerWeb.Gettext, domain, locale))
-            else
-              Map.put(accu2, locale, Gettext.gettext(TaskerWeb.Gettext, locale))
-            end
-          end)
-        Map.merge(accu1, sous_table)
-      end)
-      |> Jason.encode!()
-      IO.inspect(table_locale, label: "\ntable_locale")
-      File.write(locale_js_path, "const LANG = " <> table_locale)
-      # Juste pour éviter le warning qui dit que la fonction n'est
-      # pas appelée
-      _ = liste_locales_fictives()
-    end
-  end
-
-  # Simplement pour faire connaitre à Gettext les locales qu'on va 
-  # utiliser seulement en javascript (donc non définie)
-  # Rappel : quand une locale est supprimée du code, elle est sup-
-  # primée aussi des fichiers locales même si elle a été définie
-  # précédemment. La seule solution est de la laisser ici.
-  #
-  # Noter que cette fonction n'a pas besoin d'être appelée.
-  @doc false
-  defp liste_locales_fictives do
-    # - il y a - 
-    dgettext("ilya", "monday")
-    dgettext("ilya", "tuesday")
-    dgettext("ilya", "wednesday")
-    dgettext("ilya", "thursday")
-    dgettext("ilya", "friday")
-    dgettext("ilya", "saturday")
-    dgettext("ilya", "sunday")
-    # - tasker -
-    dgettext("tasker", "Double dependency between task __BEFORE__ and task __AFTER__.")
-    dgettext("tasker", "A task cannot be dependent on itself.")
-    dgettext("tasker", "Inconsistencies in dependencies. I cannot save them.")
-    dgettext("tasker", "A title must be given to the note!")
-    dgettext("tasker", "Repeat this task")
-    dgettext("tasker", "No task selected, I’m stopping here.")
-    dgettext("tasker", "No tasks found. Therefore, none can be selected.")
-    dgettext("tasker", "Select tasks")
-    dgettext("tasker", "Select natures")
-    
-    # - common -
-    gettext("Every_fem")
-    gettext("every")
-    gettext("every_fem")
-    gettext("Summary")
-    gettext("(click to edit)")
-  end
-
 end

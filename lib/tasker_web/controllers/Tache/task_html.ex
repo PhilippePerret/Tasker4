@@ -15,27 +15,6 @@ defmodule TaskerWeb.TaskHTML do
     """
   end
 
-  def locales() do
-    locales = 
-    %{
-      set_start_stop_for_exclusive: dgettext("tasker", "For an exclusive task, you must first set the start and end date-times."),
-      Task_natures: dgettext("tasker", "Task natures"), 
-      Choose_task_natures: dgettext("tasker", "Choose task natures")
-    } 
-    |> Enum.map(fn {key_id, key_str} -> 
-      ~s(#{key_id}: "#{String.replace(key_str, "\"", "“")}")
-    end) 
-    |> Enum.join(",\n")
-
-
-
-    """
-    {
-    #{locales}
-    };
-    """
-  end
-
   @doc """
   Renders a task form.
   """

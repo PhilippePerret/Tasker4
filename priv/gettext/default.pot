@@ -67,77 +67,77 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:456
+#: lib/tasker_web/controllers/Tache/task_html.ex:420
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:458
+#: lib/tasker_web/controllers/Tache/task_html.ex:422
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:464
+#: lib/tasker_web/controllers/Tache/task_html.ex:428
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:463
+#: lib/tasker_web/controllers/Tache/task_html.ex:427
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:460
+#: lib/tasker_web/controllers/Tache/task_html.ex:424
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:103
+#: lib/tasker_web/controllers/Tache/task_html.ex:67
 #, elixir-autogen, elixir-format
 msgid "As soon as possible (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:104
+#: lib/tasker_web/controllers/Tache/task_html.ex:68
 #, elixir-autogen, elixir-format
 msgid "Can wait (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:100
+#: lib/tasker_web/controllers/Tache/task_html.ex:64
 #, elixir-autogen, elixir-format
 msgid "Critical (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:102
+#: lib/tasker_web/controllers/Tache/task_html.ex:66
 #, elixir-autogen, elixir-format
 msgid "Time-sensitive (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:101
+#: lib/tasker_web/controllers/Tache/task_html.ex:65
 #, elixir-autogen, elixir-format
 msgid "Urgent (urgency)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:90
+#: lib/tasker_web/controllers/Tache/task_html.ex:54
 #, elixir-autogen, elixir-format
 msgid "high (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:93
+#: lib/tasker_web/controllers/Tache/task_html.ex:57
 #, elixir-autogen, elixir-format
 msgid "low (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:92
+#: lib/tasker_web/controllers/Tache/task_html.ex:56
 #, elixir-autogen, elixir-format
 msgid "normal (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:91
+#: lib/tasker_web/controllers/Tache/task_html.ex:55
 #, elixir-autogen, elixir-format
 msgid "secondary (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:94
+#: lib/tasker_web/controllers/Tache/task_html.ex:58
 #, elixir-autogen, elixir-format
 msgid "very low (priority)"
 msgstr ""
@@ -148,27 +148,27 @@ msgstr ""
 msgid "[SPACE]"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:358
+#: lib/tasker_web/controllers/Tache/task_html.ex:322
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:347
+#: lib/tasker_web/controllers/Tache/locales_js.ex:14
 #, elixir-autogen, elixir-format
 msgid "every"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:349
+#: lib/tasker_web/controllers/Tache/locales_js.ex:18
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:348
+#: lib/tasker_web/controllers/Tache/locales_js.ex:17
 #, elixir-autogen, elixir-format
 msgid "every_fem"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:346
+#: lib/tasker_web/controllers/Tache/locales_js.ex:13
 #, elixir-autogen, elixir-format
 msgid "Every_fem"
 msgstr ""
@@ -441,22 +441,22 @@ msgstr ""
 msgid "you will receive an email with instructions shortly."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_controller.ex:350
+#: lib/tasker_web/controllers/Tache/locales_js.ex:19
 #, elixir-autogen, elixir-format
 msgid "(click to edit)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:311
+#: lib/tasker_web/controllers/Tache/task_html.ex:275
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:89
+#: lib/tasker_web/controllers/Tache/task_html.ex:53
 #, elixir-autogen, elixir-format
 msgid "exclusive (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:22
 #, elixir-autogen, elixir-format
 msgid "Edit"
 msgstr ""
@@ -473,27 +473,27 @@ msgstr ""
 msgid "Title"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:114
+#: lib/tasker_web/controllers/Tache/task_html.ex:78
 #, elixir-autogen, elixir-format
 msgid "Easy (difficulty)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:112
+#: lib/tasker_web/controllers/Tache/task_html.ex:76
 #, elixir-autogen, elixir-format
 msgid "Hard (difficulty)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:113
+#: lib/tasker_web/controllers/Tache/task_html.ex:77
 #, elixir-autogen, elixir-format
 msgid "Moderate (difficulty)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:115
+#: lib/tasker_web/controllers/Tache/task_html.ex:79
 #, elixir-autogen, elixir-format
 msgid "Very easy (difficulty)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:111
+#: lib/tasker_web/controllers/Tache/task_html.ex:75
 #, elixir-autogen, elixir-format
 msgid "Very hard (difficulty)"
 msgstr ""
@@ -501,44 +501,6 @@ msgstr ""
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:16
 #, elixir-autogen, elixir-format
 msgid "Pseudo"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:35
-#, elixir-autogen, elixir-format
-msgid "on (date)"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:24
-#: lib/tasker_web/controllers/Tache/task_html.ex:34
-#, elixir-autogen, elixir-format
-msgid "Array or Table required"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:17
-#: lib/tasker_web/controllers/Tache/task_html.ex:36
-#, elixir-autogen, elixir-format
-msgid "Cancel"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:19
-#, elixir-autogen, elixir-format
-msgid "Deselect All"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:15
-#, elixir-autogen, elixir-format
-msgid "Filter"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:16
-#: lib/tasker_web/controllers/Tache/task_html.ex:35
-#, elixir-autogen, elixir-format
-msgid "OK"
-msgstr ""
-
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:18
-#, elixir-autogen, elixir-format
-msgid "Select All"
 msgstr ""
 
 #: lib/tasker_web/controllers/Projet/project_html.ex:17
@@ -551,23 +513,68 @@ msgstr ""
 msgid "OPEN_GUIL"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:33
+#: lib/tasker_web/controllers/Tache/locales_js.ex:25
 #, elixir-autogen, elixir-format
-msgid "Hide list"
+msgid "Sort"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:22
+#: lib/tasker_web/controllers/Tache/locales_js.ex:15
 #, elixir-autogen, elixir-format
-msgid "Show list"
+msgid "Each"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:21
+#: lib/tasker_web/controllers/Tache/locales_js.ex:16
+#, elixir-autogen, elixir-format
+msgid "each"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:41
+#, elixir-autogen, elixir-format
+msgid "Array or Table required"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:22
+#, elixir-autogen, elixir-format
+msgid "Cancel"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:24
+#, elixir-autogen, elixir-format
+msgid "Deselect All"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:26
 #, elixir-autogen, elixir-format
 msgid "End of sorting"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:34
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/locales.html.heex:20
+#: lib/tasker_web/controllers/Tache/locales_js.ex:20
 #, elixir-autogen, elixir-format
-msgid "Sort"
+msgid "Filter"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:28
+#, elixir-autogen, elixir-format
+msgid "Hide list"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:21
+#, elixir-autogen, elixir-format
+msgid "OK"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:23
+#, elixir-autogen, elixir-format
+msgid "Select All"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:27
+#, elixir-autogen, elixir-format
+msgid "Show list"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/locales_js.ex:29
+#, elixir-autogen, elixir-format
+msgid "on (date)"
 msgstr ""
