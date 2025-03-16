@@ -629,7 +629,7 @@ class ClassAtWork {
 
   // Pour choisir une tâche au hasard
   onRandomTask(ev){
-    const randIndex = parseInt(Math.random(TASKS.length) * 10)
+    let randIndex = 1 + parseInt(Math.random() * (TASKS.length - 1))
     const task = TASKS.splice(randIndex, 1)[0]
     TASKS.unshift(task)
     this.showCurrentTask()
@@ -761,7 +761,10 @@ class ClassAtWork {
    * d'index zéro.
    */
   redefineRelativeIndexes(){
-    this.forEachTask((tk, i) => tk.relative_index = Number(i))
+    this.forEachTask((tk, i) => {
+      // console.log("update index de ", tk)
+      tk.relative_index = Number(i)
+    })
   }
 
   /**
