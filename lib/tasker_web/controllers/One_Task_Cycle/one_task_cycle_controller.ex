@@ -18,11 +18,19 @@ defmodule TaskerWeb.OneTaskCycleController do
 
 
   def main(conn, _params) do
-    render(conn, :at_work, %{
-      projects: projects_as_json_table(),
-      natures: natures_as_json_table(),
-      candidates: Jason.encode!(get_candidate_tasks(conn.assigns.current_worker.id))
-    })
+    candidates = get_candidate_tasks(conn.assigns.current_worker.id)
+    candidates = []
+    if Enum.count(candidates) == 0 do
+      conn
+      |> put_flash(:error, "Il faut au moins une tâche, pour travailler !")
+      |> redirect(to: ~p"/tasks/new")
+    else
+      render(conn, :at_work, %{
+        projects: projects_as_json_table(),
+        natures: natures_as_json_table(),
+        candidates: Jason.encode!(candidates)
+      })
+    end
   end
 
   defp projects_as_json_table do

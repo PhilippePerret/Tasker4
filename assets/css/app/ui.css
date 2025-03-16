@@ -113,20 +113,25 @@ div#flash-group > div > p {
   font-style: normal!important;
   font-weight: normal!important;
 }
-div#flash-group div.flash-message {
+div#flash-group div.flash-message,
+div#flash-group div#flash-error p {
   padding:0.3em 1em;
 }
-div#flash-group div.flash-message.error {
+div#flash-group div.flash-message.error,
+div#flash-group div#flash-error p {
   position:relative;
   color: red!important;
   background-color: #ffbdbd;
 }
-div#flash-group div.flash-message.error:before {
+div#flash-group div.flash-message.error:before,
+div#flash-group div#flash-error p:before {
   content: "🤪 ";
 }
-div#flash-group div.flash-message.error button.close-btn {
+div#flash-group div.flash-message.error button.close-btn
+div#flash-group div#flash-error button.close-btn, {
   background-color: red;
 }
+
 div#flash-group div#flash-info p.message {
   position:relative;
   border-color: green!important;
