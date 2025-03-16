@@ -20,8 +20,11 @@ if System.get_env("PHX_SERVER") do
   config :tasker, TaskerWeb.Endpoint, server: true
 end
 
-if config_env() == :prod do
 
+if config_env() == :prod do
+  
+  config :tasker, TaskerWeb.Endpoint, server: true
+  
   # maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
 
   config :tasker, Tasker.Repo,
@@ -66,8 +69,10 @@ if config_env() == :prod do
     ],
     code_reloader: false,
     check_origin: false,
-    debug_errors: false,
+    debug_errors: true, # POUR BIEN SURVEILLER POUR LE MOMENT
     secret_key_base: secret_key_base
+
+  config :logger, level: :debug
 
   # ## SSL Support
   #
