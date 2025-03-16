@@ -534,9 +534,9 @@ msgstr "Cliquer sur la tâche que vous voulez ravancer. Click “Fin de tri” p
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:42
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Filter per nature"
-msgstr "Filtre par projet"
+msgstr "Filtre par nature"
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/main_panel.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Sort"
-msgstr ""
+msgstr "Trier"

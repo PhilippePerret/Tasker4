@@ -5,8 +5,8 @@
  * (pour "Checkbox-ier") Gestion des listes de choix multiple
  * 
  * TODO
- *  - bouton pour tout sélectionner (MESSAGE['select_all'])
- *  - bouton pour tout désélectionner (MESSAGE['deselect_all'])
+ *  - bouton pour tout sélectionner (MESSAGE['check_all'])
+ *  - bouton pour tout désélectionner (MESSAGE['uncheck_all'])
  * 
  * @usage
  * 
@@ -30,8 +30,13 @@
  * 
  *    cbs.set(keys)       Pour cocher des valeurs à la volée (liste)
  *    cbs.getValues()     Retourne les valeurs cochées (keys)
- *    cbs.select(value)   Pour cocher une valeur (sans ouvrir)
- *    cbs.deselect(value) Pour décocher une valeur
+ *    cbs.check(value)    Pour cocher une valeur (sans ouvrir)
+ *    cbs.uncheck(value)  Pour décocher une valeur
+ *    cbs.checkAll()      Pour tout cocher. On peut ajouter en argu-
+ *                        {except: [liste]} pour tout cocher sauf ces
+ *                        valeurs.
+ *    cbs.uncheckAll()    Pour tout décocher (le premier argument
+ *                        peut aussi être {except: [values]})
  * 
  * +data+
  *    :values {Object|Array}
@@ -58,6 +63,10 @@
  *        Fonction à appeler quand on clique sur Cancel
  * 
  * +options+
+ *    width:        {Integer} La largeur (en pixels) de la boite, si
+ *                  la largeur naturelle ne convient pas.
+ *    gutter:       {Integer} Largeur en pixels de la gouttière 
+ *                  (espace entre les colonnes — 20px par défaut)
  *    checkeds:     Liste des valeurs (key) cochées
  *                  Note : elles peuvent être précisées aussi par les
  *                  data.
@@ -82,22 +91,68 @@ class CBoxier {
   // ====  PUBLIC METHODS ====
 
   show(){this.obj.classList.remove('hidden')}
-  select(key){
+  check(key){
     if ('string' == typeof key) {
       this.cb(key).checked = true
     } else {
-      key.forEach(key => {this.select(key)})
-    }
-  }
-  unselect(key){
-    if ('string' == typeof key) {
-      this.cb(key).checked = false
-    } else {
-      key.forEach(key => {this.select(key)})
+      key.forEach(key => {this.check(key)})
     }
   }
 
+  uncheck(key){
+    if ('string' == typeof key) {
+      this.cb(key).checked = false
+    } else {
+      key.forEach(key => {this.check(key)})
+    }
+  }
+
+  /**
+   * Pour sélectionner/désectionner toutes les cases à cocher.
+   * 
+   * @param {Object}  options    Pour des options
+   * @param {Array}   options.except Ne pas sélectionner les valeurs
+   *                  de cette liste.
+   */
+  checkAll(options){
+    const [ins, outs] = this.onlyCbs(options)
+    ins .forEach(dcb => dcb.cb.checked = true)
+    outs.forEach(dcb => dcb.cb.checked = false)
+  }
+  uncheckAll(options){
+    const [ins, outs] = this.onlyCbs(options)
+    ins .forEach(dcb => dcb.cb.checked = false)
+    outs.forEach(dcb => dcb.cb.checked = true)
+  }
+
   // === PRIVATE METHODS ===
+
+  /**
+   * Return un doublet contenant la liste des données de case à 
+   * cocher (this.cbs) qui répondent à la définition éventuelle de
+   * options.except (une liste de valeurs)
+   * 
+   * @usage
+   * 
+   *    const ins, outs = this.onlyCbs({except: [values]})
+   * 
+   * @return [ [dcb retenus], [dcb, exclus] ]
+   */
+  onlyCbs(options){
+    if ( options && options.except && 'object' == typeof options.except && options.except.length) {
+      var theIns = [], theOuts = []
+      Object.values(this.cbs).each(dcb => {
+        if ( options.except.includes(dcb.key) ) {
+          theOuts.push(dcb)
+        } else {
+          thisIns.push(dcb)
+        }
+      })
+      return [theIns, theOuts]
+    } else {
+      return [Object.values(this.cbs), []]
+    }
+  }
 
   hide(){this.obj.classList.add('hidden')}
 
@@ -126,7 +181,10 @@ class CBoxier {
   build(){
     this.cbs = {} // table pour consigner les cb par clé
 
-    const o = DCreate('DIV', {class:`cboxier hidden ${this.options.displayType}`})
+    var style = []
+    if ( this.options.width ) style.push(`width:${this.options.width}px;`) ;
+    style = style.length ? style.join("") : null
+    const o = DCreate('DIV', {class:`cboxier hidden ${this.options.displayType}`, style: style})
 
     // --- Construction du titre ---
     if ( this.data.title ) {
@@ -134,8 +192,21 @@ class CBoxier {
       o.appendChild(title)
     }
 
+    // --- Lignes de mini-outils ---
+    const tmt = DCreate('DIV', {class: 'mini-tools buttons'})
+    this.btnCheckAll = DCreate('BUTTON', {class: 'tiny', text: '☑︎☑︎☑︎'})
+    this.btnUncheckAll = DCreate('BUTTON', {class: 'tiny', text: '☐☐☐'})
+    tmt.appendChild(this.btnCheckAll)
+    tmt.appendChild(this.btnUncheckAll)
+    o.appendChild(tmt)
+    this.btnCheckAll.addEventListener('click', this.checkAll.bind(this))
+    this.btnUncheckAll.addEventListener('click', this.uncheckAll.bind(this))
+
     // --- Construction des checkbox ---
-    const c = DCreate('DIV', {class:'cboxier-cbs'})
+    style = []
+    if ( this.options.gutter ) style.push(`column-gap:${this.options.gutter}px;`);
+    style = style.length ? style.join("") : null
+    const c = DCreate('DIV', {class:'cboxier-cbs', style: style})
     this.values.forEach(dcb => {
       const id  = this.id + "-cb" + dcb.index
       const cb  = DCreate('INPUT', {type: "checkbox", id: id})
@@ -146,12 +217,12 @@ class CBoxier {
       span.appendChild(cb)
       span.appendChild(lab)
       c.appendChild(span)
-      Object.assign(this.cbs, {[id]: cb})
+      Object.assign(this.cbs, {[dcb.key]: {cb: cb, key: dcb.key, cbId: id, label: lab, span: span}})
     })
     o.appendChild(c)
 
     // --- Construction des boutons ---
-    const buttons   = DCreate('DIV', {class:'buttons'})
+    const buttons   = DCreate('DIV', {class:'buttons main'})
     this.okBtn      = DCreate('BUTTON', {class: 'btn-ok', text: this.options.okName})
     this.cancelBtn  = DCreate('BUTTON', {class:'btn-cancel fleft', text: this.options.cancelName})
     buttons.appendChild(this.cancelBtn)
@@ -191,9 +262,9 @@ class CBoxier {
     const values = {}
     const okvalues = []
     const returnKeys = this.options.return_checked_keys
-    for(var cbid in this.cbs) {
-      const cb  = this.cbs[cbid]
-      const key = cb.dataset.key
+    for(var key in this.cbs) {
+      const dataCb = this.cbs[key]
+      const cb  = dataCb.cb
       if ( returnKeys ) {
         cb.checked && okvalues.push(key)
       } else {
@@ -256,8 +327,6 @@ class CBoxier {
     return `
     div.cboxier {
       position: absolute;
-      min-height: 300px;
-      max-height: 800px;
       background-color: white;
       box-shadow: 5px 5px 5px 5px #CCCCCC;
       left: 0;
@@ -265,53 +334,68 @@ class CBoxier {
       font-size: 0.9em;
       padding: 1em;
       z-index: 200;
+    }
+    div.cboxier.todo {
+      min-width: 200px;
+      max-width: 200px;
       }
-      div.cboxier.todo {
-        min-width: 200px;
-        max-width: 200px;
-       }
-      div.cboxier:not(.todo){
-        min-width: 400px;
-        max-width: 800px;
-      }
+    div.cboxier:not(.todo){
+      min-width: 400px;
+      max-width: 1000px;
+    }
     div.cboxier div.title {
       font-size: 1.1em;
       font-weight: bold;
       margin-bottom: 1em;
     }
-      div.cboxier div.cboxier-cbs {
-        max-height: 600px;
-        overflow: scroll;
-      }
-      div.cboxier.todo div.cboxier-cbs {
-        display: 'flex';
-        flex-wrap: wrap;
-      }
-      div.cboxier:not(.todo) div.cboxier-cbs {
-        display: block;
-      }
-      div.cboxier.todo div.cboxier-cbs span.cboxier-cb {
-        display: block;
-      }
-      div.cboxier:not(.todo) div.cboxier-cbs span.cboxier-cb {
-        display:inline-block;
-        min-width: 200px;
-      }
+    div.cboxier div.cboxier-cbs {
+      max-height: 400px;
+      overflow: scroll;
+    }
+    div.cboxier.todo div.cboxier-cbs {
+      display: block;
+    }
+    
+    div.cboxier:not(.todo) div.cboxier-cbs {
+      display: flex;
+      flex-wrap: wrap;
+      colum-gap: 20px;
+    }
+
+    div.cboxier.todo div.cboxier-cbs span.cboxier-cb {
+      display: block;
+    }
+    div.cboxier:not(.todo) div.cboxier-cbs span.cboxier-cb {
+      display:inline-block;
+      min-width: 200px;
+    }
 
     div.cboxier div.cboxier-cbs span.cboxier-cb label {
       display: inline!important;
     }
     div.cboxier div.buttons {
-      position:absolute;
-      left:0; bottom:0;
+      position: relative!important;
       width: calc(100% - 2em);
-      padding:1em;
       text-align: right;
+      padding:0!important;
+    }
+
+    div.cboxier div.buttons.main {
+      padding:1em;
+      left:0; bottom:0;
       margin-top:1em;
     }
-    div.cboxier div.buttons button {
+    div.cboxier div.buttons.main button {
       width: auto!important;
       padding: 0.4em 1em;
+    }
+
+    div.cboxier div.buttons.mini-tools {
+      height: 40px;
+    }
+    div.cboxier div.buttons.mini-tools button {
+      width: auto!important;
+      padding: 2px;
     }
     `
   }

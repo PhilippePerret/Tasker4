@@ -124,6 +124,7 @@ class ClassAtWork {
     const options = {
         okName: MESSAGE['Filter'] 
       , return_checked_keys: true
+      , width: 680
     }
     this.natureFilter = new CBoxier(data, options)
   }
