@@ -127,8 +127,8 @@ div#flash-group div.flash-message.error:before,
 div#flash-group div#flash-error p:before {
   content: "🤪 ";
 }
-div#flash-group div.flash-message.error button.close-btn
-div#flash-group div#flash-error button.close-btn, {
+div#flash-group div.flash-message.error button.close-btn,
+div#flash-group div#flash-error button.close-btn {
   background-color: red;
 }
 

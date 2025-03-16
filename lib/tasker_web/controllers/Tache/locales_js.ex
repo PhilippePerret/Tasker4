@@ -1,11 +1,20 @@
 defmodule TaskerWeb.LocalesJS do
   use TaskerWeb, :controller
 
+  # use Gettext, backend: TaskerWeb.Gettext
+
   @doc """
   Cette fonction ne sert qu'à exposer les locales qui seront 
   utilisées en JavaScript. Elle n'est jamais appelée ou l'est
   seulement pour ne pas avoir de message de warning disant que
   la fonction est inutilisée.
+
+  Si des locales sont ajoutées : 
+
+      mix gettext.extract
+      mix gettext.merge priv/gettext
+      mix run lib/mix/tasks/generate_locales_js.ex
+
   """
   def locales_js do
     
@@ -29,7 +38,7 @@ defmodule TaskerWeb.LocalesJS do
     gettext("on (date)")
 
     # - tasker -
-    dgettext("tasker", "Double dependency between task __BEFORE__ and task __AFTER__.")
+    dgettext("tasker", "Double dependency between task $1 and task $2.")
     dgettext("tasker", "A task cannot be dependent on itself.")
     dgettext("tasker", "Inconsistencies in dependencies. I cannot save them.")
     dgettext("tasker", "A title must be given to the note!")
@@ -58,6 +67,18 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("tasker","There are no tasks left. Should I restore the filtered tasks?")
    
     # - il y a - 
+    dgettext("ilya", "january")
+    dgettext("ilya", "february")
+    dgettext("ilya", "march")
+    dgettext("ilya", "april")
+    dgettext("ilya", "may")
+    dgettext("ilya", "june")
+    dgettext("ilya", "july")
+    dgettext("ilya", "august")
+    dgettext("ilya", "september")
+    dgettext("ilya", "october")
+    dgettext("ilya", "november")
+    dgettext("ilya", "december")
     dgettext("ilya", "monday")
     dgettext("ilya", "tuesday")
     dgettext("ilya", "wednesday")
@@ -65,6 +86,14 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("ilya", "friday")
     dgettext("ilya", "saturday")
     dgettext("ilya", "sunday")
+    dgettext("ilya", "(at the top of the hour)") # "(en début d’heure)"
+    dgettext("ilya", "at the $1<sup>th</sup> minute") # "à la $1<sup>e</sup> minute"
+    dgettext("ilya", "on (day)")
+    dgettext("ilya", "du mois")
+    dgettext("ilya", "d’$1")
+    dgettext("ilya", "de $1")
+    dgettext("ilya", "the first")
+    dgettext("ilya", "the $1") # pour le 12 (jour)
 
   end
 

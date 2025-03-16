@@ -38,7 +38,7 @@ defmodule TaskerWeb.TasksOpController do
       delete_all_dependencies_of(task_id)
       update_all_dependencies_with(relations)
     end) do
-      {_nombre_rows, _} -> 
+      {nombre_rows, _} when is_integer(nombre_rows) -> 
         %{ok: true, dependencies: Tache.get_dependencies(task_id)}
       {:error, exception} -> 
         IO.puts(:stderr, exception)

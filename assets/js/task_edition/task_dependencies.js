@@ -117,7 +117,7 @@ class TaskDependencies {
 
   showListAndChoose(taskList, type, callback){
     if ( taskList.length ==  0) {
-      return Flash.notice(LANG["tasker_No tasks found. Therefore, none can be selected."])
+      return Flash.notice(LOC("No tasks found. Therefore, none can be selected."))
     }
     const rightList = this['tasks_' + type]
     const rightIds  = rightList.map(dtask => {return dtask.id})
@@ -126,7 +126,7 @@ class TaskDependencies {
     const contreList = this['tasks_' + contreType]
     const contreIds  = contreList.map(dtask => {return dtask.id})
 
-    const div = DCreate('DIV', {id:'task_list_container', text: `<h4>${LANG["tasker_Select tasks"]}</h4>`, style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
+    const div = DCreate('DIV', {id:'task_list_container', text: `<h4>${LOC("Select tasks")}</h4>`, style:'position:fixed;top:10em;left:10em;background-color:white;box-shadow:5px 5px 5px 5px #CCC;padding:2em;border:1px solid;border-radius:0.5em;'})
     const list = DCreate('DIV', {id:'task_list'})
     div.appendChild(list)
     // Boucle sur toutes les tâches, mais :
@@ -208,7 +208,7 @@ class TaskDependencies {
         , callback: this.afterSavedDependencies.bind(this)
       })
     } else {
-      Flash.error(LANG["tasker_Inconsistencies in dependencies. I cannot save them."])
+      Flash.error(LOC("Inconsistencies in dependencies. I cannot save them."))
     }
   }
   afterSavedDependencies(rData){
@@ -239,7 +239,7 @@ class TaskDependencies {
         const [avant, apres] = paire
         if (avant == apres) {
           throw new Error(
-            LANG["tasker_A task cannot be dependent on itself."]
+            LOC("A task cannot be dependent on itself.")
           )
         }
       })
@@ -248,7 +248,7 @@ class TaskDependencies {
         for (var ii = i+1; ii < deps_len; ++ii ) {
           const [autreAvant, autreApres] = deps[ii]
           if ( autreAvant == apres && autreApres == avant ) {
-            throw new Error(LANG["tasker_Double dependency between task __BEFORE__ and task __AFTER__."].replace("__BEFORE__", avant).replace("__AFTER__", apres))
+            throw new Error(LOC("Double dependency between task $1 and task $2.", [avant, apres]))
           }
         }
       }

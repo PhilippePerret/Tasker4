@@ -14,11 +14,20 @@ const FieldsPerRepeatUnit = {
 
 const CRON_PROPERTIES = ['uFreq', 'uFreqValue', 'hMin','dHour','mDay','wDay','yMonth'];
 
+const EnglishWeekday = ['sunday', 'monday','tuesday','wednesday','thursday','wednesday','saturday'];
+const EnglishMonth = ['january','february','march','april','may','june','july','august','september','october','november','december'];
+const MOIS = []
+
 class Repeat {
-static onChange(cb){
-  const isChecked = cb.checked
-  this.repeater.toggleState()
-}
+
+  static init(){
+    EnglishMonth.forEach(m => {MOIS.push(LOC(m))})
+  }
+
+  static onChange(cb){
+    const isChecked = cb.checked
+    this.repeater.toggleState()
+  }
 
 /**
  * Méthode appelée au chargement du formulaire d'édition de la tâche, désignée pour régler le composant Crontab si nécessaire.
@@ -141,6 +150,8 @@ getCronData(){
     let value_str = this['field_' + prop].value, value ;
     if ( value_str == '---' ) {
       value = null
+    } else if ( value_str == 'all' ) {
+      value = 'all'
     } else {
       value = ['wDay', 'uFreq'].includes(prop) ? value_str : Number(value_str)
     }
@@ -181,10 +192,11 @@ genCronExpression(dataCron) {
 
   return [
     uFreq === "minute" ? freqValue : (hMin    === null ? "0" : hMin),
-    uFreq === "hour"   ? freqValue : (dHour   === null ? "*" : dHour),
+    uFreq === "hour"   ? freqValue : ([null,'all'].includes(dHour) ? "*" : dHour),
     uFreq === "day"    ? freqValue : (mDay    === null ? "*" : mDay),
     uFreq === "month"  ? freqValue : (yMonth  === null ? "*" : yMonth),
-    uFreq === "week"   ? freqValue : (wDay    === null ? "*" : wDay)
+    (wDay === null ? "*" : wDay)
+    // uFreq === "week"   ? freqValue : (wDay    === null ? "*" : wDay)
   ].join(" ");
 }
 
@@ -245,34 +257,73 @@ parseAndShowCronExpression(cron) {
  * Ce résumé est construit en fonction des choix de récurrence.
  */
 showResumeHumain(crondata){
-  let sum = []
-  sum.push(LANG.Summary + LANG["[SPACE]"] + ":") 
-  sum.push(LANG["tasker_Repeat this task"])
+  // console.log("-> Construction du résumé du cron avec", crondata)
+  let sum = [], key;
+  sum.push(LOC('Summary') + LOC("[SPACE]") + ":") 
+  sum.push(LOC("Repeat this task"))
   // Pour le message 
   if ( crondata.uFreqValue > 1 ) {
-    sum.push(LANG['every' + (['day','month'].includes(crondata.uFreq) ? '' : '_fem')])
+    sum.push(LOC('every' + (['day','month'].includes(crondata.uFreq) ? '' : '_fem')))
     sum.push(String(crondata.uFreqValue))
-    sum.push(LANG[crondata.uFreq] + "s")
+    sum.push(LOC(crondata.uFreq) + (crondata.uFreq == 'month' ? '' : 's'))
   } else {
-    sum.push(LANG['each'])
-    sum.push(LANG['ilya_'+crondata.uFreq])
+    sum.push(LOC('each'))
+    sum.push(LOC(crondata.uFreq))
   }
+
+  // Est-ce qu'une heure est déterminée
+  switch(crondata.dHour){
+    case 'all':
+      sum.push(LOC('every_fem') + ' ' + LOC('hour') + 's')
+      break
+    case null: break;
+    default:
+      const min = crondata.hMin < 10 ? `0${crondata.hMin}` : crondata.hMin;
+      sum.push(LOC("at"))
+      sum.push(`${crondata.dHour} h ${min}`)
+  }
+
   // -- minute --
   // On ne l'affiche seule que si l'heure n'est pas déterminée
-  if ( crondata.dHour == null && crondata.hMin > 0) {
-    sum.push("à la " + crondata.hMin + "e minute") // "at minute %{minute}" -> "à la %{minute}e minute"
+  if ( crondata.hMin == 0 ) {
+    sum.push(LOC("(at the top of the hour)"))
+  } else if ( [null,'all'].includes(crondata.dHour) && crondata.hMin > 0) {
+    sum.push(LOC("at the $1<sup>th</sup> minute", [crondata.hMin]))
   }
   
   if ( crondata.wDay ) {
-    sum.push(LANG['ilya_on (day)'])
-    sum.push(LANG['ilya_'+crondata.wDay])
+    sum.push(LOC('on (day)'))
+    sum.push(LOC(EnglishWeekday[crondata.wDay]))
   }
-  // Est-ce qu'une heure est déterminée
-  if ( crondata.dHour ) {
-    sum.push("à")
-    sum.push(`${crondata.dHour} h ${crondata.hMin}`)
+
+  if (crondata.mDay || crondata.yMonth) sum.push(", ")
+
+  if ( crondata.mDay && ['fr'].includes(LANG) ) {
+    sum = this.le_jour_du_mois(crondata, sum)
   }
-  DGet('div#repeat-summary').innerHTML = sum.join(" ") + "."
+
+  if ( crondata.yMonth ) {
+    const mois = MOIS[crondata.yMonth - 1]
+    key = [4, 8, 10].includes(crondata.yMonth) ? "d’$1" : "de $1";
+    sum.push(LOC("du mois") + ' ' + LOC(key, [mois]))
+  }
+
+  if ( crondata.mDay && !['fr'].includes(LANG) ) {
+    sum = this.le_jour_du_mois(crondata, sum)
+  }
+
+
+  sum = sum.join(" ") + ".";
+  sum = sum.replace(" , ", ", ")
+  DGet('div#repeat-summary').innerHTML = sum
+}
+
+// Car utilisé à plusieurs endroits
+le_jour_du_mois(crondata, sum){
+  const key = crondata.mDay == 1 ? "the first" : "the $1" ;
+  sum.push(LOC(key, [crondata.mDay]))
+  if ( !crondata.yMonth ) sum.push(LOC("du mois")) ;
+  return sum
 }
 
 
@@ -295,3 +346,7 @@ get data(){
 
 window.Repeat = Repeat
 
+
+window.onload = function(){
+  Repeat.init()
+}

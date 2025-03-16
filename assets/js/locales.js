@@ -18,8 +18,8 @@
  */
 
 
-const lang = navigator.language.slice(0,2);
-import(`./locales-${lang}.js`); // définit LOCALES
+window.LANG = navigator.language.slice(0,2);
+import(`./locales-${LANG}.js`); // définit LOCALES
 
 class Locales {
 

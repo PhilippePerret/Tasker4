@@ -335,9 +335,6 @@ defmodule TaskerWeb.TaskHTML do
           <input type="number" name="frequency-value" class="small-number" value={1} />
           <select class="repeat-frequency-unit" name="frequency-unit">
             <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
-              <script type="text/javascript">
-                LANG.<%= lap_value %> = "<%= lap_title %>";
-              </script>
               <option value={lap_value}><%= lap_title %></option>
             <% end %>
           </select>
