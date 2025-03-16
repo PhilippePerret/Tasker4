@@ -282,7 +282,7 @@ class CBoxier {
 
   checkAndFormateValues(values, options){
     values || raise("Values required")
-    ;('object' == typeof values) || raise(MESSAGE['array_or_table_required'])
+    ;('object' == typeof values) || raise(LOC('Array or Table required'))
     var cbIndex = 0, good_values = [];
     if ( undefined == values.length) {
       for( var k in values) {
@@ -306,8 +306,8 @@ class CBoxier {
   }
   
   static normalizeOptions(options){
-    options.okName      || Object.assign(options, {okName: MESSAGE['OK']})
-    options.cancelName  || Object.assign(options, {cancelName: MESSAGE['Cancel']})
+    options.okName      || Object.assign(options, {okName: LOC('OK')})
+    options.cancelName  || Object.assign(options, {cancelName: LOC('Cancel')})
     options.displayType || Object.assign(options, {displayType: 'flex'})
     options.checkeds    || Object.assign(options, {checkeds: []})
     return options

@@ -27,27 +27,12 @@ defmodule TaskerWeb.TaskHTML do
     end) 
     |> Enum.join(",\n")
 
-    # Pour le moment, c'est redondant avec la constante MESSAGE
-    # fabriquée pour le travail (atwork.js)
-    messages = 
-    %{
-      array_or_table_required: gettext("Array or Table required"),
-      OK: gettext("OK"),
-      Cancel: gettext("Cancel")
-    }
-    |> Enum.map(fn {key_id, key_str} -> 
-      ~s(#{key_id}: "#{String.replace(key_str, "\"", "“")}")
-    end) 
-    |> Enum.join(",\n")
 
 
     """
     {
     #{locales}
     };
-    const MESSAGE = {
-    #{messages}
-    }
     """
   end
 

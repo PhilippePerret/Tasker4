@@ -14,6 +14,7 @@
 //
 //     import "some-package"
 //
+import "./locales.js";
 import "./handy_methods.js";
 import "./server_talk.js";
 import "./flash.js";

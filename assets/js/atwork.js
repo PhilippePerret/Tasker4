@@ -112,13 +112,13 @@ class ClassAtWork {
     })
     const data = {
         values: values
-      , title: MESSAGE['filter_per_project']
+      , title: LOC('Filter per project')
       , onOk: this.onFiltrePerProjets.bind(this)
       , onCancel: this.onFiltrePerProjets.bind(this)
       , container: DGet('div#container-filter-per-project')
     }
     const options = {
-        okName: MESSAGE['Filter'] 
+        okName: LOC('Filter')
       , return_checked_keys: true
     }
     this.projectFilter = new CBoxier(data, options)
@@ -130,13 +130,13 @@ class ClassAtWork {
     })
     const data = {
         values: values
-      , title: MESSAGE['filter_per_nature']
+      , title: LOC('Filter per nature')
       , onOk: this.onFiltrePerNatures.bind(this)
       , onCancel: this.onFiltrePerNatures.bind(this)
       , container: DGet('div#container-filter-per-nature')
     }
     const options = {
-        okName: MESSAGE['Filter'] 
+        okName: LOC('Filter')
       , return_checked_keys: true
       , width: 680
     }
@@ -167,11 +167,11 @@ class ClassAtWork {
     })
 
     if ( TASKS.length == 0 ) {
-      if ( confirm(MESSAGE['no_tasks_left_after_filter_restore']) ) { 
+      if ( confirm(LOC('There are no tasks left. Should I restore the filtered tasks?')) ) { 
         tasks_out.forEach(tk => TASKS.push(tk))
       } else {
         // Il faut toujours garder au moins une tâche
-        Flash.notice(MESSAGE['keeping_one_nonetheless'])
+        Flash.notice(LOC('I’m keeping one nonetheless.'))
         TASKS.push(tasks_out.shift())
       }
     }
@@ -304,7 +304,7 @@ class ClassAtWork {
     // demander ce que l'on doit faire. Si le worker veut enregistrer
     // le temps, on simule le clic sur le bouton stop.
     if ( this.running ){
-      if (confirm(MESSAGE['can_i_save_execution_current'])){
+      if (confirm(LOC('Can I log the working time on the current task? (Otherwise, it will not be recorded'))){
         this.onClickStop(null)
       }
     }
@@ -314,9 +314,9 @@ class ClassAtWork {
     // Pour bloquer l'interface, on met un div qui couvre tout
     this.UIMask = new UIMasker({
         counterback: task.end_at.getTime()
-      , title: `${MESSAGE['in_progress']} ${task.title}` // MESSAGE['end_exclusive_in']
+      , title: `${LOC('In progress:')} ${task.title}`
       , ontime: this.unlockExclusiveTask.bind(this, task, true)
-      , onclick: MESSAGE['wait_for_the_end_of_the_task']
+      , onclick: LOC('You have to wait for the end of the task.')
       , onforceStop: this.unlockExclusiveTask.bind(this, task, false)
     })
     this.UIMask.activate()
@@ -326,7 +326,7 @@ class ClassAtWork {
       clearTimeout(task.exclusive_timer);
       delete task.exclusive_timer
     }
-    let markDone = regularEnd || confirm(MESSAGE['ask_for_end_exclusive_task'])
+    let markDone = regularEnd || confirm(LOC('Should I mark the end of this exclusive task?'))
     if (markDone) {
       this.runOnCurrentTask('is_done', this.afterSetDone.bind(this))
     } else {
@@ -472,7 +472,7 @@ class ClassAtWork {
   afterRunScript(retour){
     if (retour.ok) {
       console.log("Retour de script", retour)
-      Flash.success(MESSAGE['run_script_successfully'])
+      Flash.success(LOC('The script was executed successfully!'))
     } else {
       Flash.error(retour.error)
     }
@@ -485,7 +485,7 @@ class ClassAtWork {
       notes = task.notes.map(dnote => {
         const o = DCreate('DIV', {class: 'note'})
         o.appendChild(DCreate('DIV', {class: 'title', text: dnote.title}))
-        const details = `${dnote.details} <span class="author">${dnote.author}</span><span class="date">, ${MESSAGE['le_pour_date']}${dnote.date}</span>` 
+        const details = `${dnote.details} <span class="author">${dnote.author}</span><span class="date">, ${LOC('on (date)')}${dnote.date}</span>` 
         o.appendChild(DCreate('DIV', {class: 'details', text: details}))
 
         return o
@@ -614,11 +614,11 @@ class ClassAtWork {
     if ( retour.ok ){
       sessionStorage.removeItem('running-start-time')
       if ( this.currentTask.id != retour.task_id ){
-        Flash.error(MESSAGE['strange_task_has_changed'])
+        Flash.error(LOC('Strange… the current task has changed. I cant’t update its execution time.'))
       } else {
         this.currentTask.task_time.execution_time = retour.execution_time
       }
-      Flash.notice(MESSAGE['execution_time_registered'])
+      Flash.notice(LOC('Working time recorded'))
     } else {
       Flash.error(retour.error)
     }
@@ -646,15 +646,15 @@ class ClassAtWork {
     const pos = Math.round(Math.random() * (this.TASKS_COUNT - 1) + 1)
     const first = TASKS.shift()
     TASKS.splice(pos, 0, first)
-    Flash.notice(MESSAGE['task_placed_in_position'].replace('$1', String(pos + 1)))
+    Flash.notice(LOC('The task has been placed in position $1.', [String(pos + 1)]))
     this.showCurrentTask()
   }
   onOutOfDay(ev){
     this.removeCurrentTask()
-    Flash.notice(MESSAGE['reload_page_to_replace'])
+    Flash.notice(LOC('Reloading the page will be enought to restore it.'))
   }
   onRemove(ev){
-    if ( !confirm(MESSAGE['dyou_want_to_delete_task']) ) return ;
+    if ( !confirm(LOC('Do you really want to permanently delete this task?')) ) return ;
     this.runOnCurrentTask('remove', this.afterRemove.bind(this))
   }
   afterRemove(retour){
@@ -672,14 +672,14 @@ class ClassAtWork {
    */
   onEdit(ev){
     this.register_task_order()
-    sessionStorage.setItem("back", `/work|${MESSAGE['back_to_work']}`)
+    sessionStorage.setItem("back", `/work|${LOC('Back to work')}`)
     const loc = window.location
     const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit`
     window.location = url
   }
   onProjet(ev){
     this.register_task_order()
-    sessionStorage.setItem("back", `/work|${MESSAGE['back_to_work']}`)
+    sessionStorage.setItem("back", `/work|${LOC('Back to work')}`)
     const loc = window.location
     const url = `${loc.protocol}//${loc.host}/projects/${this.currentTask.project_id}/edit`
     window.location = url
@@ -699,13 +699,13 @@ class ClassAtWork {
     if ( ev /* la toute première fois */) {
       if ( this.taskListOpen ) {
         this.taskListOpen = false
-        this.btnShowList.innerHTML = MESSAGE['sort']
+        this.btnShowList.innerHTML = LOC('Sort')
         this.showCurrentTask()
         return this.removeTaskList()
       } else {
-        this.btnShowList.innerHTML = MESSAGE['end_sort']
+        this.btnShowList.innerHTML = LOC('End of sorting')
       }
-      Flash.notice(MESSAGE['click_task_move_forward'])
+      Flash.notice(LOC('Click on the task to move it forward by one. Click “Hide List” to finish.'))
     }
     var top = 100, left = 200
     const tks = TASKS.map(tk => {return tk})

@@ -73,7 +73,8 @@ defmodule Tasker.MixProject do
       "assets.deploy": [
         "esbuild tasker --minify",
         "phx.digest"
-      ]
+      ],
+      "gettext.compile": ["gettext.compile", "generate_locales_js"]
     ]
   end
 end

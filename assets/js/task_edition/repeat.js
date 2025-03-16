@@ -242,14 +242,21 @@ parseAndShowCronExpression(cron) {
 
 /**
  * Affiche le résumé humain de la récurrence.
+ * Ce résumé est construit en fonction des choix de récurrence.
  */
 showResumeHumain(crondata){
   let sum = []
   sum.push(LANG.Summary + LANG["[SPACE]"] + ":") 
   sum.push(LANG["tasker_Repeat this task"])
-  sum.push(LANG['every' + (['day','month'].includes(crondata.uFreq) ? '' : '_fem')] )
-  sum.push(crondata.uFreqValue > 1 ? String(crondata.uFreqValue) : "")
-  sum.push(LANG['ilya_'+crondata.uFreq] + "s")
+  // Pour le message 
+  if ( crondata.uFreqValue > 1 ) {
+    sum.push(LANG['every' + (['day','month'].includes(crondata.uFreq) ? '' : '_fem')])
+    sum.push(String(crondata.uFreqValue))
+    sum.push(LANG[crondata.uFreq] + "s")
+  } else {
+    sum.push(LANG['each'])
+    sum.push(LANG['ilya_'+crondata.uFreq])
+  }
   // -- minute --
   // On ne l'affiche seule que si l'heure n'est pas déterminée
   if ( crondata.dHour == null && crondata.hMin > 0) {

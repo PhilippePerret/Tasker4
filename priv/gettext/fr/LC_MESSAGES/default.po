@@ -151,12 +151,12 @@ msgstr " "
 #: lib/tasker_web/controllers/Tache/task_html.ex:358
 #, elixir-autogen, elixir-format
 msgid "Every"
-msgstr "Tous les"
+msgstr "Chaque"
 
 #: lib/tasker_web/controllers/Tache/task_controller.ex:347
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
-msgstr "tous les"
+msgstr "chaque"
 
 #: lib/tasker_web/controllers/Tache/task_controller.ex:349
 #, elixir-autogen, elixir-format
@@ -166,12 +166,12 @@ msgstr "Résumé"
 #: lib/tasker_web/controllers/Tache/task_controller.ex:348
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
-msgstr "toutes les"
+msgstr "chaque"
 
 #: lib/tasker_web/controllers/Tache/task_controller.ex:346
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
-msgstr "Toutes les"
+msgstr "Chaque"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:1
 #, elixir-autogen, elixir-format
