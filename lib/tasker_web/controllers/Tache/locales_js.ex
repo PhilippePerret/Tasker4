@@ -47,11 +47,13 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("tasker", "No tasks found. Therefore, none can be selected.")
     dgettext("tasker", "Select tasks")
     dgettext("tasker", "Select natures")
+    dgettext("tasker", "Filter per nature")
+    dgettext("tasker", "Task natures")
+    dgettext("tasker", "Choose these natures")
     gettext("Array or Table required")
     dgettext("tasker", "Click on the task to move it forward by one. Click “Hide List” to finish.")
     dgettext("tasker", "The script was executed successfully!")
     dgettext("tasker", "Filter per project")
-    dgettext("tasker", "Filter per nature")
     dgettext("tasker", "Back to work")
     dgettext("tasker", "End of the exclusive task in…")
     dgettext("tasker", "Should I mark the end of this exclusive task?")
@@ -86,6 +88,7 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("ilya", "friday")
     dgettext("ilya", "saturday")
     dgettext("ilya", "sunday")
+    dgettext("ilya", "at")
     dgettext("ilya", "(at the top of the hour)") # "(en début d’heure)"
     dgettext("ilya", "at the $1<sup>th</sup> minute") # "à la $1<sup>e</sup> minute"
     dgettext("ilya", "on (day)")

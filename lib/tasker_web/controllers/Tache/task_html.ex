@@ -93,13 +93,12 @@ defmodule TaskerWeb.TaskHTML do
     |> assign(:title, dgettext("natures", "Natures"))
     |> assign(:options_natures, options_natures(assigns.natures))
     |> assign(:natures_choosed, assigns.changeset.data.natures||[])
-    |> assign(:bouton_choose, dgettext("tasker", "Choose task natures"))
 
     ~H"""
     <div id="natures-container" class="block" style="position:relative;">
       <input id="natures-value" type="hidden" name="task[natures]" value={@natures_choosed} />
       <label onclick="Task.toggleMenuNatures()">{@title}</label>
-      <div id="natures-list" onclick="Task.toggleMenuNatures()">[{@bouton_choose}]</div>
+      <div id="natures-list" onclick="Task.toggleMenuNatures()"></div>
       <div id="natures-select-container"></div>
       <script type="text/javascript">
         const NATURES = <%= raw @options_natures %>

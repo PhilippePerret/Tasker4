@@ -31,6 +31,17 @@ class Locales {
    * @param {Integer} count Le nombre (pour pluriel) — non traité pour le moment
    */
   static get(key, variables, gender, count){
+
+    if ( 'undefined' != typeof LOCALES ) {
+      if ( !sessionStorage.getItem('LOCALES') ) {
+        // console.info("Je mets les LOCALES en storage")
+        sessionStorage.setItem('LOCALES', JSON.stringify(LOCALES))
+      }
+    } else {
+      window.LOCALES = JSON.parse(sessionStorage.getItem('LOCALES'))
+      // console.info("Je dois reprendre les LOCALES du session storage", LOCALES)
+    }
+
     const dataLocale = LOCALES[key] || raise(`La locale « ${key} » est inconnue. Peut-être faut-il actualiser les fichiers locales-<LG>.js`)
     let str = dataLocale.trans || key
 

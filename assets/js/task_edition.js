@@ -95,13 +95,13 @@ class Task {
     const values = {}
     const data = {
         id: "nature-chooser"
-      , title: LOCALES['Task_natures']
+      , title: LOC('Task natures')
       , onOk: this.onChooseNatures.bind(this)
       , values: NATURES
       , container: DGet("div#natures-select-container")
     }
     const options = {
-        okName: "Choisir ces natures"
+        okName: LOC('Choose these natures')
       , checkeds: natureIds
       , return_checked_keys: true
     }
@@ -126,7 +126,7 @@ class Task {
     if (natureIds.length) {
       content = natureIds.map(key => {return NATURES[key]}).join(", ")
     } else {
-      content = "[" + LOCALES['Choose_task_natures'] + "]"
+      content = "[" + LOC('Choose task natures') + "]"
     }
     DGet('div#natures-list').innerHTML = content
   }

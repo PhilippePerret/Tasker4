@@ -529,7 +529,7 @@ msgstr "Chaque"
 msgid "each"
 msgstr "chaque"
 
-#: lib/tasker_web/controllers/Tache/locales_js.ex:50
+#: lib/tasker_web/controllers/Tache/locales_js.ex:53
 #, elixir-autogen, elixir-format
 msgid "Array or Table required"
 msgstr "Liste ou table requise"

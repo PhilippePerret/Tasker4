@@ -301,8 +301,6 @@ class CBoxier {
 
   static init(){
 
-    const styles = DCreate('STYLE', {type: "text/css", text: this.css})
-    document.body.appendChild(styles)
   }
   
   static normalizeOptions(options){
@@ -322,84 +320,6 @@ class CBoxier {
   static newId(){
     return "cbier-" + String(Number(new Date()) + Math.random(100))
   }
-
-  static get css(){
-    return `
-    div.cboxier {
-      position: absolute;
-      background-color: white;
-      box-shadow: 5px 5px 5px 5px #CCCCCC;
-      left: 0;
-      top: 0;
-      font-size: 0.9em;
-      padding: 1em;
-      z-index: 200;
-    }
-    div.cboxier.todo {
-      min-width: 200px;
-      max-width: 200px;
-      }
-    div.cboxier:not(.todo){
-      min-width: 400px;
-      max-width: 1000px;
-    }
-    div.cboxier div.title {
-      font-size: 1.1em;
-      font-weight: bold;
-      margin-bottom: 1em;
-    }
-    div.cboxier div.cboxier-cbs {
-      max-height: 400px;
-      overflow: scroll;
-    }
-    div.cboxier.todo div.cboxier-cbs {
-      display: block;
-    }
-    
-    div.cboxier:not(.todo) div.cboxier-cbs {
-      display: flex;
-      flex-wrap: wrap;
-      colum-gap: 20px;
-    }
-
-    div.cboxier.todo div.cboxier-cbs span.cboxier-cb {
-      display: block;
-    }
-    div.cboxier:not(.todo) div.cboxier-cbs span.cboxier-cb {
-      display:inline-block;
-      min-width: 200px;
-    }
-
-    div.cboxier div.cboxier-cbs span.cboxier-cb label {
-      display: inline!important;
-    }
-    div.cboxier div.buttons {
-      position: relative!important;
-      width: calc(100% - 2em);
-      text-align: right;
-      padding:0!important;
-    }
-
-    div.cboxier div.buttons.main {
-      padding:1em;
-      left:0; bottom:0;
-      margin-top:1em;
-    }
-    div.cboxier div.buttons.main button {
-      width: auto!important;
-      padding: 0.4em 1em;
-    }
-
-    div.cboxier div.buttons.mini-tools {
-      height: 40px;
-    }
-    div.cboxier div.buttons.mini-tools button {
-      width: auto!important;
-      padding: 2px;
-    }
-    `
-  }
-
 }
 window.CBoxier = CBoxier;
 window.onload = function(){CBoxier.init()}
