@@ -32,7 +32,7 @@ div.cboxier.todo div.cboxier-cbs {
 div.cboxier:not(.todo) div.cboxier-cbs {
   display: flex;
   flex-wrap: wrap;
-  colum-gap: 20px;
+  column-gap: 20px;
 }
 
 div.cboxier.todo div.cboxier-cbs span.cboxier-cb {

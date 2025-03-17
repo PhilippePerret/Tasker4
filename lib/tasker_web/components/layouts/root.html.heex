@@ -15,7 +15,7 @@
     <script defer src="https://www.atelier-icare.net/js-libraries/alors/alors_install.js"></script>
 
   </head>
-  <body>
+  <body class={env()}>
     <header><div class="content">
     <ul id="worker-mail-tools">
       <%= if @current_worker do %>
@@ -45,8 +45,8 @@
         </li>
       <% end %>
     </ul>
-    <a href={~p"/"}>
-        TASKER
+    <a id="main-logo" href={~p"/"}>
+        <%= dgettext("tasker", "APP NAME") %>
     </a></div></header>
     <.flash_group flash={@flash} />
     <% section_class = ["content", assigns[:orientation] || "portrait"] %>

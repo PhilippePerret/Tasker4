@@ -10,8 +10,20 @@ defmodule TaskerWeb.Layouts do
   """
   use TaskerWeb, :html
 
+  # Pour connaitre l'environnement dans le root, afin de présenter
+  # une forme différente.
+  @env Application.compile_env(:tasker, :env)
+
   # import TaskerWeb.Gettext
   use Gettext, backend: TaskerWeb.Gettext
 
   embed_templates "layouts/*"
+
+  @doc """
+  Pour connaitre l'environnement de travail dans les vues
+  """
+  def env, do: @env
+  def prod?, do: @env == :prod
+  def dev?,  do: @env == :dev
+
 end
