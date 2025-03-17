@@ -11,6 +11,7 @@ defmodule Tasker.Tache.TaskTime do
     field :started_at, :naive_datetime
     field :should_start_at, :naive_datetime
     field :should_end_at, :naive_datetime
+    field :imperative_end, :boolean, default: false
     field :ended_at, :naive_datetime
     field :given_up_at, :naive_datetime
     field :recurrence, :string
@@ -34,7 +35,7 @@ defmodule Tasker.Tache.TaskTime do
     |> treate_recurrence_if_any()
 
     task_time
-    |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :started_at, :ended_at, :given_up_at, :recurrence, :expect_duration, :execution_time, :deadline_trigger])
+    |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :imperative_end, :started_at, :ended_at, :given_up_at, :recurrence, :expect_duration, :execution_time, :deadline_trigger])
     |> validate_required([:task_id])
     |> validate_end_at()
     |> validate_should_end_at()

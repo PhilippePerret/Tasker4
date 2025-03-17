@@ -6,6 +6,7 @@ defmodule Tasker.Repo.Migrations.CreateTaskTimes do
       add :id, :binary_id, primary_key: true
       add :should_start_at, :naive_datetime
       add :should_end_at, :naive_datetime
+      add :imperative_end, :boolean, default: false
       add :started_at, :naive_datetime
       add :ended_at, :naive_datetime
       add :given_up_at, :naive_datetime

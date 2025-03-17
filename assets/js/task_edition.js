@@ -39,6 +39,9 @@ class Task {
 
     // Préparation du bloc des notes
     Blocnotes.init()
+
+    // Surveillance de la CB "Imperative End"
+    this.cbImperativeEnd.addEventListener('click', this.onChooseImperativeEnd.bind(this, this.cbImperativeEnd))
     
   } // init
 
@@ -136,18 +139,35 @@ class Task {
 
   static onChangePriority(ev){
     const prior = this.menuPriority.value;
-    if ( prior != "5" ) return ;
+    if ( prior != "5" ) {
+      this.expliPriority.innerHTML = ""
+      return
+    }
     const startat = NullIfEmpty(this.fieldStartAt.value)
     const endat   = NullIfEmpty(this.fieldEndAt.value)
     try {
+      this.expliPriority.innerHTML = LOC('Exclusive task explication')
       if ( !startat || !endat ) {
-        throw LOCALES['set_start_stop_for_exclusive']
+        throw LOC('A exclusive requires headline and deadline')
       }
     } catch (err) {
       this.menuPriority.selectedIndex = 0
       if (startat) this.fieldEndAt.focus();
       else this.fieldStartAt.focus();
-      Flash.error(err)
+    }
+  }
+
+  static onChooseImperativeEnd(cb, ev){
+    try {
+
+      if ( cb.checked && !this.fieldEndAt.value ) {
+        cb.checked = false
+        stopEvent(ev)
+        raise("A hard deadline obviously requires an end date.", this.fieldEndAt)
+      }
+      this.expliTimes.innerHTML = cb.checked ? LOC('Hard deadline Explication') : "" ;
+    } catch(err) {
+      // L'erreur est déjà affichée
     }
   }
 
@@ -155,9 +175,12 @@ class Task {
   static get fieldStartAt(){return DGet('input#start-at')}
   static get fieldEndAt(){return DGet('input#end-at')}
   static get menuPriority(){return DGet('select#task-priority')}
+  static get expliPriority(){return DGet('div#description-task-priority')}
   static get fieldNatures(){return DGet('input#natures-value')}
   static get blocNatures(){return DGet('div#natures-select-container')}
   static get menuNatures(){return DGet('select#task-natures-select')}
+  static get cbImperativeEnd(){return DGet('input#cb-imperative-end')}
+  static get expliTimes(){return DGet('div#description-times')}
 
 
   // ============ INSTANCE TASK ================

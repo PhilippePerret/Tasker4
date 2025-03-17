@@ -29,7 +29,7 @@ msgstr "Liste des projets"
 
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:15
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:5
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:88
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:91
 #, elixir-autogen, elixir-format
 msgid "Back to tasks"
 msgstr "Liste des tâches"
@@ -153,7 +153,7 @@ msgstr "Détails"
 msgid "Priority"
 msgstr "Priorité"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:55
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:58
 #, elixir-autogen, elixir-format
 msgid "Recurrence"
 msgstr "Récurrence"
@@ -188,7 +188,7 @@ msgstr "Abandonnée le"
 msgid "Task created successfully."
 msgstr "Tâche créée avec succès."
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:77
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:80
 #, elixir-autogen, elixir-format
 msgid "Task notepad"
 msgstr "Blocnotes"
@@ -198,22 +198,22 @@ msgstr "Blocnotes"
 msgid "Please enter at least a title for the task!"
 msgstr "Merci de donner au moins un titre à cette tâche !"
 
-#: lib/tasker/tache/task_time.ex:137
+#: lib/tasker/tache/task_time.ex:138
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{should_start_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:125
+#: lib/tasker/tache/task_time.ex:126
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{started_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:110
+#: lib/tasker/tache/task_time.ex:111
 #, elixir-autogen, elixir-format
 msgid "cannot be set: abandonment date already defined"
 msgstr "la date d'abandon est déjà définie !"
 
-#: lib/tasker/tache/task_time.ex:116
+#: lib/tasker/tache/task_time.ex:117
 #, elixir-autogen, elixir-format
 msgid "cannot be set: end date already defined"
 msgstr "la date de fin est déjà définie !"
@@ -223,17 +223,17 @@ msgstr "la date de fin est déjà définie !"
 msgid "Save this note"
 msgstr "Enregistrer cette note"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:46
+#: lib/tasker_web/controllers/Tache/js_locales.ex:47
 #, elixir-autogen, elixir-format
 msgid "Repeat this task"
 msgstr "Répéter cette tâche"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:41
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "End"
 msgstr "Fin"
 
-#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:40
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:41
 #, elixir-autogen, elixir-format
 msgid "Start"
 msgstr "Début"
@@ -258,17 +258,17 @@ msgstr "Tâches avant"
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr "La tâche éditée ne pourra être exécutée qu’après la réalisation de toutes les tâches ci-dessus."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:47
+#: lib/tasker_web/controllers/Tache/js_locales.ex:48
 #, elixir-autogen, elixir-format
 msgid "No task selected, I’m stopping here."
 msgstr "Aucune tâche choisie, je m'arrête là."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:48
+#: lib/tasker_web/controllers/Tache/js_locales.ex:49
 #, elixir-autogen, elixir-format
 msgid "No tasks found. Therefore, none can be selected."
 msgstr "Aucune tâche trouvée. Impossible donc d'en choisir."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:49
+#: lib/tasker_web/controllers/Tache/js_locales.ex:50
 #, elixir-autogen, elixir-format
 msgid "Select tasks"
 msgstr "Choisir les tâches"
@@ -278,22 +278,22 @@ msgstr "Choisir les tâches"
 msgid "Task flow"
 msgstr "Tâche"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:43
+#: lib/tasker_web/controllers/Tache/js_locales.ex:44
 #, elixir-autogen, elixir-format
 msgid "A task cannot be dependent on itself."
 msgstr "Une tâche ne peut être dépendante d'elle-même."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:45
+#: lib/tasker_web/controllers/Tache/js_locales.ex:46
 #, elixir-autogen, elixir-format
 msgid "A title must be given to the note!"
 msgstr "Il faut donner un titre à la note !"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:44
+#: lib/tasker_web/controllers/Tache/js_locales.ex:45
 #, elixir-autogen, elixir-format
 msgid "Inconsistencies in dependencies. I cannot save them."
 msgstr "Incohérences dans les dépendances. Je ne peux pas les enregistrer."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:50
+#: lib/tasker_web/controllers/Tache/js_locales.ex:51
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Select natures"
 msgstr "Choisir les natures"
@@ -435,7 +435,7 @@ msgid "The project folder ‘%{path}’ could not be found."
 msgstr "Le dossier de projet ‘%{path}’ est introuvable."
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:41
-#: lib/tasker_web/controllers/Tache/js_locales.ex:51
+#: lib/tasker_web/controllers/Tache/js_locales.ex:52
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Filter per nature"
 msgstr "Filtre par nature"
@@ -520,17 +520,17 @@ msgstr "Temps d’exécution enregistré"
 msgid "You have to wait for the end of the task."
 msgstr "Vous devez attendre la fin de la tâche."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:42
+#: lib/tasker_web/controllers/Tache/js_locales.ex:43
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Double dependency between task $1 and task $2."
 msgstr "Double dépendance entre la tâche $1 et la tâche $2."
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:53
+#: lib/tasker_web/controllers/Tache/js_locales.ex:54
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Choose these natures"
 msgstr "Choisir ces natures"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:52
+#: lib/tasker_web/controllers/Tache/js_locales.ex:53
 #, elixir-autogen, elixir-format
 msgid "Task natures"
 msgstr "Natures de la tâche"
@@ -540,7 +540,32 @@ msgstr "Natures de la tâche"
 msgid "APP NAME"
 msgstr "MONO TÂCHE"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:41
+#: lib/tasker_web/controllers/Tache/js_locales.ex:42
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Choose task natures"
 msgstr "Choisir les natures de la tâche"
+
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Hard deadline"
+msgstr "Fin impérative"
+
+#: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:43
+#, elixir-autogen, elixir-format
+msgid "Hard deadline Explication"
+msgstr "Si cette case est cochée, lorsque la tâche arrivera à expiration, elle deviendra prioritaire sur toutes les autres."
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:71
+#, elixir-autogen, elixir-format
+msgid "Exclusive task explication"
+msgstr "Lorsqu’une tâche est définie comme exclusive, aucune autre tâche ne peut être exécutée avant que celle-ci ne soit achevée."
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:72
+#, elixir-autogen, elixir-format
+msgid "A exclusive requires headline and deadline"
+msgstr "Une tâche exclusive doit impérativement définir son début et sa fin."
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:73
+#, elixir-autogen, elixir-format
+msgid "A hard deadline obviously requires an end date."
+msgstr "Une fin impérative requiert évidemment une date de fin."

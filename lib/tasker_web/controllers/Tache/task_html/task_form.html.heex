@@ -32,6 +32,7 @@
         <.input id="task-priority" field={fp[:priority]} type="select" class={["no-left-margin"]} value={fp[:priority].value || "nil"} options={options_priority()} label={dgettext("tasker", "Priority")} />
         <.input field={fp[:urgence]} type="select" class={["no-left-margin"]} value={fp[:urgence].value || "nil"} options={options_urgence()} label={dgettext("tasker", "Urgence")} />
         <.input field={fp[:difficulty]} type="select" class={["no-left-margin"]} value={fp[:difficulty].value || "nil"} options={options_difficulty()} label={dgettext("tasker", "Difficulty")} />
+        <div id="description-task-priority" class="explication tiny"></div>
       </div>
     </.inputs_for>
     
@@ -39,7 +40,9 @@
       <div class="inline-fields small-gap no-points">
         <.input id="start-at" field={ft[:should_start_at]} value={ft[:should_start_at].value || nil} type="datetime-local" label={dgettext("tasker", "Start")} />
         <.input id="end-at" field={ft[:should_end_at]} type="datetime-local" label={dgettext("tasker", "End")} />
+        <.input id="cb-imperative-end" field={ft[:imperative_end]} type="checkbox" label={dgettext("tasker","Hard deadline")} value={ft[:imperative_end].value||false} title={dgettext("tasker", "Hard deadline Explication")} />
         <.duration_field changeset={@changeset} expected_duration={ft[:expect_duration].value}/>
+        <div id="description-times" class="explication tiny"></div>
       </div>
       
       <.bloc_natures changeset={@changeset} natures={@data.natures} lang={@lang} />

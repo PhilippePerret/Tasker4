@@ -9,6 +9,7 @@ Code.require_file("tache_fixtures.ex", "./test/support/fixtures")
 Code.require_file("projet_fixtures.ex", "./test/support/fixtures")
 defmodule Tasker.Seed do
 
+  alias Random.RandMethods, as: RAND
   alias Tasker.TacheFixtures, as: FXT
   alias Tasker.ProjetFixtures, as: FXP
 
@@ -55,7 +56,7 @@ defmodule Tasker.Seed do
       pseudo: "Phil",
       email: "philippe.perret@yahoo.fr",
       password: "xadcaX-huvdo9-xidkun",
-      confirmed_at: FXT.random_time(:after, 60)
+      confirmed_at: RAND.random_time(:after, 60)
     }
     insert(:worker, phil_data)
   end
@@ -120,11 +121,11 @@ end
 alias Tasker.Seed, as: S
 
 # === Workers ===
-# S.insertion_people()
+S.insertion_people()
 
 # === tâches ===
 S.truncate(:tasks)
 S.truncate(:projects)
-# S.insertion_une()
-# S.insertion_quatre_with_dependances()
-# S.insertion_dix_diverses()
+S.insertion_une()
+S.insertion_quatre_with_dependances()
+S.insertion_dix_diverses()

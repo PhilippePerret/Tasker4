@@ -13,7 +13,8 @@ window.raise = function(message, domField) {
     domField.focus()
     domField.select()
   }
-  throw new Error(message)
+  Flash.error(message)
+  throw null
 }
 
 window.stopEvent = function(ev){

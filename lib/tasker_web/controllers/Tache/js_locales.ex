@@ -36,6 +36,7 @@ defmodule TaskerWeb.LocalesJS do
     gettext("Show list")
     gettext("Hide list")
     gettext("on (date)")
+    gettext("Array or Table required")
 
     # - tasker -
     dgettext("tasker", "Choose task natures")
@@ -51,7 +52,6 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("tasker", "Filter per nature")
     dgettext("tasker", "Task natures")
     dgettext("tasker", "Choose these natures")
-    gettext("Array or Table required")
     dgettext("tasker", "Click on the task to move it forward by one. Click “Hide List” to finish.")
     dgettext("tasker", "The script was executed successfully!")
     dgettext("tasker", "Filter per project")
@@ -67,8 +67,10 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("tasker", "Reloading the page will be enought to restore it.")
     dgettext("tasker", "Do you really want to permanently delete this task?")
     dgettext("tasker", "I’m keeping one nonetheless.")
-    dgettext("tasker","There are no tasks left. Should I restore the filtered tasks?")
-   
+    dgettext("tasker", "There are no tasks left. Should I restore the filtered tasks?")
+    dgettext("tasker", "Exclusive task explication")
+    dgettext("tasker", "A exclusive requires headline and deadline")
+    dgettext("tasker", "A hard deadline obviously requires an end date.")
     # - il y a - 
     dgettext("ilya", "january")
     dgettext("ilya", "february")
