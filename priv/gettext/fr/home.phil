@@ -1,0 +1,16 @@
+---
+default_tag = p
+image_folder = "./le/dossier/images"
+---
+
+.exergue:
+  Bienvenue sur la page d'accueil de <%= app_name %>.
+
+Après vous être identifié(e), choisissez ce que vous voulez faire :
+
+.center.inline:
+  [Commencer le travail](/work)
+  |
+  [Liste des tâches](/tasks) 
+  |
+  [Créer une nouvelle tâche](/tasks/edit)
