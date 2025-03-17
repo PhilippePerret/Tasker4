@@ -208,10 +208,49 @@ defmodule PhilTextFormater do
     iex> treate_simple_formatages("*italic*", [])
     "<em>italic</em>"
 
+    iex> treate_simple_formatages("*ital* et *ic*", [])
+    "<em>ital</em> et <em>ic</em>"
+
+    iex> treate_simple_formatages("**gras**", [])
+    "<strong>gras</strong>"
+
+    iex> treate_simple_formatages("__underscore__", [])
+    "<u>underscore</u>"
+
+    iex> treate_simple_formatages("__under__ et __score__", [])
+    "<u>under</u> et <u>score</u>"
+
+    iex> treate_simple_formatages("1^er, 2^2 et 3^exposant.", [])
+    "1<sup>er</sup>, 2<sup>2</sup> et 3<sup>exposant</sup>."
+
+    iex> treate_simple_formatages("--del|ins--", [])
+    "<del>del</del> <ins>ins</ins>"
+    
+    iex> treate_simple_formatages("--del--", [])
+    "<del>del</del>"
+
+
   """
+  @reg_bolds ~r/\*\*(.+)\*\*/U    ; @remp_bolds "<strong>\\1</strong>"
+  @reg_italics ~r/\*(.+)\*/U      ; @remp_italics "<em>\\1</em>"
+  @reg_under ~r/__(.+)__/U        ; @remp_under "<u>\\1</u>"
+  @reg_superscript ~r/\^(.+)\b/U  ; @remp_superscript "<sup>\\1</sup>"
+  @reg_del_ins ~r/\-\-(.+)\|(.+)\-\-/U ; @remp_del_ins "<del>\\1</del> <ins>\\2</ins>"
+  @reg_del ~r/\-\-(.+)\-\-/U      ; @remp_del "<del>\\1</del>"
+  
   def treate_simple_formatages(content, metadata) do
     content
+    |> replace_in_string(@reg_bolds       , @remp_bolds)
+    |> replace_in_string(@reg_italics     , @remp_italics)
+    |> replace_in_string(@reg_under       , @remp_under)
+    |> replace_in_string(@reg_superscript , @remp_superscript)
+    |> replace_in_string(@reg_del_ins     , @remp_del_ins)
+    |> replace_in_string(@reg_del         , @remp_del)
   end
+  defp replace_in_string(str, reg, remp) do
+    Regex.replace(reg, str, remp)
+  end
+
 
 
   def split_front_matter(str) do
