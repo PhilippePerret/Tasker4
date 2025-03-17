@@ -165,6 +165,10 @@ class TaskDependencies {
     btns.appendChild(btn)
     document.body.appendChild(div)
   }
+  /**
+   * Fonction appelée quand on clique sur le bouton "OK" pour choisir 
+   * les tâches avant ou après la tâche éditée.
+   */
   getTaskListAndCallback(callback, ev){
     const taskList = []
     // TODO Récupérer la liste des tâches
@@ -201,10 +205,12 @@ class TaskDependencies {
     const contreNature = nature == 'prev' ? 'next' : 'prev';
     const contreTasks = this.getDependenciesOfNature(contreNature, 'map2save');
     relData.push(...contreTasks)
+    const serverData = {relations: relData, task_id: TASK_ID}
+    // console.info("Données pour le serveur : ", serverData)
     if ( this.checkDependencies(relData) ) {
       ServerTalk.dial({
-          route: "/tasksop/save_relations"
-        , data: {relations: relData, task_id: TASK_ID}
+          route:    "/tasksop/save_relations"
+        , data:     serverData
         , callback: this.afterSavedDependencies.bind(this)
       })
     } else {
