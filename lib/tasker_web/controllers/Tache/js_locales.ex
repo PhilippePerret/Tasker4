@@ -38,6 +38,7 @@ defmodule TaskerWeb.LocalesJS do
     gettext("on (date)")
 
     # - tasker -
+    dgettext("tasker", "Choose task natures")
     dgettext("tasker", "Double dependency between task $1 and task $2.")
     dgettext("tasker", "A task cannot be dependent on itself.")
     dgettext("tasker", "Inconsistencies in dependencies. I cannot save them.")

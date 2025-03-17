@@ -7,6 +7,11 @@
  * 
  *    mix run lib/mix/tasks/generate_locales_js.ex
  * 
+ * Ajouter les nouvelles locales uniquement JavaScript dans le
+ * fichier : 
+ * 
+ *  lib/tasker_web/controllers/Tache/js_locales.ex
+ * 
  * @usage
  * 
  *      LOC('key-locale')   // => la traduction

@@ -20,9 +20,6 @@ if System.get_env("PHX_SERVER") do
   config :tasker, TaskerWeb.Endpoint, server: true
 end
 
-config :tasker, :env, config_env()
-IO.inspect(config_env(), label: "config_env() dans runtime")
-
 if config_env() == :prod do
   
   config :tasker, TaskerWeb.Endpoint, server: true

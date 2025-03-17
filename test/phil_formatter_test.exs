@@ -3,6 +3,7 @@ defmodule PhilTextFormaterTest do
 
   import PhilTextFormater
 
+  # Pour tester 
   doctest PhilTextFormater
 
 end
