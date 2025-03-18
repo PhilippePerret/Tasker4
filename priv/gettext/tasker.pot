@@ -110,7 +110,7 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:124
+#: lib/tasker_web/controllers/Tache/task_html.ex:127
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr ""
@@ -168,17 +168,17 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:162
+#: lib/tasker_web/controllers/Tache/task_html.ex:165
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:171
+#: lib/tasker_web/controllers/Tache/task_html.ex:174
 #, elixir-autogen, elixir-format
 msgid "Task Current Status"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#: lib/tasker_web/controllers/Tache/task_html.ex:335
 #, elixir-autogen, elixir-format
 msgid "given up at"
 msgstr ""
@@ -218,7 +218,7 @@ msgstr ""
 msgid "cannot be set: end date already defined"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:195
+#: lib/tasker_web/controllers/Tache/task_html.ex:198
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr ""
@@ -238,22 +238,22 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:464
+#: lib/tasker_web/controllers/Tache/task_html.ex:386
 #, elixir-autogen, elixir-format
 msgid "All the tasks above can only be executed after the execution of this task."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:439
+#: lib/tasker_web/controllers/Tache/task_html.ex:361
 #, elixir-autogen, elixir-format
 msgid "Next Tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:438
+#: lib/tasker_web/controllers/Tache/task_html.ex:360
 #, elixir-autogen, elixir-format
 msgid "Previous Tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:461
+#: lib/tasker_web/controllers/Tache/task_html.ex:383
 #, elixir-autogen, elixir-format
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr ""
@@ -273,7 +273,7 @@ msgstr ""
 msgid "Select tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:440
+#: lib/tasker_web/controllers/Tache/task_html.ex:362
 #, elixir-autogen, elixir-format
 msgid "Task flow"
 msgstr ""

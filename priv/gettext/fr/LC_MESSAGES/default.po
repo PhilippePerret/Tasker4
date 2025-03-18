@@ -67,27 +67,27 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:416
+#: lib/tasker_web/controllers/Tache/task_html.ex:338
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:418
+#: lib/tasker_web/controllers/Tache/task_html.ex:340
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:424
+#: lib/tasker_web/controllers/Tache/task_html.ex:346
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:423
+#: lib/tasker_web/controllers/Tache/task_html.ex:345
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:420
+#: lib/tasker_web/controllers/Tache/task_html.ex:342
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
@@ -148,7 +148,7 @@ msgstr "très faible"
 msgid "[SPACE]"
 msgstr " "
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:321
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:132
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr "Chaque"
@@ -446,7 +446,7 @@ msgstr "vous allez recevoir un mèl avec des instructions. "
 msgid "(click to edit)"
 msgstr "(cliquez pour modifier)"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:274
+#: lib/tasker_web/controllers/Tache/task_html.ex:277
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr "Durée estimée"
@@ -529,7 +529,7 @@ msgstr "Chaque"
 msgid "each"
 msgstr "chaque"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:39
+#: lib/tasker_web/controllers/Tache/js_locales.ex:38
 #, elixir-autogen, elixir-format
 msgid "Array or Table required"
 msgstr "Liste ou table requise"
@@ -574,7 +574,7 @@ msgstr "Tout sélectionner"
 msgid "Show list"
 msgstr "Montrer la liste"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:38
+#: lib/tasker_web/controllers/Tache/js_locales.ex:39
 #, elixir-autogen, elixir-format
-msgid "on (date)"
-msgstr "le "
+msgid ", and"
+msgstr ","

@@ -58,7 +58,7 @@
   select#cron-value-at_minute {
     grid-column: 2;
     grid-row: 3;
-    width: 100px;
+    width: 70px;
   }
 
   label#cron-label-at_hour {
@@ -68,7 +68,7 @@
   select#cron-value-at_hour {
     grid-column:3;
     grid-row:3;
-    width: 100px;
+    width: 60px;
   }
   div#cron-container-several-hours {
     grid-column:3;
@@ -96,6 +96,7 @@
   select#cron-value-at_mday {
     grid-column:5;
     grid-row:3;
+    width:70px;
   }
   div#cron-container-several-days {
     grid-column:5;
@@ -109,6 +110,7 @@
   select#cron-value-ymonth {
     grid-column:6;
     grid-row:3;
+    width:100px;
   }
   div#cron-container-several-months {
     grid-column:6;
@@ -129,7 +131,7 @@
   <!-- Tous les… jours… -->
   <label id="cron-label-every">{gettext("Every")}</label>
   <div id="cron-value-every">
-    <input type="number" name="frequency-value" class="small-number" value={1} />
+    <input type="number" name="frequency-value" class="small-number" value={1} style="width:30px!important;" />
     <select class="repeat-frequency-unit" name="frequency-unit">
       <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
         <option value={lap_value}><%= lap_title %></option>
@@ -150,7 +152,6 @@
   <label id="cron-label-at-hour">{dgettext("ilya", "on… (hour)")}</label>
   <select id="cron-value-at_hour" class="cron-property cron-at-hour" name="at-hour">
     <option value="---">---</option>
-    <option value="all">toutes</option>
     <%= for hour <- (23..0//-1) do %>
       <option value={hour}><%= hour %></option>
     <% end %>

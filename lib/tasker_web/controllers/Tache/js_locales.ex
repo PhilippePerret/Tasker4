@@ -35,8 +35,8 @@ defmodule TaskerWeb.LocalesJS do
     gettext("End of sorting")
     gettext("Show list")
     gettext("Hide list")
-    gettext("on (date)")
     gettext("Array or Table required")
+    gettext(", and")
 
     # - tasker -
     dgettext("tasker", "Choose task natures")
@@ -95,11 +95,14 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("ilya", "(at the top of the hour)") # "(en début d’heure)"
     dgettext("ilya", "at the $1<sup>th</sup> minute") # "à la $1<sup>e</sup> minute"
     dgettext("ilya", "on (day)")
+    dgettext("ilya", "on (date)")
+    dgettext("ilya", "on (days)")
     dgettext("ilya", "du mois")
     dgettext("ilya", "d’$1")
     dgettext("ilya", "de $1")
     dgettext("ilya", "the first")
     dgettext("ilya", "the $1") # pour le 12 (jour)
+    dgettext("ilya", "des mois de")
 
   end
 

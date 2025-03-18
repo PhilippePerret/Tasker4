@@ -47,3 +47,9 @@ window.stopEvent = function(ev){
   ev.preventDefault();
   return false
 }
+
+
+window.prettyList = function(list){
+  const last = list.pop()
+  return list.join(", ") + ", and " + String(last)
+}

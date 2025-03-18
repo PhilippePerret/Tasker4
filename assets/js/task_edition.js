@@ -2,7 +2,7 @@
 import "./task_edition/task_script.js"
 import "./task_edition/task_dependencies.js"
 import "./task_edition/task_notes.js"
-import "./task_edition/repeat.js"
+import "./task_edition/crontab.js"
 
 class Task {
   static init(){

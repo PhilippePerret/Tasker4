@@ -7,6 +7,7 @@ div.cboxier {
   font-size: 0.9em;
   padding: 1em;
   z-index: 200;
+  text-align: left;
 }
 div.cboxier.todo {
   min-width: 200px;

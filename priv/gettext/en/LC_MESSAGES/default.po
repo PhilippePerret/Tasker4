@@ -67,27 +67,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:416
+#: lib/tasker_web/controllers/Tache/task_html.ex:338
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:418
+#: lib/tasker_web/controllers/Tache/task_html.ex:340
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:424
+#: lib/tasker_web/controllers/Tache/task_html.ex:346
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:423
+#: lib/tasker_web/controllers/Tache/task_html.ex:345
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:420
+#: lib/tasker_web/controllers/Tache/task_html.ex:342
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
@@ -148,7 +148,7 @@ msgstr "very low"
 msgid "[SPACE]"
 msgstr "</>"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:321
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:132
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr ""
@@ -446,7 +446,7 @@ msgstr ""
 msgid "(click to edit)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:274
+#: lib/tasker_web/controllers/Tache/task_html.ex:277
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr ""
@@ -529,7 +529,7 @@ msgstr ""
 msgid "each"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:39
+#: lib/tasker_web/controllers/Tache/js_locales.ex:38
 #, elixir-autogen, elixir-format
 msgid "Array or Table required"
 msgstr ""
@@ -574,7 +574,7 @@ msgstr ""
 msgid "Show list"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:38
+#: lib/tasker_web/controllers/Tache/js_locales.ex:39
 #, elixir-autogen, elixir-format
-msgid "on (date)"
-msgstr "on "
+msgid ", and"
+msgstr ""
