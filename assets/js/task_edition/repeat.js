@@ -346,7 +346,6 @@ get data(){
 
 window.Repeat = Repeat
 
-
-window.onload = function(){
+window.addEventListener('load', function(){
   Repeat.init()
-}
+})

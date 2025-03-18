@@ -212,10 +212,10 @@ class Task {
 
 window.Task = Task
 
-window.onload = function(ev){
+window.addEventListener('load', function(){
   Task.init()
   Repeat.onLoad()
-}
+})
 
 Repeat.ctest = function(){
   if (!this.activited ) {

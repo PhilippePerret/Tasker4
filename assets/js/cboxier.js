@@ -322,4 +322,7 @@ class CBoxier {
   }
 }
 window.CBoxier = CBoxier;
-window.onload = function(){CBoxier.init()}
+
+window.addEventListener('load', function(){
+  CBoxier.init()
+})
