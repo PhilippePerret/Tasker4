@@ -13,7 +13,7 @@ div.cboxier.todo {
   max-width: 200px;
   }
 div.cboxier:not(.todo){
-  min-width: 400px;
+  width: 400px;
   max-width: 1000px;
 }
 div.cboxier div.title {
@@ -32,7 +32,7 @@ div.cboxier.todo div.cboxier-cbs {
 div.cboxier:not(.todo) div.cboxier-cbs {
   display: flex;
   flex-wrap: wrap;
-  column-gap: 20px;
+  /* column-gap: 20px; */
 }
 
 div.cboxier.todo div.cboxier-cbs span.cboxier-cb {
@@ -40,7 +40,6 @@ div.cboxier.todo div.cboxier-cbs span.cboxier-cb {
 }
 div.cboxier:not(.todo) div.cboxier-cbs span.cboxier-cb {
   display:inline-block;
-  min-width: 200px;
 }
 
 div.cboxier div.cboxier-cbs span.cboxier-cb label {

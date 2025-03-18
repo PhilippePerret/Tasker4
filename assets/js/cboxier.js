@@ -53,20 +53,22 @@
  *    :id {String}
  *        Identifiant unique du cboxier (calculé par défaut)
  *    :title {String}
- *        Titre à donner au cboxier
+ *        Titre à donner au cboxier. Si non défini, la boite n'aura 
+ *        pas de titre.
  *    :container {DomElement}
  *        L'élément dans lequel on doit mettre le cboxier
  *        document.body par défaut
  *    :onOk
  *        Fonction à appeler quand on clique sur le bouton OK
- *    :onCancle
+ *    :onCancel
  *        Fonction à appeler quand on clique sur Cancel
  * 
  * +options+
  *    width:        {Integer} La largeur (en pixels) de la boite, si
  *                  la largeur naturelle ne convient pas.
  *    gutter:       {Integer} Largeur en pixels de la gouttière 
- *                  (espace entre les colonnes — 20px par défaut)
+ *                  (espace entre les colonnes — 0px par défaut)
+ *    item_width    {Integer} largeur des items (200 par défaut)
  *    checkeds:     Liste des valeurs (key) cochées
  *                  Note : elles peuvent être précisées aussi par les
  *                  data.
@@ -179,6 +181,8 @@ class CBoxier {
    * Construction du cboxier
    */
   build(){
+    const item_width = `${(this.options.item_width || 200)}px`
+
     this.cbs = {} // table pour consigner les cb par clé
 
     var style = []
@@ -194,8 +198,8 @@ class CBoxier {
 
     // --- Lignes de mini-outils ---
     const tmt = DCreate('DIV', {class: 'mini-tools buttons'})
-    this.btnCheckAll = DCreate('BUTTON', {class: 'tiny', text: '☑︎☑︎☑︎'})
-    this.btnUncheckAll = DCreate('BUTTON', {class: 'tiny', text: '☐☐☐'})
+    this.btnCheckAll = DCreate('BUTTON', {class: 'tiny', type:'button', text: '☑︎☑︎☑︎'})
+    this.btnUncheckAll = DCreate('BUTTON', {class: 'tiny', type:'button', text: '☐☐☐'})
     tmt.appendChild(this.btnCheckAll)
     tmt.appendChild(this.btnUncheckAll)
     o.appendChild(tmt)
@@ -213,7 +217,7 @@ class CBoxier {
       cb.checked = dcb.checked
       cb.dataset.key = dcb.key
       const lab = DCreate('LABEL', {for: id, text: dcb.label})
-      const span = DCreate('SPAN', {class: "cboxier-cb"})
+      const span = DCreate('SPAN', {class: "cboxier-cb", style: `width:${item_width};`})
       span.appendChild(cb)
       span.appendChild(lab)
       c.appendChild(span)

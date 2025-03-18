@@ -313,96 +313,15 @@ defmodule TaskerWeb.TaskHTML do
   """
   attr :changeset, Ecto.Changeset, required: true
   attr :lang, :string, required: true
-
-  def recurrence_form(assigns) do
-
+  def the_recurrence_form(assigns) do
     # Les assignations pour ce composant
     assigns = assigns 
     |> assign(:recurrence, assigns.changeset.data.task_time.recurrence)
     |> assign(:month_data, month_data())
     |> assign(:data_week, data_week())
-    |> assign(:every, gettext("Every"))
     |> assign(:data_repeat_unit, data_repeat_unit())
-    |> assign(:at_minute, dgettext("ilya", "at minute"))
-
     ~H"""
-    <input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
-    <div id="recurrence-container" class="repeat-container hidden">
-    
-    <div id="repeat-summary" class="small mgb-1"></div>
-
-    <div class="repeat-form inline-fields">
-      <div class="inline-fields" style="vertical-align:bottom;">
-          <label class="no-points">{@every}</label>
-          <input type="number" name="frequency-value" class="small-number" value={1} />
-          <select class="repeat-frequency-unit" name="frequency-unit">
-            <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
-              <option value={lap_value}><%= lap_title %></option>
-            <% end %>
-          </select>
-        </div>
-        <div class="inline-fields">
-          <span class="repeat-property at-minute"> 
-                <label class="no-points">{@at_minute}</label>
-                <select class="repeat-at-minute no-left-margin" name="at-minute">
-                  <option value="---">---</option>
-                  <%= for minute <- (0..59//5) do %>
-                    <option value={minute}><%= minute %></option>
-                  <% end %>
-                </select>
-          </span>
-
-          <span class="repeat-property at-hour"> 
-                  <label class="no-points">de l'heure</label>
-                  <select class="repeat-at-hour no-left-margin" name="at-hour">
-                    <option value="---">---</option>
-                    <option value="all">toutes</option>
-                    <%= for hour <- (23..0//-1) do %>
-                      <option value={hour}><%= hour %></option>
-                    <% end %>
-                  </select>
-          </span>
-        </div>
-
-        <div class="inline-fields">
-          <span class="repeat-property at-day"> 
-                  <label class="no-points">le </label>
-                  <select class="repeat-at-day no-left-margin" name="at-day">
-                    <option value="---">---</option>
-                    <%= for {titre, valeur} <- @data_week do %>
-                      <option value={valeur}><%= titre %></option>
-                    <% end %>
-                  </select>
-          </span>
-        </div>
-
-        <div class="inline-fields">
-          <span class="repeat-property at-mday"> 
-                  <label class="no-points">le </label>
-                  <select class="repeat-at-mday no-left-margin" name="at-mday">
-                    <option value="---">---</option>
-                    <%= for mday <- (1..31) do %>
-                      <option value={mday}><%= mday %></option>
-                    <% end %>
-                  </select>
-          </span>
-          <span class="repeat-property at-month">
-                  <label class="no-points"> du mois de</label>
-                  <select class="repeat-at-month no-left-margin" name="at-month">
-                    <option value="---">---</option>
-                    <%= for {title, value} <- @month_data do %>
-                      <option value={value}><%= title %></option>
-                    <% end %>
-                  </select>
-          </span>
-        </div>
-
-
-      </div>
-      <div class="right">
-        <div id="crontab-shower" style="background-color:#a3d7f1;display:inline-block;border-radius:12px;padding:2px 1em;"></div>
-      </div>
-    </div>
+      <.recurrence_form {assigns} />
     """
   end
 

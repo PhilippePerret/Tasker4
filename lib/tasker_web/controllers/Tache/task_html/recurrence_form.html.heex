@@ -1,0 +1,202 @@
+<style type="text/css">
+  div#recurrence-container {
+    display: grid;
+    grid-template-columns: repeat(6, auto);
+    /* grid-template-rows: repeat(4, 1fr); */
+    grid-column-gap: 12px;
+  }
+  div#recurrence-container label {
+    line-height: 2em;
+    font-size: 13pt;
+  }
+  div#recurrence-container label + select {
+    margin-left: 0px!important;
+  }
+  div#recurrence-container input,
+  div#recurrence-container select,
+  div#recurrence-container select option,
+  div#recurrence-container button {
+    font-size: 13pt;
+  }
+
+  div#recurrence-container div.cboxier-container {
+    position:relative;
+  }
+  div#recurrence-container div.cron-container-several {
+    text-align: center;
+  }
+  div#recurrence-container div.cron-container-several button {
+    font-size: 11pt;
+  }
+  div#cron-summary {
+    grid-column: 1/6;
+    grid-row: 1;
+    background-color:#bfdbf5;
+    padding: 1px 12px;
+  }
+  div#cron-shower {
+    grid-column: 6;
+    grid-row: 1;
+    background-color: #CFC;
+    background-color:#a3d7f1;
+    border-radius:12px;
+    padding:2px 1em;
+  }
+  div#cron-label-every {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  div#cron-value-every {
+    grid-column: 1;
+    grid-row: 3;
+  }
+
+  div#cron-label-at_minute {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  select#cron-value-at_minute {
+    grid-column: 2;
+    grid-row: 3;
+    width: 100px;
+  }
+
+  label#cron-label-at_hour {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  select#cron-value-at_hour {
+    grid-column:3;
+    grid-row:3;
+    width: 100px;
+  }
+  div#cron-container-several-hours {
+    grid-column:3;
+    grid-row:4;
+  }
+
+  label#cron-label-wday {
+    grid-column: 4;
+    grid-row:2;
+  }
+  select#cron-value-at_day {
+    grid-column:4;
+    grid-row:3;
+    width: 120px;
+  }
+  div#cron-container-several-wdays {
+    grid-column:4;
+    grid-row:4;
+  }
+
+  label#cron-label-mday {
+    grid-column:5;
+    grid-row:2;
+  }
+  select#cron-value-at_mday {
+    grid-column:5;
+    grid-row:3;
+  }
+  div#cron-container-several-days {
+    grid-column:5;
+    grid-row:4;
+  }
+
+  label#cron-label-ymonth {
+    grid-column: 6;
+    grid-row: 2;
+  }
+  select#cron-value-ymonth {
+    grid-column:6;
+    grid-row:3;
+  }
+  div#cron-container-several-months {
+    grid-column:6;
+    grid-row:4;
+  }
+
+</style>
+<input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
+
+<div id="recurrence-container" class="repeat-container hidden">
+  <div id="cron-summary" class="small">
+    Le résumé du cron
+  </div>
+  <div id="cron-shower">
+    * * * * *
+  </div>
+
+  <!-- Tous les… jours… -->
+  <label id="cron-label-every">{gettext("Every")}</label>
+  <div id="cron-value-every">
+    <input type="number" name="frequency-value" class="small-number" value={1} />
+    <select class="repeat-frequency-unit" name="frequency-unit">
+      <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
+        <option value={lap_value}><%= lap_title %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <!-- À la minute… -->
+  <label id="cron-label-at_minute">{dgettext("ilya", "at minute…")}</label>
+  <select id="cron-value-at_minute" class="cron-property cron-at-minute" name="at-minute">
+    <option value="---">---</option>
+    <%= for minute <- (0..59//5) do %>
+      <option value={minute}><%= minute %></option>
+    <% end %>
+  </select>
+  
+  <!-- À l'heure -->
+  <label id="cron-label-at-hour">{dgettext("ilya", "on… (hour)")}</label>
+  <select id="cron-value-at_hour" class="cron-property cron-at-hour" name="at-hour">
+    <option value="---">---</option>
+    <option value="all">toutes</option>
+    <%= for hour <- (23..0//-1) do %>
+      <option value={hour}><%= hour %></option>
+    <% end %>
+  </select>
+  <div id="cron-container-several-hours" class="cron-container-several cron-property cron-at-hour" prop="dHour">
+    <button class="several" type="button">{dgettext("ilya", "several…")}</button>
+    <div class="cboxier-container"></div>
+  </div>
+
+  <!-- Le(s) jour(s) de la semaine -->
+  <label id="cron-label-wday">{dgettext("ilya", "on… (day)")}</label>
+  <select id="cron-value-at_day" class="cron-property cron-at-day" name="at-day">
+    <option value="---">---</option>
+    <%= for {titre, valeur} <- @data_week do %>
+      <option value={valeur}><%= titre %></option>
+    <% end %>
+  </select>
+  <div id="cron-container-several-wdays" class="cron-container-several cron-property cron-at-day" prop="wDay">
+    <button class="several" type="button">{dgettext("ilya", "several…")}</button>
+    <div class="cboxier-container"></div>
+  </div>
+
+  <!-- Le jour du mois -->
+  <label id="cron-label-mday">{dgettext("ilya", "on… (day)")}</label>
+  <select id="cron-value-at_mday" class="cron-property cron-at-mday" name="at-mday">
+    <option value="---">---</option>
+    <%= for mday <- (1..31) do %>
+      <option value={mday}><%= mday %></option>
+    <% end %>
+  </select>
+  <div id="cron-container-several-days" class="cron-container-several cron-property cron-at-mday" prop="mDay">
+    <button class="several" type="button">{dgettext("ilya", "several…")}</button>
+    <div class="cboxier-container"></div>
+  </div>
+
+  <!-- Le mois de l'année -->
+  <label id="cron-label-ymonth">{dgettext("ilya", "of the month of")}</label>
+  <select id="cron-value-ymonth" class="cron-property cron-at-month" name="at-month">
+    <option value="---">---</option>
+    <%= for {title, value} <- @month_data do %>
+      <option value={value}><%= title %></option>
+    <% end %>
+  </select>
+  <div id="cron-container-several-months" class="cron-container-several cron-property cron-at-month" prop="yMonth">
+    <button class="several" type="button">{dgettext("ilya", "several…")}</button>
+    <div class="cboxier-container"></div>
+  </div>
+
+</div>

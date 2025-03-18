@@ -1,5 +1,12 @@
 'use strict';
-
+/**
+ * Gestion du crontab
+ * 
+ * Notes
+ * -----
+ *  - le formulaire est définie par la fonction recurrence_form/1 dans
+ *    le fichier task_html.ex
+ */
 
 /**
  * Les champs visibles en fonction de la fréquence de répétition
@@ -14,14 +21,25 @@ const FieldsPerRepeatUnit = {
 
 const CRON_PROPERTIES = ['uFreq', 'uFreqValue', 'hMin','dHour','mDay','wDay','yMonth'];
 
-const EnglishWeekday = ['sunday', 'monday','tuesday','wednesday','thursday','wednesday','saturday'];
+const EnglishWeekday = ['sunday', 'monday','tuesday','wednesday','thursday','friday','saturday'];
 const EnglishMonth = ['january','february','march','april','may','june','july','august','september','october','november','december'];
-const MOIS = []
+const MOIS  = []
+const WDAYS = []
+const TABLE_WDAYS = {}
 
 class Repeat {
 
+  /**
+   * Initialisation du formulaire de récurrence
+   */
   static init(){
     EnglishMonth.forEach(m => {MOIS.push(LOC(m))})
+    EnglishWeekday.forEach(m => {
+      const loc_m = LOC(m)
+      Object.assign(TABLE_WDAYS, {[m]: loc_m})
+      WDAYS.push(loc_m)
+    })
+
   }
 
   static onChange(cb){
@@ -82,15 +100,119 @@ prepare(){
   this.data.prepared = true
   CRON_PROPERTIES.forEach(key => {
     this['field_'+key].addEventListener('change', this.onChangeRepeatField.bind(this))
+    // Le bouton pour "Plusieurs", s'il existe
+    const btnSeveral = DGet(`div[prop="${key}"] button.several`, this.obj)
+    if ( btnSeveral ) {
+      console.info("Ce bouton several existe", btnSeveral)
+      btnSeveral.addEventListener('click', this.onClickSeveralButton.bind(this, key))
+    }
   })
   this.maskAllProperties()
 }
 
+onClickSeveralButton(key, ev){
+  console.log("Clé pour several", key)
+  const built_prop  = `cboxier_${key}_built`
+  const fct_prop    = `buildCBoxier_${key}`
+  const boxier_prop = `cboxier_${key}`
+  // Si le cboxier n'est pas construit, il faut le faire
+  this[built_prop] || this[fct_prop]()
+  // Et on l'ouvre
+  this[boxier_prop].show()
+}
+
+// Construction du CBoxier pour les jours de la semaine
+buildCBoxier_wDay(){
+  const data = {
+      values: TABLE_WDAYS
+    , container: DGet('#cron-container-several-wday div.cboxier-container')
+    , onOk: this.onChoose_wDays.bind(this)
+  }
+  const options = {
+      item_width: 120
+    , return_checked_keys: true
+  }
+  this.cboxier_wDay = new CBoxier(data, options)
+  this.cboxier_wDay_built = true
+}
+onChoose_wDays(wdays){
+  console.info("Je dois faire avec les jours de la semaine",wdays)
+}
+
+buildCBoxier_mDay(){
+  const JoursMois = []
+  for (var j = 1; j < 32; ++j ){
+    JoursMois.push({key: String(j), label: String(j), checked: false})
+  }
+  const data = {
+      values: JoursMois
+    , container: DGet('#cron-container-several-mday div.cboxier-container')
+    , onOk: this.onChoose_mDays.bind(this)
+  }
+  const options = {
+      item_width: 60
+    , return_checked_keys: true
+  }
+  this.cboxier_mDay = new CBoxier(data, options)
+  this.cboxier_mDay_built = true  
+}
+onChoose_mDays(mdays){
+  console.info("Je dois faire avec les jours du mois", mdays)
+}
+
+buildCBoxier_dHour(){
+  const dayHours = []
+  for (var h = 1; h < 25; ++h ){dayHours.push({key: String(h), label: String(h)})}
+  const data = {
+      values: dayHours
+    , onOk: this.onChoose_dHours.bind(this)
+    , container: DGet('#cron-container-several-hours div.cboxier-container')
+  }
+  const options = {
+      item_width: 60
+    , return_checked_keys: true
+  }
+  this.cboxier_dHour = new CBoxier(data, options)
+  this.cboxier_dHour_built = true
+}
+onChoose_dHours(dhours){
+  console.info("Je dois faire avec les heures du jour",dhours)
+}
+
+buildCBoxier_yMonth(){
+  const yearMonths = []
+  for (var i in EnglishMonth){
+    yearMonths.push({key: EnglishMonth[i], label: MOIS[i], checked: false})
+  }
+  const data = {
+      values: yearMonths
+    , container: DGet('#cron-container-several-months div.cboxier-container')
+    , onOk: this.onChoose_yMonth.bind(this)
+  }
+  const options = {
+      width: 440
+    , item_width: 140
+    , return_checked_keys: true
+  }
+  this.cboxier_yMonth = new CBoxier(data, options)
+  this.cboxier_yMonth_built = true
+}
+onChoose_yMonth(ymonths){
+  console.info("Je dois faire avec les mois de l'année", ymonths)
+}
+
+
+
+
+
+
 /**
  * Masque tous les champs du crontab
+ * 
+ * Rappel : ils ne s'affichent qu'au besoin, pour une plus grande clarté.
  */
 maskAllProperties(){
-  DGetAll('span.repeat-property', this.obj).forEach(span => span.style.visibility = 'hidden')
+  DGetAll('.cron-property', this.obj).forEach(span => span.style.visibility = 'hidden')
 }
 /**
  * N'affiche que les champs utiles du crontab en fonction de l'unité choisie
@@ -99,7 +221,7 @@ maskAllProperties(){
  */
 showRequiredProperties(uFreq){
   FieldsPerRepeatUnit[uFreq].forEach( fieldId => {
-    DGet(`span.repeat-property.${fieldId}`, this.obj).style.visibility = 'visible'
+    DGetAll(`.cron-property.cron-${fieldId}`, this.obj).forEach(o => o.style.visibility = 'visible')
   })
 }
 
@@ -116,7 +238,7 @@ onChangeRepeatField(ev){
   const cronData = this.getCronData()
   const crontab = this.genCronExpression(cronData)
   this.hiddenField.value = crontab
-  DGet('#crontab-shower').innerHTML = crontab
+  DGet('#cron-shower').innerHTML = crontab
   this.maskAllProperties()
   this.showRequiredProperties(this.field_uFreq.value /* "day", "week", etc. */)    
   this.showResumeHumain(cronData)
@@ -315,7 +437,7 @@ showResumeHumain(crondata){
 
   sum = sum.join(" ") + ".";
   sum = sum.replace(" , ", ", ")
-  DGet('div#repeat-summary').innerHTML = sum
+  DGet('div#cron-summary').innerHTML = sum
 }
 
 // Car utilisé à plusieurs endroits
