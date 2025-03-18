@@ -40,9 +40,14 @@ class Task {
     // Préparation du bloc des notes
     Blocnotes.init()
 
-    // Surveillance de la CB "Imperative End"
+    // Surveillance de la CB "Imperative End" et réglage de son état
     this.cbImperativeEnd.addEventListener('click', this.onChooseImperativeEnd.bind(this, this.cbImperativeEnd))
-    
+    this.setImperativeEndState()
+
+    // Surveillance du champ de date de fin (qui doit changer l'état
+    // de la cb "Fin impérative")
+    this.fieldEndAt.addEventListener('change', this.setImperativeEndState.bind(this))
+
   } // init
 
   static get TaskSpecId(){
@@ -144,7 +149,7 @@ class Task {
       return
     }
     const startat = NullIfEmpty(this.fieldStartAt.value)
-    const endat   = NullIfEmpty(this.fieldEndAt.value)
+    const endat   = this.endAt()
     try {
       this.expliPriority.innerHTML = LOC('Exclusive task explication')
       if ( !startat || !endat ) {
@@ -157,9 +162,19 @@ class Task {
     }
   }
 
+  /**
+   * Règle l'état de la case à cocher "Fin impérative".
+   * Elle ne doit être accessible que lorsqu'une date de fin est 
+   * définie.
+  */
+ static setImperativeEndState() {
+   this.cbImperativeEnd.disabled =
+   this.labelImperativeEnd.classList[this.endAt()?'remove':'add']('invisible')
+  }
+  
   static onChooseImperativeEnd(cb, ev){
     try {
-
+      
       if ( cb.checked && !this.fieldEndAt.value ) {
         cb.checked = false
         stopEvent(ev)
@@ -170,8 +185,9 @@ class Task {
       // L'erreur est déjà affichée
     }
   }
-
-
+  
+  static endAt(){return NullIfEmpty(this.fieldEndAt.value)}
+  
   static get fieldStartAt(){return DGet('input#start-at')}
   static get fieldEndAt(){return DGet('input#end-at')}
   static get menuPriority(){return DGet('select#task-priority')}
@@ -180,6 +196,7 @@ class Task {
   static get blocNatures(){return DGet('div#natures-select-container')}
   static get menuNatures(){return DGet('select#task-natures-select')}
   static get cbImperativeEnd(){return DGet('input#cb-imperative-end')}
+  static get labelImperativeEnd(){return this.cbImperativeEnd.parentNode}
   static get expliTimes(){return DGet('div#description-times')}
 
 
@@ -195,8 +212,10 @@ class Task {
 
 window.Task = Task
 
-Task.init()
-Repeat.onLoad()
+window.onload = function(ev){
+  Task.init()
+  Repeat.onLoad()
+}
 
 Repeat.ctest = function(){
   if (!this.activited ) {

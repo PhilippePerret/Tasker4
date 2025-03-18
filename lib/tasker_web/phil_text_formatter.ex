@@ -100,8 +100,6 @@ defmodule PhilTextFormater do
 
   """
   def get_phil_text(path) do
-    dst_path = path
-    fname   = Path.basename(path)
     fext    = Path.extname(path) # .phil ou .html
     faffix  = Path.basename(path, fext)
     folder  = Path.dirname(path)
@@ -152,7 +150,7 @@ defmodule PhilTextFormater do
 
     default_tag = Keyword.get(metadata, :default_tag, "p")
 
-    content = content
+    content
     |> treate_returns()
     |> String.split("\n")
     |> Enum.map(fn line ->
@@ -194,7 +192,7 @@ defmodule PhilTextFormater do
     
   """
   @reg_alinks ~r/\[(.+)\]\((.+)\)/U
-  def treate_alinks_in(content, metadata) do
+  def treate_alinks_in(content, _metadata) do
     Regex.replace(@reg_alinks, content, fn _, title, route ->
       ~s(<a href="#{route}">#{title}</a>)
     end)
@@ -238,7 +236,7 @@ defmodule PhilTextFormater do
   @reg_del_ins ~r/\-\-(.+)\|(.+)\-\-/U ; @remp_del_ins "<del>\\1</del> <ins>\\2</ins>"
   @reg_del ~r/\-\-(.+)\-\-/U      ; @remp_del "<del>\\1</del>"
   
-  def treate_simple_formatages(content, metadata) do
+  def treate_simple_formatages(content, _metadata) do
     content
     |> replace_in_string(@reg_bolds       , @remp_bolds)
     |> replace_in_string(@reg_italics     , @remp_italics)

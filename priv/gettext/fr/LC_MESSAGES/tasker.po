@@ -553,7 +553,7 @@ msgstr "Fin impérative"
 #: lib/tasker_web/controllers/Tache/task_html/task_form.html.heex:43
 #, elixir-autogen, elixir-format
 msgid "Hard deadline Explication"
-msgstr "Si cette case est cochée, lorsque la tâche arrivera à expiration, elle deviendra prioritaire sur toutes les autres."
+msgstr "Avec la case “Fin impérative” cochée, lorsque cette tâche arrivera à expiration, elle deviendra prioritaire sur toutes les autres."
 
 #: lib/tasker_web/controllers/Tache/js_locales.ex:71
 #, elixir-autogen, elixir-format
