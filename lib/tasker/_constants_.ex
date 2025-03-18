@@ -6,8 +6,6 @@ defmodule Constants do
       Contants.get(:<key>)
   """
 
-  @env Application.compile_env(:tasker, :env)
-
   @doc """
   Fonction principale qui retourne la valeur de la clé +key+
   # Examples
@@ -22,7 +20,8 @@ defmodule Constants do
   def get(key) when is_atom(key) do
     %{
       lang:   Gettext.get_locale(TaskerWeb.Gettext),
-      env:    @env
+      env:    Application.get_env(:tasker, :env)
+      # env:    @env
     }[key]
   end
   def get(key) when is_binary(key) do

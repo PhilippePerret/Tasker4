@@ -20,6 +20,9 @@ if System.get_env("PHX_SERVER") do
   config :tasker, TaskerWeb.Endpoint, server: true
 end
 
+# Indispensable pour avoir l'environnement dans Constants.get(:env)
+config :tasker, :env, config_env()
+
 if config_env() == :prod do
   
   config :tasker, TaskerWeb.Endpoint, server: true

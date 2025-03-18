@@ -18,7 +18,7 @@ defmodule TaskerWeb.Layouts do
   @doc """
   Pour connaitre l'environnement de travail dans les vues
   """
-  def env, do: Constants.get(:env)
+  def env, do: Constants.get(:env) |> IO.inspect(label: "env")
   def prod?, do: env() == :prod
   def dev?,  do: env() == :dev
 
