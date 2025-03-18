@@ -28,26 +28,26 @@ class Task {
 
       // Préparation du menu des natures
       this.prepareNaturesChooser()
-    }
-
-    // On crée une instance pour gérer les dépendances
-    this.taskDeps = new TaskDependencies()
-    this.taskDeps.init()
-
-    // Préparation du bloc des scripts de tâche
-    TaskScript.init()
-
-    // Préparation du bloc des notes
-    Blocnotes.init()
-
-    // Surveillance de la CB "Imperative End" et réglage de son état
-    this.cbImperativeEnd.addEventListener('click', this.onChooseImperativeEnd.bind(this, this.cbImperativeEnd))
-    this.setImperativeEndState()
-
-    // Surveillance du champ de date de fin (qui doit changer l'état
-    // de la cb "Fin impérative")
-    this.fieldEndAt.addEventListener('change', this.setImperativeEndState.bind(this))
-
+      
+      // On crée une instance pour gérer les dépendances
+      this.taskDeps = new TaskDependencies()
+      this.taskDeps.init()
+      
+      // Préparation du bloc des scripts de tâche
+      TaskScript.init()
+      
+      // Préparation du bloc des notes
+      Blocnotes.init()
+      
+      // Surveillance de la CB "Imperative End" et réglage de son état
+      this.cbImperativeEnd.addEventListener('click', this.onChooseImperativeEnd.bind(this, this.cbImperativeEnd))
+      this.setImperativeEndState()
+      
+      // Surveillance du champ de date de fin (qui doit changer l'état
+      // de la cb "Fin impérative")
+      this.fieldEndAt.addEventListener('change', this.setImperativeEndState.bind(this))
+      
+    } // fin si full editor
   } // init
 
   static get TaskSpecId(){
