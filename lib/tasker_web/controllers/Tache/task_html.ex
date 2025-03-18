@@ -98,7 +98,10 @@ defmodule TaskerWeb.TaskHTML do
     <div id="natures-container" class="block" style="position:relative;">
       <input id="natures-value" type="hidden" name="task[natures]" value={@natures_choosed} />
       <label onclick="Task.toggleMenuNatures()">{@title}</label>
-      <div id="natures-list" onclick="Task.toggleMenuNatures()"></div>
+      <div id="natures-list-container">
+        <div id="natures-list" style="display:inline;"></div>
+        <span id="natures-list-button" onclick="Task.toggleMenuNatures()" class="small" style="cursor:pointer;">[change]</span>
+      </div>
       <div id="natures-select-container"></div>
       <script type="text/javascript">
         const NATURES = <%= raw @options_natures %>

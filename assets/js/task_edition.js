@@ -130,13 +130,18 @@ class Task {
 
   // Pour afficher la liste des natures
   static displayTaskNatureList(natureIds){
-    let content;
-    if (natureIds.length) {
-      content = natureIds.map(key => {return NATURES[key]}).join(", ")
-    } else {
-      content = "[" + LOC('Choose task natures') + "]"
-    }
+    const natureCount = natureIds.length
+    const content = (_ => {
+      return natureCount
+        ? natureIds.map(key => {return NATURES[key]}).join(", ")
+        : ""
+    })()
+    const btnName = '[' + (_ => {
+      return natureCount ? LOC('Edit') : LOC('Choose task natures')
+    })() + ']'
+
     DGet('div#natures-list').innerHTML = content
+    DGet('span#natures-list-button').innerHTML = btnName
   }
 
 
