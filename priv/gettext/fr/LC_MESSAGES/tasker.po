@@ -448,7 +448,7 @@ msgstr "Il faut au moins une tâche, pour travailler !"
 #: lib/tasker_web/controllers/Tache/js_locales.ex:58
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Back to work"
-msgstr "Liste des tâches"
+msgstr "Retour au boulot"
 
 #: lib/tasker_web/controllers/Tache/js_locales.ex:62
 #, elixir-autogen, elixir-format

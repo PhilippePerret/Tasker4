@@ -675,14 +675,14 @@ class ClassAtWork {
    */
   onEdit(ev){
     this.register_task_order()
-    sessionStorage.setItem("back", `/work|${LOC('Back to work')}`)
+    sessionStorage.setItem('back', `/work|${LOC('Back to work')}`)
     const loc = window.location
     const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit`
     window.location = url
   }
   onProjet(ev){
     this.register_task_order()
-    sessionStorage.setItem("back", `/work|${LOC('Back to work')}`)
+    sessionStorage.setItem('back', `/work|${LOC('Back to work')}`)
     const loc = window.location
     const url = `${loc.protocol}//${loc.host}/projects/${this.currentTask.project_id}/edit`
     window.location = url
