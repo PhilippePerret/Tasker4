@@ -36,7 +36,7 @@ class UI {
    */
   static setBackButton(){
     [this.backRoute, this.backButtonName] = (sessionStorage.getItem('back')||"").split("|").map(x => {return NullIfEmpty(x)})
-    console.info("[setBackButton] backRoute='%s', backButtonName='%s'", this.backRoute, this.backButtonName)
+    // console.info("[setBackButton] backRoute='%s', backButtonName='%s'", this.backRoute, this.backButtonName)
     DGetAll('.back-btn').forEach(bouton => {
       let backRoute, backName = this. backButtonName;
       if ( this.backRoute ) {
@@ -64,10 +64,5 @@ class UI {
 window.UI = UI
 
 window.addEventListener('load', function(){
-  console.log("-> init UI")
   UI.setBackButton()
 })
-window.onload = function(){
-}
-
-console.log("Fin chargement ui.js")
