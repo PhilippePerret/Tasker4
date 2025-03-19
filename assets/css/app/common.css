@@ -11,7 +11,7 @@
 
 .no-width {width: auto!important;}
 
-.hidden {display:none}
+.hidden {display:none!important}
 .discret {
   opacity: 0.5;
 }

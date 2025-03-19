@@ -64,7 +64,7 @@ class Crontab {
  * Note : on part du principe, maintenant, qu'il y a une seule récurrence possible
  */
 static onLoad(){
-  if ( this.container ) {
+  if ( this.container /* absent à la création de la tâche */) {
     this.crontab = new Crontab(this.container)
     this.crontab.setState()
   }
