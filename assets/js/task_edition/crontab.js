@@ -96,6 +96,9 @@ setState(state){
     // Si la valeur est définie, on régle l'interface
     if ( cron ) this.setCronUI(cron)
     this.onChangeCrontabField(null)
+  } else {
+    // On doit vider le champ récurrence
+    this.hiddenField.value = ""
   }
   this.activeCB.checked = isActif
   this.obj.classList[isActif ? 'remove' : 'add']("hidden")

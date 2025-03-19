@@ -15,7 +15,8 @@
 //     import "some-package"
 //
 window.LANG = navigator.language.slice(0,2);
-import(`./locales-${LANG}.js`); // définit LOCALES
+const path_locales = `./locales/locales-${LANG}.js`;
+
 import "./locales.js";
 import "./handy_methods.js";
 import "./server_talk.js";
@@ -23,8 +24,9 @@ import "./flash.js";
 import "./cboxier.js";
 import "./horloge.js";
 import "./scripts_data.js";
-import "./ui_masker.js"
-import "./ui.js"
+import "./ui_masker.js";
+import "./ui.js";
+import "./locales/locales-fr.js";
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html";
