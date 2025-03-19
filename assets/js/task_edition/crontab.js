@@ -189,26 +189,34 @@ onChooseSeveral(keyField, several){
   console.info("several choisis pour %s", keyField, several)
   const len = several.length;
   var lst = [];
-  this[`several_${keyField}`] = ((several, kfd) => {
-    if (len == 0) { return null }
-    else if (len == 1) { }
-    else {
+  this[`several_${keyField}`] = ((sev, kfd) => {
+    if (len == 0) { 
+      // <= Aucun item n'a été choisi
+      // => several est laissé (ou mis) à null
+      return null 
+    } else if (len == 1) {
+      // <= un seul item a été choisi
+      // => Ce n'est pas du "several", on règle le menu du champ avec
+      //    la valeur choisie et on met several à null.
+      DGet(`select#cron-value-${keyField}`).value = several[0]
+      return null
+    } else {
       // Cas normal où plusieurs éléments on été choisis
       switch(kfd){
         case 'yMonth':
-          for (var ym of several) { lst.push(EnglishMonth.indexOf(ym))}
+          for (var ym of sev) { lst.push(EnglishMonth.indexOf(ym))}
           return lst
         case 'dHour':
         case 'mDay':
-          return several.map(x => {return parseInt(x)})
+          return sev.map(x => {return parseInt(x)})
         case 'wDay':
-          for (var wday of several) {lst.push(EnglishWeekday.indexOf(wday))}
+          for (var wday of sev) {lst.push(EnglishWeekday.indexOf(wday))}
           return lst.sort()      
         default:
-          return several
+          return sev
       }
     }  
-  })(several, kfd)
+  })(several, keyField)
   
   this.onChangeCrontabField()
 }

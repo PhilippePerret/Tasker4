@@ -79,7 +79,7 @@
     grid-column: 4;
     grid-row:2;
   }
-  select#cron-value-at_day {
+  select#cron-value-wDay {
     grid-column:4;
     grid-row:3;
     width: 120px;
@@ -93,7 +93,7 @@
     grid-column:5;
     grid-row:2;
   }
-  select#cron-value-at_mday {
+  select#cron-value-mDay {
     grid-column:5;
     grid-row:3;
     width:70px;
@@ -107,7 +107,7 @@
     grid-column: 6;
     grid-row: 2;
   }
-  select#cron-value-ymonth {
+  select#cron-value-yMonth {
     grid-column:6;
     grid-row:3;
     width:100px;
@@ -149,7 +149,7 @@
   </select>
   
   <!-- À l'heure -->
-  <label id="cron-label-at-hour">{dgettext("ilya", "on… (hour)")}</label>
+  <label id="cron-label-dHour">{dgettext("ilya", "on… (hour)")}</label>
   <select id="cron-value-at_hour" class="cron-property cron-at-hour" name="at-hour">
     <option value="---">---</option>
     <%= for hour <- (23..0//-1) do %>
@@ -163,7 +163,7 @@
 
   <!-- Le(s) jour(s) de la semaine -->
   <label id="cron-label-wday">{dgettext("ilya", "on… (day)")}</label>
-  <select id="cron-value-at_day" class="cron-property cron-at-day" name="at-day">
+  <select id="cron-value-wDay" class="cron-property cron-at-day" name="at-day">
     <option value="---">---</option>
     <%= for {titre, valeur} <- @data_week do %>
       <option value={valeur}><%= titre %></option>
@@ -176,7 +176,7 @@
 
   <!-- Le jour du mois -->
   <label id="cron-label-mday">{dgettext("ilya", "on… (day)")}</label>
-  <select id="cron-value-at_mday" class="cron-property cron-at-mday" name="at-mday">
+  <select id="cron-value-mDay" class="cron-property cron-at-mday" name="at-mday">
     <option value="---">---</option>
     <%= for mday <- (1..31) do %>
       <option value={mday}><%= mday %></option>
@@ -189,7 +189,7 @@
 
   <!-- Le mois de l'année -->
   <label id="cron-label-ymonth">{dgettext("ilya", "of the month of")}</label>
-  <select id="cron-value-ymonth" class="cron-property cron-at-month" name="at-month">
+  <select id="cron-value-yMonth" class="cron-property cron-at-month" name="at-month">
     <option value="---">---</option>
     <%= for {title, value} <- @month_data do %>
       <option value={value}><%= title %></option>
