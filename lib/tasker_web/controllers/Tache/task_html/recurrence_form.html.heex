@@ -51,11 +51,11 @@
     grid-row: 3;
   }
 
-  div#cron-label-at_minute {
+  div#cron-label-hMin {
     grid-column: 2;
     grid-row: 2;
   }
-  select#cron-value-at_minute {
+  select#cron-value-hMin {
     grid-column: 2;
     grid-row: 3;
     width: 70px;
@@ -65,7 +65,7 @@
     grid-column: 3;
     grid-row: 2;
   }
-  select#cron-value-at_hour {
+  select#cron-value-dHour {
     grid-column:3;
     grid-row:3;
     width: 60px;
@@ -131,8 +131,8 @@
   <!-- Tous les… jours… -->
   <label id="cron-label-every">{gettext("Every")}</label>
   <div id="cron-value-every">
-    <input type="number" name="frequency-value" class="small-number" value={1} style="width:30px!important;" />
-    <select class="repeat-frequency-unit" name="frequency-unit">
+    <input type="number" id="cron-frequency-value" class="small-number" value={1} style="width:30px!important;" />
+    <select id="cron-frequency-unit">
       <%= for {lap_title, lap_value} <- @data_repeat_unit do %>
         <option value={lap_value}><%= lap_title %></option>
       <% end %>
@@ -140,8 +140,8 @@
   </div>
 
   <!-- À la minute… -->
-  <label id="cron-label-at_minute">{dgettext("ilya", "at minute…")}</label>
-  <select id="cron-value-at_minute" class="cron-property cron-at-minute" name="at-minute">
+  <label id="cron-label-hMin">{dgettext("ilya", "at minute…")}</label>
+  <select id="cron-value-hMin" class="cron-property cron-hMin" name="hMin">
     <option value="---">---</option>
     <%= for minute <- (0..59//5) do %>
       <option value={minute}><%= minute %></option>
@@ -150,52 +150,52 @@
   
   <!-- À l'heure -->
   <label id="cron-label-dHour">{dgettext("ilya", "on… (hour)")}</label>
-  <select id="cron-value-at_hour" class="cron-property cron-at-hour" name="at-hour">
+  <select id="cron-value-dHour" class="cron-property cron-dHour" name="dHour">
     <option value="---">---</option>
     <%= for hour <- (23..0//-1) do %>
       <option value={hour}><%= hour %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-dHour" class="cron-container-several cron-property cron-at-hour" prop="dHour">
+  <div id="cron-container-several-dHour" class="cron-container-several cron-property cron-dHour" prop="dHour">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
 
   <!-- Le(s) jour(s) de la semaine -->
   <label id="cron-label-wday">{dgettext("ilya", "on… (day)")}</label>
-  <select id="cron-value-wDay" class="cron-property cron-at-day" name="at-day">
+  <select id="cron-value-wDay" class="cron-property cron-wDay" name="wDay">
     <option value="---">---</option>
     <%= for {titre, valeur} <- @data_week do %>
       <option value={valeur}><%= titre %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-wDay" class="cron-container-several cron-property cron-at-day" prop="wDay">
+  <div id="cron-container-several-wDay" class="cron-container-several cron-property cron-wDay" prop="wDay">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
 
   <!-- Le jour du mois -->
   <label id="cron-label-mday">{dgettext("ilya", "on… (day)")}</label>
-  <select id="cron-value-mDay" class="cron-property cron-at-mday" name="at-mday">
+  <select id="cron-value-mDay" class="cron-property cron-mDay" name="mDay">
     <option value="---">---</option>
     <%= for mday <- (1..31) do %>
       <option value={mday}><%= mday %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-mDay" class="cron-container-several cron-property cron-at-mday" prop="mDay">
+  <div id="cron-container-several-mDay" class="cron-container-several cron-property cron-mDay" prop="mDay">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
 
   <!-- Le mois de l'année -->
   <label id="cron-label-ymonth">{dgettext("ilya", "of the month of")}</label>
-  <select id="cron-value-yMonth" class="cron-property cron-at-month" name="at-month">
+  <select id="cron-value-yMonth" class="cron-property cron-yMonth" name="yMonth">
     <option value="---">---</option>
     <%= for {title, value} <- @month_data do %>
       <option value={value}><%= title %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-yMonth" class="cron-container-several cron-property cron-at-month" prop="yMonth">
+  <div id="cron-container-several-yMonth" class="cron-container-several cron-property cron-yMonth" prop="yMonth">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>

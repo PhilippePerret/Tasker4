@@ -22,15 +22,15 @@
 /**
  * Les champs visibles en fonction de la fréquence de répétition
  */
-const FieldsPerRepeatUnit = {
-  hour:   ['at-minute']
-, day:    ['at-minute', 'at-hour']
-, week:   ['at-minute', 'at-hour', 'at-day']
-, month:  ['at-minute', 'at-hour', 'at-day', 'at-mday']
-, year:   ['at-minute', 'at-hour', 'at-day', 'at-mday', 'at-month']
+const FieldsPerCronUnit = {
+  hour:   ['hMin']
+, day:    ['hMin', 'dHour']
+, week:   ['hMin', 'dHour', 'wDay']
+, month:  ['hMin', 'dHour', 'wDay', 'mDay']
+, year:   ['hMin', 'dHour', 'wDay', 'mDay', 'yMonth']
 }
 
-const CRON_PROPERTIES = ['uFreq', 'uFreqValue', 'hMin','dHour','mDay','wDay','yMonth'];
+const CRON_PROPERTIES = ['uFreq', 'uFreqValue', 'hMin','dHour','wDay','mDay','yMonth'];
 
 const EnglishWeekday = ['sunday', 'monday','tuesday','wednesday','thursday','friday','saturday'];
 const EnglishMonth = ['january','february','march','april','may','june','july','august','september','october','november','december'];
@@ -38,7 +38,7 @@ const MOIS  = []
 const WDAYS = []
 const TABLE_WDAYS = {}
 
-class Repeat {
+class Crontab {
 
   /**
    * Initialisation du formulaire de récurrence
@@ -65,7 +65,7 @@ class Repeat {
  */
 static onLoad(){
   if ( this.container ) {
-    this.repeater = new Repeat(this.container)
+    this.repeater = new Crontab(this.container)
     this.repeater.setState()
   }
 }
@@ -76,6 +76,7 @@ static get container(){return this._cont || (this._cont = DGet('div#recurrence-c
 
 constructor(mainConteneur){
   this.obj = mainConteneur;
+  this.CronFields = {}
   if ( ! this.data.prepared ) this.prepare()
 }
 
@@ -103,6 +104,19 @@ toggleState(){
   this.setState(this.state)
 }
 
+/**
+ * @usage
+ *    const field = this.field(<key>)
+ * 
+ * @return le DOMElement de clé +key+. Par exemple 'select#cron-value-wDay'
+ */
+field(key){
+  return this.CronFields[key] || (
+    Object.assign(this.CronFields, {[key]: this.getField(key)})[key]
+  )
+}
+getField(key){return DGet(`select#cron-value-${key}`)}
+
 getState(){
   var cron = NullIfEmpty(this.hiddenField.value)
   return cron ? 'ON' : 'OFF'
@@ -110,7 +124,7 @@ getState(){
 prepare(){
   this.data.prepared = true
   CRON_PROPERTIES.forEach(key => {
-    this['field_'+key].addEventListener('change', this.onChangeCrontabField.bind(this))
+    this.field(key).addEventListener('change', this.onChangeCrontabField.bind(this))
     // Le bouton pour "Plusieurs", s'il existe
     const btnSeveral = DGet(`div[prop="${key}"] button.several`, this.obj)
     if ( btnSeveral ) {
@@ -198,7 +212,7 @@ onChooseSeveral(keyField, several){
       // <= un seul item a été choisi
       // => Ce n'est pas du "several", on règle le menu du champ avec
       //    la valeur choisie et on met several à null.
-      DGet(`select#cron-value-${keyField}`).value = several[0]
+      this.field(keyField).value = several[0]
       return null
     } else {
       // Cas normal où plusieurs éléments on été choisis
@@ -235,7 +249,7 @@ maskAllProperties(){
  * @param {String} uFreq  Fréquence générale du crontab ("minute", "day", "week", etc.)
  */
 showRequiredProperties(uFreq){
-  FieldsPerRepeatUnit[uFreq].forEach( fieldId => {
+  FieldsPerCronUnit[uFreq].forEach( fieldId => {
     DGetAll(`.cron-property.cron-${fieldId}`, this.obj).forEach(o => o.style.visibility = 'visible')
   })
 }
@@ -250,16 +264,15 @@ showRequiredProperties(uFreq){
  *  - construit le texte humain et l'affichage
  */
 onChangeCrontabField(ev){
-  console.log("-> onChangeCrontabField")
   const cronData = this.getCronData()
   console.info("[onChangeCrontagField] cronData = ", cronData)
+  if ( cronData.wDay) return
   const crontab = this.generateCronExpression(cronData)
   this.hiddenField.value = crontab
   DGet('#cron-shower').innerHTML = crontab
   this.maskAllProperties()
   this.showRequiredProperties(this.field_uFreq.value /* "day", "week", etc. */)    
   this.showResumeHumain(cronData)
-  console.log("<- onChangeCrontabField")
 }
 
 /**
@@ -284,13 +297,22 @@ getCronUI(){
   return this.generateCronExpression(cronData)
 }
 
+/**
+ * Fonction qui collecte les valeurs du crontab
+ * 
+ * Elle les prend soit dans les valeurs multiples `several_<field key>', soit dans les
+ * valeurs des menus dans l'interface.
+ * 
+ * @return {Table} une table contenant toutes les valeurs utiles pour 
+ * construire le crontab
+ */
 getCronData(){
   const cronData = {uFreq: null, uFreqValue: null, hMin: null, dHour: null, wDay: null, mDay: null, yMonth: null}
   const dataReleve = {}
-  CRON_PROPERTIES.forEach( prop => {
-    let value_str     = this['field_' + prop].value, value ;
-    let value_several = this['several_' + prop]; // par exemple several_dHour
-    // console.info("value_several de %s = ", prop, value_several)
+  CRON_PROPERTIES.forEach( kField => {
+    let value_str     = this.field(kField).value, value
+    let value_several = this[`several_${kField}`] // par exemple several_dHour
+    // console.info("value_several de %s = ", kField, value_several)
 
     if ( value_several ) {
       value = value_several
@@ -299,9 +321,9 @@ getCronData(){
     } else if ( value_str == 'all' ) {
       value = 'all'
     } else {
-      value = ['wDay', 'uFreq'].includes(prop) ? value_str : Number(value_str)
+      value = ['wDay', 'uFreq'].includes(kField) ? value_str : Number(value_str)
     }
-    dataReleve[prop] = value ;
+    dataReleve[kField] = value ;
   })
 
   const ufreq = dataReleve.uFreq
@@ -350,7 +372,7 @@ generateCronExpression(dataCron) {
  * @param {String} type Le type du champ ('hMin', 'mDay', etc.)
  */
 finalizeCronFieldValue(value, type){
-  console.log("finalizeCronFieldValue(%s, %s)", value, type)
+  // console.log("finalizeCronFieldValue(%s, %s)", value, type)
   if ( value === null || value == 'all') return '*';
   else if ( 'number' == typeof value) return value;
   else if ( value == '---') return null
@@ -398,9 +420,9 @@ parseAndShowCronExpression(cron) {
     }
     // On peut définir les menus directement ici
     if ( 'string' == typeof row.value) {
-      this['field_' + key].value = row.value
+      this.field(key).value = row.value
     } else {
-      this['several_' + key] = row.value
+      this[`several_${key}`] = row.value
       this[`cboxier_${key}_built`] || this[`buildCBoxier_${key}`]()
       const cboxier = this[`cboxier_${key}`]
       cboxier.uncheckAll({except: row.value})
@@ -409,7 +431,7 @@ parseAndShowCronExpression(cron) {
     resultats[key] = this.finalizeCronFieldValue(row.value, key)
   });
   // On renseigne les deux champs de fréquence
-  ;['uFreq', 'uFreqValue'].forEach(key => this[`field_${key}`].value = resultats[key])
+  ;['uFreq', 'uFreqValue'].forEach(key => this.field(key).value = resultats[key])
 
   // Affichage des champs nécessaires pour ce crontab
   this.showRequiredProperties(resultats.uFreq)
@@ -511,26 +533,19 @@ le_jour_du_mois(crondata, sum){
   return sum
 }
 
-
-get field_uFreq(){return this._menuufreq || (this._menuufreq = DGet('.repeat-frequency-unit', this.obj) ) }
-get field_uFreqValue(){return this._fieldufreqv || (this._fieldufreqv = DGet('input[name="frequency-value"]', this.obj))}
-get field_hMin(){return this._menuhmin || (this._menuhmin = DGet('select[name="at-minute"]', this.obj))}
-get field_dHour(){return this._menudhour || (this._menudhour = DGet('select[name="at-hour"]', this.obj))}
-get field_mDay(){return this._menumday || (this._menumday = DGet('select[name="at-mday"]', this.obj))}
-get field_wDay(){return this._menuwday || (this._menuwday = DGet('select[name="at-day"]', this.obj))}
-get field_yMonth(){return this._menuymonth || (this._menuymonth = DGet('select[name="at-month"]', this.obj))}
+get field_uFreq(){return this._menuufreq || (this._menuufreq = DGet('select#cron-frequency-unit', this.obj) ) }
+get field_uFreqValue(){return this._fieldufreqv || (this._fieldufreqv = DGet('input#cron-frequency-value', this.obj))}
 get activeCB(){return this._cb || (this._cb = DGet('input#cb-recurrence'))}
-
 get hiddenField(){return this._hiddenfield || (this._hiddenfield = DGet('input#task-recurrence'))}
 
 get data(){
   return this.obj.dataset
 }
 
-} // /class Repeat
+} // /class Crontab
 
-window.Repeat = Repeat
+window.Crontab = Crontab
 
 window.addEventListener('load', function(){
-  Repeat.init()
+  Crontab.init()
 })

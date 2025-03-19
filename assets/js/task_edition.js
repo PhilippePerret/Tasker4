@@ -219,16 +219,16 @@ window.Task = Task
 
 window.addEventListener('load', function(){
   Task.init()
-  Repeat.onLoad()
+  Crontab.onLoad()
 })
 
-Repeat.ctest = function(){
+Crontab.ctest = function(){
   if (!this.activited ) {
     this.activited = true
-    return active_lib_testor(Repeat)
+    return active_lib_testor(Crontab)
   }
   /* === DÉBUT DES TESTS === */
-  const r = Repeat.repeater;
+  const r = Crontab.repeater;
   const hf = r.hiddenField;
 
   t("--- Tests de la gestion du CRON ---");
