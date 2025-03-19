@@ -16,7 +16,9 @@
 
   </head>
   <body class={env()}>
-    <header><div class="content">
+    <header>
+      <div class="content">
+        <div id="main-link-work"><a href={~p"/work"}><%= dgettext("tasker", "To work!") %></a></div>
     <ul id="worker-mail-tools">
       <%= if @current_worker do %>
         <li class="worker-tool">

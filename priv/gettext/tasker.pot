@@ -338,7 +338,7 @@ msgstr ""
 msgid "Stop (work)"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:57
+#: lib/tasker_web/components/layouts/root.html.heex:59
 #, elixir-autogen, elixir-format
 msgid "Zen Mode"
 msgstr ""
@@ -535,7 +535,7 @@ msgstr ""
 msgid "Task natures"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:49
+#: lib/tasker_web/components/layouts/root.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "APP NAME"
 msgstr ""
@@ -568,4 +568,9 @@ msgstr ""
 #: lib/tasker_web/controllers/Tache/js_locales.ex:73
 #, elixir-autogen, elixir-format
 msgid "A hard deadline obviously requires an end date."
+msgstr ""
+
+#: lib/tasker_web/components/layouts/root.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "At work!"
 msgstr ""

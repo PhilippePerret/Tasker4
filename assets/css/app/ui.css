@@ -20,6 +20,13 @@ body.prod header a#main-logo:after {
   content: ""
 }
 
+header div#main-link-work {
+  position:absolute;
+  width: 140px;
+  text-align: center;
+  left: calc(50% - 70px);
+}
+
 table {
   width: 100%
 }

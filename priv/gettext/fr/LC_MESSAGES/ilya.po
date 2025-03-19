@@ -319,7 +319,7 @@ msgstr "le "
 msgid "at"
 msgstr "à"
 
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:143
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:148
 #, elixir-autogen, elixir-format, fuzzy
 msgid "at minute…"
 msgstr "à la minute"
@@ -329,26 +329,26 @@ msgstr "à la minute"
 msgid "des mois de"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:191
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:196
 #, elixir-autogen, elixir-format
 msgid "of the month of"
 msgstr "du mois de"
 
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:165
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:178
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:170
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:183
 #, elixir-autogen, elixir-format, fuzzy
 msgid "on… (day)"
 msgstr "le "
 
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:152
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:157
 #, elixir-autogen, elixir-format
 msgid "on… (hour)"
 msgstr "à… "
 
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:160
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:173
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:186
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:199
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:165
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:178
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:191
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:204
 #, elixir-autogen, elixir-format
 msgid "several…"
 msgstr "les…"

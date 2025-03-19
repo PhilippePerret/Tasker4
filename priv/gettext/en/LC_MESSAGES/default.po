@@ -37,7 +37,7 @@ msgstr ""
 msgid "close"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:38
+#: lib/tasker_web/components/layouts/root.html.heex:40
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:10
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:16
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:23
@@ -46,7 +46,7 @@ msgstr ""
 msgid "Register"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:43
+#: lib/tasker_web/components/layouts/root.html.heex:45
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:11
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:17
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:5
@@ -57,12 +57,12 @@ msgstr ""
 msgid "Log in"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:32
+#: lib/tasker_web/components/layouts/root.html.heex:34
 #, elixir-autogen, elixir-format
 msgid "Log out"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:27
+#: lib/tasker_web/components/layouts/root.html.heex:29
 #, elixir-autogen, elixir-format
 msgid "Settings"
 msgstr ""
@@ -148,7 +148,7 @@ msgstr "very low"
 msgid "[SPACE]"
 msgstr "</>"
 
-#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:132
+#: lib/tasker_web/controllers/Tache/task_html/recurrence_form.html.heex:137
 #, elixir-autogen, elixir-format
 msgid "Every"
 msgstr ""

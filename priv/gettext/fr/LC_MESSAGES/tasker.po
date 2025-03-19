@@ -338,7 +338,7 @@ msgstr "DÉMARRER"
 msgid "Stop (work)"
 msgstr "ARRÊTER"
 
-#: lib/tasker_web/components/layouts/root.html.heex:57
+#: lib/tasker_web/components/layouts/root.html.heex:59
 #, elixir-autogen, elixir-format
 msgid "Zen Mode"
 msgstr "Mode Zen"
@@ -535,7 +535,7 @@ msgstr "Choisir ces natures"
 msgid "Task natures"
 msgstr "Natures de la tâche"
 
-#: lib/tasker_web/components/layouts/root.html.heex:49
+#: lib/tasker_web/components/layouts/root.html.heex:51
 #, elixir-autogen, elixir-format
 msgid "APP NAME"
 msgstr "MONO TÂCHE"
@@ -569,3 +569,8 @@ msgstr "Une tâche exclusive doit impérativement définir son début et sa fin.
 #, elixir-autogen, elixir-format
 msgid "A hard deadline obviously requires an end date."
 msgstr "Une fin impérative requiert évidemment une date de fin."
+
+#: lib/tasker_web/components/layouts/root.html.heex:21
+#, elixir-autogen, elixir-format
+msgid "To work!"
+msgstr "Au boulot !"
