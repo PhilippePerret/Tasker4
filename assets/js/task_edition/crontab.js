@@ -130,115 +130,86 @@ onClickSeveralButton(key, ev){
   this[boxier_prop].show()
 }
 
-// Construction du CBoxier pour les jours de la semaine
-buildCBoxier_wDay(){
+/**
+ * Fonction générique de construction des CBoxiers pour les valeurs 
+ * multiples.
+ * 
+ * @param {String} keyField Le nom du champ (wDay, mDay, etc.)
+ * @param {Array} values Liste des valeurs qui produiront les cases à cocher
+ * @param {Table} options Les options d'affichage
+ * @param {Integer} options.item_width  Largeur à donner à chaque élément.
+ */
+buildCBoxier(keyField, values, options){
   const data = {
-      values: TABLE_WDAYS
-    , container: DGet('#cron-container-several-wdays div.cboxier-container')
-    , onOk: this.onChoose_wDays.bind(this)
+      values: values
+    , container: DGet(`#cron-container-several-${keyField} div.cboxier-container`)
+    , onOk: this.onChooseSeveral.bind(this, keyField)
   }
-  const options = {
-      item_width: 120
-    , return_checked_keys: true
-  }
-  this.cboxier_wDay = new CBoxier(data, options)
-  this.cboxier_wDay_built = true
-}
-onChoose_wDays(wdays){
-  if ( wdays.length ) {
-    // Des jours de la semaine ont été choisis. On les transforme en
-    // index
-    const indexes = []
-    for (var wday of wdays) {
-      indexes.push(EnglishWeekday.indexOf(wday))
-    }
-    this.several_wDay = indexes.sort()
-  } else {
-    this.several_wDay = null
-  }
-  this.onChangeCrontabField()
+  Object.assign(options, {return_checked_keys: true})
+  this[`cboxier_${keyField}`] = new CBoxier(data, options)
+  this[`cboxier_${keyField}_built`] = true
 }
 
+// Construction du cboxier pour les jours de la semaine (sunday-saturday)
+buildCBoxier_wDay(){
+  this.buildCBoxier('wDay', TABLE_WDAYS, {item_width: 120})
+}
+// Construction du cboxier pour les jours du mois (1-31)
 buildCBoxier_mDay(){
   const JoursMois = []
   for (var j = 1; j < 32; ++j ){
     JoursMois.push({key: String(j), label: String(j), checked: false})
   }
-  const data = {
-      values: JoursMois
-    , container: DGet('#cron-container-several-days div.cboxier-container')
-    , onOk: this.onChoose_mDays.bind(this)
-  }
-  const options = {
-      item_width: 60
-    , return_checked_keys: true
-  }
-  this.cboxier_mDay = new CBoxier(data, options)
-  this.cboxier_mDay_built = true  
+  this.buildCBoxier('mDay', JoursMois, {item_width: 60})
 }
-onChoose_mDays(mdays){
-  if ( dhours.length ) {
-    this.several_mDay = mdays.map(x => {return parseInt(x)})
-  } else {
-    this.several_mDay = null
-  }
-  this.onChangeCrontabField()
-}
-
+// Construction du cboxier pour les heures du jour (0-23)
 buildCBoxier_dHour(){
   const dayHours = []
-  for (var h = 1; h < 25; ++h ){dayHours.push({key: String(h), label: String(h)})}
-  const data = {
-      values: dayHours
-    , onOk: this.onChoose_dHours.bind(this)
-    , container: DGet('#cron-container-several-hours div.cboxier-container')
+  for (var h = 1; h < 25; ++h ){
+    dayHours.push({key: String(h), label: String(h)})
   }
-  const options = {
-      item_width: 60
-    , return_checked_keys: true
-  }
-  this.cboxier_dHour = new CBoxier(data, options)
-  this.cboxier_dHour_built = true
+  this.buildCBoxier('dHour', dayHours, {item_width: 60})
 }
-onChoose_dHours(dhours){
-  if ( dhours.length ) {
-    this.several_dHour = dhours.map(x => {return parseInt(x)})
-  } else {
-    this.several_dHour = null
-  }
-  this.onChangeCrontabField()
-}
-
+// Construction du cboxier pour les mois de l'année (janvier-décembre)
 buildCBoxier_yMonth(){
   const yearMonths = []
   for (var i in EnglishMonth){
     yearMonths.push({key: EnglishMonth[i], label: MOIS[i], checked: false})
   }
-  const data = {
-      values: yearMonths
-    , container: DGet('#cron-container-several-months div.cboxier-container')
-    , onOk: this.onChoose_yMonth.bind(this)
-  }
-  const options = {
-      width: 440
-    , item_width: 140
-    , return_checked_keys: true
-  }
-  this.cboxier_yMonth = new CBoxier(data, options)
-  this.cboxier_yMonth_built = true
+  this.buildCBoxier('yMonth', yearMonths, {item_width: 140})
 }
-onChoose_yMonth(ymonths){
-  if ( ymonths.length ) {
-    // Des mois ont été choisis. On les transforme en
-    // index
-    const indexes = []
-    for (var ymonth of ymonths) {
-      indexes.push(EnglishMonth.indexOf(ymonth))
-    }
-    this.several_yMonth = indexes
-  } else {
-    this.several_yMonth = null
-  }
+
+/**
+ * Fonction utilisées par les fonctions onChoose_<type field> pour
+ * déterminer la valeur final à donner à several_<type field> et 
+ * traiter les cas particuliers, lorsque la liste est vide ou ne 
+ * contient qu'un seul élément.
+ */
+onChooseSeveral(keyField, several){
+  console.info("several choisis pour %s", keyField, several)
+  const len = several.length;
+  var lst = [];
+  this[`several_${keyField}`] = ((several, kfd) => {
+    if (len == 0) { return null }
+    else if (len == 1) { }
+    else {
+      // Cas normal où plusieurs éléments on été choisis
+      switch(kfd){
+        case 'yMonth':
+          for (var ym of several) { lst.push(EnglishMonth.indexOf(ym))}
+          return lst
+        case 'dHour':
+        case 'mDay':
+          return several.map(x => {return parseInt(x)})
+        case 'wDay':
+          for (var wday of several) {lst.push(EnglishWeekday.indexOf(wday))}
+          return lst.sort()      
+        default:
+          return several
+      }
+    }  
+  })(several, kfd)
+  
   this.onChangeCrontabField()
 }
 

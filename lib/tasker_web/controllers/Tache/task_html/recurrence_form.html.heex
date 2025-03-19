@@ -84,7 +84,7 @@
     grid-row:3;
     width: 120px;
   }
-  div#cron-container-several-wdays {
+  div#cron-container-several-wDay {
     grid-column:4;
     grid-row:4;
   }
@@ -156,7 +156,7 @@
       <option value={hour}><%= hour %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-hours" class="cron-container-several cron-property cron-at-hour" prop="dHour">
+  <div id="cron-container-several-dHour" class="cron-container-several cron-property cron-at-hour" prop="dHour">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
@@ -169,7 +169,7 @@
       <option value={valeur}><%= titre %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-wdays" class="cron-container-several cron-property cron-at-day" prop="wDay">
+  <div id="cron-container-several-wDay" class="cron-container-several cron-property cron-at-day" prop="wDay">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
@@ -182,7 +182,7 @@
       <option value={mday}><%= mday %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-days" class="cron-container-several cron-property cron-at-mday" prop="mDay">
+  <div id="cron-container-several-mDay" class="cron-container-several cron-property cron-at-mday" prop="mDay">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
@@ -195,7 +195,7 @@
       <option value={value}><%= title %></option>
     <% end %>
   </select>
-  <div id="cron-container-several-months" class="cron-container-several cron-property cron-at-month" prop="yMonth">
+  <div id="cron-container-several-yMonth" class="cron-container-several cron-property cron-at-month" prop="yMonth">
     <button class="several" type="button">{dgettext("ilya", "several…")}</button>
     <div class="cboxier-container"></div>
   </div>
