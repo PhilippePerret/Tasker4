@@ -47,7 +47,11 @@ class Locales {
       // console.info("Je dois reprendre les LOCALES du session storage", LOCALES)
     }
 
-    const dataLocale = LOCALES[key] || raise(`La locale « ${key} » est inconnue. Peut-être faut-il actualiser les fichiers locales-<LG>.js`)
+    let dataLocale = LOCALES[key]
+    if ( !dataLocale ){
+      console.error(`La locale « ${key} » est inconnue. Il est impératif de la définir.`)
+      dataLocale = `-${key} inconnue-`
+    }
     let str = dataLocale.trans || key
 
     // En présence de variables
