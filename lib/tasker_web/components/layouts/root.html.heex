@@ -18,7 +18,9 @@
   <body class={env()}>
     <header>
       <div class="content">
-        <div id="main-link-work"><a href={~p"/work"}><%= dgettext("tasker", "To work!") %></a></div>
+        <%= if @conn.request_path != "/work" do %>
+          <div id="main-link-work"><a href={~p"/work"}><%= dgettext("tasker", "To work!") %></a></div>
+        <% end %>
     <ul id="worker-mail-tools">
       <%= if @current_worker do %>
         <li class="worker-tool">
