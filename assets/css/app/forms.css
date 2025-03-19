@@ -212,13 +212,13 @@ textarea.details:focus {
 }
 
 /* Le container pour les récurrence */
-div.repeat-container {
+div#crontab-container {
   margin-top: 20px;
   background-color: lightskyblue;
   padding: 12px 24px;
   border-radius: 0.5em;
 }
-div.repeat-container > div.repeat-form > div {
+div#crontab-container > div.repeat-form > div {
   margin: 8px 0;
 }
 

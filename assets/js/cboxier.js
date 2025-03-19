@@ -31,6 +31,7 @@
  *    cbs.set(keys)       Pour cocher des valeurs à la volée (liste)
  *    cbs.getValues()     Retourne les valeurs cochées (keys)
  *    cbs.check(value)    Pour cocher une valeur (sans ouvrir)
+ *    cbs.checkOnly(list) Pour ne cocher que ces valeurs (et, donc, décocher les autres)
  *    cbs.uncheck(value)  Pour décocher une valeur
  *    cbs.checkAll()      Pour tout cocher. On peut ajouter en argu-
  *                        {except: [liste]} pour tout cocher sauf ces
@@ -100,6 +101,9 @@ class CBoxier {
       key.forEach(key => {this.check(key)})
     }
   }
+  checkOnly(keys){
+    this.uncheckAll({except: keys})
+  }
 
   uncheck(key){
     if ('string' == typeof key) {
@@ -143,11 +147,12 @@ class CBoxier {
   onlyCbs(options){
     if ( options && options.except && 'object' == typeof options.except && options.except.length) {
       var theIns = [], theOuts = []
-      Object.values(this.cbs).each(dcb => {
-        if ( options.except.includes(dcb.key) ) {
+      var exceptions = options.except.map(x => {return String(x)})
+      Object.values(this.cbs).forEach(dcb => {
+        if ( exceptions.includes(String(dcb.key)) ) {
           theOuts.push(dcb)
         } else {
-          thisIns.push(dcb)
+          theIns.push(dcb)
         }
       })
       return [theIns, theOuts]

@@ -1,46 +1,47 @@
 <style type="text/css">
-  div#recurrence-container {
+  div#crontab-container {
     display: grid;
     grid-template-columns: repeat(6, auto);
     /* grid-template-rows: repeat(4, 1fr); */
     grid-column-gap: 12px;
   }
-  div#recurrence-container label {
+  div#crontab-container label {
     line-height: 2em;
     font-size: 13pt;
   }
-  div#recurrence-container label + select {
+  div#crontab-container label + select {
     margin-left: 0px!important;
   }
-  div#recurrence-container input,
-  div#recurrence-container select,
-  div#recurrence-container select option,
-  div#recurrence-container button {
+  div#crontab-container input,
+  div#crontab-container select,
+  div#crontab-container select option,
+  div#crontab-container button {
     font-size: 13pt;
   }
 
-  div#recurrence-container div.cboxier-container {
+  div#crontab-container div.cboxier-container {
     position:relative;
   }
-  div#recurrence-container div.cron-container-several {
+  div#crontab-container div.cron-container-several {
     text-align: center;
   }
-  div#recurrence-container div.cron-container-several button {
+  div#crontab-container div.cron-container-several button {
     font-size: 11pt;
   }
   div#cron-summary {
-    grid-column: 1/6;
+    grid-column: 1/4;
     grid-row: 1;
     background-color:#bfdbf5;
     padding: 1px 12px;
   }
   div#cron-shower {
-    grid-column: 6;
+    grid-column: 4/7;
     grid-row: 1;
     background-color: #CFC;
     background-color:#a3d7f1;
     border-radius:12px;
     padding:2px 1em;
+    text-align: center;
   }
   div#cron-label-every {
     grid-column: 1;
@@ -49,6 +50,10 @@
   div#cron-value-every {
     grid-column: 1;
     grid-row: 3;
+  }
+
+  select#cron-frequency-unit {
+    width: 100px;
   }
 
   div#cron-label-hMin {
@@ -120,7 +125,7 @@
 </style>
 <input id="task-recurrence" type="hidden" name="task[task_time][recurrence]" value={@recurrence}/>
 
-<div id="recurrence-container" class="repeat-container hidden">
+<div id="crontab-container" class="hidden">
   <div id="cron-summary" class="small">
     Le résumé du cron
   </div>

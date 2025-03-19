@@ -45,17 +45,17 @@ class Crontab {
    */
   static init(){
     EnglishMonth.forEach(m => {MOIS.push(LOC(m))})
-    EnglishWeekday.forEach(m => {
-      const loc_m = LOC(m)
-      Object.assign(TABLE_WDAYS, {[m]: loc_m})
+    for (var j in EnglishWeekday){
+      const loc_m = LOC(EnglishWeekday[j])
+      Object.assign(TABLE_WDAYS, {[j]: loc_m})
       WDAYS.push(loc_m)
-    })
-
+    }
+    // console.info("TABLE_WDAYS", TABLE_WDAYS)
   }
 
   static onChange(cb){
     const isChecked = cb.checked
-    this.repeater.toggleState()
+    this.crontab.toggleState()
   }
 
 /**
@@ -65,12 +65,12 @@ class Crontab {
  */
 static onLoad(){
   if ( this.container ) {
-    this.repeater = new Crontab(this.container)
-    this.repeater.setState()
+    this.crontab = new Crontab(this.container)
+    this.crontab.setState()
   }
 }
 
-static get container(){return this._cont || (this._cont = DGet('div#recurrence-container'))}
+static get container(){return this._cont || (this._cont = DGet('div#crontab-container'))}
 
 // --- Instance ---
 
@@ -91,6 +91,7 @@ setState(state){
   const isActif = state == 'ON'
   if ( isActif ) {
     var cron = NullIfEmpty(this.hiddenField.value)
+    // console.info("[setState] crontab = ", cron)
     // Si la valeur est définie, on régle l'interface
     if ( cron ) this.setCronUI(cron)
     this.onChangeCrontabField(null)
@@ -115,7 +116,16 @@ field(key){
     Object.assign(this.CronFields, {[key]: this.getField(key)})[key]
   )
 }
-getField(key){return DGet(`select#cron-value-${key}`)}
+getField(key){
+  switch(key){
+    case 'uFreq':
+      return DGet('select#cron-frequency-unit')
+    case 'uFreqValue':
+      return DGet('input#cron-frequency-value')
+    default:
+      return DGet(`select#cron-value-${key}`)
+  }
+}
 
 getState(){
   var cron = NullIfEmpty(this.hiddenField.value)
@@ -188,9 +198,9 @@ buildCBoxier_dHour(){
 buildCBoxier_yMonth(){
   const yearMonths = []
   for (var i in EnglishMonth){
-    yearMonths.push({key: EnglishMonth[i], label: MOIS[i], checked: false})
+    yearMonths.push({key: i, label: MOIS[i], checked: false})
   }
-  this.buildCBoxier('yMonth', yearMonths, {item_width: 140})
+  this.buildCBoxier('yMonth', yearMonths, {width:440, item_width: 140})
 }
 
 /**
@@ -200,7 +210,7 @@ buildCBoxier_yMonth(){
  * contient qu'un seul élément.
  */
 onChooseSeveral(keyField, several){
-  console.info("several choisis pour %s", keyField, several)
+  // console.info("several choisis pour %s", keyField, several)
   const len = several.length;
   var lst = [];
   this[`several_${keyField}`] = ((sev, kfd) => {
@@ -212,23 +222,11 @@ onChooseSeveral(keyField, several){
       // <= un seul item a été choisi
       // => Ce n'est pas du "several", on règle le menu du champ avec
       //    la valeur choisie et on met several à null.
-      this.field(keyField).value = several[0]
+      this.field(kfd).value = several[0]
       return null
     } else {
       // Cas normal où plusieurs éléments on été choisis
-      switch(kfd){
-        case 'yMonth':
-          for (var ym of sev) { lst.push(EnglishMonth.indexOf(ym))}
-          return lst
-        case 'dHour':
-        case 'mDay':
-          return sev.map(x => {return parseInt(x)})
-        case 'wDay':
-          for (var wday of sev) {lst.push(EnglishWeekday.indexOf(wday))}
-          return lst.sort()      
-        default:
-          return sev
-      }
+      return sev.map(x => {return parseInt(x)})
     }  
   })(several, keyField)
   
@@ -265,8 +263,7 @@ showRequiredProperties(uFreq){
  */
 onChangeCrontabField(ev){
   const cronData = this.getCronData()
-  console.info("[onChangeCrontagField] cronData = ", cronData)
-  if ( cronData.wDay) return
+  // console.info("[onChangeCrontagField] cronData = ", cronData)
   const crontab = this.generateCronExpression(cronData)
   this.hiddenField.value = crontab
   DGet('#cron-shower').innerHTML = crontab
@@ -321,7 +318,7 @@ getCronData(){
     } else if ( value_str == 'all' ) {
       value = 'all'
     } else {
-      value = ['wDay', 'uFreq'].includes(kField) ? value_str : Number(value_str)
+      value = value_str
     }
     dataReleve[kField] = value ;
   })
@@ -376,8 +373,9 @@ finalizeCronFieldValue(value, type){
   if ( value === null || value == 'all') return '*';
   else if ( 'number' == typeof value) return value;
   else if ( value == '---') return null
-  else if ( value.length ) return value.join(", ")
-  else raise(`Valeur de ${type} inconnue : ${value}`)
+  else if ( 'object' == typeof value && value.length ) return value.join(",")
+  else if ( 'string' == typeof value) return value
+  else raise(`Valeur de ${type} inconnue : ${value} (type ${typeof value})`)
 }
 
 parseAndShowCronExpression(cron) {
@@ -416,16 +414,18 @@ parseAndShowCronExpression(cron) {
       row.value  = rawValue // Ne pas transformer en nombre
     } else {
       // Une valeur several
-      row.value = rawValue.split(",").map(x => {return parseInt(x.trim())})
+      row.value = rawValue.split(",").map(x => {return parseInt(x)})
     }
-    // On peut définir les menus directement ici
+
+    // Définition des valeurs
+    // console.info("row.value", row.value, typeof row.value)
     if ( 'string' == typeof row.value) {
       this.field(key).value = row.value
     } else {
       this[`several_${key}`] = row.value
       this[`cboxier_${key}_built`] || this[`buildCBoxier_${key}`]()
       const cboxier = this[`cboxier_${key}`]
-      cboxier.uncheckAll({except: row.value})
+      cboxier.checkOnly(row.value)
     }
     // Et les valeurs retournées
     resultats[key] = this.finalizeCronFieldValue(row.value, key)
@@ -447,7 +447,10 @@ parseAndShowCronExpression(cron) {
  * Ce résumé est construit en fonction des choix de récurrence.
  */
 showResumeHumain(crondata){
-  console.log("-> Construction du résumé du cron avec", crondata)
+  for(var kfield in crondata){
+    Object.assign(crondata, {[kfield]: parseIntIfNumberish(crondata[kfield])})
+  }
+  // console.log("-> Construction du résumé du cron avec", crondata)
   let sum = [], key;
   sum.push(LOC('Summary') + LOC("[SPACE]") + ":") 
   sum.push(LOC("Repeat this task"))
@@ -483,12 +486,11 @@ showResumeHumain(crondata){
   
   // --- Jour(s) de la semaine
   if ( crondata.wDay ) {
-    console.log("crondata.wDay = ", crondata.wDay)
+    // console.log("crondata.wDay = ", crondata.wDay)
     if ( 'number' == typeof crondata.wDay ) {
       sum.push(LOC('on (day)'))
       sum.push(LOC(EnglishWeekday[crondata.wDay]))
     } else {
-
       const listJours = crondata.wDay.map(ij => {return LOC(EnglishWeekday[ij])})
       sum.push("on (days)")
       sum.push(prettyList(listJours))
@@ -502,6 +504,7 @@ showResumeHumain(crondata){
   }
 
   if ( crondata.yMonth ) {
+    // console.info("crondata.yMonth", crondata.yMonth, typeof crondata.yMonth)
     if ( 'number' == typeof crondata.yMonth ){
       // Valeur simple
       const mois = MOIS[crondata.yMonth - 1]

@@ -48,8 +48,26 @@ window.stopEvent = function(ev){
   return false
 }
 
-
+/**
+ * @return {String} Une liste humaine bien formatée
+ */
 window.prettyList = function(list){
   const last = list.pop()
-  return list.join(", ") + ", and " + String(last)
+  return list.join(", ") + LOC(", and") + String(last)
+}
+
+/**
+ * Si la valeur +value+ peut être un nombre, elle est transformée,
+ * sinon, elle est laissée telle quelle
+ */
+window.parseIntIfNumberish = function(value){
+  if ( 'string' == typeof value ){
+    if ( isNaN(parseFloat(value)) ) {
+      return value
+    } else if ( parseFloat(value) == parseInt(value) ) {
+      return parseInt(value)
+    } else {
+      return parseFloat(value)
+    }
+  } else { return value }
 }
