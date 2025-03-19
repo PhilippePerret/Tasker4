@@ -21,11 +21,6 @@
  *      LOC('key', gender, nombre)  // => la version plurielle pour le genre
  * 
  */
-
-
-window.LANG = navigator.language.slice(0,2);
-import(`./locales-${LANG}.js`); // définit LOCALES
-
 class Locales {
 
   /**

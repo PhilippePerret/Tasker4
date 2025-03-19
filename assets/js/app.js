@@ -14,6 +14,8 @@
 //
 //     import "some-package"
 //
+window.LANG = navigator.language.slice(0,2);
+import(`./locales-${LANG}.js`); // définit LOCALES
 import "./locales.js";
 import "./handy_methods.js";
 import "./server_talk.js";

@@ -58,6 +58,8 @@ class Crontab {
     this.crontab.toggleState()
   }
 
+  static get crontab(){return this._crontab || (this._crontab = new Crontab(this.container))}
+
 /**
  * Méthode appelée au chargement du formulaire d'édition de la tâche, désignée pour régler le composant Crontab si nécessaire.
  * Attention, la bloc de récurrence n'existe pas à la création de la tâche.
@@ -65,7 +67,6 @@ class Crontab {
  */
 static onLoad(){
   if ( this.container /* absent à la création de la tâche */) {
-    this.crontab = new Crontab(this.container)
     this.crontab.setState()
   }
 }
