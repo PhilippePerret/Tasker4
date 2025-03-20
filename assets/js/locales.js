@@ -21,6 +21,23 @@
  *      LOC('key', gender, nombre)  // => la version plurielle pour le genre
  * 
  */
+
+window.LANG = navigator.language.slice(0,2);
+const path_locales = `./locales-${LANG}.js`;  
+ 
+// On importe les locales que si elles ne sont pas encore en session
+if (!sessionStorage.getItem('LOCALES')) {
+  import(path_locales).then(_ => {
+    Locales.ready = true
+    sessionStorage.setItem('LOCALES', JSON.stringify(LOCALES))
+    // console.info("Les locales prêtes mises en session.")
+  });
+} else {
+  window.LOCALES = JSON.parse(sessionStorage.getItem('LOCALES'))
+  // console.info("Locales récupérées de session.")
+}
+
+
 class Locales {
 
   /**
@@ -31,16 +48,7 @@ class Locales {
    * @param {Integer} count Le nombre (pour pluriel) — non traité pour le moment
    */
   static get(key, variables, gender, count){
-
-    if ( 'undefined' != typeof LOCALES ) {
-      if ( !sessionStorage.getItem('LOCALES') ) {
-        // console.info("Je mets les LOCALES en storage")
-        sessionStorage.setItem('LOCALES', JSON.stringify(LOCALES))
-      }
-    } else {
-      window.LOCALES = JSON.parse(sessionStorage.getItem('LOCALES'))
-      // console.info("Je dois reprendre les LOCALES du session storage", LOCALES)
-    }
+    // console.info("-> Locale.get(%s)", key)
 
     let dataLocale = LOCALES[key]
     if ( !dataLocale ){
