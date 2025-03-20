@@ -4,7 +4,7 @@ image_folder = "./le/dossier/images"
 ---
 
 .exergue:
-  Bienvenue sur la page d'accueil de <%= app_name %>.
+  Bienvenue sur la page d'accueil de <%= Constants.get(:app_name) %>.
 
 Après vous être identifié(e), choisissez ce que vous voulez faire :
 
