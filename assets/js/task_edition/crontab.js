@@ -133,6 +133,8 @@ toggleState(){
 }
 
 /**
+ * Retourne le champ d'édition de la propriété (champ) voulu.
+ * 
  * @usage
  *    const field = this.field(<key>)
  * 
@@ -154,7 +156,6 @@ getField(key){
   }
 }
 
-
 prepare(){
   this.data.prepared = true
   CRON_PROPERTIES.forEach(key => {
@@ -172,9 +173,7 @@ onClickSeveralButton(key, ev){
   const built_prop  = `cboxier_${key}_built`
   const fct_prop    = `buildCBoxier_${key}`
   const boxier_prop = `cboxier_${key}`
-  // Si le cboxier n'est pas construit, il faut le faire
-  this[built_prop] || this[fct_prop]()
-  // Et on l'ouvre
+  this[built_prop] || this[fct_prop]() // build the cboxier
   this[boxier_prop].show()
 }
 
@@ -405,11 +404,11 @@ finalizeCronFieldValue(value, type){
 parseAndShowCronExpression(cron) {
   const [hMin, dHour, mDay, yMonth, wDay] = cron.split(" ");
   const table_frequences = {
-      hMin:   {raw: hMin    , value: undefined, uFreq: 'hour'  , frequential: undefined}
-    , dHour:  {raw: dHour   , value: undefined, uFreq: 'day'   , frequential: undefined}
-    , mDay:   {raw: mDay    , value: undefined, uFreq: 'month' , frequential: undefined}
-    , wDay:   {raw: wDay    , value: undefined, uFreq: 'month' , frequential: false}
-    , yMonth: {raw: yMonth  , value: undefined, uFreq: 'year'  , frequential: undefined}
+      hMin:   {raw: hMin    , value: undefined, uFreq: 'hour'  ,  frequential: undefined}
+    , dHour:  {raw: dHour   , value: undefined, uFreq: 'day'   ,  frequential: undefined}
+    , wDay:   {raw: wDay    , value: undefined, uFreq: 'week' ,   frequential: false}
+    , mDay:   {raw: mDay    , value: undefined, uFreq: 'month' ,  frequential: undefined}
+    , yMonth: {raw: yMonth  , value: undefined, uFreq: 'year'  ,  frequential: undefined}
   }
   const resultats = {
       uFreq:      'hour'
