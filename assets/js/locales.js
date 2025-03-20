@@ -28,7 +28,7 @@ const path_locales = `./locales-${LANG}.js`;
 // On importe les locales que si elles ne sont pas encore en session
 if (!sessionStorage.getItem('LOCALES')) {
   import(path_locales).then(_ => {
-    Locales.ready = true
+    Locales.ready = true // dangereux ?
     sessionStorage.setItem('LOCALES', JSON.stringify(LOCALES))
     // console.info("Les locales prêtes mises en session.")
   });
