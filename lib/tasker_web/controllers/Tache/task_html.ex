@@ -5,6 +5,18 @@ defmodule TaskerWeb.TaskHTML do
 
   embed_templates "task_html/*"
 
+  @doc """
+  Fonction qui permettra plus tard d'avoir ses propres pictogrammes.
+  @return le picto voulu
+  """
+  def picto(key) do
+    case key do
+      :edit -> "✍🏽"
+      :delete -> "🗑️"
+      _ -> "???"
+    end
+  end
+
   # Juste pour éviter l'erreur de formatage VSCode
   slot :inner_block, required: true
   def js_constants(assigns) do

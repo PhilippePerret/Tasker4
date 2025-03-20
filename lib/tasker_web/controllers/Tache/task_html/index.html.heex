@@ -11,18 +11,16 @@
     <%= task.title %>
   </:col>
   <:col class={"titre-projet"} :let={task} label={dgettext("tasker", "Project")}>
-    <%= if task.project, do: task.project.title, else: dgettext("tasker", "No Project") %>
-  </:col>
-  <:col :let={task} label={dgettext("tasker", "Created at")}>
-    <%= TFormat.to_s(task.inserted_at, [time: true]) %>
-  </:col>
-  <:col :let={task} label={dgettext("tasker", "Updated at")}>
-    <%= TFormat.to_s(task.updated_at, [time: true]) %>
+    <span class="small ellipsed" style="width:240px;">
+      <%= if task.project, do: task.project.title, else: dgettext("tasker", "No Project") %>
+    </span>
   </:col>
   <:action :let={task}>
-    <.link navigate={~p"/tasks/#{task}/edit"}><%= dgettext("tasker", "Edit") %></.link>
-    <.link href={~p"/tasks/#{task}"} method="delete" data-confirm={dgettext("tasker", "Are you sure?")}>
-      <%= dgettext("tasker", "Remove") %>
-    </.link>
-  </:action>
+      <div style="margin-left:4em;display:inline-block;">
+      <.link navigate={~p"/tasks/#{task}/edit"}><%= picto(:edit) %></.link>
+      <.link href={~p"/tasks/#{task}"} method="delete" data-confirm={dgettext("tasker", "Are you sure?")}>
+        <%= picto(:delete) %>
+      </.link>
+    </div>
+    </:action>
 </.table>

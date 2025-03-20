@@ -5,6 +5,15 @@
 .fright {float: right}
 .error {color: red;}
 
+/* Pour un texte ellipsé (définir le width en style */
+.ellipsed {
+  width: 50px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+}
+
 .small {font-size:13pt}
 .tiny {font-size:10pt}
 .very-tiny {font-size: 8pt}
