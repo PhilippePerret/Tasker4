@@ -53,48 +53,56 @@ class Crontab {
     // console.info("TABLE_WDAYS", TABLE_WDAYS)
   }
 
+  /**
+   * Fonction appelée quand on clique sur la case à cocher principale
+   * qui permet d'activer la récurrence ou au contraire de la reti-
+   * rer
+   */
   static onChange(cb){
     const isChecked = cb.checked
     this.crontab.toggleState()
   }
 
-  static get crontab(){return this._crontab || (this._crontab = new Crontab(this.container))}
-
-/**
- * Méthode appelée au chargement du formulaire d'édition de la tâche, désignée pour régler le composant Crontab si nécessaire.
- * Attention, la bloc de récurrence n'existe pas à la création de la tâche.
- * Note : on part du principe, maintenant, qu'il y a une seule récurrence possible
- */
-static onLoad(){
-  if ( this.container /* absent à la création de la tâche */) {
-    this.crontab.setState()
+  /**
+   * Méthode appelée au chargement du formulaire d'édition de la tâche, désignée pour régler le composant Crontab si nécessaire.
+   * [N1] Attention, la bloc de récurrence n'existe pas à la création de la tâche, d'où le test du container.
+  */
+ static onLoad(){
+   this.container /* [N1] */ && this.crontab.setState()
   }
-}
+  
+  /** 
+   * @return une instance {Crontab} qui est en fait l'instance courante
+   */
+  static get crontab(){return this._crontab || (this._crontab = new Crontab())}
+  static get container(){return this._cont || (this._cont = DGet('div#crontab-container'))}
 
-static get container(){return this._cont || (this._cont = DGet('div#crontab-container'))}
 
-// --- Instance ---
 
-constructor(mainConteneur){
-  this.obj = mainConteneur;
+  // --- INSTANCE ---
+
+  constructor(){
+  this.obj = this.constructor.container;
   this.CronFields = {}
-  if ( ! this.data.prepared ) this.prepare()
+  this.data.prepared || this.prepare()
 }
 
 
 /**
  * Fonction appelée au chargement du formulaire pour régler l'état du composant récurrence
  * 
+ * L'état est défini par la valeur du champ hidden principal qui 
+ * contient le crontab (this.hiddenField). S'il est vide, c'est
+ * qu'aucune récurrence n'est définie. Sinon, la récurrence est
+ * active.
+ * 
  * @param {String} state 'ON' ou 'OFF'
  */
-setState(state){
-  state = state || this.getState()
-  const isActif = state == 'ON'
+setState(){
+  const isActif = this.getState() == 'ON'
   if ( isActif ) {
     var cron = NullIfEmpty(this.hiddenField.value)
-    // console.info("[setState] crontab = ", cron)
-    // Si la valeur est définie, on régle l'interface
-    if ( cron ) this.setCronUI(cron)
+    this.setCronUI(cron)
     this.onChangeCrontabField(null)
   } else {
     // On doit vider le champ récurrence
@@ -102,6 +110,11 @@ setState(state){
   }
   this.activeCB.checked = isActif
   this.obj.classList[isActif ? 'remove' : 'add']("hidden")
+}
+
+getState(){
+  var cron = NullIfEmpty(this.hiddenField.value)
+  return cron ? 'ON' : 'OFF'
 }
 
 toggleState(){
@@ -131,10 +144,7 @@ getField(key){
   }
 }
 
-getState(){
-  var cron = NullIfEmpty(this.hiddenField.value)
-  return cron ? 'ON' : 'OFF'
-}
+
 prepare(){
   this.data.prepared = true
   CRON_PROPERTIES.forEach(key => {

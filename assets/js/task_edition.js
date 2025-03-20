@@ -228,13 +228,13 @@ Crontab.ctest = function(){
     return active_lib_testor(Crontab)
   }
   /* === DÉBUT DES TESTS === */
-  const r = Crontab.repeater;
+  const r = Crontab.crontab;
   const hf = r.hiddenField;
 
   t("--- Tests de la gestion du CRON ---");
 
   hf.value = "5 * * * *"
-  r.setState('ON')
+  r.setState()
 
   ;[
       ['0 * * * *', {uFreq: 'hour', uFreqValue: 1, hMin: null, dHour: null, mDay: null, wDay: null, yMonth: null}, {uFreq: 'hour', uFreqValue: 1, hMin: 0, dHour: null, mDay: null, wDay: null, yMonth: null}]
