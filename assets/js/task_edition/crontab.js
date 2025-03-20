@@ -119,6 +119,16 @@ getState(){
 
 toggleState(){
   this.state = this.state == 'ON' ? 'OFF' : 'ON'
+  const isActif = this.state == 'ON'
+  if ( isActif ){
+    // Pour rendre le crontab actif, il faut lui donner une valeur
+    this.hiddenField.value = this.lastCrontab || "* * * * *"
+  } else {
+    // Avant de rendre le crontab inactif, on enregistre la valeur
+    // actuelle du crontab, qui pourra être remise plus tard.
+    this.lastCrontab = this.hiddenField.value
+    this.hiddenField.value = ""
+  }
   this.setState(this.state)
 }
 
