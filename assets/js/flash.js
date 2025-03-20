@@ -12,13 +12,40 @@ class Flash {
   static init(){
     // console.info("Initialisation de Flash")
   }
+
+  /**
+   * Fonction qui, au chargement de la page, vérifie si un message
+   * produit par le serveur est présent, et le temporise.
+   */
+  static checkServerMessages(){
+    const divMsg = DGet("div#flash-group div#flash-info")
+    if ( divMsg ){
+      const content = DGet('p.message', divMsg).innerHTML
+      DGet('button', divMsg).remove() // on retire le bouton pour ferme le message
+      this.temporize(divMsg, this.calcReadingTime(content))
+    }
+  }
+  static temporize(domMessage, readingTime){
+    this.timer = setTimeout(this.removeServerMessage.bind(this, domMessage), 2000 + readingTime)
+  }
+  static removeServerMessage(domE, ev){
+    console.info("domE", domE)
+    domE.remove()
+    clearTimeout(this.timer)
+    delete this.timer
+  }
+
+  static calcReadingTime(str){
+    return str.split(" ").length * 300 * 4
+  }
+
   static notice(message) {
     this.buildMessage({content: message, type: 'notice'})
   }
   static info(message){return this.notice(message)}
 
   static success(message){
-    this.buildMessage({content: message, type: 'info success'}) // TODO: CSS faire la class success
+    this.buildMessage({content: message, type: 'success'})
   }
   static warning(message) {
     this.buildMessage({content: message, type: 'warning'})
@@ -82,7 +109,7 @@ class FlashMessage {
   }
 
   get readingTime(){
-    return this.content.split(" ").length * 300 * 4
+    return this.constructor.calcReadingTime(this.content)
   }
 
   get content(){return this.data.content}
@@ -90,5 +117,7 @@ class FlashMessage {
 }
 
 window.Flash = Flash
+
+window.addEventListener('load', Flash.checkServerMessages.bind(Flash))
 
 // console.log("flash.js chargé ! (dans flash.js")
