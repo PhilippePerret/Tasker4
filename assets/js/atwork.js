@@ -85,7 +85,8 @@ class ClassAtWork {
     }
 
     /**
-     * Si un temps de départ était enregistré, on le réactive
+     * Si un temps de départ était enregistré (pour une tâche en 
+     * cours de travail), on le réactive.
      */
     let z ;
     if ( (z = sessionStorage.getItem('running-start-time')) ){
@@ -95,7 +96,7 @@ class ClassAtWork {
     }
 
     /**
-     * Cas où la liste contient une tâche exclusive.
+     * Cas où la liste contient des tâches exclusives.
      * Rappel : une tâche exclusive, qui ne peut qu'être unique sur 
      * un temps, éclipse toutes les autres. C'est par exemple un coup
      * de fil ou un rendez-vous qui ne peut être supprimé.
@@ -279,8 +280,14 @@ class ClassAtWork {
    *    4)  Une tâche exclusive qui commence dans peu de temps
    *        => la programmer
    * 
-   * Note : il peut y avoir plusieurs tâches exclusives dans une 
-   * session de travail, surtout si elle est longue.
+   * Notes
+   * ----- 
+   *  * il peut y avoir plusieurs tâches exclusives dans une 
+   *    session de travail, surtout si elle est longue.
+   * 
+   *  * une tâche récurrente peut aussi être une tâche exclusive, 
+   *    c'est-à-dire qu'au lieu d'apparaitre comme les autres tâches,
+   *    elle n'apparait qu'à l'headline.
    */
   checkExclusiveTask(){
     const exclusiveTasks = TASKS.filter(tk => {return tk.task_spec.priority == 5})

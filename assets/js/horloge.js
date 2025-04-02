@@ -6,9 +6,9 @@
 class HorlogeClass {
 
   static s2h(s){
-    let h = Math.round(s / 3600)
+    let h = Math.floor(s / 3600)
     s = s % 3600
-    let m = Math.round(s / 60)
+    let m = Math.floor(s / 60)
     if ( m < 10 ) m = `0${m}` ;
     s = s % 60
     if ( s < 10 ) s = `0${s}` ;
