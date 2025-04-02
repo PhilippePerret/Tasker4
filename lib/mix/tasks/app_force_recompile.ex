@@ -6,7 +6,7 @@ defmodule Mix.Tasks.Phil.Recompile do
   @moduledoc """
   mix phil.recompile permet de forcer la recompilation de l'app.
 
-  Le problème qui a entrainer cette tâche est le signalement d'un 
+  Le problème qui a entrainé cette tâche est le signalement d'un 
   module HTML absent alors qu'il est tout à fait présent.
   Options
   -------
@@ -16,7 +16,7 @@ defmodule Mix.Tasks.Phil.Recompile do
     env = Enum.at(args, 0, "dev")
     env = if Enum.member?(["prod","dev","test"], env), do: env, else: "dev"
     start_it      = Enum.member?(args, "--start")
-    app_name = get_app_name()
+    _app_name = get_app_name()
     # msg "Application: #{app_name}"
     _current_folder = Path.absname(".")
     # msg "Dossier courant : #{current_folder}"

@@ -3,8 +3,14 @@ default_tag = p
 image_folder = "./le/dossier/images"
 ---
 
+p:
+  <%= essai %> avec du `code en ligne`.
+
+p:
+  essai()
+
 .exergue:
-  Bienvenue sur la page d'accueil de <%= Constants.get(:app_name) %>.
+  Bienvenue sur la page d'accueil de l'application « <%= constant_get(:app_name) %> ».
 
 Après vous être identifié(e), choisissez ce que vous voulez faire :
 
@@ -14,3 +20,9 @@ Après vous être identifié(e), choisissez ce que vous voulez faire :
   [Liste des tâches](/tasks) 
   |
   [Créer une nouvelle tâche](/tasks/new)
+
+raw:
+Du code qui doit rester tel quel.
+fonction() <= ne doit pas être touché
+<%= je dois rester comme ça %>
+:raw

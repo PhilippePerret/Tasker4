@@ -11,10 +11,12 @@ defmodule TaskerWeb.PageHTML do
   def home_localized(assigns) do
     lang = Constants.get(:lang)
     path = "priv/gettext/#{lang}/home.html"
-    code = PhilTextFormater.get_phil_text(path)
+    code = PhilHtml.to_html(path, [lang: lang, variables: [essai: "Un essai du binding pour voir."]])
+
     assigns = assigns 
     |> assign(:lang, lang)
     |> assign(:code, code)
+
     ~H"""
     <%= raw @code %>
     """
