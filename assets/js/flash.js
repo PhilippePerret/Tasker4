@@ -109,7 +109,7 @@ class FlashMessage {
   }
 
   get readingTime(){
-    return this.constructor.calcReadingTime(this.content)
+    return Flash.calcReadingTime(this.content)
   }
 
   get content(){return this.data.content}
