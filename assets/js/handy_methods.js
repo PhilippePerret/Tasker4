@@ -1,3 +1,20 @@
+'use strict';
+
+/**
+ * Méthode permettant de suivre le programme en affichant des retours
+ * console avec un certain formatage qui permet de les distinguer des
+ * messages ajoutés au besoin.
+ * 
+ * @usage
+ * 
+ *  MODE_DEV && spy("<le message>", la donnée)
+ */
+const SPY_STYLE = "font-size:9pt;color:#999999;font-family:Monospace;"
+window.spy = function(message, data){
+  let log_data = ['%c' + message, SPY_STYLE]
+  if ( undefined !== data ) { log_data.push(data) }
+  console.log(...log_data)
+}
 /**
  * Fonction qui reçoit une valeur string (normalement…) et retourne
  * cette valeur, trimée, si elle n'est pas vide, est sinon null
