@@ -438,7 +438,7 @@ msgstr "Puis-je enregistrer le temps de travail de la tâche courante ? (dans l
 #: lib/tasker_web/controllers/Tache/js_locales.ex:55
 #, elixir-autogen, elixir-format
 msgid "Click on the task to move it forward by one. Click “Hide List” to finish."
-msgstr "Cliquer sur la tâche pour l'avancer. Cliquer sur “Cacher la liste” pour finir."
+msgstr "Cliquer sur la tâche pour l'avancer. Cliquer sur “Fin de tri” pour finir."
 
 #: lib/tasker_web/controllers/Tache/js_locales.ex:68
 #, elixir-autogen, elixir-format

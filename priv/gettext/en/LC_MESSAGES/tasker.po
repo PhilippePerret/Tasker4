@@ -437,7 +437,7 @@ msgstr ""
 
 #: lib/tasker_web/controllers/Tache/js_locales.ex:55
 #, elixir-autogen, elixir-format
-msgid "Click on the task to move it forward by one. Click “Hide List” to finish."
+msgid "Click on the task to move it forward by one. Click “End of sorting” to finish."
 msgstr ""
 
 #: lib/tasker_web/controllers/Tache/js_locales.ex:68

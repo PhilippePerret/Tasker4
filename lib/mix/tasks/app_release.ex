@@ -15,6 +15,14 @@ defmodule Mix.Tasks.App.Compile do
 
     > mix app.compile prod --start
 
+  Sinon, on peut lancer la release en production à l'aide de :
+
+    > _build/prod/rel/tasker/bin/tasker start
+
+  … et l'application démarre sur le port 4001 (mais normalement, si
+  le serveur a bien été lancé, un lien devrait permettrait d'ouvrir
+  directement l'appli dans le navigateur)
+
   Options
   -------
 
