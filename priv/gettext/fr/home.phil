@@ -1,18 +1,14 @@
 ---
 default_tag = p
-image_folder = "./le/dossier/images"
+css = [home.css]
 ---
 
-p:
-  <%= essai %> avec du `code en ligne`.
+Marre des *todo list* (liste de tâches) longues comme le bras ? qui découragent de travailler avant même de s'y mettre ?…
 
-p:
-  essai()
+Bienvenue dans l'application "<: app_name :>" qui vous permet de travailler avec l'esprit zen, une tâche après l'autre.
 
-.exergue:
-  Bienvenue sur la page d'accueil de l'application « <%= constant_get(:app_name) %> ».
+Après votre [identification](/workers/log_in) ou votre [inscription](/workers/sign_up), vous pouvez choisir ce que vous désirez faire :
 
-Après vous être identifié(e), choisissez ce que vous voulez faire :
 
 .center.inline:
   [Au boulot !](/work)
@@ -20,9 +16,3 @@ Après vous être identifié(e), choisissez ce que vous voulez faire :
   [Liste des tâches](/tasks) 
   |
   [Créer une nouvelle tâche](/tasks/new)
-
-raw:
-Du code qui doit rester tel quel.
-fonction() <= ne doit pas être touché
-<%= je dois rester comme ça %>
-:raw

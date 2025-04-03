@@ -8,19 +8,10 @@ defmodule TaskerWeb.PageHTML do
 
   embed_templates "page_html/*"
 
-  def home_localized(assigns) do
+  def home_localized() do
     lang = Constants.get(:lang)
-    path = "priv/gettext/#{lang}/home.html"
-    code = PhilHtml.to_html(path, [lang: lang, variables: [essai: "Un essai du binding pour voir."]])
-
-    assigns = assigns 
-    |> assign(:lang, lang)
-    |> assign(:code, code)
-
-  
-    ~H"""
-    <%= raw @code %>
-    """
+    path = Path.expand("priv/gettext/#{lang}/home.phil")
+    PhilHtml.to_html(path, [variables: [app_name: Constants.get(:app_name)]])  
   end
 
 end
