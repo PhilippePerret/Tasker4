@@ -84,6 +84,7 @@ defmodule Tasker.TacheFixtures do
                   %TaskRank{}   On met ce task_rank
     :duree        :expect_duration
     :exec_duree   :execution_time
+    :recurrence   Le crontab à enregistrer
 
   """
   def create_task(attrs \\ %{}) do
@@ -102,6 +103,7 @@ defmodule Tasker.TacheFixtures do
         should_start_at:  nil,
         should_end_at:    nil,
         started_at:       nil,
+        recurrence:       attrs[:recurrence],
         expect_duration:  attrs[:duree]||attrs[:expect_duration],
         execution_time:   nil # :exec_duree
       },

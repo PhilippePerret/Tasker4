@@ -98,6 +98,8 @@ defmodule Tasker.Tache do
   @api
   Fonction pour assigner la tâche à un worker. On peut l'assigner
   soit par sa structure soit par son identifiant.
+
+  @return %Task{} La tâche qu'on a assignée
   """
   def assign_to(%Task{} = task, worker_id) when is_binary(worker_id) do
     data_assoc = %{
@@ -107,6 +109,8 @@ defmodule Tasker.Tache do
     }
     TasksWorkers.changeset(%TasksWorkers{}, data_assoc)
     |> Repo.insert!()
+
+    task
   end
   def assign_to(%Task{} = task, %Tasker.Accounts.Worker{} = worker) do
     assign_to(task, worker.id)

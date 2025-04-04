@@ -16,6 +16,7 @@ defmodule TaskerWeb.OneTaskCycleController do
     "given_up_at", "recurrence", 
     "expect_duration", "execution_time", "deadline_trigger"]
 
+  @now NaiveDateTime.utc_now()
 
   def main(conn, _params) do
     candidates = get_candidate_tasks(conn.assigns.current_worker.id)
@@ -100,6 +101,14 @@ defmodule TaskerWeb.OneTaskCycleController do
       task = Map.put(task, :task_spec, struct(TaskSpec, task.task_spec))
       task = Map.put(task, :task_time, struct(TaskTime, task.task_time))
       struct(Task, task)
+    end)
+    # Filtre des tâches
+    # L'ajout a été inauguré pour supprimer les tâches récurrentes
+    # passées qui sont exclusives
+    |> Enum.filter(fn task ->
+      if task.task_spec.priority == 5 do
+        NaiveDateTime.after?(task.task_time.should_end_at, @now)
+      else true end
     end)
     # |> IO.inspect(label: "TÂCHES FINALES")
 

@@ -8,6 +8,8 @@ defmodule TaskerWeb.OTCRequestTest do
   alias Tasker.TacheFixtures, as: F
   alias Tasker.AccountsFixtures, as: WF
 
+  alias TaskerWeb.OneTaskCycleController, as: OTC
+
   # alias Tasker.Accounts.{Worker}
   # alias Tasker.Tache
   # alias Tasker.Tache.{Task, TaskSpec, TaskTime, TaskNature}
@@ -16,6 +18,7 @@ defmodule TaskerWeb.OTCRequestTest do
 
   # Les durées en minutes
   @now    NaiveDateTime.utc_now()
+  @bod    NaiveDateTime.beginning_of_day(@now) # beginning of day
   @hour   60
   @day    @hour * 24
   # @week   @day * 7
@@ -28,9 +31,13 @@ defmodule TaskerWeb.OTCRequestTest do
 
   describe "La requête SQL de relève" do
 
-    def add_in_list(liste, properties) do
+    def add_in_list(liste, properties, raison \\ nil) do
+    # def add_in_list(liste, properties) do
       new_element = F.create_task(properties)
       # |> IO.inspect(label: "\nNOUVEL ÉLÉMENT")
+      new_element = if raison do 
+        Map.put(new_element, :raison, raison)
+      else new_element end
       liste ++ [new_element]
     end
 
@@ -58,35 +65,65 @@ defmodule TaskerWeb.OTCRequestTest do
       in_list = add_in_list(in_list, %{headline: false, deadline: :far_future})
       
       # IO.puts "DANS OUT_LIST"
-      # [OU] Tâche loin dans le futur (sans deadline)
-      out_list = add_in_list(out_list, %{headline: :far_future, deadline: false})
-      # [OU] Tâche loin dans le futur (avec deadline)
-      out_list = add_in_list(out_list, %{headline: :far_future, deadline: true})
-      # [OU] Tâche avec dépendance before
-      out_list = add_in_list(out_list, %{deps_before: true})
-      # OU] Tâche attribuée à un autre
-      out_list = add_in_list(out_list, %{worker: true})
+      # [OUT] Tâche loin dans le futur (sans deadline)
+      out_list = add_in_list(out_list, %{headline: :far_future, deadline: false}, "Tâche loin dans le futur, sans deadline")
+      # [OUT] Tâche loin dans le futur (avec deadline)
+      out_list = add_in_list(out_list, %{headline: :far_future, deadline: true}, "Tâche loin dans le futur, avec deadline")
+      # [OUT] Tâche avec dépendance before
+      out_list = add_in_list(out_list, %{deps_before: true}, "Tâche dépendante d'une autre tâche non accomplie")
+      # [OUT] Tâche attribuée à un autre worker
+      out_list = add_in_list(out_list, %{worker: true}, "Tâche attribuée à un autre worker")
+      # [OUT] Tâche exclusive dans le passé
+      out_list = add_in_list(out_list, %{
+        headline:  NaiveDateTime.add(@bod, 6, :hour), # pour aujourd'hui
+        deadline:  NaiveDateTime.add(@bod, 7, :hour), # pour aujourd'hui
+        priority: 5                 # exclusive
+      }, "Une tâche exclusive terminée ne doit être retenue.")
+      # [OUT] Tâche récurrente exclusive dans le passé
+      out_list = add_in_list(out_list, %{
+        recurrence: "0 4 * * *",   # tous les jours à 6:00
+        headline:  NaiveDateTime.add(@bod, 4, :hour), # pour aujourd'hui
+        deadline:  NaiveDateTime.add(@bod, 5, :hour), # pour aujourd'hui
+        priority: 5                 # exclusive
+        },
+         "Une tâche récurrente, exclusive, dans le passé proche ne doit pas être affichée"
+        )
 
       # IO.inspect(candidates_request(), label: "REQUEST SQL")
       # IO.inspect(Repo.all(from t in Tasker.Tache.Task), label: "\nTâches réellement en base")
 
       current_worker = WF.worker_fixture()
-      candidate_ids = Repo.submit_sql(candidates_request(), [Ecto.UUID.dump!(current_worker.id)], Tasker.Tache.Task)
-      |> Enum.reduce(%{}, fn task, coll -> Map.put(coll, task.id, true) end)
+
+      # candidate_ids = Repo.submit_sql(candidates_request(), [Ecto.UUID.dump!(current_worker.id)], Tasker.Tache.Task)
+      # |> Enum.reduce(%{}, fn task, coll -> Map.put(coll, task.id, true) end)
       # |> IO.inspect(label: "\nIDS TÂCHES RELEVÉES")
+
+      candidate_ids = OTC.get_candidate_tasks(current_worker.id)
+      |> Enum.reduce(%{}, fn task, coll -> Map.put(coll, task.id, true) end)
 
       # Toutes les tâches dans la in_list doivent avoir été relevées
       unfounds = in_list |> Enum.filter(fn t -> ! candidate_ids[t.id] end) |> Enum.map(fn t -> "#{t.id} (#{inspect t})" end)
       assert(Enum.count(unfounds) == 0, "Les tâches suivantes (#{Enum.count(unfounds)}) auraient dû être relevées :\n- #{Enum.join(unfounds, "\n- ")}")
       # Aucune des tâches dans la out_list ne doit avoir été relevées
-      badfounds = out_list |> Enum.filter(fn t -> candidate_ids[t.id] === true end) |> Enum.map(fn t -> "#{t.id} (#{inspect t})" end)
-      assert(Enum.count(badfounds) == 0, "Les tâches suivantes (#{Enum.count(badfounds)}) N'auraient PAS dû être relevées :\n- #{Enum.join(badfounds, "\n- ")}")
+      badfounds = out_list 
+      |> Enum.filter(fn t -> 
+        IO.inspect(t, label: "\nDans le filtre")
+        candidate_ids[t.id] === true 
+      end) 
+      |> Enum.map(fn t -> "\n Tâche ##{t.id}\n Raison : #{Map.get(t, :raison, "non documentée")}\nDétail de la tâche : (#{inspect t})" 
+      end)
+      assert(Enum.count(badfounds) == 0, 
+        # Le message d'erreur
+        """
+        Les tâches suivantes (#{Enum.count(badfounds)}) N'auraient PAS dû
+        être relevées :\n- #{Enum.join(badfounds, "\n- ")}
+        """)
 
     end
 
     # Retourne la requête de relève telle que définie dans le contrôleur
     defp candidates_request do
-      TaskerWeb.OneTaskCycleController.candidates_request()
+      OTC.candidates_request()
     end
 
     @tag skip: "à implémenter"
