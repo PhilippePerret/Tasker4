@@ -153,18 +153,17 @@ class Task {
       this.expliPriority.innerHTML = ""
       return
     }
-    const startat = NullIfEmpty(this.fieldStartAt.value)
-    const endat   = this.endAt()
+    const startat = this.getStartAt()
+    const endat   = this.getEndAt()
     try {
       this.expliPriority.innerHTML = LOC('Exclusive task explication')
       if ( !startat || !endat ) {
-        throw LOC('A exclusive requires headline and deadline')
+        this.menuPriority.selectedIndex = 0
+        const errMsg = LOC('A exclusive requires headline and deadline')
+        const errField = startat ? this.fieldEndAt : this.fieldStartAt ;
+        raise(errMsg, errField)
       }
-    } catch (err) {
-      this.menuPriority.selectedIndex = 0
-      if (startat) this.fieldEndAt.focus();
-      else this.fieldStartAt.focus();
-    }
+    } catch (err) {}
   }
 
   /**
@@ -174,7 +173,7 @@ class Task {
   */
  static setImperativeEndState() {
    this.cbImperativeEnd.disabled =
-   this.labelImperativeEnd.classList[this.endAt()?'remove':'add']('invisible')
+   this.labelImperativeEnd.classList[this.getEndAt()?'remove':'add']('invisible')
   }
   
   static onChooseImperativeEnd(cb, ev){
@@ -191,7 +190,8 @@ class Task {
     }
   }
   
-  static endAt(){return NullIfEmpty(this.fieldEndAt.value)}
+  static getStartAt(){return NullIfEmpty(this.fieldStartAt.value)}
+  static getEndAt(){return NullIfEmpty(this.fieldEndAt.value)}
   
   static get fieldStartAt(){return DGet('input#start-at')}
   static get fieldEndAt(){return DGet('input#end-at')}

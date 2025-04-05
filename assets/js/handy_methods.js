@@ -51,9 +51,18 @@ window.raise = function(message, domField) {
   if ( domField ) {
     domField.focus()
     domField.select()
+    errorizeField(domField)
   }
   Flash.error(message)
   throw null
+}
+function errorizeField(field) {
+  field.classList.add('error')
+  field.addEventListener('blur', unErrorizeField.bind(null, field), {once: true})
+}
+function unErrorizeField(field, ev) {
+  field.classList.remove('error')
+  return stopEvent(ev)
 }
 
 /**
