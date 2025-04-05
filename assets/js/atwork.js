@@ -50,7 +50,7 @@ class ClassAtWork {
     if ( !sessionStorage.getItem('zen-state') ) {
       sessionStorage.setItem('zen-state', 'false')
     }
-    this.zenState = eval(sessionStorage.getItem('zen-state'))
+    this.zenState = (0, eval)(sessionStorage.getItem('zen-state'))
     this.setZenMode()
 
     this.observe()

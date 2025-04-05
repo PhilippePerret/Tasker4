@@ -15,7 +15,6 @@ class ExclusiveTask {
   }
 
   setup(){
-    console.log("-> setup (exclusive task")
     this.start = new Date(this.task.task_time.should_start_at)
     this.stop  = new Date(this.task.task_time.should_end_at)
     Object.assign(this.task, {start_at: this.start, end_at: this.stop})
@@ -138,10 +137,10 @@ class ExclusiveTask {
   }
 
   showAnnonce(message){
-    data = {
+    const data = {
         content: message
       , position: 'bottom-left'
-      , discretion: 3
+      , discretion: 6
     }
     const msg = new DiscreteMessage(data)
     msg.show()
@@ -160,7 +159,7 @@ class ExclusiveTask {
         message = LOC('The exclusive task « $1 » will start in $2.', [this.task.title, LOC('a half-hour')]) 
         return [message, laps]
       case 'imminent':
-        message = LOC('The exclusive task « $1 » will start in $2 minutes.', [this.task.title, `${diffMinutes}`]) 
+        message = LOC('The exclusive task « $1 » will start in $2 minutes.', [this.task.title, `${Math.round(diffMinutes)}`]) 
         return [message, null]
     }
   }

@@ -14,6 +14,9 @@ defmodule TaskerWeb.LocalesJS do
       mix gettext.extract
       mix gettext.merge priv/gettext
       mix run lib/mix/tasks/generate_locales_js.ex
+      - penser à détruire le stockage de LOCALES dans le navigateur
+        pour que la liste soit actualisée.
+
 
   """
   def locales_js do

@@ -55,8 +55,11 @@ header a {
 /* Pour footer et header */
 div.content {
   padding: 12px 1em;
+}
+body > section.content {
   margin-bottom: 10em;
 }
+
 a, a:link, a:visited, a:hover {text-decoration: none}
 
 h1, h2, h3, h4, h5 {
