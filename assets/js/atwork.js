@@ -650,7 +650,7 @@ class ClassAtWork {
   /** 
    * Quand on clique sur le bouton pour voir la liste des tâches
    * 
-   * Note : je voudrais un affichage où on peut les voir comme des
+   * Note : c'est un affichage où on peut les voir comme des
    * cartes les unes derrière les autres.
    */
   onShowList(ev){
@@ -658,10 +658,12 @@ class ClassAtWork {
       if ( this.taskListOpen ) {
         this.taskListOpen = false
         this.btnShowList.innerHTML = LOC('Sort')
+        this.btnShowList.classList.remove('exergue')
         this.showCurrentTask()
         return this.removeTaskList()
       } else {
         this.btnShowList.innerHTML = LOC('End of sorting')
+        this.btnShowList.classList.add('exergue')
       }
       Flash.notice(LOC('Click on the task to move it forward by one. Click “Hide List” to finish.'))
     }
