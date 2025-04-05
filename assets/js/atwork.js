@@ -1,4 +1,6 @@
 'use strict';
+import "./atwork/exclusive_task.js"
+
 function DListen(o, e, m){o.addEventListener(e, m)}
 function DListenClick(o, m){o.addEventListener('click', m)}
 
@@ -270,7 +272,7 @@ class ClassAtWork {
   /**
    * Étude du cas d'une TÂCHE EXCLUSIVE
    * 
-   * Les cas possibles :
+   * CASES:
    *    1)  Pas de tâche exclusive 
    *        => ne rien faire
    *    2)  Une tâche exclusive déjà commencée 
@@ -291,68 +293,13 @@ class ClassAtWork {
    */
   checkExclusiveTask(){
     const exclusiveTasks = TASKS.filter(tk => {return tk.task_spec.priority == 5})
-    MODE_DEV && spy("Tâches exclusives filtrées", exclusiveTasks)
+    MODE_DEV && spy("Tâches exclusives filtrées (oui)", exclusiveTasks)
     // console.info("exclusiveTasks", exclusiveTasks)
-    if ( exclusiveTasks.length == 0 ) return ; // cas 1
+    if ( exclusiveTasks.length == 0 ) return ; // cas 1)
+    // Boucle sur toutes les tâches exclusives relevées
     exclusiveTasks.forEach(tk => {
-      const start = new Date(tk.task_time.should_start_at)
-      const stop  = new Date(tk.task_time.should_end_at)
-      Object.assign(tk, {start_at: start, end_at: stop})
-      if ( start > NOW ) {
-        /**
-         * Une tâche exclusive à déclencher plus tard
-         */
-        const diffMilliseconds = start.getTime() - NOW.getTime()
-        // console.info("Tâche exclusive à déclencher dans %s secondes", parseInt(diffMilliseconds / 1000), tk)
-        var timer = setTimeout(this.lockExclusiveTask.bind(this, tk), diffMilliseconds)
-        Object.assign(tk, {exclusive_timer: timer})
-      } else {
-        /**
-         * Une tâche exclusive déjà en cours
-         */
-        // console.info("Tâche exclusive à déclencher tout de suite", tk)
-        this.lockExclusiveTask(tk)
-      }
-    })
-  }
-
-  lockExclusiveTask(task){
-    if ( task.exclusive_timer ) {
-      clearTimeout(task.exclusive_timer);
-      delete task.exclusive_timer
-    }
-    // Si une tâche courante était en cours de travail, il faut
-    // demander ce que l'on doit faire. Si le worker veut enregistrer
-    // le temps, on simule le clic sur le bouton stop.
-    if ( this.running ){
-      if (confirm(LOC('Can I log the working time on the current task? (Otherwise, it will not be recorded'))){
-        this.onClickStop(null)
-      }
-    }
-    // On met la tâche exclusive en tâche courante
-    this.currentTask = task
-    this.showCurrentTask()
-    // Pour bloquer l'interface, on met un div qui couvre tout
-    this.UIMask = new UIMasker({
-        counterback: task.end_at.getTime()
-      , title: `${LOC('In progress:')} ${task.title}`
-      , ontime: this.unlockExclusiveTask.bind(this, task, true)
-      , onclick: LOC('You have to wait for the end of the task.')
-      , onforceStop: this.unlockExclusiveTask.bind(this, task, false)
-    })
-    this.UIMask.activate()
-  }
-  unlockExclusiveTask(task, regularEnd){
-    if ( task.exclusive_timer ) {
-      clearTimeout(task.exclusive_timer);
-      delete task.exclusive_timer
-    }
-    let markDone = regularEnd || confirm(LOC('Should I mark the end of this exclusive task?'))
-    if (markDone) {
-      this.runOnCurrentTask('is_done', this.afterSetDone.bind(this))
-    } else {
-      // Pour le moment, on ne fait rien
-    }
+      new ExclusiveTask(tk, this).setup()
+   })
   }
 
   /**

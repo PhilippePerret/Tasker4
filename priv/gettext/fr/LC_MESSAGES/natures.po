@@ -11,7 +11,7 @@ msgstr ""
 "Language: fr\n"
 "Plural-Forms: nplurals=2; plural=(n>1);\n"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:105
+#: lib/tasker_web/controllers/Tache/task_html.ex:106
 #, elixir-autogen, elixir-format
 msgid "Natures"
 msgstr "Natures"

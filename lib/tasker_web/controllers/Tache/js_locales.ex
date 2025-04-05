@@ -71,6 +71,8 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("tasker", "Exclusive task explication")
     dgettext("tasker", "A exclusive requires headline and deadline")
     dgettext("tasker", "A hard deadline obviously requires an end date.")
+    dgettext("tasker", "The exclusive task « $1 » will start in $2.")
+    dgettext("tasker", "The exclusive task « $1 » will start in $2 minutes.")
     # - il y a - 
     dgettext("ilya", "january")
     dgettext("ilya", "february")
@@ -103,6 +105,9 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("ilya", "the first")
     dgettext("ilya", "the $1") # pour le 12 (jour)
     dgettext("ilya", "des mois de")
+    dgettext("ilya", "an hour")
+    dgettext("ilya", "a half-hour")
+
 
   end
 

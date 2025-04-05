@@ -1,5 +1,9 @@
 'use strict';
 
+window.now = function(){
+  return new Date()
+}
+
 /**
  * Méthode permettant de suivre le programme en affichant des retours
  * console avec un certain formatage qui permet de les distinguer des

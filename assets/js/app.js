@@ -24,6 +24,7 @@ import "./horloge.js";
 import "./scripts_data.js";
 import "./ui_masker.js";
 import "./ui.js";
+import "./discrete_message.js"
 
 // Include phoenix_html to handle method=PUT/DELETE in forms and buttons.
 import "phoenix_html";
