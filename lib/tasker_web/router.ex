@@ -20,6 +20,7 @@ defmodule TaskerWeb.Router do
   scope "/", TaskerWeb do
     pipe_through :browser
     get "/", PageController, :home
+    get "/help", PageController, :help
   end
 
   scope "/work", TaskerWeb do

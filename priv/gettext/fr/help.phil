@@ -1,0 +1,60 @@
+h1: Aide de "<: app_name :>"
+
+toc()
+
+h2: Présentation de l'application
+c:================================================================
+
+<: app_name :> est un gestionnaire de tâches unique en son genre : partant du principe qu'on ne peut faire bien qu'une seule chose à la fois, il ne présente qu'une seule tâche à la fois. Finies les listes de tâches tellement longues qu'elles découragent avant même de s'y mettre.
+
+Autre particularité importante par rapport aux autres gestionnaires, <: app_name :> permet de définir des scripts (concevez-les comme des outils) qui vont grandement facilité le travail. Ils vous permettent, par exemple, d'ouvrir en un seul clic le dossier principal concerné par la tâche, de passer un document à une version ultérieure, d'ouvrir un fichier particulier.
+
+Plus loin encore, si vous savez un peu *coder*, l'infini des possibles vous est ouvert puisque vous pouvez définir le script (bash, ruby, python, etc.) à lancer en cliquant sur un simple bouton.
+
+h2: L'interface de travail
+c:=================================================================
+
+L'interface de travail principal de <: app_name :> se concentre donc sur la tâche à travailler, en affichant toutes ses particularités.
+
+Divers boutons (qu'on peut masquer en passant en mode Zen), autour de la tâche, permettent de nombreuses opérations. Parmi lesquelles :
+
+list:
+* lancer et arrête la tâche bien sûr,
+* choisir une tâche au hasard,
+* placer la tâche proposée à la fin de la liste,
+* placer la tâche proposée après la suite,
+* reclasser la liste des tâches,
+* détruire la tâche ou la retirer de la session,
+* modifier la tâche,
+* filtrer les tâches (par projet, par nature…),
+* etc.
+:list
+
+Comme vous pouvez le voir, on peut faire énormément de choses pour se simplifier le travail et le rendre agréable.
+
+h2: Les tâches
+c:================================================================
+
+h3#exclusive-task: Les tâches exclusives
+c:-----------------------
+
+Les tâches *exclusives* sont des tâches qui ne peuvent en aucun cas être déplacées, reportées, etc. c'est par exemple un rendez-vous fixé, un coup de téléphone à passer à un moment précis.
+
+h3#recurring-task: Les tâches récurrentes
+c:------------------------
+
+Une tâche récurrente est une tâche qui se reproduit régulièrement. <: app_name :> permet de régler très finement ces répétitions. 
+
+Pour rendre une tâche récurrente, il faut cocher la case "récurrence" dans le [formulaire d'édition](#task-edit-form) de la tâche. Un champ s'ouvre alors, permettant de régler la récurrence de la tâche.
+
+h4: Régler la durée de la tâche
+
+Pour régler la durée de la tâche, il y a deux moyens de d'y prendre, comme pour une tâche normale. Soit en définissant explicitement la première récurrence (jour et heure de début, jour et heure de fin), soit en définissant explicitement la durée à l'aide du champ idoine.
+
+Une tâche récurrente peut être aussi [exclusive](#exclusive-task). Il s'agit par exemple d'un rendez-vous hebdomadaire fixe. Dans ce cas, il est impératif de définir le début et la fin de la première récurrence dans les champs "début" et "fin".
+
+
+h3#task-edit-form: Formulaire d'édition de la tâche
+c:---------------------------------------------------
+
+C'est le formulaire qui permet de modifier ou de définir les données de la tâche.

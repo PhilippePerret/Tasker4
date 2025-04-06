@@ -1,0 +1,142 @@
+<meta charset="utf-8">
+<style type="text/css">/* 
+  ================= TITRES ==============
+*/
+h1, h2, h3, h4, h5, h6 {
+  font-family: Arial, Helvetica;
+  font-weight: normal;
+}
+h1 {
+  color:darkblue;
+}
+h2 {
+  border-bottom: 1px solid #CCCCCC;
+  font-size: 2em;
+  letter-spacing: 0.3px;
+}
+
+p, div {
+  text-align: justify;
+}
+
+pre {
+  border-radius: 0.5em;
+  padding: 0 2em 2em;
+  font-size: 13pt;
+}
+pre:not(.as_doc) {
+  background-color: #333333;
+  color: #EEEEEE;
+}
+
+pre.as_doc {
+  background-color: #fff9e9;
+  color: #000033;
+  margin-left: 2em;
+  margin-right: 2em;
+}
+pre.as_doc code {
+  font-family: Serif, Times, "Times New Roman";
+  color: inherit;
+}
+
+
+
+.error {
+  background-color: #FFEEEE;
+  color: red;
+}
+
+p.description {
+  font-size: 0.85em;
+  font-style: italic;
+}
+
+.no-top-margin {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a, a:link, a:hover, a:visited {
+  text-decoration: none;
+}
+
+/* 
+
+  ========= TABLE DES MATIÈRES ============
+
+*/
+section.tdm-section {
+  display:inline-block;
+  padding:2em 5em;
+  border:1px solid #DDDDDD;
+  border-radius:1.5em;
+  margin-left: 4em;
+  margin-bottom: 4em;
+  margin-top: 2em;
+}
+section.tdm-section a {
+  color: inherit;
+}
+div.tdm a.level-2 {
+  margin-left: 0;
+}
+div.tdm a.level-3 {
+  margin-left: 2em;
+  font-size: 0.95em;
+}
+div.tdm a.level-4 {
+  margin-left: 4em;
+  font-size: 0.9em;
+}
+div.tdm a.level-5 {
+  margin-left: 6em;
+  font-size: 0.85em;
+}
+div.tdm a.level-6 {
+  margin-left: 8em;
+  font-size: 0.8em;
+}
+
+/* 
+
+================= DIVERS ===================
+*/
+nowrap {
+  white-space: nowrap;
+}</style><h1>Aide de <nowrap>«&nbsp;Mono</nowrap> <nowrap>Tâche&nbsp;»</nowrap></h1>
+<p><section class="tdm-section"><div class="tdm"><a class="level-2" href="#tdm0">Présentation de l’application</a></div>
+<div class="tdm"><a class="level-2" href="#tdm1">L’interface de travail</a></div>
+<div class="tdm"><a class="level-2" href="#tdm2">Les tâches</a></div>
+<div class="tdm"><a class="level-3" href="#tdm3">Les tâches exclusives</a></div>
+<div class="tdm"><a class="level-3" href="#tdm4">Les tâches récurrentes</a></div>
+<div class="tdm"><a class="level-4" href="#tdm5">Régler la durée de la tâche</a></div>
+<div class="tdm"><a class="level-3" href="#tdm6">Formulaire d’édition de la tâche</a></div></section></p>
+<h2 id="tdm0">Présentation de l’application</h2>
+<p>Mono Tâche est un gestionnaire de tâches unique en son <nowrap>genre&nbsp;:</nowrap> partant du principe qu’on ne peut faire bien qu’une seule chose à la fois, il ne présente qu’une seule tâche à la fois. Finies les listes de tâches tellement longues qu’elles découragent avant même de s’y mettre.</p>
+<p>Autre particularité importante par rapport aux autres gestionnaires, Mono Tâche permet de définir des scripts (concevez-les comme des outils) qui vont grandement facilité le travail. Ils vous permettent, par exemple, d’ouvrir en un seul clic le dossier principal concerné par la tâche, de passer un document à une version ultérieure, d’ouvrir un fichier particulier.</p>
+<p>Plus loin encore, si vous savez un peu <em>coder</em>, l’infini des possibles vous est ouvert puisque vous pouvez définir le script (bash, ruby, python, etc.) à lancer en cliquant sur un simple bouton.</p>
+<h2 id="tdm1">L’interface de travail</h2>
+<p>L’interface de travail principal de Mono Tâche se concentre donc sur la tâche à travailler, en affichant toutes ses particularités.</p>
+<p>Divers boutons (qu’on peut masquer en passant en mode Zen), autour de la tâche, permettent de nombreuses opérations. Parmi <nowrap>lesquelles&nbsp;:</nowrap></p>
+<ul><li>lancer et arrête la tâche bien sûr,</li>
+<li>choisir une tâche au hasard,</li>
+<li>placer la tâche proposée à la fin de la liste,</li>
+<li>placer la tâche proposée après la suite,</li>
+<li>reclasser la liste des tâches,</li>
+<li>détruire la tâche ou la retirer de la session,</li>
+<li>modifier la tâche,</li>
+<li>filtrer les tâches (par projet, par nature…),</li>
+<li>etc.</li></ul>
+<p>Comme vous pouvez le voir, on peut faire énormément de choses pour se simplifier le travail et le rendre agréable.</p>
+<h2 id="tdm2">Les tâches</h2>
+<h3 id="exclusive-task" id="tdm3">Les tâches exclusives</h3>
+<p>Les tâches <em>exclusives</em> sont des tâches qui ne peuvent en aucun cas être déplacées, reportées, etc. c’est par exemple un rendez-vous fixé, un coup de téléphone à passer à un moment précis.</p>
+<h3 id="recurring-task" id="tdm4">Les tâches récurrentes</h3>
+<p>Une tâche récurrente est une tâche qui se reproduit régulièrement. Mono Tâche permet de régler très finement ces répétitions. </p>
+<p>Pour rendre une tâche récurrente, il faut cocher la case <nowrap>«&nbsp;récurrence&nbsp;»</nowrap> dans le <a href="#task-edit-form">formulaire d’édition</a> de la tâche. Un champ s’ouvre alors, permettant de régler la récurrence de la tâche.</p>
+<h4 id="tdm5">Régler la durée de la tâche</h4>
+<p>Pour régler la durée de la tâche, il y a deux moyens de d’y prendre, comme pour une tâche normale. Soit en définissant explicitement la première récurrence (jour et heure de début, jour et heure de fin), soit en définissant explicitement la durée à l’aide du champ idoine.</p>
+<p>Une tâche récurrente peut être aussi <a href="#exclusive-task">exclusive</a>. Il s’agit par exemple d’un rendez-vous hebdomadaire fixe. Dans ce cas, il est impératif de définir le début et la fin de la première récurrence dans les champs <nowrap>«&nbsp;début&nbsp;»</nowrap> et "fin".</p>
+<h3 id="task-edit-form" id="tdm6">Formulaire d’édition de la tâche</h3>
+<p>C’est le formulaire qui permet de modifier ou de définir les données de la tâche.</p>
