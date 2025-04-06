@@ -59,8 +59,6 @@ class UI {
     window.location.href = backRoute
     return stopEvent(ev)
   }
-
-
   static setMainButton(button){
     this.mainButtons = DGetAll('button.main,.btn.main')
     this.setMainnessButtons(this.mainButtons, false)
@@ -76,6 +74,16 @@ class UI {
     boutons.forEach(b => b.classList[methode]('main'))
   }
 
+  /**
+   * Deux méthodes pour masquer et révéler des éléments mais
+   * par leur invisibilité (PAS leur display)
+   */
+  static hide(element){
+    element.style.visibility = 'hidden'
+  }
+  static reveal(element){
+    element.style.visibility = 'visible'
+  }
 }
 
 window.UI = UI

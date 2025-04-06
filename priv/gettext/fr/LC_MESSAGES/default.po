@@ -153,22 +153,22 @@ msgstr " "
 msgid "Every"
 msgstr "Chaque"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:23
+#: lib/tasker_web/controllers/Tache/js_locales.ex:26
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every"
 msgstr "tous les"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:27
+#: lib/tasker_web/controllers/Tache/js_locales.ex:30
 #, elixir-autogen, elixir-format
 msgid "Summary"
 msgstr "Résumé"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:26
+#: lib/tasker_web/controllers/Tache/js_locales.ex:29
 #, elixir-autogen, elixir-format, fuzzy
 msgid "every_fem"
 msgstr "toutes les"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:22
+#: lib/tasker_web/controllers/Tache/js_locales.ex:25
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Every_fem"
 msgstr "Toutes les"
@@ -441,7 +441,7 @@ msgstr "Travailleur créé avec succès."
 msgid "you will receive an email with instructions shortly."
 msgstr "vous allez recevoir un mèl avec des instructions. "
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:28
+#: lib/tasker_web/controllers/Tache/js_locales.ex:31
 #, elixir-autogen, elixir-format
 msgid "(click to edit)"
 msgstr "(cliquez pour modifier)"
@@ -514,67 +514,67 @@ msgid "OPEN_GUIL"
 msgstr "« "
 
 #: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:33
-#: lib/tasker_web/controllers/Tache/js_locales.ex:34
+#: lib/tasker_web/controllers/Tache/js_locales.ex:37
 #, elixir-autogen, elixir-format
 msgid "Sort"
 msgstr "Trier"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:24
+#: lib/tasker_web/controllers/Tache/js_locales.ex:27
 #, elixir-autogen, elixir-format
 msgid "Each"
 msgstr "Chaque"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:25
+#: lib/tasker_web/controllers/Tache/js_locales.ex:28
 #, elixir-autogen, elixir-format
 msgid "each"
 msgstr "chaque"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:38
+#: lib/tasker_web/controllers/Tache/js_locales.ex:41
 #, elixir-autogen, elixir-format
 msgid "Array or Table required"
 msgstr "Liste ou table requise"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:31
+#: lib/tasker_web/controllers/Tache/js_locales.ex:34
 #, elixir-autogen, elixir-format
 msgid "Cancel"
 msgstr "Annuler"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:33
+#: lib/tasker_web/controllers/Tache/js_locales.ex:36
 #, elixir-autogen, elixir-format
 msgid "Deselect All"
 msgstr "Tout déselectionner"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:35
+#: lib/tasker_web/controllers/Tache/js_locales.ex:38
 #, elixir-autogen, elixir-format
 msgid "End of sorting"
 msgstr "Fin de tri"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:29
+#: lib/tasker_web/controllers/Tache/js_locales.ex:32
 #, elixir-autogen, elixir-format
 msgid "Filter"
 msgstr "Filtrer"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:37
+#: lib/tasker_web/controllers/Tache/js_locales.ex:40
 #, elixir-autogen, elixir-format
 msgid "Hide list"
 msgstr "Cacher la liste"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:30
+#: lib/tasker_web/controllers/Tache/js_locales.ex:33
 #, elixir-autogen, elixir-format
 msgid "OK"
 msgstr "OK"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:32
+#: lib/tasker_web/controllers/Tache/js_locales.ex:35
 #, elixir-autogen, elixir-format
 msgid "Select All"
 msgstr "Tout sélectionner"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:36
+#: lib/tasker_web/controllers/Tache/js_locales.ex:39
 #, elixir-autogen, elixir-format
 msgid "Show list"
 msgstr "Montrer la liste"
 
-#: lib/tasker_web/controllers/Tache/js_locales.ex:39
+#: lib/tasker_web/controllers/Tache/js_locales.ex:42
 #, elixir-autogen, elixir-format
 msgid ", and"
 msgstr " et "

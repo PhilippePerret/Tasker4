@@ -11,11 +11,12 @@ defmodule TaskerWeb.LocalesJS do
 
   Si des locales sont ajoutées : 
 
-      mix gettext.extract
-      mix gettext.merge priv/gettext
-      mix run lib/mix/tasks/generate_locales_js.ex
-      - penser à détruire le stockage de LOCALES dans le navigateur
-        pour que la liste soit actualisée.
+      1) > mix gettext.extract
+      2) > mix gettext.merge priv/gettext
+      3) Définir les textes
+      4) > mix run lib/mix/tasks/generate_locales_js.ex
+      5) Détruire le stockage de LOCALES dans le navigateur
+         pour que la liste soit actualisée.
 
 
   """
@@ -42,6 +43,7 @@ defmodule TaskerWeb.LocalesJS do
     gettext(", and")
 
     # - tasker -
+    dgettext("tasker", "Choose task")
     dgettext("tasker", "Choose task natures")
     dgettext("tasker", "Double dependency between task $1 and task $2.")
     dgettext("tasker", "A task cannot be dependent on itself.")

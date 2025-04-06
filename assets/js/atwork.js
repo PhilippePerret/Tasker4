@@ -339,7 +339,16 @@ class ClassAtWork {
     TASKS.splice(tk.relative_index, 1)
     TASKS.unshift(tk)
   }
-  setCurrentTask(task){this.currentTask = task}
+  /**
+   * Pour définir de force la tâche courante et l'afficher
+   * 
+   * Note : ne pas utiliser this.currentTask = ... qui ne recalcule
+   * pas les indexes et n'affiche pas la tâche courante.
+   */
+  setCurrentTask(task){
+    this.currentTask = task
+    this.showCurrentTask()
+  }
 
 
   removeCurrentTask(){
@@ -466,7 +475,8 @@ class ClassAtWork {
     DListenClick(this.btnSup        , this.onRemove.bind(this))
     DListenClick(this.btnProjet     , this.onProjet.bind(this))
     DListenClick(this.btnResetOrder , this.onResetOrder.bind(this))
-    DListenClick(this.btnShowList   , this.onShowList.bind(this))
+    DListenClick(this.btnSortList   , this.onSortList.bind(this))
+    DListenClick(this.btnChooseTask , this.onChooseInTaskList.bind(this))
     DListenClick(this.btnZen        , this.onToggleZenMode.bind(this))
     DListenClick(this.btnRandom     , this.onRandomTask.bind(this))
     DListenClick(this.btnFilterbyProject, this.onFilterByProject.bind(this))
@@ -647,59 +657,108 @@ class ClassAtWork {
     this.showCurrentTask()
   }
 
+  /**
+   * Méthode appelée quand on clique sur le bouton pour CHOISIR une
+   * tâche dans la liste.
+   */
+  onChooseInTaskList(ev){
+    if ( this.taskListOpen ) {
+      // Normalement, ne peut pas arriver puisque le bouton "Choisir
+      // une tâche" a été rendu invisible.
+    } else {
+      this.showTasksAsList(this.onChooseTask.bind(this))
+      UI.hide(this.btnChooseTask)
+    }
+    return stopEvent(ev)
+  }
+  /**
+   * Méthode associée à la précédente appelée lorsque l'on clique une
+   * tâche dans la liste pour la choisir (elle va devenir la tâche
+   * courante)
+   */
+  onChooseTask(task, ev){
+    this.removeTasksAsList()
+    UI.reveal(this.btnChooseTask)
+    this.setCurrentTask(task)
+    return stopEvent(ev)
+  }
+
   /** 
-   * Quand on clique sur le bouton pour voir la liste des tâches
+   * Quand on clique sur le bouton pour TRIER la liste des tâches
    * 
    * Note : c'est un affichage où on peut les voir comme des
    * cartes les unes derrière les autres.
    */
-  onShowList(ev){
+  onSortList(ev){
     if ( ev /* la toute première fois */) {
       if ( this.taskListOpen ) {
-        this.taskListOpen = false
-        this.btnShowList.innerHTML = LOC('Sort')
-        UI.unsetMainButton(this.btnShowList)
+        this.btnSortList.innerHTML = LOC('Sort')
+        UI.unsetMainButton(this.btnSortList)
         this.showCurrentTask()
-        return this.removeTaskList()
+        return this.removeTasksAsList()
       } else {
-        this.btnShowList.innerHTML = LOC('End of sorting')
-        UI.setMainButton(this.btnShowList)
+        this.btnSortList.innerHTML = LOC('End of sorting')
+        UI.setMainButton(this.btnSortList)
       }
       Flash.notice(LOC('Click on the task to move it forward by one. Click “Hide List” to finish.'))
     }
-    var top = 100, left = 200
-    const tks = TASKS.map(tk => {return tk})
-    tks.reverse().forEach(tk => {
-      top += 80
-      left += 40
-      const d = DCreate('DIV', {class: 'details', text: tk.task_spec.details})
-      const t = DCreate('DIV', {class: 'title', text: tk.title})
-      const o = DCreate('DIV', {class: 'task-as-list', style:`top:${top}px;left:${left}px;`})
-      o.appendChild(t)
-      o.appendChild(d)
-      o.dataset.task_id = tk.id
-      DListenClick(o, this.onClickTaskInList.bind(this, tk)) 
-      document.body.appendChild(o)
-    })
-    this.taskListOpen = true
+    this.showTasksAsList(this.onMoveForwardTaskBehind.bind(this))
     return ev && stopEvent(ev)
   }
 
-  onClickTaskInList(tk, ev){
+  /**
+   * Méthode d'évènement qui avance une tâche derrière devant la 
+   * tâche placée avant elle, lorsque la liste de tâches est 
+   * affichée par la méthode précédente.
+   * Elle est invoquée lorsque la tâche est cliquée dans la liste.
+   */
+  onMoveForwardTaskBehind(tk, ev){
     // console.info("J'ai cliqué la tâche (que je dois passer devant", tk, tk.id)
     if ( tk.relative_index == 0 ) return
     TASKS.splice(tk.relative_index, 1)
     TASKS.splice(tk.relative_index - 1, 0, tk)
-    this.removeTaskList()
+    this.removeTasksAsList()
     this.redefineRelativeIndexes()
-    this.onShowList(null)
+    this.onSortList(null)
     return stopEvent(ev)
   }
-  removeTaskList(){
+
+  /**
+   * Affiche la liste des tâches comme une liste de cartes les unes
+   * derrière les autres
+   * 
+   * @param {Function} onClickMethod La méthode qui sera appelée quand on clique sur la tâche
+   */
+  showTasksAsList(onClickMethod){
+    var top = 100, left = 200
+    const tks = TASKS.map(tk => {return tk})
+    tks.reverse().forEach(tk => {
+      top += 60
+      left += 20
+      const d = DCreate('DIV', {class: 'details', text: tk.task_spec.details, style:'font-size:11pt;'})
+      const t = DCreate('DIV', {class: 'title', text: tk.title, style:'font-size:13pt;'})
+      const o = DCreate('DIV', {class: 'task-as-list', style:`top:${top}px;left:${left}px;cursor:pointer;`})
+      o.appendChild(t)
+      o.appendChild(d)
+      o.dataset.task_id = tk.id
+      DListenClick(o, ev => onClickMethod(tk, ev)) 
+      document.body.appendChild(o)
+    })
+    this.taskListOpen = true
+  }
+  /**
+   * Détruit la liste des tâches précédente
+   */
+  removeTasksAsList(){
+    this.taskListOpen = false
     DGetAll('div.task-as-list').forEach(o => o.remove())
   }
 
 
+
+  /**
+   * Méthode appelée quand on démarre ou arrête une tâche
+   */
   toggleStartStopButtons(){
     this.btnStart.classList[this.running?'add':'remove']('hidden')
     this.btnStop.classList[this.running?'remove':'add']('hidden')
@@ -749,7 +808,8 @@ class ClassAtWork {
   get btnProjet(){return this._btnprojet || (this._btnprojet || DGet('button.btn-projet', this.obj))}
   get btnRandom(){return this._btnrand || (this._btnrand || DGet('button.btn-random', this.obj))}
   get btnResetOrder(){return this._btnresetorder || (this._btnresetorder || DGet('button.btn-reset-order', this.obj))}
-  get btnShowList(){return this._btnshowlist || (this._btnshowlist = DGet('button.btn-show-list', this.obj))}
+  get btnSortList(){return this._btnshowlist || (this._btnshowlist = DGet('button.btn-show-list', this.obj))}
+  get btnChooseTask(){return this._btnchoosetk || (this._btnchoosetk = DGet('button.btn-choose-task', this.obj))}
   get btnFilterbyProject(){return this._btnfpp || (this._btnfpp = DGet('button.btn-filter-per-project', this.obj))}
   get btnFilterbyNature(){return this._btnfpn || (this._btnfpn = DGet('button.btn-filter-per-nature', this.obj))}
   get horloge(){return this._horloge || (this._horloge = new Horloge())}

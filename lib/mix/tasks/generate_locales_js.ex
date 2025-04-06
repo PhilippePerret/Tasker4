@@ -1,17 +1,8 @@
-# Pour générer les fichiers locales
+# Pour générer les fichiers locales pour javascript
 #
-# Pour le moment il ne se déclenche pas automatiquement, il faut le forcer
-# avec :
-#
-#     mix run lib/mix/tasks/generate_locales_js.ex
-#
-# Pour forcer l'ajout de locales, lorsqu'elles sont utilisées 
-# seulement dans JavaScript, les définir dans le fichier :
+# Voir le fichier : 
 #   lib/tasker_web/controllers/Tache/js_locales.ex
 #
-
-# alias TaskerWeb.Gettext.PO
-# import Gettext #, backend: TaskerWeb.Gettext
 
 langs = ["fr", "en"]
 filetypes = ["default", "errors", "ilya", "natures", "tasker"]
