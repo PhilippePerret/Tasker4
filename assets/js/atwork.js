@@ -654,6 +654,7 @@ class ClassAtWork {
   }
   onResetOrder(ev){
     TASKS.sort(function(a,b){return a.absolute_index > b.absolute_index ? 1 : -1})
+    Flash.notice(LOC('Initial order restored'))
     this.showCurrentTask()
   }
 
