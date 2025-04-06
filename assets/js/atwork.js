@@ -658,12 +658,12 @@ class ClassAtWork {
       if ( this.taskListOpen ) {
         this.taskListOpen = false
         this.btnShowList.innerHTML = LOC('Sort')
-        this.btnShowList.classList.remove('exergue')
+        UI.unsetMainButton(this.btnShowList)
         this.showCurrentTask()
         return this.removeTaskList()
       } else {
         this.btnShowList.innerHTML = LOC('End of sorting')
-        this.btnShowList.classList.add('exergue')
+        UI.setMainButton(this.btnShowList)
       }
       Flash.notice(LOC('Click on the task to move it forward by one. Click “Hide List” to finish.'))
     }

@@ -185,6 +185,7 @@ div#current-task-container div.buttons > button {
 div#current-task-container button.main {
   background-color: green!important;
   color: white!important;
+  opacity: 1!important;
 }
 
 div.buttons.top-left {

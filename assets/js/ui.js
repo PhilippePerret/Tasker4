@@ -59,6 +59,23 @@ class UI {
     window.location.href = backRoute
     return stopEvent(ev)
   }
+
+
+  static setMainButton(button){
+    this.mainButtons = DGetAll('button.main,.btn.main')
+    this.setMainnessButtons(this.mainButtons, false)
+    this.setMainnessButtons([button], true)
+  }
+  static unsetMainButton(button){
+    this.setMainnessButtons([button], false)
+    this.setMainnessButtons(this.mainButtons, true)
+  }
+  static setMainnessButtons(boutons, state){
+    if ( !boutons ) return
+    const methode = state ? 'add' : 'remove'
+    boutons.forEach(b => b.classList[methode]('main'))
+  }
+
 }
 
 window.UI = UI
