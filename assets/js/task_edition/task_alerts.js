@@ -150,8 +150,21 @@ class Alert {
    * @return True si cette alerte est définie
    */
   get defined(){
-    console.log("-> defined", this)
     return this.alertAt || this.lapsBefore
+  }
+
+  /**
+   * @return {Object} La table des données de l'alerte
+   */
+  getData(){
+    return {
+        unit:     this.unitField.value
+      , quantity: NullIfEmpty(this.quantityField.value)
+      , at:       this.alertAt || this.calcAlertAt()
+    }
+  }
+  calcAlertAt(){
+    return new Date(Task.getStartAt() - (this.lapsBefore * 60 * 1000))
   }
 
   get alertAt(){
