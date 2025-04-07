@@ -22,6 +22,7 @@ window.spy = function(message, data){
 /**
  * Fonction qui reçoit une valeur string (normalement…) et retourne
  * cette valeur, trimée, si elle n'est pas vide, est sinon null
+ * Maintenant, peut recevoir aussi une liste.
  * 
  * Elle peut être typiquement utilisée pour les valeurs des champs
  * d'édition : 
@@ -30,7 +31,10 @@ window.spy = function(message, data){
  */
 window.NullIfEmpty = function(value){
   if ( !value ) return null;
-  if ( 'string' == typeof value ){
+  if ( 'object' == typeof value && value.length){
+    if (value.length) return value;
+    else return null;
+  } else if ( 'string' == typeof value ){
     value = value.trim()
     if ( value == "" ) return null;
     else return value;

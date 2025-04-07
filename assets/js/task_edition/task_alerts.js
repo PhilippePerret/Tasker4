@@ -25,6 +25,21 @@ class AlertsBlock {
   }
 
   /**
+   * Au moment de l'enregistrement de la tâche, on appelle cette
+   * fonction pour obtenir les données des alertes.
+   * 
+   * @return {Array<Table>} Une liste de tables contenant la 
+   * définition de chaque alerte.
+   */
+  static getData(){
+    const data = [] 
+    this.alerts.forEach(alert => {
+      if (alert.defined){data.push(alert.getData())}
+    })
+    this.alertsField.value = JSON.stringify(data)
+  }
+
+  /**
    * Méthode appelée dès qu'on change la valeur du champ "Début" de 
    * la tâche.
    * Cela a pour conséquence de régler l'enabilité des champs 

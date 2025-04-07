@@ -97,6 +97,7 @@ class Task {
   static beforeSave(ev){
     // console.info("Ce que je dois faire avant de sauver.")
     try {
+      AlertsBlock.getData()
       TaskScript.getData()
     } catch (err) {
       console.error(err)
