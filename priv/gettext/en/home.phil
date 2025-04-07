@@ -1,0 +1,18 @@
+---
+default_tag = p
+css = [home.css]
+---
+
+Tired of *to-do lists* as long as your arm that discourage you from working before you even start?…
+
+Welcome to the "<: app_name :>" app, which lets you work with a zen mind, one task at a time.
+
+After your [log in](/workers/log_in) or your [sign up](/workers/sign_up), you can choose what you want to do :
+
+
+.center.inline:
+  [Let’s work!](/work)
+  |
+  [Task list](/tasks) 
+  |
+  [Create a new task](/tasks/new)
