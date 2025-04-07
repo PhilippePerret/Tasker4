@@ -63,7 +63,7 @@ class Task {
    * tâche
    */
   static onChangeStartAt(ev){
-    AlertsBlock.setableAlertFields(!!this.getStartAt())
+    AlertsBlock.onChangeStartAt(this.getStartAt())
     return stopEvent(ev)
   }
   /**

@@ -112,19 +112,21 @@ defmodule TaskerWeb.TaskHTML do
     <div id="alerts-container" class="block" style="position:relative;">
       <input type="hidden" id="alerts-values" name="task[task_time][alerts]" value={@alerts} />
       <label class="titre">{@title}</label>
-      <div class="alerts">
-        <div class="alert" disabled>
-          <span class="fright">
-            <label class="inline">… {@or_on_the}</label>
-            <input type="datetime-local" class="alert-at" value="" />
-          </span>
+      <div id="alerts">
+        <div class="alert" style="clear:both;">
           <input type="number" class="alert-quantity" min="0" value="" />
-          <select class="alert-unity">
+          <select class="alert-unit">
             <%= for {titre, valeur} <- Enum.reverse(options_duree()) do %>
-              <option value="{valeur}"><%= titre %></option>
+              <option value={valeur}><%= titre %></option>
             <% end %>
           </select>
-          <label class="inline">{@before}…</label>
+          <label class="inline">{@before}.</label>
+
+          <span class="">
+            <label class="inline">{String.capitalize(@or_on_the)}</label>
+            <input type="datetime-local" class="alert-at" value="" />
+          </span>
+
         </div>
       </div>
       <div class="buttons">

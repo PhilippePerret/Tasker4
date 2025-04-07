@@ -95,7 +95,7 @@ msgstr ""
 msgid "Project"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:180
+#: lib/tasker_web/controllers/Tache/task_html.ex:182
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr ""
@@ -148,17 +148,17 @@ msgstr ""
 msgid "New"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:218
+#: lib/tasker_web/controllers/Tache/task_html.ex:220
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:227
+#: lib/tasker_web/controllers/Tache/task_html.ex:229
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:388
+#: lib/tasker_web/controllers/Tache/task_html.ex:390
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr ""
@@ -198,7 +198,7 @@ msgstr ""
 msgid "cannot be set: end date already defined"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:251
+#: lib/tasker_web/controllers/Tache/task_html.ex:253
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr ""
@@ -218,22 +218,22 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:439
+#: lib/tasker_web/controllers/Tache/task_html.ex:441
 #, elixir-autogen, elixir-format
 msgid "All the tasks above can only be executed after the execution of this task."
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:414
+#: lib/tasker_web/controllers/Tache/task_html.ex:416
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Next Tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#: lib/tasker_web/controllers/Tache/task_html.ex:415
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Previous Tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:436
+#: lib/tasker_web/controllers/Tache/task_html.ex:438
 #, elixir-autogen, elixir-format
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr ""
@@ -253,7 +253,7 @@ msgstr ""
 msgid "Select tasks"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:415
+#: lib/tasker_web/controllers/Tache/task_html.ex:417
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task flow"
 msgstr ""
@@ -589,4 +589,14 @@ msgstr ""
 #: lib/tasker_web/controllers/Tache/js_locales.ex:82
 #, elixir-autogen, elixir-format
 msgid "To set an alert, you need to define the task’s start time."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:83
+#, elixir-autogen, elixir-format
+msgid "The alert cannot be set after the task has started, come on…"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:84
+#, elixir-autogen, elixir-format
+msgid "The last alert must be defined!"
 msgstr ""

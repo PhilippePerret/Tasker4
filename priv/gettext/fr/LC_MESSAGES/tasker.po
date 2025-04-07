@@ -95,7 +95,7 @@ msgstr "Un problème est survenu. Vérifiez les points ci-dessous."
 msgid "Project"
 msgstr "Projet"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:180
+#: lib/tasker_web/controllers/Tache/task_html.ex:182
 #, elixir-autogen, elixir-format
 msgid "Save Task"
 msgstr "Enregistrer la tâche"
@@ -148,17 +148,17 @@ msgstr "Urgence"
 msgid "New"
 msgstr "Nouveau"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:218
+#: lib/tasker_web/controllers/Tache/task_html.ex:220
 #, elixir-autogen, elixir-format
 msgid "Execution time"
 msgstr "Durée d'exécution"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:227
+#: lib/tasker_web/controllers/Tache/task_html.ex:229
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task Current Status"
 msgstr "Statut temporel de la tâche"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:388
+#: lib/tasker_web/controllers/Tache/task_html.ex:390
 #, elixir-autogen, elixir-format, fuzzy
 msgid "given up at"
 msgstr "Abandonnée le"
@@ -198,7 +198,7 @@ msgstr "la date d'abandon est déjà définie !"
 msgid "cannot be set: end date already defined"
 msgstr "la date de fin est déjà définie !"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:251
+#: lib/tasker_web/controllers/Tache/task_html.ex:253
 #, elixir-autogen, elixir-format
 msgid "Save this note"
 msgstr "Enregistrer cette note"
@@ -218,22 +218,22 @@ msgstr "Fin"
 msgid "Start"
 msgstr "Début"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:439
+#: lib/tasker_web/controllers/Tache/task_html.ex:441
 #, elixir-autogen, elixir-format
 msgid "All the tasks above can only be executed after the execution of this task."
 msgstr "Toutes les tâches ci-dessus ne pourront être exécutées qu’après l’exécution de cette tâche-ci."
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:414
+#: lib/tasker_web/controllers/Tache/task_html.ex:416
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Next Tasks"
 msgstr "Tâches après"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:413
+#: lib/tasker_web/controllers/Tache/task_html.ex:415
 #, elixir-autogen, elixir-format
 msgid "Previous Tasks"
 msgstr "Tâches avant"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:436
+#: lib/tasker_web/controllers/Tache/task_html.ex:438
 #, elixir-autogen, elixir-format
 msgid "The edited task can only be executed after the completion of all the tasks above."
 msgstr "La tâche éditée ne pourra être exécutée qu’après la réalisation de toutes les tâches ci-dessus."
@@ -253,7 +253,7 @@ msgstr "Aucune tâche trouvée. Impossible donc d'en choisir."
 msgid "Select tasks"
 msgstr "Choisir les tâches"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:415
+#: lib/tasker_web/controllers/Tache/task_html.ex:417
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Task flow"
 msgstr "Tâche"
@@ -590,3 +590,13 @@ msgstr "Alertes"
 #, elixir-autogen, elixir-format
 msgid "To set an alert, you need to define the task’s start time."
 msgstr "Pour placer une alerte, il faut définir le début de la tâche."
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:83
+#, elixir-autogen, elixir-format
+msgid "The alert cannot be set after the task has started, come on…"
+msgstr "L'alerte ne peut pas être donnée après le début de la tâche, voyons…"
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:84
+#, elixir-autogen, elixir-format
+msgid "The last alert must be defined!"
+msgstr "Il faut définir la dernière alerte !"
