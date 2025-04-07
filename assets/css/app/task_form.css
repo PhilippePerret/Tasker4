@@ -26,3 +26,8 @@ form#task-form div.note-author-date {
 form#task-form div.note-author-date {
   text-align: right;
 }
+
+form#task-form div.alerts {
+  padding: 4px;
+  border: 1px solid #DDD;
+}

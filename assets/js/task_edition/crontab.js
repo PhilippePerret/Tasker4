@@ -2,14 +2,7 @@
 /**
  * TODO
  * ----
- *    - tenir compte des propriétés "several" pour affiner le crontab
  *      - réduire les valeurs de several. Par exemple : [1,2,3] => 1-3
- *      - définir le crontab
- *      - régler un crontab complexe
- *          => construire le cboxier
- *          => cocher les case
- *          => définir la valeur this.several_<identifiant>
- * 
  * 
  * Gestion du crontab
  * 

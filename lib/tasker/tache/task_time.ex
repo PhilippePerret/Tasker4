@@ -13,6 +13,8 @@ defmodule Tasker.Tache.TaskTime do
     field :should_end_at, :naive_datetime
     field :imperative_end, :boolean, default: false
     field :ended_at, :naive_datetime
+    field :alert_at, :naive_datetime
+    field :alerts, :map
     field :given_up_at, :naive_datetime
     field :recurrence, :string
     field :expect_duration, :integer
@@ -24,18 +26,16 @@ defmodule Tasker.Tache.TaskTime do
   end
 
   # TODO
-  #   * inventer started_at lorsque ended_at ou given_up_at est
-  #     fourni mais que le départ n'a pas été fixé. Le rechercher
-  #     dans les executions.
   # 
   @doc false
   def changeset(task_time, attrs) do
     attrs = attrs
     |> convert_expect_duration()
+    |> treate_alerts()
     |> treate_recurrence_if_any()
 
     task_time
-    |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :imperative_end, :started_at, :ended_at, :given_up_at, :recurrence, :expect_duration, :execution_time, :deadline_trigger])
+    |> cast(attrs, [:task_id, :should_start_at, :should_end_at, :imperative_end, :started_at, :alert_at, :alerts, :ended_at, :given_up_at, :recurrence, :expect_duration, :execution_time, :deadline_trigger])
     |> validate_required([:task_id])
     |> validate_end_at()
     |> validate_should_end_at()
@@ -43,6 +43,23 @@ defmodule Tasker.Tache.TaskTime do
   end
 
   # --- Méthodes de conversion des attributs (avant validation) ---
+
+  # Cette méthode gère les alertes.
+  # 
+  # Les alertes sont gérées à l'aide du champ naive date :alert_at
+  # qui définit la prochaine alerte qui sera donnée pour la tâche et
+  # le champs :alerts qui contient toutes les alertes de la tâche.
+  # :alerts est une table JSON, qui définit {:at, :unity, :quantity}
+  # où :
+  #   :at     Est la date réelle en fonction de :unity et :quantity
+  #   :unity  et :quantity définissent par exemple "2 heures avant"
+  #   (quantity: 2, unity: 'hour')
+  # 
+  defp treate_alerts(%{"alerts" => alerts} = attrs) do
+    
+    attrs
+  end
+  defp treate_alerts(attrs), do: attrs
 
   defp convert_expect_duration(%{} = attrs), do: attrs
   defp convert_expect_duration(%{"exp_duree_unite" => edur_unite} = attrs) do

@@ -12,6 +12,9 @@ button {
   font-family:inherit;
   font-style: inherit;
 }
+select:disabled {
+  opacity: 0.5;
+}
 
 input[type="text"], 
 input[type="password"], 
@@ -222,7 +225,7 @@ div#crontab-container > div.repeat-form > div {
   margin: 8px 0;
 }
 
-form label {
+form label:not(.inline) {
   display: block!important;
   font-style: normal!important;
   font-size: 14pt;

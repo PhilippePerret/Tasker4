@@ -67,27 +67,27 @@ msgstr "Déconnexion"
 msgid "Settings"
 msgstr "Réglages"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:351
+#: lib/tasker_web/controllers/Tache/task_html.ex:391
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:353
+#: lib/tasker_web/controllers/Tache/task_html.ex:393
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:359
+#: lib/tasker_web/controllers/Tache/task_html.ex:399
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:358
+#: lib/tasker_web/controllers/Tache/task_html.ex:398
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:355
+#: lib/tasker_web/controllers/Tache/task_html.ex:395
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
@@ -446,7 +446,7 @@ msgstr "vous allez recevoir un mèl avec des instructions. "
 msgid "(click to edit)"
 msgstr "(cliquez pour modifier)"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:290
+#: lib/tasker_web/controllers/Tache/task_html.ex:330
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr "Durée estimée"
@@ -578,3 +578,8 @@ msgstr "Montrer la liste"
 #, elixir-autogen, elixir-format
 msgid ", and"
 msgstr " et "
+
+#: lib/tasker_web/components/layouts/root.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "Manual"
+msgstr ""

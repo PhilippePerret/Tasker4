@@ -67,27 +67,27 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:351
+#: lib/tasker_web/controllers/Tache/task_html.ex:391
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:353
+#: lib/tasker_web/controllers/Tache/task_html.ex:393
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:359
+#: lib/tasker_web/controllers/Tache/task_html.ex:399
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:358
+#: lib/tasker_web/controllers/Tache/task_html.ex:398
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:355
+#: lib/tasker_web/controllers/Tache/task_html.ex:395
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr ""
@@ -446,7 +446,7 @@ msgstr ""
 msgid "(click to edit)"
 msgstr ""
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:290
+#: lib/tasker_web/controllers/Tache/task_html.ex:330
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr ""
@@ -577,4 +577,9 @@ msgstr ""
 #: lib/tasker_web/controllers/Tache/js_locales.ex:43
 #, elixir-autogen, elixir-format
 msgid ", and"
+msgstr ""
+
+#: lib/tasker_web/components/layouts/root.html.heex:63
+#, elixir-autogen, elixir-format
+msgid "Manual"
 msgstr ""

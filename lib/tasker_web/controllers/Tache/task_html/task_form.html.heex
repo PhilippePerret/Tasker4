@@ -44,6 +44,10 @@
         <.duration_field changeset={@changeset} expected_duration={ft[:expect_duration].value}/>
         <div id="description-times" class="explication tiny"></div>
       </div>
+
+      <div class="inline-fields small-gap no-points">
+        <.bloc_alerts changeset={@changeset} lang={@lang} />
+      </div>
       
       <.bloc_natures changeset={@changeset} natures={@data.natures} lang={@lang} />
 

@@ -2,6 +2,7 @@
 import "./task_edition/task_script.js"
 import "./task_edition/task_dependencies.js"
 import "./task_edition/task_notes.js"
+import "./task_edition/task_alerts.js"
 import "./task_edition/crontab.js"
 
 class Task {
@@ -26,7 +27,10 @@ class Task {
       // Observation du menu priorité
       this.menuPriority.addEventListener('change', this.onChangePriority.bind(this))
 
-      // Préparation du menu des natures
+      // Préparation du bloc des alertes
+      AlertsBlock.init()
+
+      // Préparation du bloc des natures
       this.prepareNaturesChooser()
       
       // On crée une instance pour gérer les dépendances
@@ -45,10 +49,30 @@ class Task {
       
       // Surveillance du champ de date de fin (qui doit changer l'état
       // de la cb "Fin impérative")
-      this.fieldEndAt.addEventListener('change', this.setImperativeEndState.bind(this))
+      this.fieldEndAt.addEventListener('change', this.onChangeEndAt.bind(this))
+        
+      // Surveillance du champ de date de début (qui doit permettre 
+      // de définir une alerte)
+      this.fieldStartAt.addEventListener('change', this.onChangeStartAt.bind(this))
       
     } // fin si full editor
   } // init
+
+  /**
+   * Méthode d'évènement appelée quand on change la date de début de
+   * tâche
+   */
+  static onChangeStartAt(ev){
+    AlertsBlock.setableAlertFields(!!this.getStartAt())
+    return stopEvent(ev)
+  }
+  /**
+   * Méthode d'event appelée quand on change la date de fin de tâche
+   */
+  static onChangeEndAt(ev){
+    this.setImperativeEndState()
+    return stopEvent(ev)
+  }
 
   static get TaskSpecId(){
     return this._taskspecid || (this._taskspecid = DGet('input#task_spec_id', this.obj).value)
@@ -220,6 +244,7 @@ window.Task = Task
 window.addEventListener('load', function(){
   Task.init()
   Crontab.onLoad()
+  AlertsBlock.onLoad()
 })
 
 Crontab.ctest = function(){
