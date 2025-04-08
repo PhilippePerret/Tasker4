@@ -299,7 +299,7 @@ class ClassAtWork {
    */
   checkExclusiveTask(){
     const exclusiveTasks = TASKS.filter(tk => {return tk.task_spec.priority == 5})
-    MODE_DEV && spy("Tâches exclusives filtrées (oui)", exclusiveTasks)
+    MODE_DEV && spy("Tâches exclusives filtrées", exclusiveTasks)
     // console.info("exclusiveTasks", exclusiveTasks)
     if ( exclusiveTasks.length == 0 ) return ; // cas 1)
     // Boucle sur toutes les tâches exclusives relevées

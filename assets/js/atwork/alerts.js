@@ -15,6 +15,7 @@ class Alerts {
   static schedule(){
     console.log("-> Alerts.schedule")
     if ( ALERTES.length == 0 ) return ;
+    spy("Programmation des alertes", ALERTES)
   }
 
 }

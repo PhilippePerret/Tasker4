@@ -55,9 +55,33 @@ defmodule Tasker.Tache.TaskTime do
   #   :unity  et :quantity définissent par exemple "2 heures avant"
   #   (quantity: 2, unity: 'hour')
   # 
-  defp treate_alerts(%{"alerts" => alerts} = attrs) do
-    
-    attrs
+  defp treate_alerts(%{"alerts" => alerts, "should_start_at" => should_start_at} = attrs) when is_binary(alerts) do
+    IO.inspect(alerts, label: "\n\n+++ alerts dans treate_alerts")
+    alerts = if is_nil(alerts) do alerts else
+      Jason.decode!(alerts)
+      |> IO.inspect(label: "\nAlerts décodé")
+    end
+    cond do
+    is_nil(alerts) -> attrs
+    Enum.count(alerts) == 0 -> attrs
+    true -> 
+      # Si la date de démarrage de la tâche est passée, on peut supprimer toute
+      # alerte.
+      should_start_at = NaiveDateTime.from_iso8601!("#{should_start_at}:00")
+
+      if NaiveDateTime.before?(should_start_at, NaiveDateTime.utc_now()) do
+        Map.merge(attrs, %{"alerts" => nil, "alert_at" => nil})
+      else
+        # alert_at = NaiveDateTime.from_iso8601!("#{Enum.at(alerts, 0) |> Map.get("at")}:00")
+        # IO.inspect(alert_at, label: "\nalert_at calculé")
+        alert_at = Enum.at(alerts, 0) |> Map.get("at")
+        Map.merge(attrs, %{
+          "alerts"    => alerts, 
+          "alert_at"  => alert_at
+        })
+      end
+      |> IO.inspect(label: "\nattrs rectifiés")
+    end
   end
   defp treate_alerts(attrs), do: attrs
 

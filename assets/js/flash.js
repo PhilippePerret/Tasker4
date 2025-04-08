@@ -29,7 +29,7 @@ class Flash {
     this.timer = setTimeout(this.removeServerMessage.bind(this, domMessage), 2000 + readingTime)
   }
   static removeServerMessage(domE, ev){
-    console.info("domE", domE)
+    // console.info("domE", domE)
     domE.remove()
     clearTimeout(this.timer)
     delete this.timer

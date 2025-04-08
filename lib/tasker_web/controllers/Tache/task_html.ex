@@ -105,7 +105,7 @@ defmodule TaskerWeb.TaskHTML do
     assigns = assigns
     |> assign(:title, dgettext("tasker", "Alerts"))
     |> assign(:before, dgettext("ilya", "before"))
-    |> assign(:alerts, task_time.alerts)
+    |> assign(:alerts, Jason.encode!(task_time.alerts))
     |> assign(:or_on_the, dgettext("ilya", "or on the (date)"))
 
     ~H"""

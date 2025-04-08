@@ -34,9 +34,11 @@ class AlertsBlock {
   static getData(){
     const data = [] 
     this.alerts.forEach(alert => {
+      console.log("Consignation de l'alerte" , alert)
       if (alert.defined){data.push(alert.getData())}
     })
     this.alertsField.value = JSON.stringify(data)
+    console.info("this.alertsField.value = ", this.alertsField.value)
   }
 
   /**
@@ -112,13 +114,19 @@ class AlertsBlock {
 
   static setState(){
     let data = NullIfEmpty(this.alertsField.value)
-    if ( !data ) return ;
-    data = JSON.parse(data)
-    data.forEach((alertData, i) => {
-      const alert = new Alert(Object.assign(alertData, {index: i}))
+    if ( data ) {
+      data = JSON.parse(data)
+      data.forEach((alertData, i) => {
+        const alert = new Alert(Object.assign(alertData, {index: i}))
+        this.alerts.push(alert)
+        alert.build()
+      })
+    } else {
+      // Quand il n'y a aucune donnée alerte, on instancie quand même
+      // le champ affiché. Il ne sera compté que s'il est défini.
+      const alert = new Alert({index: 0})
       this.alerts.push(alert)
-      alert.build()
-    })
+    }
   }
 
 
