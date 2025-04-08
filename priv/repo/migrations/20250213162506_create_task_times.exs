@@ -10,7 +10,7 @@ defmodule Tasker.Repo.Migrations.CreateTaskTimes do
       add :started_at, :naive_datetime
       add :ended_at, :naive_datetime
       add :alert_at, :naive_datetime
-      add :alerts, :map
+      add :alerts, {:array, :map}, default: nil
       add :given_up_at, :naive_datetime
       add :recurrence, :string
       add :expect_duration, :integer

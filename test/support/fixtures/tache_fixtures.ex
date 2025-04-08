@@ -37,14 +37,14 @@ defmodule Tasker.TacheFixtures do
         :near_future  -> 
           random_time(:after, NaiveDateTime.add(now(), :rand.uniform(@day * 2), :minute), @day)
           # |> IO.inspect(label: "\nFutur proche (pour #{inspect prop})")
-          :far_past     -> random_time(:before, NaiveDateTime.add(now(), - @week * 2, :minute), @day)
-          :far_future   -> 
-            random_time(:after, NaiveDateTime.add(now(), @week * 2, :minute), @day)
+        :far_past     -> random_time(:before, NaiveDateTime.add(now(), - @week * 2, :minute), @day)
+        :far_future   -> 
+          random_time(:after, NaiveDateTime.add(now(), @week * 2, :minute), @day)
             # |> IO.inspect(label: "\nFutur lointain (> 2 semaines) (pour #{inspect prop})")
         %NaiveDateTime{} -> spec
         _ -> spec
       end        
-      %{task_data | task_time: %{task_data.task_time | prop => thetime}}
+      %{task_data | task_time: Map.put(task_data.task_time, prop, thetime) }
     end
   end
 
@@ -63,7 +63,7 @@ defmodule Tasker.TacheFixtures do
 
   @doc """
   Fonction beaucoup plus "solide" que task_fixture ci-dessous qui
-  permet de créer une tâche complète, avec ses fichiers associées
+  permet de créer une tâche complète, avec ses fiches associées
   dont task_spec, task_time et ?
 
   Les attrs possibles sont les suivants (tout paramètre absent est
@@ -85,6 +85,7 @@ defmodule Tasker.TacheFixtures do
     :duree        :expect_duration
     :exec_duree   :execution_time
     :recurrence   Le crontab à enregistrer
+    :alerts       les alertes
 
   """
   def create_task(attrs \\ %{}) do
@@ -102,8 +103,10 @@ defmodule Tasker.TacheFixtures do
       task_time: %{
         should_start_at:  nil,
         should_end_at:    nil,
+        alert_at:         nil,
         started_at:       nil,
         recurrence:       attrs[:recurrence],
+        alerts:           attrs[:alerts],
         expect_duration:  attrs[:duree]||attrs[:expect_duration],
         execution_time:   nil # :exec_duree
       },
@@ -112,6 +115,7 @@ defmodule Tasker.TacheFixtures do
     # Rationnaliser et mettre les clés
     # (pour pouvoir faire %{ attrs | ... })
     attrs = attrs
+    |> Map.put(:headline, attrs[:headline] || attrs[:should_start_at])
     |> Map.put(:before, attrs[:before] || attrs[:deps_after])
     |> Map.put(:after, attrs[:after] || attrs[:deps_before])
     |> Map.put(:project, attrs[:project] || nil)
@@ -126,6 +130,17 @@ defmodule Tasker.TacheFixtures do
         %{attrs | deadline: random_time(:after, dtask.task_time.should_start_at)}
       else attrs end
     dtask = set_spec_time(dtask, :should_end_at, attrs[:deadline])
+
+    # - ALERTES -
+    alerts = attrs[:alerts]
+    dtask = if alerts && Enum.count(alerts) > 0 do
+      first_alert = Enum.at(alerts, 0).at
+      ttime = Map.merge(dtask.task_time, %{
+        alert_at: first_alert, 
+        alerts: alerts
+      })
+      %{dtask | task_time: ttime}
+    else dtask end
 
     # - PROJECT -
     p = attrs[:project]
@@ -151,8 +166,13 @@ defmodule Tasker.TacheFixtures do
     {:ok, task} = Tache.create_task(Map.merge(dtask.task, %{project_id: attrs.project_id}))
     task = Tache.get_task!(task.id)
     Tache.update_task_spec(task.task_spec, dtask.task_spec)
-    Tache.update_task_time(task.task_time, dtask.task_time)
     
+    case Tache.update_task_time(task.task_time, dtask.task_time) do
+    {:ok, _} -> :ok
+    {:error, changeset} ->
+      IO.inspect(changeset, label: "# ERREUR")
+      raise "Une erreur est survenu à l'update du task_time"
+    end
     
     # Il faut la relever pour avoir les bonnes valeurs
     task = Tache.get_task!(task.id)

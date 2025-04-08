@@ -14,7 +14,7 @@ defmodule Tasker.Tache.TaskTime do
     field :imperative_end, :boolean, default: false
     field :ended_at, :naive_datetime
     field :alert_at, :naive_datetime
-    field :alerts, :map
+    field :alerts, {:array, :map}, default: nil
     field :given_up_at, :naive_datetime
     field :recurrence, :string
     field :expect_duration, :integer

@@ -28,7 +28,8 @@ defmodule TaskerWeb.OneTaskCycleController do
       render(conn, :at_work, %{
         projects: projects_as_json_table(),
         natures: natures_as_json_table(),
-        candidates: Jason.encode!(candidates)
+        candidates: Jason.encode!(candidates),
+        alertes: Jason.encode!(get_alerts(conn.assigns.current_worker.id))
       })
     end
   end
@@ -56,6 +57,27 @@ defmodule TaskerWeb.OneTaskCycleController do
       Map.put(accu, p.id, p)
     end)
     |> Jason.encode!()
+  end
+
+  @doc """
+  Fonction qui relève les tâches dont une alerte doit être données
+  au cours de la session (journée) courante
+  """
+  def get_alerts(worker_id) do
+    sql = alerts_request()
+    params = [Ecto.UUID.dump!(worker_id)] # Remplace par l'ID réel du worker
+    result = Tasker.Repo.query!(sql, params)
+    |> IO.inspect(label: "\nresult de requête alerts")
+    tasks_with_alert = 
+    result.rows
+    |> Enum.map(fn row -> 
+      Enum.zip(result.columns, row) 
+      |> Map.new()
+      |> (fn map ->
+        %{task_id: map["id"], title: map["title"], start: map["should_start_at"], alerts: map["alerts"]}
+      end).()
+    end)
+    |> IO.inspect(label: "\ntasks_with_alert")
   end
 
   @doc """
@@ -244,6 +266,23 @@ defmodule TaskerWeb.OneTaskCycleController do
   @doc """
 
   """
+  def alerts_request do
+    """
+    SELECT tk.id, tk.title, tkt.should_start_at, tkt.alerts
+    FROM tasks tk
+    JOIN task_times tkt ON tkt.task_id = tk.id
+    WHERE (
+      tkt.should_start_at > NOW() 
+    ) AND (    
+      tkt.alert_at <= NOW() + INTERVAL '1 days'
+    ) AND (
+    -- S'il y a un worker défini, il faut que ce soit le courant
+      NOT EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id)
+      OR EXISTS (SELECT 1 FROM tasks_workers tw WHERE tw.task_id = tk.id AND tw.worker_id = $1)
+    )
+    ;
+    """
+  end
 
   def candidates_request do
     """

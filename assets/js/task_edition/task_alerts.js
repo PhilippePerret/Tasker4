@@ -16,9 +16,9 @@ class AlertsBlock {
    */
   static init(){
     this.btnAddAlert.addEventListener('click', this.addAlert.bind(this))
-    // On désactive tous les champs d'alerte. Il ne seront activés
-    // que lorsqu'une date de début sera définie
-    this.disableAlertFields()
+    // On règle l'accessibilité des champs d'alerte. Ils ne sont
+    // activés si une date de début est définie
+    this.setableAlertFields()
     // On initialise la variables qui va contenir toutes les 
     // instances d'alerte
     this.alerts = []
@@ -94,6 +94,7 @@ class AlertsBlock {
   static enabledAlertFields(){ this.setableAlertFields(true)}
   static disableAlertFields(){ this.setableAlertFields(false)}
   static setableAlertFields(enable){
+    if ( undefined === enable) enable = !!Task.getStartAt();
     ['input.alert-at', 'select.alert-unit','input.alert-quantity'].forEach(nfield => {
       DGetAll(nfield, this.obj).forEach(o => o.disabled = !enable)
     })

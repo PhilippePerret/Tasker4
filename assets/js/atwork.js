@@ -1,5 +1,6 @@
 'use strict';
 import "./atwork/exclusive_task.js"
+import "./atwork/alerts.js"
 
 function DListen(o, e, m){o.addEventListener(e, m)}
 function DListenClick(o, m){o.addEventListener('click', m)}
@@ -105,6 +106,11 @@ class ClassAtWork {
      * Voir le détail du fonctionnement sur la fonction
      */
     this.checkExclusiveTask()
+
+    /**
+     * On programme les alertes qui ont été remontées
+     */
+    Alerts.schedule()
 
     // On affiche la tâche courante
     this.showCurrentTask()

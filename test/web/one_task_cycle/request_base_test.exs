@@ -1,7 +1,7 @@
 defmodule TaskerWeb.OTCRequestTest do
   use Tasker.DataCase
 
-  # import CommonTestMethods # is_around etc.
+  import CommonTestMethods # is_around etc.
 
   alias Tasker.Repo
 
@@ -126,25 +126,75 @@ defmodule TaskerWeb.OTCRequestTest do
       OTC.candidates_request()
     end
 
-    @tag skip: "à implémenter"
-    test "retourne les candidates dans le bon ordre" do
+  end #/describe "La requête SQL de relève"
+
+
+  describe "la relève des alertes" do
+
+    # @tag :skip
+    test "retourne les alertes du jour" do
+
+      current_worker = WF.worker_fixture()
+
+      in_list   = []
+      out_list  = []
+
+
+      # debug_current_tasks("Tâche AVANT l'insertion")
+
+      # === Tâches à alertes à remonter ===
+
+      # Tâche avec alerte démarrant dans quelques heures
+      in_one_hour = NaiveDateTime.add(@now, 4, :hour)
+      alert_at    = NaiveDateTime.add(@now, 10, :minute)
+      attrs = %{should_start_at: in_one_hour, deadline: false, alerts: [%{at: @now, unit: "1", quantity: nil}]}
+      in_list = add_in_list(in_list, attrs)
+      # Tâche très très lointaine mais qu'il faut alerter maintenant
+      alert_near = NaiveDateTime.add(@now, 10, :minute)
+      alerte_far = NaiveDateTime.add(@now, 10, :day)
+      attrs = %{headline: :far_future, alerts: [%{at: alert_near, unit: "minute", quantity: nil}, %{at: alerte_far, unit: "minute", quantity: nil}]}
+      in_list = add_in_list(in_list, attrs)
+
+      # === Tâches à ne pas remonter (au niveau des alertes) ===
+
+      # Tâche sans alerte
+      in_one_hour = NaiveDateTime.add(@now, 4, :hour)
+      out_list = add_in_list(out_list, %{headline: in_one_hour})
+
+      # Tâche avec alerte trop lointaine
+      attrs = %{headline: :far_future, alert_at: alerte_far, alerts: [%{at: alerte_far, unit: "minute", quantity: nil}]}
+      out_list = add_in_list(out_list, attrs)
+
+      # debug_current_tasks("Tâche APRÈS l'insertion")
+      # raise "Pour voir"
+      
+      # - test -
+      alerts_task_ids = 
+      OTC.get_alerts(current_worker.id)
+      |> Enum.reduce(%{}, fn data, coll ->
+        Map.put(coll, Ecto.UUID.load!(data.task_id), true)
+      end)
+      # - vérification -
+      not_founds = 
+      in_list
+      |> Enum.filter(fn task -> ! alerts_task_ids[task.id] === true end)
+      if Enum.any?(not_founds) do
+        IO.puts "= Tâches à alerte non remontées ="
+        not_founds |> Enum.each(fn task -> IO.inspect(task) end)
+      end
+      assert(Enum.count(not_founds) == 0, "Des alertes requises n'ont pas été trouvées (#{Enum.count(not_founds)})")
+      # - Les tâches à alerte qui ne doivent pas avoir été remontées -
+      undesirables = 
+      out_list
+      |> Enum.filter(fn task -> alerts_task_ids[task.id] === true end)
+      # On affiche les tâches qu'on n'aurait pas dû trouver
+      if Enum.any?(undesirables) do
+        IO.puts "= Tâches à alerte indésiables ="
+        undesirables |> Enum.each(fn task -> IO.inspect(task) end)
+      end
+      assert(Enum.count(undesirables) == 0, "Des alertes non requises ont été trouvées (#{Enum.count(undesirables)})")
     end
 
-    @tag skip: "à implémenter"
-    test "retourne les candidates avec toutes leurs données" do
-    end
-
-    @tag skip: "à implémenter"
-    test "ne retourne pas les tâches dépendantes" do
-    end
-
-    @tag skip: "à implémenter"
-    test "ne retourne pas les tâches attribuées à un autre worker que le courant" do
-    end
-
-    @tag skip: "à implémenter"
-    test "ne retourne pas les tâches trop loin (> une semaine)" do
-    end
   end
 
 end
