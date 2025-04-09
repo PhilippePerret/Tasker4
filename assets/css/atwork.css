@@ -250,3 +250,23 @@ div.task-as-list div.title {
 div.task-as-list div.details {
   font-size: 0.85em;
 }
+
+/* 
+Pour les alertes données au cours du travail
+
+*/
+div#alerts {
+  position: fixed;
+  bottom: 6em;
+  border: 3px solid rgb(40, 2, 133);
+}
+div#alerts div.alert {
+  position:relative;
+  border: 1px solid rgb(40, 2, 133);
+  background-color: lightblue;
+  padding: 0.5em;
+}
+div#alerts div.alert button {
+  font-size: 11pt!important;
+  margin-left: 12px;
+}

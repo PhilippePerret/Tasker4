@@ -23,10 +23,13 @@ defmodule TaskerWeb.LocalesJS do
   def locales_js do
     
     # - common -
+    gettext("Close")
+    gettext("Close (verb)")
     gettext("Every_fem")
     gettext("every")
     gettext("Each")
     gettext("each")
+    gettext("Edit")
     gettext("every_fem")
     gettext("Summary")
     gettext("(click to edit)")
@@ -43,7 +46,9 @@ defmodule TaskerWeb.LocalesJS do
     gettext(", and")
 
     # - tasker -
+    dgettext("tasker", "The task")
     dgettext("tasker", "Choose task")
+    dgettext("tasker", "Set current")
     dgettext("tasker", "Choose task natures")
     dgettext("tasker", "Double dependency between task $1 and task $2.")
     dgettext("tasker", "A task cannot be dependent on itself.")
@@ -82,6 +87,7 @@ defmodule TaskerWeb.LocalesJS do
     dgettext("tasker", "To set an alert, you need to define the task’s start time.")
     dgettext("tasker", "The alert cannot be set after the task has started, come on…")
     dgettext("tasker", "The last alert must be defined!")
+    dgettext("tasker", "will start")
     # - il y a - 
     dgettext("ilya", "january")
     dgettext("ilya", "february")
