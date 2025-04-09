@@ -67,12 +67,25 @@ class Alert {
 
   // === Méthode d'évènements ===
 
-  remove(){this.obj.remove()}
-  edit(){
-    console.error("Je dois apprendre à éditer la tâche de l'alerte")
+  remove(){
+    this.obj.remove()
   }
+  edit(){
+    Task.editTaskById(this.data.id)
+  }
+  /**
+   * Pour mettre la tâche en tâche courante
+   * Mais ici, un problème se pose : la tâche peut ne pas être 
+   * chargée (si par exemple c'est une tâche lointaine). Dans ce
+   * cas, il faut la charger et l'ajouter à la liste.
+   */
   setCurrent(){
-    console.error("Je dois apprendre à mettre en tâche courante la tâche de l'alerte.")
+    const task = AtWork.getTask(this.data.id);
+    if ( task ) {
+      AtWork.setCurrentById(this.data.id)
+    } else {
+      AtWork.fetchTaskAndSetCurrent(this.data.id)
+    }
   }
 
   /**

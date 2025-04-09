@@ -42,7 +42,7 @@ class ClassAtWork {
      * données de tâche. Ne pas oublier de retirer ça en mode pro-
      * duction
      */
-    this.__modifyTasksForTries()
+    // this.__modifyTasksForTries()
 
     /**
      * Mode Zen
@@ -126,6 +126,23 @@ class ClassAtWork {
   resetAllTasks(){
     TASKS_OUT.forEach(tk => TASKS.push(tk))
     TASKS_OUT = []
+  }
+
+  /**
+   * @return True is la tâche d'identifiant +taskId+ n'est pas en session courante
+   */
+  notInSession(taskId){
+    for (var task of TASKS){
+      if ( task.id == taskId) return false; // => en session
+    }
+    return true; // => pas en session
+  }
+
+  /**
+   * @return la tâche en session courante, si elle existe
+   */
+  getTask(taskId){
+    for (var task of TASKS){ if ( task.id == taskId) return task }
   }
 
   prepareFiltreProjets(){
@@ -356,6 +373,31 @@ class ClassAtWork {
     this.showCurrentTask()
   }
 
+  /**
+   * Méthode inaugurée pour les alertes qui permet de remonter une 
+   * tâche depuis le serveur (BdD), de l'injecter dans les tâches
+   * actuelle et de la mettre en tâche courante.
+   * 
+   * @param {String} taskId Identifiant de la tâche à remonter
+   */
+  fetchTaskAndSetCurrent(taskId){
+    if ( 'string' == typeof taskId ) {
+      ServerTalk({
+          route:    'tasksop/fetch'
+        , data:     {task_id: taskId}
+        , callback: this.afterFetchTask.bind(this)
+      })
+    }
+  }
+  afterFetchTask(retour){
+    console.log("-> afterFetchTask", retour)
+    if ( retour.ok ) {
+      console.error("Je dois apprendre à injecter la tâche", retour.task)
+    } else {
+      Flash.error(retour.error)
+    }
+  }
+
 
   removeCurrentTask(){
     if ( this.running ) {
@@ -473,7 +515,7 @@ class ClassAtWork {
     DListenClick(this.btnStart      , this.onClickStart.bind(this))
     DListenClick(this.btnStop       , this.onClickStop.bind(this))
     DListenClick(this.btnDone       , this.onClickDone.bind(this))
-    DListenClick(this.btnEdit       , this.onEdit.bind(this))
+    DListenClick(this.btnEdit       , this.onEditCurrentTask.bind(this))
     DListenClick(this.btn2end       , this.onPushToTheEnd.bind(this))
     DListenClick(this.btnAfterNext  , this.onPushAfterNext.bind(this))
     DListenClick(this.btnLater      , this.onPushLater.bind(this))
@@ -647,8 +689,15 @@ class ClassAtWork {
   onEdit(ev){
     this.register_task_order()
     sessionStorage.setItem('back', `/work|${LOC('Back to work')}`)
+  }
+  onEditCurrentTask(ev){
+    this.editTaskById(this.currentTask.id)
+    return stopEvent(ev)
+  }
+  editTaskById(taskId){
+    this.onEdit()
     const loc = window.location
-    const url = `${loc.protocol}//${loc.host}/tasks/${this.currentTask.id}/edit`
+    const url = `${loc.protocol}//${loc.host}/tasks/${taskId}/edit`
     window.location = url
   }
   onProjet(ev){

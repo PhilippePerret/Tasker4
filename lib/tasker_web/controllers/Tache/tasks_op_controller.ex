@@ -77,6 +77,13 @@ defmodule TaskerWeb.TasksOpController do
     |> Tasker.TaskScript.run(script)
   end
 
+  def exec_op("fetch", %{"task_id" => task_id}) do 
+    task = Tache.get_task!(task_id)
+    %{ok: true, task: task, error: nil}
+  end
+
+
+
 
   # ==== Private Functions =====
 
