@@ -37,11 +37,9 @@ class AlertsBlock {
   static getData(){
     const data = [] 
     this.alerts.forEach(alert => {
-      console.log("Consignation de l'alerte" , alert)
       if (alert.defined){data.push(alert.getData())}
     })
     this.alertsField.value = JSON.stringify(data)
-    console.info("this.alertsField.value = ", this.alertsField.value)
   }
 
   /**
@@ -65,16 +63,16 @@ class AlertsBlock {
    */
   static addAlert(ev){
     if ( Task.getStartAt() === null ) {
-      return Flash.error(LOC("To set an alert, you need to define the task’s start time."))
+      Flash.error(LOC("To set an alert, you need to define the task’s start time."))
+    } else if ( this.lastAlert && !this.lastAlertIsDefined() ) {
+      Flash.error(LOC('The last alert must be defined!'))
+    } else {
+      this.createNewAlert()
     }
-    this.createNewAlert()
     return stopEvent(ev)
   }
 
-  static createNewAlert(){
-    if ( this.lastAlert && !this.lastAlertIsDefined() ) {
-      return Flash.error(LOC('The last alert must be defined!'))
-    }
+  static createNewAlert(){ 
     const alert = new Alert({index: this.alerts.length})
     alert.build()
     this.alerts.push(alert)
@@ -90,6 +88,9 @@ class AlertsBlock {
     } else { return null }
   }
 
+  /**
+   * On efface toutes les alertes.
+   */
   static resetAll(){
     this.alertsField.value = ""
     this.alerts.forEach(alert => alert.remove())
@@ -118,18 +119,12 @@ class AlertsBlock {
   static setState(){
     let data = NullIfEmpty(this.alertsField.value)
     if ( data && (data = JSON.parse(data)) ) {
-      console.log("[Alerts.setState] data", data)
       data.forEach((alertData, i) => {
         const alert = new Alert(Object.assign(alertData, {index: i}))
         this.alerts.push(alert)
         alert.build()
         alert.setValues()
       })
-    } else {
-      // Quand il n'y a aucune donnée alerte, on instancie quand même
-      // le champ affiché. Il ne sera compté que s'il est défini.
-      const alert = new Alert({index: 0})
-      this.alerts.push(alert)
     }
   }
 
