@@ -15,6 +15,7 @@ window.now = function(){
  */
 const SPY_STYLE = "font-size:9pt;color:#999999;font-family:Monospace;"
 window.spy = function(message, data){
+  if ( ! MODE_DEV ) return ;
   let log_data = ['%c' + message, SPY_STYLE]
   if ( undefined !== data ) { log_data.push(data) }
   console.log(...log_data)

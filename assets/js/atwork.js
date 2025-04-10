@@ -44,6 +44,19 @@ class ClassAtWork {
      */
     // this.__modifyTasksForTries()
 
+
+    /**
+     * Cas où la liste contient des tâches exclusives.
+     * Maintenant, on commence par ça car on retire les tâches 
+     * exclusives de la liste courante.
+     * 
+     * Rappel : une tâche exclusive, qui ne peut qu'être unique sur 
+     * un temps, éclipse toutes les autres. C'est par exemple un coup
+     * de fil ou un rendez-vous qui ne peut être supprimé.
+     * Voir le détail du fonctionnement sur la fonction
+     */
+    TASKS = ExclusiveTask.retrieveExclusives()
+
     /**
      * Mode Zen
      */
@@ -97,15 +110,6 @@ class ClassAtWork {
       this.runningStartTime = Number(z)
       this.toggleStartStopButtons()
     }
-
-    /**
-     * Cas où la liste contient des tâches exclusives.
-     * Rappel : une tâche exclusive, qui ne peut qu'être unique sur 
-     * un temps, éclipse toutes les autres. C'est par exemple un coup
-     * de fil ou un rendez-vous qui ne peut être supprimé.
-     * Voir le détail du fonctionnement sur la fonction
-     */
-    this.checkExclusiveTask()
 
     /**
      * On programme les alertes qui ont été remontées
@@ -293,39 +297,6 @@ class ClassAtWork {
   }
 
   /**
-   * Étude du cas d'une TÂCHE EXCLUSIVE
-   * 
-   * CASES:
-   *    1)  Pas de tâche exclusive 
-   *        => ne rien faire
-   *    2)  Une tâche exclusive déjà commencée 
-   *        => la remettre
-   *    3)  Une tâche exclusive qui commence juste maintenant
-   *        => la mettre
-   *    4)  Une tâche exclusive qui commence dans peu de temps
-   *        => la programmer
-   * 
-   * Notes
-   * ----- 
-   *  * il peut y avoir plusieurs tâches exclusives dans une 
-   *    session de travail, surtout si elle est longue.
-   * 
-   *  * une tâche récurrente peut aussi être une tâche exclusive, 
-   *    c'est-à-dire qu'au lieu d'apparaitre comme les autres tâches,
-   *    elle n'apparait qu'à l'headline.
-   */
-  checkExclusiveTask(){
-    const exclusiveTasks = TASKS.filter(tk => {return tk.task_spec.priority == 5})
-    MODE_DEV && spy("Tâches exclusives filtrées", exclusiveTasks)
-    // console.info("exclusiveTasks", exclusiveTasks)
-    if ( exclusiveTasks.length == 0 ) return ; // cas 1)
-    // Boucle sur toutes les tâches exclusives relevées
-    exclusiveTasks.forEach(tk => {
-      new ExclusiveTask(tk, this).setup()
-   })
-  }
-
-  /**
    * Pour remettre TASKS dans l'ordre où il a été enregistré dans
    * task-order
    */
@@ -374,6 +345,18 @@ class ClassAtWork {
   }
 
   /**
+   * Permet d'injecter une tâche dans les tâches de session. Si
+   * options.asCurrent est true, on la met en tâche courante
+   */
+  injectTask(task, options){
+    TASKS.push(task)
+    spy("Nouvelle liste de tâches", TASKS)
+    if (options && options.asCurrent){
+      this.setCurrentTask(task)
+    }
+  }
+
+  /**
    * Méthode inaugurée pour les alertes qui permet de remonter une 
    * tâche depuis le serveur (BdD), de l'injecter dans les tâches
    * actuelle et de la mettre en tâche courante.
@@ -382,7 +365,7 @@ class ClassAtWork {
    */
   fetchTaskAndSetCurrent(taskId){
     if ( 'string' == typeof taskId ) {
-      ServerTalk({
+      ServerTalk.dial({
           route:    'tasksop/fetch'
         , data:     {task_id: taskId}
         , callback: this.afterFetchTask.bind(this)
@@ -392,7 +375,7 @@ class ClassAtWork {
   afterFetchTask(retour){
     console.log("-> afterFetchTask", retour)
     if ( retour.ok ) {
-      console.error("Je dois apprendre à injecter la tâche", retour.task)
+      this.injectTask(retour.task, {asCurrent: true})
     } else {
       Flash.error(retour.error)
     }

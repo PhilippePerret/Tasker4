@@ -4,6 +4,49 @@
  */
 class ExclusiveTask {
 
+    /**
+   * Étude du cas d'une TÂCHE EXCLUSIVE
+   * 
+   * CASES:
+   *    1)  Pas de tâche exclusive 
+   *        => ne rien faire
+   *    2)  Une tâche exclusive déjà commencée 
+   *        => la remettre
+   *    3)  Une tâche exclusive qui commence juste maintenant
+   *        => la mettre
+   *    4)  Une tâche exclusive qui commence dans peu de temps
+   *        => la programmer
+   * 
+   * Notes
+   * ----- 
+   *  * il peut y avoir plusieurs tâches exclusives dans une 
+   *    session de travail, surtout si elle est longue.
+   * 
+   *  * une tâche récurrente peut aussi être une tâche exclusive, 
+   *    c'est-à-dire qu'au lieu d'apparaitre comme les autres tâches,
+   *    elle n'apparait qu'à l'headline.
+   */
+  static retrieveExclusives(){
+    const NEW_TASKS       = []
+    const exclusiveTasks  = []
+    TASKS.forEach(tk => {
+      if ( tk.task_spec.priority == 5 ) {
+        exclusiveTasks.push(tk)
+      } else {
+        NEW_TASKS.push(tk)
+      }
+    })
+    spy("Tâches exclusives filtrées", exclusiveTasks)
+    // Boucle sur toutes les tâches exclusives relevées (if any)
+    this.exclusives = exclusiveTasks.map(tk => {
+      return new ExclusiveTask(tk, this).setup()
+    })
+
+    return NEW_TASKS
+  }
+
+  // =========== I N S T A N C E ============
+
   /**
    * 
    * @param {Object} task La table complète de la tâche
@@ -36,6 +79,7 @@ class ExclusiveTask {
       // console.info("Tâche exclusive à déclencher tout de suite", tk)
       this.lock()
     }
+    return this // chainage
   }
 
   /**
@@ -73,8 +117,7 @@ class ExclusiveTask {
       }
     }
     // On met la tâche exclusive en tâche courante
-    dealer.currentTask = task
-    dealer.showCurrentTask()
+    dealer.injectTask(task, {asCurrent: true})
     // Pour bloquer l'interface, on met un div qui couvre tout
     this.UIMask = new UIMasker({
         counterback: task.end_at.getTime()
