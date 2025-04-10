@@ -123,6 +123,7 @@ class AlertsBlock {
         const alert = new Alert(Object.assign(alertData, {index: i}))
         this.alerts.push(alert)
         alert.build()
+        alert.setValues()
       })
     } else {
       // Quand il n'y a aucune donnée alerte, on instancie quand même
@@ -227,6 +228,18 @@ class Alert {
     } catch(err){}
   }
 
+  /**
+   * Remplit le formulaire de l'alerte (édition)
+   */
+  setValues(){
+    this.data.at        && this.setValue('alertAtField', this.data.at)
+    this.data.unit      && this.setValue('unitField', this.data.unit)
+    this.data.quantity  && this.setValue('quantityField', this.data.quantity)
+  }
+  setValue(fieldName, fieldValue){
+    this[fieldName].value = fieldValue
+  }
+
   reset(){
     this.alertAtField.value = ""
     this.unitField.value = "1"
@@ -235,7 +248,6 @@ class Alert {
 
   remove(){
     if (this.index > 0 ){ this.obj.remove() }
-    
   }
 
   get index(){return this.data.index}
