@@ -52,6 +52,8 @@ class Alert {
     const laps = Number(this.atDate) - Number(NOW)
     if ( laps < 0 ) {
       this.show()
+    } else if ( isNaN(laps) ) {
+      console.error("Problème avec le laps qui n'est pas un nombre… NOW et atDate sont respectivement égaux à ", NOW, this.atDate)
     } else {
       this.timer = setTimeout(this.show.bind(this), laps)
     }
@@ -134,7 +136,10 @@ class Alert {
     return c.join(" ")
   }
   get atDate(){
-    return this._alertdate || (this._alertdate = new Date(this.data.at))
+    return this._alertdate || (this._alertdate = new Date(this.firstAlert.at))
+  }
+  get firstAlert(){
+    return this.data.alerts[0]
   }
 
   get formatedStartDate(){
