@@ -71,7 +71,7 @@ class Alert {
     this.obj.remove()
   }
   edit(){
-    Task.editTaskById(this.data.id)
+    AtWork.editTaskById(this.data.task_id)
   }
   /**
    * Pour mettre la tâche en tâche courante
@@ -80,11 +80,11 @@ class Alert {
    * cas, il faut la charger et l'ajouter à la liste.
    */
   setCurrent(){
-    const task = AtWork.getTask(this.data.id);
+    const task = AtWork.getTask(this.data.task_id);
     if ( task ) {
-      AtWork.setCurrentById(this.data.id)
+      AtWork.setCurrentTask(task)
     } else {
-      AtWork.fetchTaskAndSetCurrent(this.data.id)
+      AtWork.fetchTaskAndSetCurrent(this.data.task_id)
     }
   }
 

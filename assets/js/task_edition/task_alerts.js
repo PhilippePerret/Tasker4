@@ -1,6 +1,9 @@
 'use strict';
 /**
- * Gestion des alertes de tâche
+ * Gestion des alertes de tâche dans le formulaire d'édition
+ * 
+ * NB : Pour voir les alertes dans le travail courant, voir le 
+ * fichier atwork/alerts.js
  * 
  * Les alertes sont consignées dans deux champs dans la table :
  * :alert_at    Qui définit la prochaine alerte comme une date naïve
@@ -114,8 +117,8 @@ class AlertsBlock {
 
   static setState(){
     let data = NullIfEmpty(this.alertsField.value)
-    if ( data ) {
-      data = JSON.parse(data)
+    if ( data && (data = JSON.parse(data)) ) {
+      console.log("[Alerts.setState] data", data)
       data.forEach((alertData, i) => {
         const alert = new Alert(Object.assign(alertData, {index: i}))
         this.alerts.push(alert)
