@@ -16,8 +16,11 @@ Tasker.Repo.delete_all(Task)
 Tasker.Repo.delete_all(TaskTime)
 Tasker.Repo.delete_all(TaskSpec)
 
-# === PROJETS ===
+# === WORKERS ===
 
+
+
+# === PROJETS ===
 
 # Projet vie privée
 vie_privee = %Project{
