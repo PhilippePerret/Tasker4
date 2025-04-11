@@ -11,6 +11,61 @@ defmodule Tasker.Tache do
   @now NaiveDateTime.utc_now()
   
   @doc """
+  Fonction qui reçoit un idenfiant de tâche et la retourne, complète,
+  c'est-à-dire avec tous ces éléments, times, notes, scripts, natures, 
+  etc. sous la forme d'une Map qui peut être transformée en JSON.
+
+  @param {String} task_id
+
+  @return {Map} Table des données de la tâche
+  """
+  def full_task_as_json_table(task_id) do
+    task = get_task!(task_id)
+
+    task =
+    [:__struct__, :__meta__, :project_id]
+    |> Enum.reduce(task, fn key, task -> 
+      Map.delete(task, key)
+    end)
+    
+    common_extra_keys = [:__struct__, :__meta__, :task_id, :task, :inserted_at, :updated_at]
+    
+    task_spec =
+    common_extra_keys 
+    |> Enum.reduce(task.task_spec, fn key, task_spec -> 
+      Map.delete(task_spec, key)
+    end)
+    task_time =
+    common_extra_keys 
+    |> Enum.reduce(task.task_time, fn key, task_time -> 
+      Map.delete(task_time, key)
+    end)
+
+    project = if is_nil(task.project) do nil else
+      common_extra_keys 
+      |> Enum.reduce(task.project, fn key, project -> 
+        Map.delete(project, key)
+      end)
+    end
+
+    # Les natures sont des structures Natures
+    # Pour le moment, on les remplaces par les {:id, :name}
+    natures = task.natures
+    |> Enum.map(fn nature ->
+      %{id: nature.id, name: nature.name}
+    end)
+    
+    task
+    |> Map.put(:task_spec,  task_spec)
+    |> Map.put(:task_time,  task_time)
+    |> Map.put(:project,    project)
+    |> Map.put(:natures,    natures)
+    |> IO.inspect(label: "task fin")
+    # raise "pour voir"
+    
+  end
+
+  @doc """
   Returns the list of tasks.
 
   ## Examples
@@ -71,6 +126,11 @@ defmodule Tasker.Tache do
   end
   def create_dependency(tbefore_id, tafter_id) when is_binary(tbefore_id) and is_binary(tafter_id) do
     data = %{ before_task_id: tbefore_id, after_task_id:  tafter_id }
+
+    # Repo.all(TaskDependencies)
+    # |> IO.inspect(label: "Toutes les dépendances")
+    # IO.inspect(data, label: "Dépendance à ajouter")
+
     TaskDependencies.changeset(%TaskDependencies{}, data)
     |> Repo.insert!()
 

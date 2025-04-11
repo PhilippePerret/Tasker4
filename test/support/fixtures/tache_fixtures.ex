@@ -75,11 +75,14 @@ defmodule Tasker.TacheFixtures do
     :deadline     yes|no      future|now|past
     :ended (IMPOSSIBLE <= archivée ailleurs)
     :before       true|Les tâches après (dépendances)
+                  NOTE :before pose problème, en tout cas quand il vaut true,
+                  la dépendance étant créée deux fois (TODO à corriger)
+                  Utiliser plutôt :after…
     :after        true|Les tâches avant (dépendances)
       ou  :deps_before  yes|no      Dépendante d'une tâche avant (à faire) inverse de :after
           :deps_after   yes|no      Des tâches futures dépendent d'elle inverse de :before
     :worker       yes|no      (attributation de la tâche à un worker)
-    :natures      yes|no      Liste des natures
+    :natures      yes|no|<nombre>|<list>      Liste des natures
     :rank         true    Ajout de la structure TaskRank
                   %TaskRank{}   On met ce task_rank
     :duree        :expect_duration
@@ -201,7 +204,7 @@ defmodule Tasker.TacheFixtures do
     cond do
       is_integer(aft) ->
         (1..aft) |> Enum.each(fn _index -> 
-          Tache.create_dependency(create_task(before: task), task.id)
+          Tache.create_dependency(create_task(%{before: task}), task.id)
         end)
       aft === true ->
         # Sans autre forme d'information, on fait une tâche
@@ -230,10 +233,10 @@ defmodule Tasker.TacheFixtures do
     cond do
       is_integer(bef) ->
         (1..bef) |> Enum.each(fn _index -> 
-          Tache.create_dependency(task, create_task(after: task))
+          Tache.create_dependency(task, create_task(%{after: task}))
         end)
       bef === true ->
-        Tache.create_dependency(task, create_task(after: task))
+        Tache.create_dependency(task, create_task(%{after: task}))
       is_struct(bef, Task) ->
         Tache.create_dependency(task, bef)
       is_list(bef) ->
@@ -249,8 +252,12 @@ defmodule Tasker.TacheFixtures do
     case attrs[:natures] do
       nil   -> task
       false -> task
+      true  ->
+        Tache.inject_natures(task, random_natures(1))
       nature when is_binary(nature) ->
         Tache.inject_natures(task, nature)
+      nombre when is_integer(nombre) ->
+        Tache.inject_natures(task, random_natures(nombre))
       natures when is_list(natures) ->
         Tache.inject_natures(task, natures)
     end

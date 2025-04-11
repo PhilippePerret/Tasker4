@@ -2,13 +2,137 @@ defmodule Tasker.TacheTest do
   use Tasker.DataCase
 
   alias Tasker.Tache
+  alias Tasker.Tache.Task
+
+  import Tasker.TacheFixtures
+  import Random.RandMethods
+
+  @invalid_attrs %{}
+
+
+  def check_keys_in_map(map, keys, resultat, prefix) do
+    if is_nil(map) do
+      %{resultat | other_errors: resultat.other_errors ++ ["INDÉFINI : #{prefix}"]}
+    else
+        
+      resultat = Map.put(resultat, :map, map)
+
+      resultat = keys
+      |> Enum.reduce(resultat, fn key, resultat ->
+        map = resultat.map
+
+        resultat =
+        if Map.has_key?(map, key) do
+          %{resultat | keys_ok: resultat.keys_ok ++ ["#{prefix}:#{key}"]}
+        else
+          %{resultat | keys_not_ok: resultat.keys_not_ok ++ ["#{prefix}:#{key}"]}
+        end
+
+        # On retire la clé
+        value = Map.get(map, key, :nnil)
+        map   = Map.delete(map, key)
+
+        # Faire un contrôle en fonction de la clé si la valeur est
+        # définie
+        resultat =
+          if value == :nnil do resultat else
+            case key do
+              :id -> resultat
+              _   -> resultat
+            end
+          end
+        %{resultat | map: map}
+      end)
+
+      # Avant de retourner le résultat, on met dans :extra_keys les
+      # clés restant dans map
+      extra_keys = resultat.map |> Map.keys() |> Enum.map(fn k -> "#{prefix}:#{k}" end )
+      %{resultat | extra_keys: resultat.extra_keys ++ extra_keys}
+    end #/si c'est une map
+  end
+
+
+  describe "TÂCHE" do
+
+    test "complète peut être obtenue pour json (Jason)" do
+
+      # On crée une tâche avec tout
+      task = create_task(%{
+        project: true,
+        natures: 3,
+        # before: true,
+        after: true,
+        scripts: true
+      }) # TODO Faire une tâche complète, avec tout
+
+      # --- Test ---
+      task_map = Tache.full_task_as_json_table(task.id)
+
+      # Les clés de premier niveau qu'on doit trouver (on
+      # ne doit pas trouver toutes les autres)
+      resultat = %{
+        task_map:       task_map, 
+        keys_ok:        [], 
+        keys_not_ok:    [],
+        extra_keys:     [],
+        other_errors:   []
+      }
+
+      first_level_keys = [
+        :id, :title, :project, :task_spec, :task_time,
+        :rank, :dependencies, :scripts, :notes, :natures,
+        :inserted_at, :updated_at
+      ]
+      resultat = check_keys_in_map(task_map, first_level_keys, resultat, "")
+
+      
+      project_keys = [:id, :title, :details, :folder]
+      resultat = check_keys_in_map(task_map.project, project_keys, resultat, "project")
+      
+      task_spec_keys = [:id, :details, :priority, :urgence, :difficulty, :notes]
+      resultat = check_keys_in_map(task_map.task_spec, task_spec_keys, resultat, "task_spec")
+      
+      task_time_keys = [
+        :id, :started_at, :ended_at, 
+        :should_start_at, :should_end_at, :imperative_end,
+        :alert_at, :alerts,
+        :given_up_at,
+        :recurrence,
+        :expect_duration, :execution_time,
+        :deadline_trigger
+      ]
+      resultat = check_keys_in_map(task_map.task_time, task_time_keys, resultat, "task_time")
+      
+      
+      all_keys_founds = Enum.empty?(resultat.keys_not_ok)
+      no_extra_keys   = Enum.empty?(resultat.extra_keys)
+      no_other_errors = Enum.empty?(resultat.other_errors)
+      all_is_ok = all_keys_founds and no_extra_keys and no_other_errors
+      
+      
+      final_errors = if all_is_ok do "pas d'erreur" else
+        final_errors = ["# Dans : \n#{inspect task}"]
+        final_errors =
+        if all_keys_founds do final_errors else
+          final_errors  ++ ["Keys non trouvées : #{Enum.join(resultat.keys_not_ok, ", ")}"]
+        end
+        final_errors =
+        if no_extra_keys do final_errors else
+          final_errors ++ ["Keys intempestives : #{Enum.join(resultat.extra_keys, ", ")}"]
+        end
+        final_errors =
+        if no_other_errors do final_errors else
+          final_errors ++ ["Autres erreurs rencontrées : \n- #{Enum.join(resultat.other_errors, "\n- ")}"]
+        end
+        Enum.join(final_errors, "\n")
+      end
+
+      assert(all_is_ok, final_errors)
+    end
+
+  end #/describe TÂCHE
 
   describe "tasks" do
-    alias Tasker.Tache.Task
-
-    import Tasker.TacheFixtures
-
-    @invalid_attrs %{}
 
     test "list_tasks/0 returns all tasks" do
       task = task_fixture()

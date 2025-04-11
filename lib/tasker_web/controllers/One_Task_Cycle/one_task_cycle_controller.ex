@@ -35,6 +35,7 @@ defmodule TaskerWeb.OneTaskCycleController do
     end
   end
 
+
   defp projects_as_json_table do
     Projet.list_projects() 
     # |> IO.inspect(label: "Projets")

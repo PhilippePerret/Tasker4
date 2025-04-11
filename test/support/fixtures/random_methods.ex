@@ -93,6 +93,19 @@ defmodule Random.RandMethods do
     NaiveDateTime.add(time_before, Enum.random((0..diff)), :minute)
   end
 
-
+  @doc """
+  @return {List} Le nombre de natures voulue dans une liste
+  """
+  def return_random_natures(nombre, liste) when nombre > 0 do
+    nature = Enum.random()
+  end
+  def random_natures(nombre \\ 1) do
+    natures = Tasker.Repo.all(Tasker.Tache.TaskNature)
+    (0..nombre - 1)
+    |> Enum.map(fn i -> 
+      Enum.random(natures).id
+    end)
+    |> Enum.uniq()
+  end
 
 end
