@@ -54,12 +54,16 @@ defmodule Tasker.Tache do
     |> Enum.map(fn nature ->
       %{id: nature.id, name: nature.name}
     end)
+
+    # Les scripts sont sous forme string, même quand il n'y en a pas
+    scripts = JSON.decode!(task.scripts)
     
     task
     |> Map.put(:task_spec,  task_spec)
     |> Map.put(:task_time,  task_time)
     |> Map.put(:project,    project)
     |> Map.put(:natures,    natures)
+    |> Map.put(:scripts,    scripts)
     |> IO.inspect(label: "task fin")
     # raise "pour voir"
     

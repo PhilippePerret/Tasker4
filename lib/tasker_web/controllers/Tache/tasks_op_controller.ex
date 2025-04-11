@@ -79,7 +79,7 @@ defmodule TaskerWeb.TasksOpController do
 
   def exec_op("fetch", %{"task_id" => task_id} = params) do
     IO.inspect(params, label: "op fetch, params")
-    task = Tache.get_task!(task_id)
+    task = Tache.full_task_as_json_table(task_id)
     %{ok: true, task: task, error: nil}
   end
 
