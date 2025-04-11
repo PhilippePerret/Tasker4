@@ -381,7 +381,6 @@ class ClassAtWork {
     }
   }
 
-
   removeCurrentTask(){
     if ( this.running ) {
       sessionStorage.removeItem('running-start-time')

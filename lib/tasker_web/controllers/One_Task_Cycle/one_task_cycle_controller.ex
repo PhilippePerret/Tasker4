@@ -17,6 +17,7 @@ defmodule TaskerWeb.OneTaskCycleController do
     "expect_duration", "execution_time", "deadline_trigger"]
 
   @now NaiveDateTime.utc_now()
+  @bod NaiveDateTime.beginning_of_day(@now)
 
   def main(conn, _params) do
     candidates = get_candidate_tasks(conn.assigns.current_worker.id)
@@ -124,11 +125,30 @@ defmodule TaskerWeb.OneTaskCycleController do
       struct(Task, task)
     end)
     # Filtre des tâches
+    # -----------------
     # L'ajout a été inauguré pour supprimer les tâches récurrentes
-    # passées qui sont exclusives
+    # passées et futures qui sont exclusives
+    # 
+    # Mais attention ! Une tâche récurrente dans le passé a dû voir
+    # sa prochaine échéance mise dans le futur. Donc, en fait, ce 
+    # qu'il convient d'exclure, ce sont toutes les tâches, passées et
+    # futures, qui ne sont pas du jour courant.
+    # 
     |> Enum.filter(fn task ->
       if task.task_spec.priority == 5 do
-        NaiveDateTime.after?(task.task_time.should_end_at, @now)
+        # Il faut que ce soit une tâche du jour
+        task_bod = NaiveDateTime.beginning_of_day(task.task_time.should_start_at)
+        diff = NaiveDateTime.diff(@bod, task_bod, :hour) 
+        tache_du_jour = diff == 0
+
+        # Mais pas une tache excluvive terminée
+        # Note : on prend la fin comme repère puisqu'on peut prendre 
+        # une tâche exclusive en cours de route.
+        tache_not_finite = NaiveDateTime.after?(task.task_time.should_end_at, @now)
+
+        la_garder = tache_du_jour && tache_not_finite
+
+        la_garder
       else true end
     end)
     # |> IO.inspect(label: "TÂCHES FINALES")

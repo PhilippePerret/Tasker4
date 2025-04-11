@@ -78,7 +78,7 @@ defmodule TaskerWeb.OTCRequestTest do
         headline:  NaiveDateTime.add(@bod, 6, :hour), # pour aujourd'hui
         deadline:  NaiveDateTime.add(@bod, 7, :hour), # pour aujourd'hui
         priority: 5                 # exclusive
-      }, "Une tâche exclusive terminée ne doit être retenue.")
+      }, "Une tâche exclusive terminée ne doit pas être retenue.")
       # [OUT] Tâche récurrente exclusive dans le passé
       out_list = add_in_list(out_list, %{
         recurrence: "0 4 * * *",   # tous les jours à 6:00
@@ -88,6 +88,17 @@ defmodule TaskerWeb.OTCRequestTest do
         },
          "Une tâche récurrente, exclusive, dans le passé proche ne doit pas être affichée"
         )
+      # [OUT] Tâche récurrente exclusive dans un JOUR passé
+      wday = NaiveDateTime.to_date(@bod) |> Date.day_of_week()
+      wday = if wday > 1 do wday - 1 else 7 end
+      out_list = add_in_list(out_list, %{
+        recurrence: "0 10 * * #{wday}",
+        headline:   NaiveDateTime.add(@bod, -14, :hour),  # hier à 10 heures
+        deadline:   NaiveDateTime.add(@bod, -13, :hour),  # hier à 11 heures
+        priority: 5                                       # exclusive
+        },
+        "Une tâche récurrente dans le passé (hier) ne doit pas apparaitre"
+      )
 
       # IO.inspect(candidates_request(), label: "REQUEST SQL")
       # IO.inspect(Repo.all(from t in Tasker.Tache.Task), label: "\nTâches réellement en base")
