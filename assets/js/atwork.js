@@ -431,7 +431,7 @@ class ClassAtWork {
   setAndShowField(fName, fValue){
     if ( fValue ) {
       this.showField(fName)
-      this.setField(fValue)
+      this.setField(fName, fValue)
     } else this.maskField(fName)
   }
   setField(fName, fValue){
@@ -444,7 +444,7 @@ class ClassAtWork {
       console.error("Impossible de régler la valeur du champ '%s' à ", fName, fValue)
     }
   }
-  showField(fname){this.field(fName).classList.remove('hidden')}
+  showField(fName){this.field(fName).classList.remove('hidden')}
   maskField(fName){this.field(fName).classList.add('hidden')}
   field(fName){
     return DGet(`#current-task-${fName}`)
@@ -455,8 +455,10 @@ class ClassAtWork {
    */
   bandeauFor(task){
     if ( task.task_time.imperative_end) {
-      const fin = new Date(task.should_end_at)
-      return `Fin impérative à ${fin.hour}:${fin.minutes}`
+      const fin = new Date(task.task_time.should_end_at)
+      let mns = fin.getMinutes()
+      if ( mns < 10 ) mns = `0${mns}`
+      return `Fin impérative à ${fin.getHours()}:${mns}`
     }
   }
 
