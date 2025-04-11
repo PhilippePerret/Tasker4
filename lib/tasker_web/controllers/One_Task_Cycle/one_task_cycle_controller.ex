@@ -69,7 +69,6 @@ defmodule TaskerWeb.OneTaskCycleController do
     sql = alerts_request()
     params = [Ecto.UUID.dump!(worker_id)] # Remplace par l'ID réel du worker
     result = Tasker.Repo.query!(sql, params)
-    |> IO.inspect(label: "\nresult de requête alerts")
     result.rows
     |> Enum.map(fn row -> 
       Enum.zip(result.columns, row) 
@@ -78,7 +77,6 @@ defmodule TaskerWeb.OneTaskCycleController do
         %{task_id: Ecto.UUID.load!(map["id"]), title: map["title"], start: map["should_start_at"], alerts: map["alerts"]}
       end).()
     end)
-    |> IO.inspect(label: "\ntasks_with_alert")
   end
 
   @doc """
