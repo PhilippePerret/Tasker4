@@ -13,7 +13,7 @@ defmodule TaskerWeb.OneTaskCycleController do
   @task_spec_properties ["details", "priority", "urgence", "difficulty", "notes"]
   @task_time_properties [
     "started_at", "ended_at", "should_start_at", "should_end_at", 
-    "given_up_at", "recurrence", 
+    "given_up_at", "recurrence", "imperative_end",
     "expect_duration", "execution_time", "deadline_trigger"]
 
   @now NaiveDateTime.utc_now()

@@ -46,6 +46,7 @@ div#current-task {
   padding:2em;
   padding-bottom: 1em;
   border-radius:2em;
+  overflow: hidden;
 }
 
 div#current-task > div {
@@ -121,6 +122,15 @@ div#current-task span#current-task-absolute_index {
   width: 40px;
   height: 40px;
   border-radius: 20px;
+}
+
+/* Le bandeau de travers */
+div#current-task div#current-task-bandeau {
+  background-color:red;
+  color:white;
+  transform: rotate(-45deg) translate(50%, 250%);
+  transform-origin: 65% 360%;
+  font-size: 13pt;
 }
 
 /* 

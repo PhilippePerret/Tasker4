@@ -426,7 +426,13 @@ class ClassAtWork {
     this.setField('tags', this.buildTags(task))
     this.setField('scripts', this.buildScriptsTools(task))
     this.setField('notes', this.buildNotes(task))
-    
+    this.setAndShowField('bandeau', this.bandeauFor(task))
+  }
+  setAndShowField(fName, fValue){
+    if ( fValue ) {
+      this.showField(fName)
+      this.setField(fValue)
+    } else this.maskField(fName)
   }
   setField(fName, fValue){
     if ( 'string' == typeof fValue || 'number' == typeof fValue) {
@@ -438,8 +444,20 @@ class ClassAtWork {
       console.error("Impossible de régler la valeur du champ '%s' à ", fName, fValue)
     }
   }
+  showField(fname){this.field(fName).classList.remove('hidden')}
+  maskField(fName){this.field(fName).classList.add('hidden')}
   field(fName){
     return DGet(`#current-task-${fName}`)
+  }
+
+  /**
+   * Définit le bandeau de travers sur la tâche
+   */
+  bandeauFor(task){
+    if ( task.task_time.imperative_end) {
+      const fin = new Date(task.should_end_at)
+      return `Fin impérative à ${fin.hour}:${fin.minutes}`
+    }
   }
 
   buildTags(task){
