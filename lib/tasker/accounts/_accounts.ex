@@ -78,6 +78,12 @@ defmodule Tasker.Accounts do
     end
   end
 
+  def update_worker_settings(worker_id, attrs) do
+    worker_settings = get_worker_settings(worker_id)
+    WorkerSettings.changeset(worker_settings, attrs)
+    |> Repo.update()
+  end
+
   @doc """
   Préférences par défaut
   """

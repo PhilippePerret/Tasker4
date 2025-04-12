@@ -72,8 +72,8 @@ defmodule TaskerWeb.Router do
     pipe_through [:browser, :require_authenticated_worker]
 
     get "/workers/settings", WorkerPrefs, :show
+    post "/workers/settings", WorkerPrefs, :update
     get "/workers/settings/edit", WorkerPrefs, :edit
-    put "/workers/settings", WorkerPrefs, :update
   end
 
   scope "/", TaskerWeb do

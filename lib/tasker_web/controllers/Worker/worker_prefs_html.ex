@@ -90,6 +90,9 @@ defmodule TaskerWeb.WorkerPrefsHTML do
         |> Enum.map(fn dprop ->
           value = Map.get(values_map, Atom.to_string(dprop.id))
           |> IO.inspect(label: "value de prop #{dprop.id}")
+
+          value = if dprop.id == :time_before_alert do ~s([1, "day"]) else value end
+
           dprop = Map.put(dprop, :rub_id, dmap.rub_id)
           ~s(<div class="property">) <>
           ~s(<label>#{dprop.name}</label>) <>
@@ -143,6 +146,14 @@ defmodule TaskerWeb.WorkerPrefsHTML do
 
   def formate_field(%{type: :duration} = data, value, mode) do
     # Dans ce type, la valeur doit être définie par [quantity, :unit]
+    value = cond do
+    value == "" -> []
+    is_binary(value) ->
+      {value, _binding} = Code.eval_string(value)
+      value
+    true -> value
+    end
+
     options = [
       ["minute" , gettext("minutes")],
       ["hour"   , gettext("hours")],
@@ -152,14 +163,32 @@ defmodule TaskerWeb.WorkerPrefsHTML do
       ["year"   , gettext("years")]
     ] |> formate_options(Enum.at(value, 1))
 
+    quant = Enum.at(value, 0)
+    quant = cond do
+    is_binary(quant) -> String.to_integer(quant)
+    true -> quant
+    end
+
     """
     <input id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" type="hidden" value="#{Jason.encode!(value)}" />
-    <input id="#{data.id}-quantity-field" type="number" value="#{Enum.at(value, 0)}" max="#{Map.get(data, :max)}" min="#{Map.get(data, :min)}" style="text-align:right;" />
-    <select id="#{data.id}-unit-field">#{options}</select>
+    <input id="#{data.id}-quantity-field" onchange="gere#{data.id}()" type="number" value="#{quant}" max="#{Map.get(data, :max)}" min="#{Map.get(data, :min)}" style="text-align:right;" />
+    <select id="#{data.id}-unit-field" onchange="gere#{data.id}()">#{options}</select>
+    <script type="text/javascript">
+    function gere#{data.id}(){
+    const value = JSON.stringify([DGet('input##{data.id}-quantity-field').value, DGet('select##{data.id}-unit-field').value])
+    DGet('input##{data.id}-field').value = value;
+    console.log("Champ #{data.id} mis à ", value)
+    }
+    </script>
     """
   end
 
   def formate_field(%{type: :list} = data, value, mode) do
+    value = cond do
+    "" -> []
+    is_nil(value) -> []
+    true -> value
+    end
     """
     <input id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" type="text" value="#{Enum.join(value, ", ")}" style="width:500px;" placeholder="item 1, item 2,… item N" />
     """

@@ -29,9 +29,13 @@ defmodule TaskerWeb.WorkerPrefs do
   Enregistrement des préférences
   """
   def update(conn, params) do
-    _worker_id = conn.assigns.current_worker.id
-    conn = conn
-    # TODO ENREGISTRER
-    show(conn, params)
+    worker_id = conn.assigns.current_worker.id
+    case Accounts.update_worker_settings(worker_id, params) do
+    {:ok, _} ->
+      show(conn, params)
+    {:error, changeset} -> 
+      conn = conn
+      |> assign(:changeset, changeset)
+    end
   end
 end

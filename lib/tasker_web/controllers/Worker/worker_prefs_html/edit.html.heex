@@ -4,4 +4,13 @@
   <%= gettext("Manage your account settings") %>
 </div>
 
-<%= raw affichage_settings(@settings, :edit) %>
+<form action={~p"/workers/settings"} method="POST">
+  <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
+  <div class="buttons">
+    <button type="submit" class="main"><%= gettext("Save settings") %></button>
+  </div>
+  <%= raw affichage_settings(@settings, :edit) %>
+  <div class="buttons">
+    <button type="submit" class="main"><%= gettext("Save settings") %></button>
+  </div>
+</form>
