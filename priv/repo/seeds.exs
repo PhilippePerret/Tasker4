@@ -61,7 +61,7 @@ new_natures =
 end)
 |> Enum.filter(fn el -> el != false end)
 
-old_natures = natures_table_names |> Enum.map(fn {key, name} -> name end)
+old_natures = natures_table_names |> Enum.map(fn {_key, name} -> name end)
 all_natures = new_natures ++ old_natures
 
 IO.puts "Nouvelles natures (#{Enum.count(new_natures)}/#{Enum.count(all_natures)}) : #{Enum.join(new_natures, ", ")}"

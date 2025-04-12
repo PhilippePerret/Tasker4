@@ -60,13 +60,15 @@ defmodule Tasker.Accounts do
     |> create_worker_settings()
   end
 
-  # Pour créer la fiche de réglage du worker
-  defp create_worker_settings(attrs) when is_map(attrs) do
+  @doc """
+  Création de la fiche des settings du travailler (worker)
+  """
+  def create_worker_settings(attrs) when is_map(attrs) do
     attrs = Map.merge(default_worker_settings(), attrs)
     Repo.insert!(struct(WorkerSettings, attrs))
   end
 
-  defp create_worker_settings(res) do
+  def create_worker_settings(res) do
     case res do
     {:ok, worker} ->
       create_worker_settings(Map.merge(default_worker_settings(), %{worker_id: worker.id}))
@@ -92,16 +94,43 @@ defmodule Tasker.Accounts do
         max_tasks_count: 100,
         filter_on_duree: false, # false|:long|:short|:medium
         same_nature: :enable_same_nature, # :never_same_nature|:avoid_same_nature
+        prioritize_same_nature: nil,  # nil|true|false
+        # Préférence pour le tri des tâches par durée
+        # Si :long, on privilégie les tâches longues, si :short, les tâches
+        # courtes et si nil, on ne fait rien.
+        sort_by_task_duration:  :short, # nil|:long|:short
+        # Préférence pour le tri des tâches par difficulté
+        # Si :hard, on privilégie les tâches difficiles, si :easy, on privi-
+        # légie les tâches facile et si nil, on ne fait rien
+        sort_by_task_difficulty: :hard, # nil|:easy|:hard
+        default_task_duration:    10,   # nil|<nombre de minutes>
+        # Si true, une alerte sera générée pour toutes les tâches exclusives
+        # Le temps est défini ci-dessus
+        alert_for_exclusive:    true,   # true|false
+        # Le temps avant la tâche pour l'alerte. Par défaut, c'est un jour
+        # avant, à la même heure que la tâche ou à l'heure spécifiée 
+        # ci-desouss
+        time_before_alert:      [1, :day],   # 
+        # Heure à laquelle l'alerte doit être donnée. Par défaut, c'est la 
+        # même que l'heure de la tâche.
+        alert_hour:             :same,  # :same|"H:MM"
         custom_natures: [] # liste des natures personnelles
       },
       project_prefs: %{
 
       },
-      divers_prefs: %{
-        work_start_at: 9,
-        work_noon_at: 12,
-        work_end_at:  17,
-        near_future:  7, # nombre de jours
+      worktime_settings: %{
+        # Commencement de la journée de travail
+        work_start_time:    "9:00",
+        # Heure de la pause de midi
+        morning_end_time:   "12:00",
+        # Heure de reprise après la pause de midi
+        midday_start_time:  "13:00",
+        # Fin de la journée de travail
+        work_end_time:      "17:00",
+        # Définition de ce qu'est le "futur proche". Au moment de la
+        # relève des tâches, on va les chercher jusqu'à cette limite
+        near_future:  7, # <nombre de jours>
       }
 
     }
@@ -274,7 +303,7 @@ defmodule Tasker.Accounts do
 
   ## Examples
 
-      iex> deliver_worker_update_email_instructions(worker, current_email, &url(~p"/workers/settings/confirm_email/#{&1}"))
+      iex> deliver_worker_update_email_instructions(worker, current_email, &url(~p"/workers/identity/confirm_email/#{&1}"))
       {:ok, %{to: ..., body: ...}}
 
   """

@@ -8,7 +8,7 @@ defmodule Tasker.Repo.Migrations.CreateWorkerSettings do
       add :interaction_prefs, :map
       add :task_prefs, :map
       add :project_prefs, :map
-      add :divers_prefs, :map
+      add :worktime_settings, :map
       add :worker_id, references(:workers, on_delete: :delete_all, type: :binary_id)
 
       timestamps(type: :utc_datetime)

@@ -1,4 +1,4 @@
-defmodule TaskerWeb.WorkerSettingsController do
+defmodule TaskerWeb.WorkerIdentityController do
   use TaskerWeb, :controller
 
   alias Tasker.Accounts
@@ -19,7 +19,7 @@ defmodule TaskerWeb.WorkerSettingsController do
         Accounts.deliver_worker_update_email_instructions(
           applied_worker,
           worker.email,
-          &url(~p"/workers/settings/confirm_email/#{&1}")
+          &url(~p"/workers/identity/confirm_email/#{&1}")
         )
 
         conn
@@ -27,7 +27,7 @@ defmodule TaskerWeb.WorkerSettingsController do
           :info,
           gettext("A link to confirm your email change has been sent to the new address.")
         )
-        |> redirect(to: ~p"/workers/settings")
+        |> redirect(to: ~p"/workers/identity")
 
       {:error, changeset} ->
         render(conn, :edit, email_changeset: changeset)
@@ -42,7 +42,7 @@ defmodule TaskerWeb.WorkerSettingsController do
       {:ok, worker} ->
         conn
         |> put_flash(:info, gettext("Password updated successfully."))
-        |> put_session(:worker_return_to, ~p"/workers/settings")
+        |> put_session(:worker_return_to, ~p"/workers/identity")
         |> WorkerAuth.log_in_worker(worker)
 
       {:error, changeset} ->
@@ -55,12 +55,12 @@ defmodule TaskerWeb.WorkerSettingsController do
       :ok ->
         conn
         |> put_flash(:info, gettext("Email changed successfully."))
-        |> redirect(to: ~p"/workers/settings")
+        |> redirect(to: ~p"/workers/identity")
 
       :error ->
         conn
         |> put_flash(:error, gettext("Email change link is invalid or it has expired."))
-        |> redirect(to: ~p"/workers/settings")
+        |> redirect(to: ~p"/workers/identity")
     end
   end
 

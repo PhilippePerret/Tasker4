@@ -71,9 +71,9 @@ defmodule TaskerWeb.Router do
   scope "/", TaskerWeb do
     pipe_through [:browser, :require_authenticated_worker]
 
-    get "/workers/settings", WorkerSettingsController, :edit
-    put "/workers/settings", WorkerSettingsController, :update
-    get "/workers/settings/confirm_email/:token", WorkerSettingsController, :confirm_email
+    get "/workers/identity", WorkerIdentityController, :edit
+    put "/workers/identity", WorkerIdentityController, :update
+    get "/workers/identity/confirm_email/:token", WorkerIdentityController, :confirm_email
   end
   
   scope "/", TaskerWeb do

@@ -1,4 +1,4 @@
-defmodule TaskerWeb.WorkerSettingsControllerTest do
+defmodule TaskerWeb.WorkerIdentityControllerTest do
   use TaskerWeb.ConnCase, async: true
 
   alias Tasker.Accounts
@@ -6,24 +6,24 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
 
   setup :register_and_log_in_worker
 
-  describe "GET /workers/settings" do
+  describe "GET /workers/identity" do
     test "renders settings page", %{conn: conn} do
-      conn = get(conn, ~p"/workers/settings")
+      conn = get(conn, ~p"/workers/identity")
       response = html_response(conn, 200)
       assert response =~ "Settings"
     end
 
     test "redirects if worker is not logged in" do
       conn = build_conn()
-      conn = get(conn, ~p"/workers/settings")
+      conn = get(conn, ~p"/workers/identity")
       assert redirected_to(conn) == ~p"/workers/log_in"
     end
   end
 
-  describe "PUT /workers/settings (change password form)" do
+  describe "PUT /workers/identity (change password form)" do
     test "updates the worker password and resets tokens", %{conn: conn, worker: worker} do
       new_password_conn =
-        put(conn, ~p"/workers/settings", %{
+        put(conn, ~p"/workers/identity", %{
           "action" => "update_password",
           "current_password" => valid_worker_password(),
           "worker" => %{
@@ -32,7 +32,7 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
           }
         })
 
-      assert redirected_to(new_password_conn) == ~p"/workers/settings"
+      assert redirected_to(new_password_conn) == ~p"/workers/identity"
 
       assert get_session(new_password_conn, :worker_token) != get_session(conn, :worker_token)
 
@@ -44,7 +44,7 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
 
     test "does not update password on invalid data", %{conn: conn} do
       old_password_conn =
-        put(conn, ~p"/workers/settings", %{
+        put(conn, ~p"/workers/identity", %{
           "action" => "update_password",
           "current_password" => "invalid",
           "worker" => %{
@@ -64,17 +64,17 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
     end
   end
 
-  describe "PUT /workers/settings (change email form)" do
+  describe "PUT /workers/identity (change email form)" do
     @tag :capture_log
     test "updates the worker email", %{conn: conn, worker: worker} do
       conn =
-        put(conn, ~p"/workers/settings", %{
+        put(conn, ~p"/workers/identity", %{
           "action" => "update_email",
           "current_password" => valid_worker_password(),
           "worker" => %{"email" => unique_worker_email()}
         })
 
-      assert redirected_to(conn) == ~p"/workers/settings"
+      assert redirected_to(conn) == ~p"/workers/identity"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
                "A link to confirm your email"
@@ -84,7 +84,7 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
 
     test "does not update email on invalid data", %{conn: conn} do
       conn =
-        put(conn, ~p"/workers/settings", %{
+        put(conn, ~p"/workers/identity", %{
           "action" => "update_email",
           "current_password" => "invalid",
           "worker" => %{"email" => "with spaces"}
@@ -97,7 +97,7 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
     end
   end
 
-  describe "GET /workers/settings/confirm_email/:token" do
+  describe "GET /workers/identity/confirm_email/:token" do
     setup %{worker: worker} do
       email = unique_worker_email()
 
@@ -110,8 +110,8 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
     end
 
     test "updates the worker email once", %{conn: conn, worker: worker, token: token, email: email} do
-      conn = get(conn, ~p"/workers/settings/confirm_email/#{token}")
-      assert redirected_to(conn) == ~p"/workers/settings"
+      conn = get(conn, ~p"/workers/identity/confirm_email/#{token}")
+      assert redirected_to(conn) == ~p"/workers/identity"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :info) =~
                "Email changed successfully"
@@ -119,17 +119,17 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
       refute Accounts.get_worker_by_email(worker.email)
       assert Accounts.get_worker_by_email(email)
 
-      conn = get(conn, ~p"/workers/settings/confirm_email/#{token}")
+      conn = get(conn, ~p"/workers/identity/confirm_email/#{token}")
 
-      assert redirected_to(conn) == ~p"/workers/settings"
+      assert redirected_to(conn) == ~p"/workers/identity"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
                "Email change link is invalid or it has expired"
     end
 
     test "does not update email with invalid token", %{conn: conn, worker: worker} do
-      conn = get(conn, ~p"/workers/settings/confirm_email/oops")
-      assert redirected_to(conn) == ~p"/workers/settings"
+      conn = get(conn, ~p"/workers/identity/confirm_email/oops")
+      assert redirected_to(conn) == ~p"/workers/identity"
 
       assert Phoenix.Flash.get(conn.assigns.flash, :error) =~
                "Email change link is invalid or it has expired"
@@ -139,7 +139,7 @@ defmodule TaskerWeb.WorkerSettingsControllerTest do
 
     test "redirects if worker is not logged in", %{token: token} do
       conn = build_conn()
-      conn = get(conn, ~p"/workers/settings/confirm_email/#{token}")
+      conn = get(conn, ~p"/workers/identity/confirm_email/#{token}")
       assert redirected_to(conn) == ~p"/workers/log_in"
     end
   end

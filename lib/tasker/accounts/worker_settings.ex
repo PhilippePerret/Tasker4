@@ -9,7 +9,7 @@ defmodule Tasker.Accounts.WorkerSettings do
     field :interaction_prefs, :map
     field :task_prefs, :map
     field :project_prefs, :map
-    field :divers_prefs, :map
+    field :worktime_settings, :map
     belongs_to :worker, Tasker.Accounts.Worker
 
     timestamps(type: :utc_datetime)
@@ -18,7 +18,7 @@ defmodule Tasker.Accounts.WorkerSettings do
   @doc false
   def changeset(worker_settings, attrs) do
     worker_settings
-    |> cast(attrs, [:worker_id, :display_prefs, :interaction_prefs, :task_prefs, :project_prefs, :divers_prefs])
+    |> cast(attrs, [:worker_id, :display_prefs, :interaction_prefs, :task_prefs, :project_prefs, :worktime_settings])
     |> unique_constraint(:worker_id)
     |> validate_required([])
   end

@@ -36,7 +36,7 @@ defmodule TaskerWeb.WorkerSessionControllerTest do
       conn = get(conn, ~p"/")
       response = html_response(conn, 200)
       assert response =~ worker.pseudo
-      assert response =~ ~p"/workers/settings"
+      assert response =~ ~p"/workers/identity"
       assert response =~ ~p"/workers/log_out"
     end
 

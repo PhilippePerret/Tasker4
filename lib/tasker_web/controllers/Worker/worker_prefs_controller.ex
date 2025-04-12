@@ -5,7 +5,7 @@ defmodule TaskerWeb.WorkerPrefs do
   # alias Tasker.Accounts.Worker
 
   @doc """
-  Affichage et réglage des préférences
+  Affichage des préférences
   """
   def show(conn, %{"worker_id" => worker_id}) do
     conn = conn
@@ -14,11 +14,20 @@ defmodule TaskerWeb.WorkerPrefs do
   end
 
   @doc """
+  Réglage des préférences
+  """
+  def edit(conn, %{"worker_id" => worker_id}) do
+    conn = conn
+    |> assign(:settings, Accounts.get_worker_settings(worker_id))
+    render(conn, :edit)
+  end
+
+  @doc """
   Enregistrement des préférences
   """
-  def update(conn, _params) do
-    conn
-    # TODO : ENREGISTRER
-    |> halt()
+  def update(conn, params) do
+    conn = conn
+    # TODO ENREGISTRER
+    show(conn, params)
   end
 end
