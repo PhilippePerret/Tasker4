@@ -1,0 +1,12 @@
+div.property {
+  border:1px solid #F3F3F3;
+  margin-bottom: 14px;
+}
+div.property > label {
+  float:left;
+}
+div.property > span.value {
+  display:block;
+  margin-left: 100px;
+  text-align: right;
+}

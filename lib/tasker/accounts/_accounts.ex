@@ -93,7 +93,7 @@ defmodule Tasker.Accounts do
       task_prefs: %{
         max_tasks_count: 100,
         filter_on_duree: false, # false|:long|:short|:medium
-        same_nature: :enable_same_nature, # :never_same_nature|:avoid_same_nature
+        filter_on_nature: :enable_same_nature, # :never_same_nature|:avoid_same_nature
         prioritize_same_nature: nil,  # nil|true|false
         # Préférence pour le tri des tâches par durée
         # Si :long, on privilégie les tâches longues, si :short, les tâches
@@ -117,7 +117,7 @@ defmodule Tasker.Accounts do
         custom_natures: [] # liste des natures personnelles
       },
       project_prefs: %{
-
+        folder_always_required: false, # true|false
       },
       worktime_settings: %{
         # Commencement de la journée de travail

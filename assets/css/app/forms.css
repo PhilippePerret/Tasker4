@@ -5,6 +5,7 @@ input[type="text"],
 input[type="password"], 
 input[type="email"], 
 input[type="number"], 
+input[type="time"], 
 input[type="datetime-local"], 
 select, select option,
 button {

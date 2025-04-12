@@ -1,1 +1,7 @@
-<div>[Je dois apprendre à éditer les réglages]</div>
+<.feuille_css />
+<h2><%= gettext("Account Settings") %></h2>
+<div class="subtitle">
+  <%= gettext("Manage your account settings") %>
+</div>
+
+<%= raw affichage_settings(@settings, :edit) %>

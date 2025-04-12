@@ -1,6 +1,8 @@
-<h2><%= gettext("Worker Settings") %></h2>
+<.feuille_css />
+<h2><%= gettext("Your Account Settings") %></h2>
+<div class="subtitle">
+  <%= gettext("Your account settings") %>
+    <a href={~p"/workers/settings/edit"}>[<%= gettext("modify") %>]</a>
+</div>
 
-<%= 
-# PROVISOIREMENT
-Jason.encode!(@settings) 
-%>
+<%= raw affichage_settings(@settings, :display) %>

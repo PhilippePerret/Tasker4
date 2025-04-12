@@ -2,21 +2,24 @@ defmodule TaskerWeb.WorkerPrefs do
   use TaskerWeb, :controller
 
   alias Tasker.Accounts
-  # alias Tasker.Accounts.Worker
+
 
   @doc """
   Affichage des préférences
   """
-  def show(conn, %{"worker_id" => worker_id}) do
+  def show(conn, _params) do
+    worker_id = conn.assigns.current_worker.id
     conn = conn
+    |> assign(:settings_specs, @settings_specs)
     |> assign(:settings, Accounts.get_worker_settings(worker_id))
-    render(conn, :show)
+    render(conn, "show.html")
   end
 
   @doc """
   Réglage des préférences
   """
-  def edit(conn, %{"worker_id" => worker_id}) do
+  def edit(conn, _params) do
+    worker_id = conn.assigns.current_worker.id
     conn = conn
     |> assign(:settings, Accounts.get_worker_settings(worker_id))
     render(conn, :edit)
@@ -26,6 +29,7 @@ defmodule TaskerWeb.WorkerPrefs do
   Enregistrement des préférences
   """
   def update(conn, params) do
+    _worker_id = conn.assigns.current_worker.id
     conn = conn
     # TODO ENREGISTRER
     show(conn, params)

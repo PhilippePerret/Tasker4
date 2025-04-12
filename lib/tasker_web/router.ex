@@ -71,6 +71,14 @@ defmodule TaskerWeb.Router do
   scope "/", TaskerWeb do
     pipe_through [:browser, :require_authenticated_worker]
 
+    get "/workers/settings", WorkerPrefs, :show
+    get "/workers/settings/edit", WorkerPrefs, :edit
+    put "/workers/settings", WorkerPrefs, :update
+  end
+
+  scope "/", TaskerWeb do
+    pipe_through [:browser, :require_authenticated_worker]
+
     get "/workers/identity", WorkerIdentityController, :edit
     put "/workers/identity", WorkerIdentityController, :update
     get "/workers/identity/confirm_email/:token", WorkerIdentityController, :confirm_email
