@@ -105,12 +105,15 @@ defmodule TaskerWeb.TaskHTML do
     assigns = assigns
     |> assign(:title, dgettext("tasker", "Alerts"))
     |> assign(:before, dgettext("ilya", "before"))
-    |> assign(:alerts, Jason.encode!(task_time.alerts))
+    |> assign(:alerts, Jason.encode!(task_time.alerts || []))
+    |> assign(:alert_at, task_time.alert_at)
     |> assign(:or_on_the, dgettext("ilya", "or on the (date)"))
 
     ~H"""
     <div id="alerts-container" class="block" style="position:relative;">
       <input type="hidden" id="alerts-values" name="task[task_time][alerts]" value={@alerts} />
+      <input type="hidden" id="alert_at-value" name="task[task_time][alert_at]" value={@alert_at} />
+
       <label class="titre">{@title}</label>
       <div id="alerts">
         <div class="alert" style="clear:both;">

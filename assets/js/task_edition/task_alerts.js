@@ -36,8 +36,13 @@ class AlertsBlock {
    */
   static getData(){
     const data = [] 
+    let alertAt = null
     this.alerts.forEach(alert => {
-      if (alert.defined){data.push(alert.getData())}
+      if (alert.defined){
+        const alertData = alert.getData()
+        if ( alertAt === null && alertData.at ) alertAt = alertData.at ;
+        data.push(alertData)
+      }
     })
     this.alertsField.value = JSON.stringify(data)
   }
@@ -52,7 +57,7 @@ class AlertsBlock {
   static onChangeStartAt(startAt){
     this.setableAlertFields(!!startAt)
     if (startAt){
-      this.createNewAlert()
+      this.createAlert()
     } else {
       this.resetAll()
     }
@@ -67,12 +72,12 @@ class AlertsBlock {
     } else if ( this.lastAlert && !this.lastAlertIsDefined() ) {
       Flash.error(LOC('The last alert must be defined!'))
     } else {
-      this.createNewAlert()
+      this.createAlert()
     }
     return stopEvent(ev)
   }
 
-  static createNewAlert(){ 
+  static createAlert(){ 
     const alert = new Alert({index: this.alerts.length})
     alert.build()
     this.alerts.push(alert)
@@ -93,6 +98,7 @@ class AlertsBlock {
    */
   static resetAll(){
     this.alertsField.value = ""
+    this.alertAtField.value = ""
     this.alerts.forEach(alert => alert.remove())
     this.alerts = []
   }
@@ -117,20 +123,32 @@ class AlertsBlock {
   }
 
   static setState(){
-    let data = NullIfEmpty(this.alertsField.value)
+    const alertAtValue = NullIfEmpty(this.alertAtField.value);
+    console.log("alertAtValue", alertAtValue)
+    if ( alertAtValue ) {
+      this.createNewAlert({at: alertAtValue})
+    }
+    let data = this.alertsField.value
     if ( data && (data = JSON.parse(data)) ) {
-      data.forEach((alertData, i) => {
-        const alert = new Alert(Object.assign(alertData, {index: i}))
-        this.alerts.push(alert)
-        alert.build()
-        alert.setValues()
+      data.forEach(alertData => {
+        console.log("alertData.at = ", alertData.at)
+        if ( alertAtValue && alertData.at && `${alertData.at}:00` == alertAtValue ) return ;
+        this.createNewAlert(alertData)
       })
     }
   }
+  static createNewAlert(data){
+    const i = this.alerts.length
+    const alert = new Alert(Object.assign(data, {index: i}))
+    this.alerts.push(alert)
+    alert.build()
+    alert.setValues()
+}
 
 
   static get listing(){return this._listing || (this._listing = DGet('div#alerts', this.obj))}
   static get alertsField(){return this._datafield || (this._datafield = DGet('input#alerts-values', this.obj))}
+  static get alertAtField(){return this._alrtfieldfield || (this._alrtfieldfield = DGet('input#alert_at-value', this.obj))}
   static get btnAddAlert(){return this._btnaddalert || (this._btnaddalert = DGet('button.btn-add-alert', this.obj))}
   static get obj(){return this._obj || (this._obj = DGet('div#alerts-container'))}
 
