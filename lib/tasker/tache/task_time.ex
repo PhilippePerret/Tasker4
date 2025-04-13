@@ -107,7 +107,7 @@ defmodule Tasker.Tache.TaskTime do
   # 
   # @param {Map} attrs  Les attributs. Note : ils font forcément 
   #                     définis puisque traités avant déjà.
-  defp treate_recurrence_if_any(attrs) do
+  def treate_recurrence_if_any(attrs) do
     recurrence = Map.get(attrs, "recurrence")
     if recurrence && recurrence != "" do
       # 

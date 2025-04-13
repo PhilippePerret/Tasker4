@@ -31,25 +31,92 @@ defmodule Tasker.Tache do
   récurrentes
   """
   def refresh_dates_recurrente_tasks do
-    # TODO
     query = from tkt in TaskTime,
               where:  not is_nil(tkt.recurrence),
               select: {tkt.id, tkt.recurrence, tkt.should_start_at, tkt.should_end_at}
     Repo.all(query)
     |> IO.inspect(label: "\nTâches récurrentes")
+    |> Enum.each(fn attrs ->
+      {id, recur, startat, endat} = attrs
+      attrs = %{id: id, recurrence: recur, should_start_at: startat, should_end_at: endat}
+      attrs_refreshed = TaskTime.treate_recurrence_if_any(attrs)
+      if attrs.should_start_at != attrs_refreshed.should_start_at do
+        IO.puts "Récurrence modifiée dans #{inspect attrs}"
+        IO.puts "-> #{inspect attrs_refreshed}"
+        # Enregistrement des nouvelles valeurs
+        from( tkt in TaskTime, where: tkt.id == ^id, update: [set: [should_start_at: ^attrs_refreshed.should_start_at, should_end_at: ^attrs_refreshed.should_end_at]])
+        |> Repo.update_all([])
+      else 
+        IO.puts "Récurrence NON modifiée dans #{inspect attrs}"
+      end
+    end)
   end
 
   @doc """
   Fonction qui actualise les alertes.
+
+  Cela consiste à : 
+    - voir si l'alerte courante (alert_at) est dépassée
+    - la supprimer si c'est le cas ou la remplacer par la
+      prochaine alerte.
+    - mais il y a un cas particulier lorsqu'il s'agit d'alertes
+      Elles peuvent être définies pour une précédente alerte ou, de
+      façon préférentielle, par une un laps défini par 1:jour, etc. 
+
+  NB : Il faut le faire après le rafraichissement des récurrentes
+       pour justement les traiter.
   """
   def refresh_next_alert_times do
     # 1. On relève les tâches avec alerte (alerts et alert_at)
     query = from tkt in TaskTime,
               where: not is_nil(tkt.alerts),
-              select: {tkt.id, tkt.alerts, tkt.alert_at}
+              select: {tkt.id, tkt.alerts, tkt.alert_at, tkt.should_start_at}
     Repo.all(query)
     |> IO.inspect(label: "\nTâches avec alertes")
-    # 2
+    |> Enum.each(fn attrs -> 
+      {id, alerts, alertat, startat} = attrs
+      startat = NaiveDateTime.from_iso8601!("#{startat}")
+      cond do 
+      NaiveDateTime.after?(alertat, @now) -> nil # rien à faire
+      true ->
+        # Alerte passée
+        # -------------
+        #  Y a-t-il une alerte plus récente
+        alert_at = 
+          if alerts do
+            alerts
+            |> Enum.map(fn dalert ->
+              quant = Map.get(dalert, "quantity", nil)
+              unit  = Map.get(dalert, "unit", nil)
+              altat = Map.get(dalert, "at", nil)
+              cond do
+              is_nil(quant) && is_nil(altat) -> dalert
+              is_nil(quant) ->
+                Map.put(dalert, "at", NaiveDateTime.from_iso8601!(altat <> ":00"))
+              quant && unit ->
+                quant = String.to_integer(quant)
+                unit  = String.to_integer(unit)
+                Map.put(dalert, "at", NaiveDateTime.add(startat, - quant * unit, :minute))
+              true -> dalert
+              end
+            end)
+            |> Enum.filter(fn dalert ->
+              alertat = Map.get(dalert, "at", nil)
+              alertat && NaiveDateTime.after?(alertat, @now)
+            end) 
+            |> Enum.map(fn dalert -> Map.get(dalert, "at", nil) end) 
+            |> Enum.at(0)
+          else nil end
+        if alert_at do
+          IO.puts "\nActualisation de l'alerte (alert_at) dans #{inspect attrs}"
+          IO.puts "Ajustement à #{inspect alert_at}"
+          # Une alerte plus récente a été trouvée ou calculée
+          from(tkt in TaskTime, where: tkt.id == ^id, update: [set: [alert_at: ^alert_at]])
+          |> Repo.update_all([])
+
+        end
+      end
+    end)
   end
 
 
