@@ -9,6 +9,64 @@ defmodule Tasker.Tache do
   alias Tasker.ToolBox
 
   @now NaiveDateTime.utc_now()
+  @bod NaiveDateTime.beginning_of_day(@now)
+
+  @doc """
+  """
+  def refresh_bdd_data() do
+    # if NaiveDateTime.after?(@bod, next_refresh_bdd_time()) do
+    if true do # Pour le moment
+      IO.puts "\n\n- Refresh BdD Data -"
+      # Vérifier les prochaines dates des tâches récurrentes
+      refresh_dates_recurrente_tasks()
+      # Vérifier les alertes
+      refresh_next_alert_times()
+      # On actualise la date de dernier update
+      update_next_refresh_bdd_time()
+    end
+  end
+
+  @doc """
+  Fonction qui actualise les dates de prochaines tâche des tâches
+  récurrentes
+  """
+  def refresh_dates_recurrente_tasks do
+    # TODO
+    query = from tkt in TaskTime,
+              where:  not is_nil(tkt.recurrence),
+              select: {tkt.id, tkt.recurrence, tkt.should_start_at, tkt.should_end_at}
+    Repo.all(query)
+    |> IO.inspect(label: "\nTâches récurrentes")
+  end
+
+  @doc """
+  Fonction qui actualise les alertes.
+  """
+  def refresh_next_alert_times do
+    # 1. On relève les tâches avec alerte (alerts et alert_at)
+    query = from tkt in TaskTime,
+              where: not is_nil(tkt.alerts),
+              select: {tkt.id, tkt.alerts, tkt.alert_at}
+    Repo.all(query)
+    |> IO.inspect(label: "\nTâches avec alertes")
+    # 2
+  end
+
+
+  def update_next_refresh_bdd_time do
+    next_time = NaiveDateTime.add(@bod, 23, :hour) |> NaiveDateTime.to_string()
+    File.write!(refresh_bdd_time_path(), next_time)
+  end
+  def next_refresh_bdd_time do
+    if File.exists?(refresh_bdd_time_path()) do
+      File.read!(refresh_bdd_time_path()) |> NaiveDateTime.from_iso8601!()
+    else
+      NaiveDateTime.add(@bod,-1, :day)
+    end
+  end
+  def refresh_bdd_time_path do
+    Path.join([".", ".next_refresh_bdd_time"])
+  end
   
   @doc """
   Fonction qui reçoit un idenfiant de tâche et la retourne, complète,

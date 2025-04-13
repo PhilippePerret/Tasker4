@@ -88,6 +88,9 @@ defmodule TaskerWeb.OneTaskCycleController do
   et leur manipulation au cours de la session.
   """
   def get_candidate_tasks(worker_id) do
+    # Avant toutes choses, on corrige les données qui peuvent l'être
+    # Cette correction n'est faite qu'une fois par jour
+    Tache.refresh_bdd_data()
     sql = candidates_request()
     params = [Ecto.UUID.dump!(worker_id)] # Remplace par l'ID réel du worker
     result = Tasker.Repo.query!(sql, params)
