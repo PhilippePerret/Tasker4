@@ -5,11 +5,11 @@ defmodule TaskerWeb.WorkerPrefsHTML do
 
   def feuille_css(assigns) do
     code_css = File.read!(Path.join([__DIR__,"worker_prefs_html","prefs.css"]))
-    assigns
+    assigns = assigns
     |> assign(:code_css, code_css)
     
     ~H"""
-    <style type="text/css"><%= raw code_css %></style>
+    <style type="text/css"><%= raw @code_css %></style>
     """
   end
 
@@ -50,7 +50,7 @@ defmodule TaskerWeb.WorkerPrefsHTML do
         %{id: :time_before_alert, name: gettext("Time before alert"), type: :duration, info: gettext("Time before alert (info)")},
         %{id: :alert_hour, name: gettext("Alert hour"), type: :clock, info: gettext("alert hour (info)")},
         %{id: :filter_on_nature, name: gettext("Filter on nature"), type: :select, values: [[:enabled_same_nature, gettext("Enable same nature")], [:never_same_nature, gettext("Never same nature")], [:avoid_same_nature, gettext("Avoid same nature")]], info: gettext("Filter on nature (info)")},
-        %{id: :filter_on_duree, name: gettext("Filter on duration"), type: :select, values: [[:enabled_same_nature, gettext("Enable same nature")], [:never_same_nature, gettext("Never same nature")], [:avoid_same_nature, gettext("Avoid same nature")]], info: gettext("Filter on duration (info)")},
+        %{id: :filter_on_duree, name: gettext("Filter on duration"), type: :select, values: [[false, gettext("false")], [:long, gettext("Long")], [:short, gettext("Short")], [:medium, gettext("Medium")]], info: gettext("Filter on duration (info)")},
         %{id: :prioritize_same_nature, name: gettext("Prioritize same nature"), type: :boolean, not_nil: false, info: gettext("Prioritize same nature (info)")},
         %{id: :sort_by_task_duration, name: gettext("Sort by task duration"), type: :select, values: [["nil", gettext("No")], [:long, gettext("Longest before")], [:short, gettext("Shortest before")]]},
         %{id: :sort_by_task_difficulty, name: gettext("Sort by task difficulty"), type: :select, values: [["nil", gettext("No")], [:easy, gettext("Easiest before")], [:hard, gettext("Hardest before")]]},
@@ -79,24 +79,26 @@ defmodule TaskerWeb.WorkerPrefsHTML do
 
 
   def affichage_settings(settings, mode \\ :display) do
-    content = []
-
+    # IO.inspect(settings, label: "Setting pour affichage/édition")
     @settings_specs
     |> Enum.map(fn dmap ->
       values_map = Map.get(settings, dmap.rub_id)
-      |> IO.inspect(label: "\pvalues map")
+      # |> IO.inspect(label: "\nvalues map")
       properties = 
         dmap.properties 
         |> Enum.map(fn dprop ->
           value = Map.get(values_map, Atom.to_string(dprop.id))
-          |> IO.inspect(label: "value de prop #{dprop.id}")
+          # |> IO.inspect(label: "value de prop #{dprop.id}")
 
-          value = if dprop.id == :time_before_alert do ~s([1, "day"]) else value end
+          explication = if Map.get(dprop, :info) do
+            ~s(<div class="info">#{dprop.info}</div>)
+          else "" end
 
           dprop = Map.put(dprop, :rub_id, dmap.rub_id)
           ~s(<div class="property">) <>
           ~s(<label>#{dprop.name}</label>) <>
           ~s(<span class="value">#{formate_field(dprop, value, mode)}</span>) <>
+          explication <>
           ~s(</div>)
         end)
         |> Enum.join("")
@@ -111,7 +113,7 @@ defmodule TaskerWeb.WorkerPrefsHTML do
     |> Enum.join("")
   end
 
-  def formate_field(%{type: :boolean} = data, value, mode) do
+  def formate_field(%{type: :boolean} = data, value, :edit) do
     fields = [
       ["true", gettext("true")],
       ["false", gettext("false")]
@@ -125,35 +127,61 @@ defmodule TaskerWeb.WorkerPrefsHTML do
     <select id="#{data.id}-field"name="#{data.rub_id}[#{data.id}]">#{options}</select>
     """
   end
+  def formate_field(%{type: :boolean} = _data, value, :display) do
+    string = "#{value}"
+    Gettext.gettext(TaskerWeb.Gettext, string)
+  end
+  
   def formate_field(%{type: :clock} = data, value, mode) do
-    """
-    <input type="time" id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" value="#{value}" />
-    """
+    case mode do
+    :edit ->
+      """
+      <input type="time" id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" value="#{value}" />
+      """
+    :display ->
+      "#{value}"
+    end
   end
   def formate_field(%{type: :select} = data, value, mode) do
-    options = formate_options(data.values, value)
-    """
-    <select id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]">#{options}</select>
-    """
+    case mode do
+    :edit ->
+      options = formate_options(data.values, value)
+      """
+      <select id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]">#{options}</select>
+      """
+    :display ->
+      ditem =
+      data.values 
+      |> Enum.filter(fn [val, title] -> 
+        IO.puts "value:#{inspect ~s(#{value||"nil"})} / val:#{inspect ~s(#{val})}"
+        ~s(#{value||"nil"}) == ~s(#{val})
+      end) 
+      |> Enum.at(0) 
+      [_value, title] = ditem || [nil, gettext("unfound")]
+      "#{title}"
+    end
   end
 
   def formate_field(%{type: :integer} = data, value, mode) do
-    """
-    <input id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" type="number" value="#{value}" max="#{Map.get(data, :max)}" min="#{Map.get(data, :min)}" style="text-align:right;" />
-    <span class="unit">#{data.unit}</span>
-    """
+    case mode do
+    :edit ->
+      """
+      <input id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" type="number" value="#{value}" max="#{Map.get(data, :max)}" min="#{Map.get(data, :min)}" style="text-align:right;" />
+      <span class="unit">#{data.unit}</span>
+      """
+    :display ->
+      """
+      #{value}<span class="unit">#{data.unit}</span>
+      """
+    end
   end
 
-  def formate_field(%{type: :duration} = data, value, mode) do
+  def formate_field(%{type: :duration} = data, value, :edit) do
     # Dans ce type, la valeur doit être définie par [quantity, :unit]
-    value = cond do
-    value == "" -> []
-    is_binary(value) ->
-      {value, _binding} = Code.eval_string(value)
-      value
-    true -> value
-    end
-
+    value = 
+      if String.starts_with?(value, "[") and String.ends_with?(value, "]") do
+        StringTo.list(value)
+      else [1, "minute"] end
     options = [
       ["minute" , gettext("minutes")],
       ["hour"   , gettext("hours")],
@@ -182,19 +210,35 @@ defmodule TaskerWeb.WorkerPrefsHTML do
     </script>
     """
   end
-
-  def formate_field(%{type: :list} = data, value, mode) do
-    value = cond do
-    "" -> []
-    is_nil(value) -> []
-    true -> value
-    end
+  def formate_field(%{type: :duration} = _data, value, :display) do
+    value = StringTo.list(value)
+    unit  = Enum.at(value, 1)
+    value = Enum.at(value, 0)
+    string = "#{unit}s"
+    unit = Gettext.gettext(TaskerWeb.Gettext, string)
     """
-    <input id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" type="text" value="#{Enum.join(value, ", ")}" style="width:500px;" placeholder="item 1, item 2,… item N" />
+    #{value}<span class="unit">#{unit}</span>
     """
   end
 
-  def formate_field(data, value, mode) do
+  def formate_field(%{type: :list} = data, value, mode) do
+    value = StringTo.list(value)
+    
+    case mode do
+    :edit ->
+      """
+      <input id="#{data.id}-field" name="#{data.rub_id}[#{data.id}]" type="text" value="#{Enum.join(value, ", ")}" style="width:500px;" placeholder="item 1, item 2,… item N" />
+      """
+    :display -> 
+      if value == [] do 
+        "(#{gettext("empty")})" 
+      else 
+        Enum.join(value, ", ")
+      end
+    end
+  end
+
+  def formate_field(_data, value, _mode) do
     "AUTRE CHAMP DE VALEUR #{value}"
   end
 

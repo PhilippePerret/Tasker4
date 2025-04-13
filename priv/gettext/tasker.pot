@@ -318,7 +318,7 @@ msgstr ""
 msgid "Stop (work)"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:62
+#: lib/tasker_web/components/layouts/root.html.heex:67
 #, elixir-autogen, elixir-format
 msgid "Zen Mode"
 msgstr ""
@@ -420,7 +420,7 @@ msgstr ""
 msgid "Filter per nature"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_controller.ex:25
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_controller.ex:26
 #, elixir-autogen, elixir-format
 msgid "You need at least one task to work on."
 msgstr ""
@@ -515,7 +515,7 @@ msgstr ""
 msgid "Task natures"
 msgstr ""
 
-#: lib/tasker_web/components/layouts/root.html.heex:54
+#: lib/tasker_web/components/layouts/root.html.heex:59
 #, elixir-autogen, elixir-format
 msgid "APP NAME"
 msgstr ""

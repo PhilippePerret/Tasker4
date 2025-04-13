@@ -318,7 +318,7 @@ msgstr "DÉMARRER"
 msgid "Stop (work)"
 msgstr "ARRÊTER"
 
-#: lib/tasker_web/components/layouts/root.html.heex:62
+#: lib/tasker_web/components/layouts/root.html.heex:67
 #, elixir-autogen, elixir-format
 msgid "Zen Mode"
 msgstr "Mode Zen"
@@ -420,7 +420,7 @@ msgstr "Le dossier de projet ‘%{path}’ est introuvable."
 msgid "Filter per nature"
 msgstr "Filtre par nature"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_controller.ex:25
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_controller.ex:26
 #, elixir-autogen, elixir-format
 msgid "You need at least one task to work on."
 msgstr "Il faut au moins une tâche, pour travailler !"
@@ -515,7 +515,7 @@ msgstr "Choisir ces natures"
 msgid "Task natures"
 msgstr "Natures de la tâche"
 
-#: lib/tasker_web/components/layouts/root.html.heex:54
+#: lib/tasker_web/components/layouts/root.html.heex:59
 #, elixir-autogen, elixir-format
 msgid "APP NAME"
 msgstr "MONO TÂCHE"

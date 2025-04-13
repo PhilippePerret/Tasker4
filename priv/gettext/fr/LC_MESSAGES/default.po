@@ -1,8 +1,8 @@
 ## This file is a PO Template file.
 ##
 ## "msgid"s here are often extracted from source code.
-## Add new messages manually only if they're dynamic
-## messages that can't be statically extracted.
+## Add new messages manually only if they’re dynamic
+## messages that can’t be statically extracted.
 ##
 ## Run "mix gettext.extract" to bring this file up to
 ## date. Leave "msgstr"s empty as changing them here has no
@@ -19,7 +19,7 @@ msgstr "En attente de reconnexion"
 #: lib/tasker_web/components/core_components.ex:167
 #, elixir-autogen, elixir-format
 msgid "Hang in there while we get back on track"
-msgstr "Merci d'attendre la reconnexion"
+msgstr "Merci d’attendre la reconnexion"
 
 #: lib/tasker_web/components/core_components.ex:162
 #, elixir-autogen, elixir-format
@@ -27,7 +27,7 @@ msgid "Something went wrong!"
 msgstr "Quelque chose a mal tourné"
 
 #: lib/tasker_web/components/core_components.ex:151
-#, elixir-autogen, elixir-format
+#, elixir-autogen, elixir-format, fuzzy
 msgid "We can't find the internet"
 msgstr "Je ne parviens pas à me connecter à internet…"
 
@@ -37,7 +37,7 @@ msgstr "Je ne parviens pas à me connecter à internet…"
 msgid "close"
 msgstr "fermeture"
 
-#: lib/tasker_web/components/layouts/root.html.heex:43
+#: lib/tasker_web/components/layouts/root.html.heex:48
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:10
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:16
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:23
@@ -46,7 +46,7 @@ msgstr "fermeture"
 msgid "Register"
 msgstr "Inscription"
 
-#: lib/tasker_web/components/layouts/root.html.heex:48
+#: lib/tasker_web/components/layouts/root.html.heex:53
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/edit.html.heex:11
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:17
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:5
@@ -57,15 +57,10 @@ msgstr "Inscription"
 msgid "Log in"
 msgstr "Identification"
 
-#: lib/tasker_web/components/layouts/root.html.heex:37
+#: lib/tasker_web/components/layouts/root.html.heex:42
 #, elixir-autogen, elixir-format
 msgid "Log out"
 msgstr "Déconnexion"
-
-#: lib/tasker_web/components/layouts/root.html.heex:32
-#, elixir-autogen, elixir-format
-msgid "Settings"
-msgstr "Réglages"
 
 #: lib/tasker_web/controllers/Tache/task_html.ex:393
 #, elixir-autogen, elixir-format
@@ -173,7 +168,7 @@ msgstr "toutes les"
 msgid "Every_fem"
 msgstr "Toutes les"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:1
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/edit.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "Account Settings"
 msgstr "Réglages"
@@ -183,18 +178,18 @@ msgstr "Réglages"
 msgid "Already registered?"
 msgstr "Déjà inscrit ?"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:26
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "Change Email"
-msgstr "Changer l'email"
+msgstr "Changer l’email"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:61
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "Change Password"
 msgstr "Changer le mot de passe"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:25
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:61
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:25
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:61
 #, elixir-autogen, elixir-format
 msgid "Changing..."
 msgstr "Modification…"
@@ -209,8 +204,8 @@ msgstr "Confirmez le compte"
 msgid "Confirm my account"
 msgstr "Confirmer mon compte"
 
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:48
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:12
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:48
 #, elixir-autogen, elixir-format
 msgid "Confirm new password"
 msgstr "Confirmer le nouveau mot de passe"
@@ -225,21 +220,21 @@ msgstr "Créer un compte"
 msgid "Creating account..."
 msgstr "Création du compte…"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:20
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:56
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:20
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:56
 #, elixir-autogen, elixir-format
 msgid "Current password"
 msgstr "Mot de passe courant"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:4
-#, elixir-autogen, elixir-format
+#, elixir-autogen, elixir-format, fuzzy
 msgid "Don't have an account?"
 msgstr "Pas de compte ?"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:7
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:15
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:17
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:14
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:15
 #, elixir-autogen, elixir-format
 msgid "Email"
 msgstr "E-mail"
@@ -258,14 +253,14 @@ msgstr "Me laisser connecté"
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:1
 #, elixir-autogen, elixir-format
 msgid "Log in to account"
-msgstr "S'identifier"
+msgstr "S’identifier"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Logging in..."
 msgstr "Identification…"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:3
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:3
 #, elixir-autogen, elixir-format
 msgid "Manage your account email address and password settings"
 msgstr "Gérez votre compte (adresse email et mot de passe)"
@@ -275,7 +270,7 @@ msgstr "Gérez votre compte (adresse email et mot de passe)"
 msgid "New Password"
 msgstr "Nouveau mot de passe"
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:44
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:44
 #, elixir-autogen, elixir-format
 msgid "New password"
 msgstr "Nouveau mot de passe"
@@ -283,13 +278,13 @@ msgstr "Nouveau mot de passe"
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:2
 #, elixir-autogen, elixir-format
 msgid "No confirmation instructions received?"
-msgstr "Vous n'avez pas reçu les instructions de confirmation ?"
+msgstr "Vous n’avez pas reçu les instructions de confirmation ?"
 
 #: lib/tasker_web/controllers/Projet/project_html/project_form.html.heex:3
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:10
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:39
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:13
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/edit.html.heex:5
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:10
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_html/edit.html.heex:39
 #, elixir-autogen, elixir-format
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Merci de corriger les erreurs ci-dessous."
@@ -303,7 +298,7 @@ msgstr "Mot de passe"
 #: lib/tasker_web/controllers/Worker_auth/worker_registration_html/new.html.heex:1
 #, elixir-autogen, elixir-format
 msgid "Register for an account"
-msgstr "S'inscrire"
+msgstr "S’inscrire"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:10
 #, elixir-autogen, elixir-format
@@ -339,15 +334,15 @@ msgstr "Envoi…"
 #: lib/tasker_web/controllers/Worker_auth/worker_session_html/new.html.heex:6
 #, elixir-autogen, elixir-format
 msgid "Sign up"
-msgstr "S'inscrire"
+msgstr "S’inscrire"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_html/new.html.heex:4
-#, elixir-autogen, elixir-format
+#, elixir-autogen, elixir-format, fuzzy
 msgid "We'll send a new confirmation link to your inbox"
 msgstr "Un nouveau lien de confirmation vous a été envoyé"
 
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_html/new.html.heex:3
-#, elixir-autogen, elixir-format
+#, elixir-autogen, elixir-format, fuzzy
 msgid "We'll send a password reset link to your inbox"
 msgstr "Un lien de ré-initialisation du mot de passe vous a été envoyé"
 
@@ -361,22 +356,17 @@ msgstr "pour un compte"
 msgid "to your account now"
 msgstr "à votre compte"
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html/show.html.heex:1
-#, elixir-autogen, elixir-format
-msgid "Worker Settings"
-msgstr "Vos réglages"
-
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:28
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_controller.ex:28
 #, elixir-autogen, elixir-format
 msgid "A link to confirm your email change has been sent to the new address."
-msgstr "Un lien pour confirmer votre changement d'adresse a été envoyé à votre nouvelle adresse."
+msgstr "Un lien pour confirmer votre changement d’adresse a été envoyé à votre nouvelle adresse."
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:62
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_controller.ex:62
 #, elixir-autogen, elixir-format
 msgid "Email change link is invalid or it has expired."
-msgstr "Le lien de changement d'adresse mail est invalide ou a expiré."
+msgstr "Le lien de changement d’adresse mail est invalide ou a expiré."
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:57
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_controller.ex:57
 #, elixir-autogen, elixir-format
 msgid "Email changed successfully."
 msgstr "Adresse mail changé avec succès."
@@ -384,7 +374,7 @@ msgstr "Adresse mail changé avec succès."
 #: lib/tasker_web/controllers/Worker_auth/worker_confirmation_controller.ex:21
 #, elixir-autogen, elixir-format
 msgid "If your email is in our system and it has not been confirmed yet, "
-msgstr "Si nous connaissons votre adresse mail, et que cela n'a pas encore été confirmé, "
+msgstr "Si nous connaissons votre adresse mail, et que cela n’a pas encore été confirmé, "
 
 #: lib/tasker_web/controllers/Worker_auth/worker_reset_password_controller.ex:23
 #, elixir-autogen, elixir-format
@@ -406,7 +396,7 @@ msgstr "Vous êtes déconnecté(e)"
 msgid "Password reset successfully."
 msgstr "Mot de passe réinitialisé avec succès."
 
-#: lib/tasker_web/controllers/Worker_auth/worker_settings_controller.ex:44
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_controller.ex:44
 #, elixir-autogen, elixir-format
 msgid "Password updated successfully."
 msgstr "Mot de passe actualisé avec succès."
@@ -580,7 +570,7 @@ msgstr "Montrer la liste"
 msgid ", and"
 msgstr " et "
 
-#: lib/tasker_web/components/layouts/root.html.heex:63
+#: lib/tasker_web/components/layouts/root.html.heex:68
 #, elixir-autogen, elixir-format
 msgid "Manual"
 msgstr "Manuel"
@@ -594,3 +584,337 @@ msgstr "Fermeture"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Close (verb)"
 msgstr "Fermer"
+
+#: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:1
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Account Identity"
+msgstr "Réglages"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:49
+#, elixir-autogen, elixir-format
+msgid "Alert for exclusive"
+msgstr "Alerte pour tâches exclusive"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:51
+#, elixir-autogen, elixir-format
+msgid "Alert hour"
+msgstr "Heure de l’alerte"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:52
+#, elixir-autogen, elixir-format
+msgid "Avoid same nature"
+msgstr "Éviter même nature"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:39
+#, elixir-autogen, elixir-format
+msgid "Can be contacted"
+msgstr "Peut-être contacté"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:57
+#, elixir-autogen, elixir-format
+msgid "Custom natures"
+msgstr "Natures personnalisées"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:57
+#, elixir-autogen, elixir-format
+msgid "Custom natures (info)"
+msgstr "Liste des natures que vous voulez ajouter. C’est une liste d’éléments séparés par des virgules."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:27
+#, elixir-autogen, elixir-format
+msgid "Display preferences"
+msgstr "Préférences d’affichage"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:56
+#, elixir-autogen, elixir-format
+msgid "Easiest before"
+msgstr "Les plus faciles d’abord"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:52
+#, elixir-autogen, elixir-format
+msgid "Enable same nature"
+msgstr "Autoriser les natures similaires de suite"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:53
+#, elixir-autogen, elixir-format
+msgid "Filter on duration"
+msgstr "Filtre sur la durée"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:53
+#, elixir-autogen, elixir-format
+msgid "Filter on duration (info)"
+msgstr "Si ce filtre est activé, la durée de la tâche aura une influence sur son classement."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:52
+#, elixir-autogen, elixir-format
+msgid "Filter on nature"
+msgstr "Filtre sur la nature"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:52
+#, elixir-autogen, elixir-format
+msgid "Filter on nature (info)"
+msgstr "Si ce filtre est activé, la nature de la tâche aura une influence sur son classement."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:64
+#, elixir-autogen, elixir-format
+msgid "Folder always required"
+msgstr "Dossier toujours requis"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:56
+#, elixir-autogen, elixir-format
+msgid "Hardest before"
+msgstr "Les plus difficiles d’abord"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:37
+#, elixir-autogen, elixir-format
+msgid "Interaction preferences"
+msgstr "Préférences d’interaction"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:55
+#, elixir-autogen, elixir-format
+msgid "Longest before"
+msgstr "Les plus longues avant"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/edit.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "Manage your account settings"
+msgstr "Contrôler vos options et préférences"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:48
+#, elixir-autogen, elixir-format
+msgid "Max task count"
+msgstr "Nombre maximal de tâches"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:48
+#, elixir-autogen, elixir-format
+msgid "Max task count (info)"
+msgstr "Ce nombre détermine le nombre maximum de tâches qui peuvent être proposées pour une session."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:73
+#, elixir-autogen, elixir-format
+msgid "Midday start time"
+msgstr "Heure de reprise"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:73
+#, elixir-autogen, elixir-format
+msgid "Midday start time (info)"
+msgstr "Cette heure, traditionnellement, correspond à l’heure de reprise du travail après le repas de midi."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:72
+#, elixir-autogen, elixir-format
+msgid "Morning end time"
+msgstr "Heure de fin de la matinée"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:72
+#, elixir-autogen, elixir-format
+msgid "Morning end time (info)"
+msgstr "Cette heure correspond à l’heure de fin de la première partie de travail quotidien."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:75
+#, elixir-autogen, elixir-format
+msgid "Near future days"
+msgstr "Nombre de jours futurs"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:75
+#, elixir-autogen, elixir-format
+msgid "Near future days (info)"
+msgstr "Ce nombre correspond à la définition du “futur proche”. Toutes les tâches dans ce futur proche sont remontées."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:52
+#, elixir-autogen, elixir-format
+msgid "Never same nature"
+msgstr "Jamais la même nature"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:55
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:56
+#, elixir-autogen, elixir-format
+msgid "No"
+msgstr "Non"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:40
+#, elixir-autogen, elixir-format
+msgid "Notifications"
+msgstr ""
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:54
+#, elixir-autogen, elixir-format
+msgid "Prioritize same nature"
+msgstr "Prioriser mêmes natures"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:54
+#, elixir-autogen, elixir-format
+msgid "Prioritize same nature (info)"
+msgstr "Si cette option est activée, les tâches de même nature seront rassemblées autant que possible."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:62
+#, elixir-autogen, elixir-format
+msgid "Project preferences"
+msgstr "Préférences concernant les projets"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/edit.html.heex:10
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/edit.html.heex:14
+#, elixir-autogen, elixir-format
+msgid "Save settings"
+msgstr "Enregistrer les réglages"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:55
+#, elixir-autogen, elixir-format
+msgid "Shortest before"
+msgstr "Les plus courtes d’abord"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:56
+#, elixir-autogen, elixir-format
+msgid "Sort by task difficulty"
+msgstr "Classer par difficulté"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:55
+#, elixir-autogen, elixir-format
+msgid "Sort by task duration"
+msgstr "Classer par durée"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:47
+#, elixir-autogen, elixir-format
+msgid "Task Default duration"
+msgstr "Durée par défaut d’une tâche"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:45
+#, elixir-autogen, elixir-format
+msgid "Task preferences"
+msgstr "Préférences des tâches"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:30
+#, elixir-autogen, elixir-format
+msgid "Theme"
+msgstr "Thème"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:50
+#, elixir-autogen, elixir-format
+msgid "Time before alert"
+msgstr "Temps avant l’alerte"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:50
+#, elixir-autogen, elixir-format
+msgid "Time before alert (info)"
+msgstr "Détermine le temps entre l’alerte et le début de la tâche."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:74
+#, elixir-autogen, elixir-format
+msgid "Work end time"
+msgstr "Temps de fin de travail"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:74
+#, elixir-autogen, elixir-format
+msgid "Work end time (info)"
+msgstr "Correspond à la fin de la journée de travail."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:71
+#, elixir-autogen, elixir-format
+msgid "Work start time"
+msgstr "Heure de début de travail"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:71
+#, elixir-autogen, elixir-format
+msgid "Work start time (info)"
+msgstr "Correspond à l’heure de début du travail quotidien."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:69
+#, elixir-autogen, elixir-format
+msgid "Worktime settings"
+msgstr "Réglages horaires"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/show.html.heex:2
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Your Account Settings"
+msgstr "Vos réglages"
+
+#: lib/tasker_web/components/layouts/root.html.heex:32
+#, elixir-autogen, elixir-format
+msgid "Your identity"
+msgstr "Votre identité"
+
+#: lib/tasker_web/components/layouts/root.html.heex:37
+#, elixir-autogen, elixir-format
+msgid "Your settings"
+msgstr "Vos réglages"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:49
+#, elixir-autogen, elixir-format
+msgid "alert for exclusive (info)"
+msgstr "Si cette option est activée, une alerte sera produite avant les tâches exclusives."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:51
+#, elixir-autogen, elixir-format
+msgid "alert hour (info)"
+msgstr "Définit l’heure à laquelle l’alerte doit être donnée. Si non définie, ce sera la même heure que la tâche, le jour précédent."
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:192
+#, elixir-autogen, elixir-format
+msgid "days"
+msgstr "jours"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:238
+#, elixir-autogen, elixir-format
+msgid "empty"
+msgstr "vide"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:53
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:119
+#, elixir-autogen, elixir-format
+msgid "false"
+msgstr "faux"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:191
+#, elixir-autogen, elixir-format
+msgid "hours"
+msgstr "heures"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:47
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:190
+#, elixir-autogen, elixir-format
+msgid "minutes"
+msgstr "minutes"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html/show.html.heex:4
+#, elixir-autogen, elixir-format
+msgid "modify"
+msgstr "modifier"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:194
+#, elixir-autogen, elixir-format
+msgid "months"
+msgstr "mois"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:123
+#, elixir-autogen, elixir-format
+msgid "not defined"
+msgstr "non défini"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:118
+#, elixir-autogen, elixir-format
+msgid "true"
+msgstr "vrai"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:193
+#, elixir-autogen, elixir-format
+msgid "weeks"
+msgstr "semaines"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:195
+#, elixir-autogen, elixir-format
+msgid "years"
+msgstr "années"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:53
+#, elixir-autogen, elixir-format
+msgid "Long"
+msgstr "Longues"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:53
+#, elixir-autogen, elixir-format
+msgid "Medium"
+msgstr "Médium"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:53
+#, elixir-autogen, elixir-format, fuzzy
+msgid "Short"
+msgstr "Courtes"

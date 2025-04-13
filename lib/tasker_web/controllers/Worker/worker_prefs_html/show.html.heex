@@ -1,8 +1,7 @@
 <.feuille_css />
 <h2><%= gettext("Your Account Settings") %></h2>
 <div class="subtitle">
-  <%= gettext("Your account settings") %>
-    <a href={~p"/workers/settings/edit"}>[<%= gettext("modify") %>]</a>
+  <a href={~p"/workers/settings/edit"}>[<%= gettext("modify") %>]</a>
 </div>
 
 <%= raw affichage_settings(@settings, :display) %>

@@ -226,16 +226,16 @@ div#crontab-container > div.repeat-form > div {
   margin: 8px 0;
 }
 
-form label:not(.inline) {
+form:not(.not-common) label:not(.inline) {
   display: block!important;
   font-style: normal!important;
   font-size: 14pt;
 }
-form div:not(.main) label {
+form:not(.not-common) div:not(.main) label {
   color: #555555;
   font-family: "Arial Narrow", Arial;
 }
-form div.main label {
+form:not(.not-common) div.main label {
   font-family: "Arial black";
   color: #333333;
 }
@@ -285,3 +285,5 @@ div.script-form label+select {
 div.script-form input.script-title {
   width: 400px;
 }
+
+span.unit {margin-left: 8px;}

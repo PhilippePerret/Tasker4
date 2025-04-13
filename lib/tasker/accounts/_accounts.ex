@@ -98,7 +98,7 @@ defmodule Tasker.Accounts do
       },
       task_prefs: %{
         max_tasks_count: 100,
-        filter_on_duree: false, # false|:long|:short|:medium
+        filter_on_duration: false, # false|:long|:short|:medium
         filter_on_nature: :enable_same_nature, # :never_same_nature|:avoid_same_nature
         prioritize_same_nature: nil,  # nil|true|false
         # Préférence pour le tri des tâches par durée

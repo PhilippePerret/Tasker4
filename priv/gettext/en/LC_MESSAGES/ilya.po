@@ -52,6 +52,7 @@ msgid "%{items}, and %{last}"
 msgstr ""
 
 #: lib/tasker_web/controllers/Tache/task_html.ex:57
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:75
 #, elixir-autogen, elixir-format, fuzzy
 msgid "days"
 msgstr ""

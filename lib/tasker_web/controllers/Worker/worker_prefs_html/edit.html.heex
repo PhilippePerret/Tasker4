@@ -4,7 +4,7 @@
   <%= gettext("Manage your account settings") %>
 </div>
 
-<form action={~p"/workers/settings"} method="POST">
+<form class="not-common" action={~p"/workers/settings"} method="POST">
   <input type="hidden" name="_csrf_token" value={Plug.CSRFProtection.get_csrf_token()} />
   <div class="buttons">
     <button type="submit" class="main"><%= gettext("Save settings") %></button>
