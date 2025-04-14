@@ -14,9 +14,9 @@ defmodule Tasker.Tache do
   @doc """
   """
   def refresh_bdd_data() do
-    # if NaiveDateTime.after?(@bod, next_refresh_bdd_time()) do
-    if true do # Pour le moment
-      IO.puts "\n\n- Refresh BdD Data -"
+    if NaiveDateTime.after?(@bod, next_refresh_bdd_time()) do
+    # if true do # Pour le moment
+      # IO.puts "\n\n- Refresh BdD Data -"
       # Vérifier les prochaines dates des tâches récurrentes
       refresh_dates_recurrente_tasks()
       # Vérifier les alertes
@@ -35,19 +35,15 @@ defmodule Tasker.Tache do
               where:  not is_nil(tkt.recurrence),
               select: {tkt.id, tkt.recurrence, tkt.should_start_at, tkt.should_end_at}
     Repo.all(query)
-    |> IO.inspect(label: "\nTâches récurrentes")
+    # |> IO.inspect(label: "\nTâches récurrentes")
     |> Enum.each(fn attrs ->
       {id, recur, startat, endat} = attrs
       attrs = %{id: id, recurrence: recur, should_start_at: startat, should_end_at: endat}
       attrs_refreshed = TaskTime.treate_recurrence_if_any(attrs)
       if attrs.should_start_at != attrs_refreshed.should_start_at do
-        IO.puts "Récurrence modifiée dans #{inspect attrs}"
-        IO.puts "-> #{inspect attrs_refreshed}"
         # Enregistrement des nouvelles valeurs
         from( tkt in TaskTime, where: tkt.id == ^id, update: [set: [should_start_at: ^attrs_refreshed.should_start_at, should_end_at: ^attrs_refreshed.should_end_at]])
         |> Repo.update_all([])
-      else 
-        IO.puts "Récurrence NON modifiée dans #{inspect attrs}"
       end
     end)
   end
@@ -108,8 +104,6 @@ defmodule Tasker.Tache do
             |> Enum.at(0)
           else nil end
         if alert_at do
-          IO.puts "\nActualisation de l'alerte (alert_at) dans #{inspect attrs}"
-          IO.puts "Ajustement à #{inspect alert_at}"
           # Une alerte plus récente a été trouvée ou calculée
           from(tkt in TaskTime, where: tkt.id == ^id, update: [set: [alert_at: ^alert_at]])
           |> Repo.update_all([])
