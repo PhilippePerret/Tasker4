@@ -178,10 +178,12 @@ defmodule TaskerWeb.WorkerPrefsHTML do
 
   def formate_field(%{type: :duration} = data, value, :edit) do
     # Dans ce type, la valeur doit être définie par [quantity, :unit]
-    value = 
-      if String.starts_with?(value, "[") and String.ends_with?(value, "]") do
+    value = cond do
+      is_binary(value) and String.starts_with?(value, "[") and String.ends_with?(value, "]") ->
         StringTo.list(value)
-      else [1, "minute"] end
+      is_list(value) -> value
+      true -> [1, "minute"] 
+    end
     options = [
       ["minute" , gettext("minutes")],
       ["hour"   , gettext("hours")],
