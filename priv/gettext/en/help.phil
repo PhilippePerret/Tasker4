@@ -1,0 +1,99 @@
+Voici le texte traduit du fichier help.phil :
+
+⸻
+
+h1: Help for “<: app_name :>”
+
+toc()
+
+h2: Application Overview
+c:================================================================
+
+<: app_name :> is a unique task manager that operates on the principle that one can only do one thing well at a time; therefore, it presents only one task at a time. Gone are the days of long task lists that discourage you before you even start.
+
+Another important feature compared to other managers is that <: app_name :> allows you to define scripts (think of them as tools) that greatly simplify your work. They enable you to, for example, open the main folder related to the task with a single click, move a document to a later version, open a specific file, and more.
+
+Furthermore, if you have some coding skills, the infinite possibilities are available to you since you can define the script (bash, ruby, python, etc.) to run with the click of a button.
+
+h2: The Work Interface
+c:=================================================================
+
+The main work interface of <: app_name :> focuses on the task at hand, displaying all its specifics.
+
+Various buttons (which can be hidden by switching to Zen mode) around the task allow for numerous operations, including:
+
+list:
+*	starting and stopping the task, of course,
+*	choosing a random task,
+*	selecting a specific task from those to be completed,
+*	placing the proposed task at the end of the list,
+*	placing the proposed task just after the next one,
+*	reclassifying the list of tasks,
+*	destroying the task or removing it from the session,
+*	modifying the task,
+*	filtering tasks (by project, by type…),
+*	etc.
+:list
+
+As you can see, there are many ways to simplify your work and make it enjoyable.
+
+h2: Tasks
+c:================================================================
+
+h3: Task Properties
+c:———————–
+
+A task, at its core, has a title that defines the work to be done, deadlines, etc. In <: app_name :>, a task has the following properties:
+
+list:
+*	a title,
+*	[optionally] a project,
+*	details specifying the task to be performed,
+*	a start date,
+*	an end date. If this end date is mandatory, meaning the task must be completed by this date, it can be specified,
+*	an execution duration,
+*	a priority level. The task can become an exclusive task if its priority is at maximum,
+*	an urgency level that can be combined with the priority level for better task prioritization,
+*	a difficulty level that will help better filter and sort tasks based on worker preferences,
+*	alerts that notify you of the start of a task (or an appointment, a phone call…) at the desired time,
+*	types that help better define the task and prioritize certain ways of working (by grouping tasks of the same type or avoiding them altogether),
+*	a recurrence if it is a task that needs to be executed regularly,
+*	scripts,
+*	dependencies with other tasks, before and after,
+*	notes,
+*	optionally, a recipient can be defined, meaning a specific person who must perform the task.
+:list
+
+h4: Mandatory End
+
+If a task must be completed by the specified end date, simply check the Mandatory End box. The task will then become an exclusive task.
+
+h3#exclusive-task: Exclusive Tasks
+c:———————–
+
+Exclusive tasks are those that cannot be moved, postponed, etc. For example, a scheduled appointment or a phone call to be made at a specific time.
+
+h3#recurring-task: Recurring Tasks
+c:————————
+
+A recurring task is one that occurs regularly. <: app_name :> allows for very fine adjustments to these repetitions.
+
+To make a task recurring, you need to check the “recurrence” box in the task editing form. A field will then open, allowing you to set the recurrence of the task.
+
+h4: Setting the Duration of the Task
+
+To set the duration of the task, there are two ways to go about it, just like for a normal task. Either by explicitly defining the first recurrence (day and time of start, day and time of end), or by explicitly defining the duration using the appropriate field.
+
+A recurring task can also be exclusive. This could be a fixed weekly appointment. In this case, it is imperative to define the start and end of the first recurrence in the “start” and “end” fields.
+
+h3#task-edit-form: Task Editing Form
+c:—————————————————
+
+This is the form that allows you to modify or define the data of the task.
+
+h2#user-prefs: Worker Preferences
+c:============================================
+
+You can access your preferences and settings through the “Your Settings” button link in the header. These preferences and settings allow you to adjust everything related to the application, from the theme to how tasks should be filtered and sorted.
+
+Each section explains its function in detail.

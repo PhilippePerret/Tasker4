@@ -7,7 +7,7 @@ c:================================================================
 
 <: app_name :> est un gestionnaire de tâches unique en son genre : partant du principe qu'on ne peut faire bien qu'une seule chose à la fois, il ne présente qu'une seule tâche à la fois. Finies les listes de tâches tellement longues qu'elles découragent avant même de s'y mettre.
 
-Autre particularité importante par rapport aux autres gestionnaires, <: app_name :> permet de définir des scripts (concevez-les comme des outils) qui vont grandement facilité le travail. Ils vous permettent, par exemple, d'ouvrir en un seul clic le dossier principal concerné par la tâche, de passer un document à une version ultérieure, d'ouvrir un fichier particulier.
+Autre particularité importante par rapport aux autres gestionnaires, <: app_name :> permet de définir des scripts (concevez-les comme des outils) qui vont grandement faciliter le travail. Ils vous permettent, par exemple, d'ouvrir en un seul clic le dossier principal concerné par la tâche, de passer un document à une version ultérieure, d'ouvrir un fichier particulier, etc.
 
 Plus loin encore, si vous savez un peu *coder*, l'infini des possibles vous est ouvert puisque vous pouvez définir le script (bash, ruby, python, etc.) à lancer en cliquant sur un simple bouton.
 
@@ -19,10 +19,11 @@ L'interface de travail principal de <: app_name :> se concentre donc sur la tâc
 Divers boutons (qu'on peut masquer en passant en mode Zen), autour de la tâche, permettent de nombreuses opérations. Parmi lesquelles :
 
 list:
-* lancer et arrête la tâche bien sûr,
+* lancer et arrêter la tâche bien sûr,
 * choisir une tâche au hasard,
+* choisir une tâche précise parmi celles à réaliser,
 * placer la tâche proposée à la fin de la liste,
-* placer la tâche proposée après la suite,
+* placer la tâche proposée juste après la suivante,
 * reclasser la liste des tâches,
 * détruire la tâche ou la retirer de la session,
 * modifier la tâche,
@@ -34,6 +35,34 @@ Comme vous pouvez le voir, on peut faire énormément de choses pour se simplifi
 
 h2: Les tâches
 c:================================================================
+
+h3: Propriétés des tâches
+c:-----------------------
+
+Une tâche, à la base, possède un titre qui définit le travail à effectuer, des échéances, etc. Dans <: app_name :>, une tâche possède ces propriétés :
+
+list:
+* un **titre**, 
+* [optionnellement] un **projet**,
+* des **détails**, précisant la tâche à effectuer,
+* une **date de début**,
+* une **date de fin**. Si cette fin est *impérative*, c'est-à-dire que la tâche doit absolument être finie à cette date, on peut le préciser,
+* une **durée d'exécution**,
+* un **degré de priorité**. La tâche peut aller jusqu'à devenir une [tâche exclusive](#exclusive-task) si sa priorité est au maximum,
+* un **degré d'urgence** qu'on peut combiner au *degré de priorité* pour mieux prioriser les tâches,
+* un **degré de difficulté** qui permettra de mieux filtrer et trier les tâches en fonction des [préférences du travailler](#user-prefs),
+* des **alertes** qui permettent d'être prévenu du début d'une tâche (ou d'un rendez-vous, d'un coup de téléphone…) au moment que l'on souhaite,
+* des **natures** qui permettent de mieux définir la tâche et de privilégier certaines façons de travailler (en rassemblant les tâches de même nature ou au contraire en les évitant),
+* une **récurrence** si c'est une tâche devant être exécutée régulièrement,
+* des **scripts**,
+* des **dépendances** avec d'autres tâches, avant et après,
+* des **notes**,
+* optionnellement un destinataire peut être défini, c'est-à-dire quelqu'un de particulier qui doit effectuer la tâche.
+:list
+
+h4: Fin impérative
+
+Si une tâche doit être absolument terminée à la date de fin fixée, il suffit de cocher la case *Fin impérative*. La tâche deviendra alors une [tâche exclusive](#exclusive-task).
 
 h3#exclusive-task: Les tâches exclusives
 c:-----------------------
@@ -58,3 +87,10 @@ h3#task-edit-form: Formulaire d'édition de la tâche
 c:---------------------------------------------------
 
 C'est le formulaire qui permet de modifier ou de définir les données de la tâche.
+
+h2#user-prefs: Préférences du travailleur
+c:============================================
+
+Vous pouvez atteindre vos préférences et réglages grâce au lien-bouton "Vos réglages" dans le bandeau d'entête. Ces préférences et réglages permettent de régler tout ce qui concerne l'application, depuis le thème jusqu'à la façon dont les tâches doivent être filtrées et triées.
+
+Chaque rubrique explique sa fonction avec précision.
