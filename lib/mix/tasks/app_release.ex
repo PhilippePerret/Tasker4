@@ -8,12 +8,12 @@ defmodule Mix.Tasks.App.Compile do
   l'application en production ou en développement. L'environnement,
   :dev par défaut, doit être précisé en second argument :
 
-    > mix app.compile prod
+    > mix app.compile prod --release
 
   Si l'on veut lancer le server tout de suite après, on ajoute 
   l'option --start à la commande :
 
-    > mix app.compile prod --start
+    > mix app.compile prod --release --start
 
   Sinon, on peut lancer la release en production à l'aide de :
 
@@ -47,6 +47,13 @@ defmodule Mix.Tasks.App.Compile do
     if setup_ecto do
       msg "Initialisation (setup) de la base de données"
       System.cmd("mix", ["ecto.setup"], env: [{"MIX_ENV", env}])
+      case env do
+        "dev"   ->
+          System.cmd("mix", ["run", "priv/repo/seeds/minimal.exs"], env: [{"MIX_ENV", "dev"}])
+        "prod"  ->
+          System.cmd("mix", ["run", "priv/repo/seeds/production.exs"], env: [{"MIX_ENV", "prod"}])
+        "test"  -> nil
+      end
       msg "Base de données initialisée"
     end
 

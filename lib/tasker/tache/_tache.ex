@@ -65,14 +65,14 @@ defmodule Tasker.Tache do
   def refresh_next_alert_times do
     # 1. On relève les tâches avec alerte (alerts et alert_at)
     query = from tkt in TaskTime,
-              where: not is_nil(tkt.alerts),
+              where: not is_nil(tkt.alerts) and not is_nil(tkt.should_start_at),
               select: {tkt.id, tkt.alerts, tkt.alert_at, tkt.should_start_at}
     Repo.all(query)
     |> IO.inspect(label: "\nTâches avec alertes")
     |> Enum.each(fn attrs -> 
       {id, alerts, alertat, startat} = attrs
       startat = NaiveDateTime.from_iso8601!("#{startat}")
-      cond do 
+      cond do
       NaiveDateTime.after?(alertat, @now) -> nil # rien à faire
       true ->
         # Alerte passée
@@ -90,8 +90,10 @@ defmodule Tasker.Tache do
               is_nil(quant) ->
                 Map.put(dalert, "at", NaiveDateTime.from_iso8601!(altat <> ":00"))
               quant && unit ->
-                quant = String.to_integer(quant)
-                unit  = String.to_integer(unit)
+                # IO.inspect(quant, label: "quant")
+                # IO.inspect(unit, label: "unit")
+                quant = if is_binary(quant) do String.to_integer(quant) else quant end
+                unit  = if is_binary(unit) do String.to_integer(unit) else unit end
                 Map.put(dalert, "at", NaiveDateTime.add(startat, - quant * unit, :minute))
               true -> dalert
               end
