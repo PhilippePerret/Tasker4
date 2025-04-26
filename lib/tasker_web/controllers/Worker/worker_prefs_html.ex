@@ -1,6 +1,6 @@
 defmodule TaskerWeb.WorkerPrefsHTML do
   use TaskerWeb, :html
-
+  
   embed_templates "worker_prefs_html/*"
 
   def feuille_css(assigns) do
@@ -76,7 +76,7 @@ defmodule TaskerWeb.WorkerPrefsHTML do
       ]
     }
   ]
-
+  def settings_specs, do: @settings_specs
 
   def affichage_settings(settings, mode \\ :display) do
     # IO.inspect(settings, label: "Setting pour affichage/édition")
@@ -152,7 +152,7 @@ defmodule TaskerWeb.WorkerPrefsHTML do
     :display ->
       ditem =
       data.values 
-      |> Enum.filter(fn [val, title] -> 
+      |> Enum.filter(fn [val, _title] -> 
         IO.puts "value:#{inspect ~s(#{value||"nil"})} / val:#{inspect ~s(#{val})}"
         ~s(#{value||"nil"}) == ~s(#{val})
       end) 

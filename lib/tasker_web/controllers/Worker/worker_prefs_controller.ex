@@ -10,7 +10,7 @@ defmodule TaskerWeb.WorkerPrefs do
   def show(conn, _params) do
     worker_id = conn.assigns.current_worker.id
     conn = conn
-    |> assign(:settings_specs, @settings_specs)
+    |> assign(:settings_specs, TaskerWeb.WorkerPrefsHTML.settings_specs())
     |> assign(:settings, Accounts.get_worker_settings(worker_id))
     render(conn, "show.html")
   end
@@ -34,8 +34,7 @@ defmodule TaskerWeb.WorkerPrefs do
     {:ok, _} ->
       show(conn, params)
     {:error, changeset} -> 
-      conn = conn
-      |> assign(:changeset, changeset)
+      conn |> assign(:changeset, changeset)
     end
   end
 end

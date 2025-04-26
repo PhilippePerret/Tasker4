@@ -473,11 +473,16 @@ defmodule Tasker.Tache do
   end
   defp code_archive_task(task) do
     data = Map.from_struct(task)
-    Map.merge(data, %{
-      project:    Map.delete(Map.from_struct(task.project), :__meta__),
+    merged = %{
       task_time:  Map.drop(Map.from_struct(task.task_time), [:__meta__, :task]),
       task_spec:  Map.drop(Map.from_struct(task.task_spec), [:__meta__, :task])
-    })
+    }
+    merged = if is_nil(task.project) do
+      merged
+    else
+      Map.put(merged, :project, Map.delete(Map.from_struct(task.project), :__meta__))
+    end
+    Map.merge(data, merged)
     |> Map.drop([:__meta__])
     # On supprime toutes les données vides à l'intérieur des maps
     |> Enum.reduce(%{}, fn {key, value}, coll -> 

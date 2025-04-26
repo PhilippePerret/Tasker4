@@ -588,7 +588,7 @@ msgstr "Fermer"
 #: lib/tasker_web/controllers/Worker_auth/worker_identity_html/edit.html.heex:1
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Account Identity"
-msgstr "Réglages"
+msgstr "Votre identité"
 
 #: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:49
 #, elixir-autogen, elixir-format

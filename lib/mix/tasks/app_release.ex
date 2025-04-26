@@ -19,7 +19,7 @@ defmodule Mix.Tasks.App.Compile do
 
     > _build/prod/rel/tasker/bin/tasker start
 
-  … et l'application démarre sur le port 4001 (mais normalement, si
+  … et l'application démarre sur le port 1024 (mais normalement, si
   le serveur a bien été lancé, un lien devrait permettrait d'ouvrir
   directement l'appli dans le navigateur)
 
