@@ -313,7 +313,7 @@ defmodule TaskerWeb.OneTaskCycleController do
     JOIN task_times tkt ON tkt.task_id = tk.id
     WHERE (
       tkt.should_start_at IS NULL 
-      OR tkt.should_start_at <= NOW() + INTERVAL '7 days'
+      OR tkt.should_start_at <= NOW() + INTERVAL '1 days'
       ) AND NOT EXISTS (
         SELECT 1 FROM task_dependencies td
         WHERE td.after_task_id = tk.id
