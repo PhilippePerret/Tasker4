@@ -78,6 +78,7 @@ defmodule Tasker.Tache do
       {id, alerts, alertat, startat} = attrs
       startat = NaiveDateTime.from_iso8601!("#{startat}")
       cond do
+      is_nil(alertat) -> nil # rien à faire
       NaiveDateTime.after?(alertat, @now) -> nil # rien à faire
       true ->
         # Alerte passée
