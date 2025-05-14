@@ -54,9 +54,7 @@ defmodule TaskerWeb.TaskController do
 
   def update(conn, %{"id" => id, "task" => task_params} = _params) do
     task_params = task_params
-    |> IO.inspect(label: "Params de tâche au tout départ")
     |> convert_string_values_to_real_values()
-    |> IO.inspect(label: "task_params après convert string")
     |> create_project_if_needed(conn)
     # |> IO.inspect(label: "task_params après création projet (si nécessaire)")
     |> create_or_update_scripts()

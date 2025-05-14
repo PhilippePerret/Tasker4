@@ -12,10 +12,16 @@ defmodule Tasker.Tache do
   @bod NaiveDateTime.beginning_of_day(@now)
 
   @doc """
+
+  @param {Keyword} options Pour des options
+    :force    Si True, on force le rafraichissement en détruisant le fichier de dernier rafraichissement.
   """
-  def refresh_bdd_data() do
+  def refresh_bdd_data(options \\ []) do
+    if options[:force] do
+      kill_refresh_bdd_time_path()
+    end
     if NaiveDateTime.after?(@bod, next_refresh_bdd_time()) do
-    # if true do # Pour le moment
+      # if true do # Pour le moment
       # IO.puts "\n\n- Refresh BdD Data -"
       # Vérifier les prochaines dates des tâches récurrentes
       refresh_dates_recurrente_tasks()
@@ -33,14 +39,14 @@ defmodule Tasker.Tache do
   def refresh_dates_recurrente_tasks do
     query = from tkt in TaskTime,
               where:  not is_nil(tkt.recurrence),
-              select: {tkt.id, tkt.recurrence, tkt.should_start_at, tkt.should_end_at}
+              select: {tkt.id, tkt.recurrence, tkt.should_start_at, tkt.should_end_at, tkt.expect_duration}
     Repo.all(query)
     # |> IO.inspect(label: "\nTâches récurrentes")
     |> Enum.each(fn attrs ->
-      {id, recur, startat, endat} = attrs
-      attrs = %{id: id, recurrence: recur, should_start_at: startat, should_end_at: endat}
-      attrs_refreshed = TaskTime.treate_recurrence_if_any(attrs)
-      if attrs.should_start_at != attrs_refreshed.should_start_at do
+      {id, recur, startat, endat, durat} = attrs
+      attrs = %{id: id, recurrence: recur, should_start_at: startat, should_end_at: endat, expect_duration: durat}
+      attrs_refreshed = TaskTime.treate_recurrence_if_any(attrs) |> XTra.Map.to_atom_keys()
+      if attrs.should_start_at != attrs_refreshed.should_start_at || attrs.should_end_at != attrs_refreshed.should_end_at do
         # Enregistrement des nouvelles valeurs
         from( tkt in TaskTime, where: tkt.id == ^id, update: [set: [should_start_at: ^attrs_refreshed.should_start_at, should_end_at: ^attrs_refreshed.should_end_at]])
         |> Repo.update_all([])
@@ -68,7 +74,6 @@ defmodule Tasker.Tache do
               where: not is_nil(tkt.alerts) and not is_nil(tkt.should_start_at),
               select: {tkt.id, tkt.alerts, tkt.alert_at, tkt.should_start_at}
     Repo.all(query)
-    |> IO.inspect(label: "\nTâches avec alertes")
     |> Enum.each(fn attrs -> 
       {id, alerts, alertat, startat} = attrs
       startat = NaiveDateTime.from_iso8601!("#{startat}")
@@ -122,13 +127,21 @@ defmodule Tasker.Tache do
   end
   def next_refresh_bdd_time do
     if File.exists?(refresh_bdd_time_path()) do
-      File.read!(refresh_bdd_time_path()) |> NaiveDateTime.from_iso8601!()
+      File.read!(refresh_bdd_time_path()) 
+      |> NaiveDateTime.from_iso8601!()
     else
       NaiveDateTime.add(@bod,-1, :day)
     end
   end
   def refresh_bdd_time_path do
     Path.join([".", ".next_refresh_bdd_time"])
+  end
+  @doc """
+  Juste pour les tests
+  """
+  def kill_refresh_bdd_time_path do
+    path = refresh_bdd_time_path()
+    File.exists?(path) && File.rm(path)
   end
   
   @doc """
@@ -487,9 +500,7 @@ defmodule Tasker.Tache do
     # On supprime toutes les données vides à l'intérieur des maps
     |> Enum.reduce(%{}, fn {key, value}, coll -> 
       if Enumerable.impl_for(value) do
-        IO.inspect(value, label: "Value avant réduction")
         new_value = Enum.reduce(value, %{}, &reduit/2 )
-        |> IO.inspect(label: "Nouvelle valeur")
         Map.put(coll, key, new_value)
       else coll end
     end)
@@ -741,7 +752,12 @@ defmodule Tasker.Tache do
   end
 
   @doc """
-  Updates a task_time.
+  Actualise a task_time.
+
+  Dans le cas où +attrs+ n'est pas défini, on force sa valeur pour
+  qu'elle contienne "recurrence", "should_start_at", "should_end_at"
+  et "expect_duration" afin que les tâches récurrentes soient 
+  traitées.
 
   ## Examples
 
@@ -752,7 +768,20 @@ defmodule Tasker.Tache do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_task_time(%TaskTime{} = task_time, attrs \\ %{}) do
+  def update_task_time(%TaskTime{} = task_time, attrs \\ nil) do
+    attrs = if attrs == %{}, do: nil, else: attrs
+    attrs = 
+      case attrs do
+        nil ->
+          %{
+            "recurrence"      => task_time.recurrence,
+            "should_start_at" => task_time.should_start_at,
+            "should_end_at"   => task_time.should_end_at,
+            "expect_duration" => task_time.expect_duration,
+            "force_next"      => Map.get(task_time, :force_next, false)
+          }
+        _ -> attrs
+      end
     task_time
     |> TaskTime.changeset(attrs)
     |> Repo.update()

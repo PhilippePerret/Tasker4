@@ -60,8 +60,7 @@ defmodule TaskerWeb.TasksOpController do
     task = Tache.get_task!(task_id)
     Tache.archive_task(task)
     if task.task_time.recurrence do
-      IO.inspect(task.task_time.recurrence, label: "RÉCURRENCE (traitement spécial)")
-      Tache.update_task_time(task.task_time)
+      Tache.update_task_time(Map.put(task.task_time, :force_next, true))
     else
       remove_task(task_id, "marquage effectuée")
     end

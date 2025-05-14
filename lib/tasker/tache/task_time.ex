@@ -108,13 +108,31 @@ defmodule Tasker.Tache.TaskTime do
   # @param {Map} attrs  Les attributs. Note : ils font forcément 
   #                     définis puisque traités avant déjà.
   def treate_recurrence_if_any(attrs) do
+    attrs = XTra.Map.to_binary_keys(attrs)
     recurrence = Map.get(attrs, "recurrence")
     if recurrence && recurrence != "" do
       # 
       # Quand c'est une tâche récurrente
       # 
       now = NaiveDateTime.utc_now()
+      now = NaiveDateTime.add(now, 2, :hour) # WARNING (SERA FAUX DANS LES AUTRES PAYS)
       start_at = Crontab.Scheduler.get_next_run_date!(~e[#{recurrence}], now)
+      should_start  = Map.get(attrs, "should_start_at", nil)
+
+      start_at =
+        if start_at == should_start && attrs["force_next"] do
+          # On passe par ici lorsque l'utilisateur marque finie une
+          # tâche récurrente, mais avant que son départ ait été
+          # atteint. Par exemple, la tâche doit être effectuée au-
+          # jourd'hui à 10:00 et il est 9:30. Dans ce cas, quand il
+          # marque la tâche récurrente effectuée, le controlleur 
+          # ajoute "force_next" aux données envoyées. Si le prochain
+          # temps est le même que le start-at courant, cette condi-
+          # tion force l'utilisation du prochain temps.
+          Crontab.Scheduler.get_next_run_date!(~e[#{recurrence}], NaiveDateTime.add(start_at, 1, :hour))
+        else
+          start_at
+        end
       # Un "DÉLAI DE RÉALISATION" est-il défini ?
       # Rappel : le "délai de réalisation" concerne le laps de temps
       # dans lequel la tâche doit être réalisée, quelle que soit sa
@@ -123,16 +141,25 @@ defmodule Tasker.Tache.TaskTime do
       # Pour une tâche récurrente, pour calculer ce délai de réalisa-
       # tion, on prend le should_end_at et should_start_at actuels,
       # s'ils existent.
-      should_start = Map.get(attrs, "should_start_at", nil)
-      should_end   = Map.get(attrs, "should_end_at", nil)
-      delai_realisation = if should_start && should_end do
-        should_start = NaiveDateTime.from_iso8601!("#{should_start}:00")
-        should_end   = NaiveDateTime.from_iso8601!("#{should_end}:00")
-        NaiveDateTime.diff(should_end, should_start, :minute)
-      else nil end
-      end_at = if delai_realisation do
-        NaiveDateTime.add(start_at, delai_realisation, :minute)
-      else nil end
+      should_end    = Map.get(attrs, "should_end_at", nil)
+      duration      = Map.get(attrs, "expect_duration", nil)
+      delai_realisation = 
+        cond do
+          should_start && should_end -> 
+            should_start = NaiveDateTime.from_iso8601!("#{should_start}")
+            should_end   = NaiveDateTime.from_iso8601!("#{should_end}")
+            NaiveDateTime.diff(should_end, should_start, :minute)
+          should_start && duration ->
+            duration
+          true -> 
+            nil
+          end
+      end_at = 
+        if delai_realisation do
+          NaiveDateTime.add(start_at, delai_realisation, :minute)
+        else 
+          nil 
+        end
       Map.merge(attrs, %{
         "should_start_at" => start_at,
         "should_end_at"   => end_at
