@@ -56,13 +56,15 @@ div#current-task > div {
 div#current-task div#current-task-title {
   text-align: left;
   margin-left: 30px;
-  font-size: 1.2em
+  font-size: 1.4em
 }
 /* Le DÉTAIL de la tâche */
 div#current-task div#current-task-details {
   margin-left: 0;
+  margin-top: 2em;
   max-height: 180px;
-  overflow: scroll
+  overflow: scroll;
+  text-align: justify;
 }
 /* La ligne de TAGS de la tâche */
 div#current-task div#current-task-tags {
