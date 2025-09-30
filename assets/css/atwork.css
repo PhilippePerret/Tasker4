@@ -7,23 +7,23 @@ Tous les styles pour le panneau de travail.
 
 div#current-task-container {
   position:fixed;
-  --main-width: 1000px;
-  --main-height: 700px;
-  top: 100px;
-  left: calc(50% - var(--main-width)/2);
+  --main-width: 900px;
+  --main-height: 400px;
+  /* top: 100px; */
+  /* left: calc(50% - var(--main-width)/2); */
+  left: 2em;
   width: var(--main-width);
   height: var(--main-height);
-  border: 1px solid #00FF00;
-  text-align: center;
+  /* border: 1px solid #00FF00; */
+  /* text-align: center; */
 }
 
 div#current-task-count {
-  position:fixed;
+  position:absolute;
   background-color: lightgreen;
   border-radius: 50%;
   padding: 0.5em;
-  left: 8px;
-  top: 42px;
+  left: 1020px;
   width: 24px;
   color:rgb(56, 76, 228);
   text-align: center;
@@ -34,15 +34,11 @@ div#current-task-count {
   === ASPECT DE LA TÂCHE COURANT ===
 */
 div#current-task {
-  position: absolute;
   --width: 600px;
   --height: 300px;
-  top: 90px;
-  left: calc(50% - ( var(--width) / 2) - 2em);
   width: var(--width);
-  /* height: var(--height); */
   max-height: 800px;
-  border: 1px solid #FF0000;
+  border: 1px solid #ffc8c8;
   padding:2em;
   padding-bottom: 1em;
   border-radius:2em;
@@ -143,8 +139,6 @@ div#current-task div#current-task-bandeau {
 div#current-task-container button.btn,
 div#current-task-container div#horloge {
   background: #F4FFF4;
-  padding: 1.2em 1.5em;
-  border-radius: 2em;
 }
 div#current-task-container button.btn {
   cursor:pointer;
@@ -212,7 +206,6 @@ div.buttons.bottom-left {
 div.buttons.bottom-left button,
 div.buttons.top-left button {
   margin:0;
-  margin-right: 10px
 }
 
 div.buttons.right-column {
@@ -220,7 +213,7 @@ div.buttons.right-column {
 }
 div.buttons.right-column button,
 div.buttons.left-column button {
-  width: 150px;
+  width: 200px;
 }
 div.buttons.left-column {
   top: 140px; left: 0;

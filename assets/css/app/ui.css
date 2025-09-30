@@ -56,9 +56,6 @@ header a {
 div.content {
   padding: 12px 1em;
 }
-body > section.content {
-  margin-bottom: 10em;
-}
 
 a, a:link, a:visited, a:hover {text-decoration: none}
 
@@ -129,9 +126,7 @@ div#flash-group {
   font-family: PPOptima;
   z-index: 1500;
 }
-div#flash-group > div {
-  /* padding:  0.5em 1em; */
-}
+
 div#flash-group > div > p {
   font-family: PPOptima!important;
   font-style: normal!important;

@@ -62,27 +62,27 @@ msgstr "Identification"
 msgid "Log out"
 msgstr "Déconnexion"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:393
+#: lib/tasker_web/controllers/Tache/task_html.ex:396
 #, elixir-autogen, elixir-format
 msgid "Not started yet"
 msgstr "Pas encore abordé"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:395
+#: lib/tasker_web/controllers/Tache/task_html.ex:398
 #, elixir-autogen, elixir-format
 msgid "Started at"
 msgstr "Débuté le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:401
+#: lib/tasker_web/controllers/Tache/task_html.ex:404
 #, elixir-autogen, elixir-format
 msgid "ended at"
 msgstr "fini le"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:400
+#: lib/tasker_web/controllers/Tache/task_html.ex:403
 #, elixir-autogen, elixir-format
 msgid "not finished yet"
 msgstr "pas encore fini"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:397
+#: lib/tasker_web/controllers/Tache/task_html.ex:400
 #, elixir-autogen, elixir-format
 msgid "thus not finished"
 msgstr "donc non fini"
@@ -436,7 +436,7 @@ msgstr "vous allez recevoir un mèl avec des instructions. "
 msgid "(click to edit)"
 msgstr "(cliquez pour modifier)"
 
-#: lib/tasker_web/controllers/Tache/task_html.ex:332
+#: lib/tasker_web/controllers/Tache/task_html.ex:335
 #, elixir-autogen, elixir-format
 msgid "Expected duration"
 msgstr "Durée estimée"
@@ -847,12 +847,12 @@ msgstr "Si cette option est activée, une alerte sera produite avant les tâches
 msgid "alert hour (info)"
 msgstr "Définit l’heure à laquelle l’alerte doit être donnée. Si non définie, ce sera la même heure que la tâche, le jour précédent."
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:192
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:190
 #, elixir-autogen, elixir-format
 msgid "days"
 msgstr "jours"
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:238
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:236
 #, elixir-autogen, elixir-format
 msgid "empty"
 msgstr "vide"
@@ -863,13 +863,13 @@ msgstr "vide"
 msgid "false"
 msgstr "faux"
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:191
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:189
 #, elixir-autogen, elixir-format
 msgid "hours"
 msgstr "heures"
 
 #: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:47
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:190
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:188
 #, elixir-autogen, elixir-format
 msgid "minutes"
 msgstr "minutes"
@@ -879,7 +879,7 @@ msgstr "minutes"
 msgid "modify"
 msgstr "modifier"
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:194
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:192
 #, elixir-autogen, elixir-format
 msgid "months"
 msgstr "mois"
@@ -894,12 +894,12 @@ msgstr "non défini"
 msgid "true"
 msgstr "vrai"
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:193
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:191
 #, elixir-autogen, elixir-format
 msgid "weeks"
 msgstr "semaines"
 
-#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:195
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:193
 #, elixir-autogen, elixir-format
 msgid "years"
 msgstr "années"
@@ -918,3 +918,8 @@ msgstr "Médium"
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Short"
 msgstr "Courtes"
+
+#: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:160
+#, elixir-autogen, elixir-format
+msgid "unfound"
+msgstr ""

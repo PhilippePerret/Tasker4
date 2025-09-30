@@ -11,16 +11,12 @@
     <button class="btn btn-stop main hidden" style="width:200px;"><%= dgettext("tasker", "Stop (work)") %></button>
   </div>
   
-  <!-- LIGNE BOUTONS HAUT À GAUCHE -->
-  <div class="buttons top-left">
-    <button class="btn btn-remove"><%= dgettext("tasker", "Destroy") %></button>
-    <button class="btn btn-out-day"><%= dgettext("tasker", "Out of day") %></button>
-  </div>
-  
   <!-- LIGNE BOUTONS BAS À GAUCHE -->
   <div class="buttons bottom-left">
     <button class="btn btn-edit"><%= gettext("Edit") %></button>
     <button class="btn btn-projet"><%= dgettext("tasker", "Project") %></button>
+    <button class="btn btn-remove"><%= dgettext("tasker", "Destroy") %></button>
+    <button class="btn btn-out-day"><%= dgettext("tasker", "Out of day") %></button>
     <div id="horloge" class="invisible">0:00:00</div>
   </div>
 
@@ -29,17 +25,13 @@
     <button class="btn btn-to-the-end"><%= dgettext("tasker", "End (to the end)") %></button>
     <button class="btn btn-after-next"><%= dgettext("tasker", "After next") %></button>
     <button class="btn btn-later"><%= dgettext("tasker", "Later") %></button>
-    <button class="btn btn-reset-order small"><%= dgettext("tasker", "Reset order") %></button>
-    <button class="btn btn-show-list small"><%= gettext("Sort") %></button>
-  </div>
-
-  <!-- BOUTONS COLONNE GAUCHE -->
-  <div class="buttons left-column">
+    <button class="btn btn-reset-order"><%= dgettext("tasker", "Reset order") %></button>
+    <button class="btn btn-show-list"><%= gettext("Sort") %></button>
     <button class="btn btn-random"><%= dgettext("tasker", "Random task") %></button>
     <button class="btn btn-choose-task"><%= dgettext("tasker", "Choose task") %></button>
-    <button class="btn btn-filter-per-project small"><%= dgettext("tasker", "Filter per project") %></button>
+    <button class="btn btn-filter-per-project"><%= dgettext("tasker", "Filter per project") %></button>
     <div id="container-filter-per-project"></div>
-    <button class="btn btn-filter-per-nature small"><%= dgettext("tasker", "Filter per nature") %></button>
+    <button class="btn btn-filter-per-nature"><%= dgettext("tasker", "Filter per nature") %></button>
     <div id="container-filter-per-nature"></div>
   </div>
 
