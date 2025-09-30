@@ -39,10 +39,9 @@ div#current-task {
   width: var(--width);
   max-height: 800px;
   border: 1px solid #ffc8c8;
-  padding:2em;
-  padding-bottom: 1em;
+  padding:1em 2em 1em;
   border-radius:2em;
-  overflow: hidden;
+  overflow: auto;
 }
 
 div#current-task > div {
@@ -51,16 +50,16 @@ div#current-task > div {
 /* Le TITRE de la tâche */
 div#current-task div#current-task-title {
   text-align: left;
-  margin-left: 30px;
-  font-size: 1.4em
+  font-size: 18pt;
 }
 /* Le DÉTAIL de la tâche */
 div#current-task div#current-task-details {
   margin-left: 0;
-  margin-top: 2em;
+  margin-top: 1em;
   max-height: 180px;
   overflow: scroll;
   text-align: justify;
+  font-size: 12.6pt;
 }
 /* La ligne de TAGS de la tâche */
 div#current-task div#current-task-tags {
@@ -94,7 +93,6 @@ div#current-task div#current-task-notes {
   margin-left: 0;
   text-align: left;
   padding: 4px;
-  height: 120px;
   max-height: 120px;
   overflow: scroll;
 }
@@ -109,8 +107,7 @@ div#current-task div#current-task-notes div.details {
 
 /* L'INDEX ABSOLU de la tâche */
 div#current-task span#current-task-absolute_index {
-  position: absolute;
-  top: 10px; left: 10px;
+  float: left;
   display:inline-block;
   text-align:center;
   vertical-align: middle;

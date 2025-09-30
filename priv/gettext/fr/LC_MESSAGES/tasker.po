@@ -553,7 +553,7 @@ msgstr "Une fin impérative requiert évidemment une date de fin."
 #: lib/tasker/_constants_.ex:26
 #, elixir-autogen, elixir-format
 msgid "App Name"
-msgstr "Mono Tâche"
+msgstr "Once Upon a Task"
 
 #: lib/tasker_web/components/layouts/root.html.heex:23
 #, elixir-autogen, elixir-format
