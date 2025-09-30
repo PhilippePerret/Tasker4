@@ -107,8 +107,7 @@ div#current-task div#current-task-notes div.details {
 
 /* L'INDEX ABSOLU de la tâche */
 div#current-task span#current-task-absolute_index {
-  float: left;
-  display:inline-block;
+  float: right;
   text-align:center;
   vertical-align: middle;
   line-height: 1.7em;

@@ -119,9 +119,12 @@ defmodule TaskerWeb.TaskController do
           # Un nouveau titre
           case Tasker.Projet.create_project(%{title: new_title}) do
             {:ok, project} -> project.id
-            {:error, _changeset} ->
+            {:error, changeset} ->
+              conn = conn
+              |> put_flash(:error, "Une erreur s'est produite avec le titre. Consulter la console.")
               new(conn, nil)
-              throw(:abort)  # On interrompt l'exécution ici
+              # throw(:abort)  # On interrompt l'exécution ici
+              IO.puts changeset
           end
       end  
     Map.put(task_params, "project_id", project_id)

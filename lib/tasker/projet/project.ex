@@ -18,7 +18,7 @@ defmodule Tasker.Projet.Project do
     project
     |> cast(attrs, [:title, :details, :folder])
     |> validate_required([:title])
-    |> validate_length(:title, min: 5, max: 255)
+    |> validate_length(:title, min: 2, max: 50)
     |> unsafe_validate_unique(:title, Tasker.Repo)
     |> unique_constraint(:title)
     |> validate_folder_exists()

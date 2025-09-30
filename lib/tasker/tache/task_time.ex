@@ -146,6 +146,16 @@ defmodule Tasker.Tache.TaskTime do
       delai_realisation = 
         cond do
           should_start && should_end -> 
+            should_start = if String.length(should_start) == String.length("2025-10-10T10:00") do
+              should_start <> ":00"
+            else
+              should_start
+            end
+            should_end = if String.length(should_end) == String.length("2025-10-10T10:00") do
+              should_end <> ":00"
+            else
+              should_end
+            end
             should_start = NaiveDateTime.from_iso8601!("#{should_start}")
             should_end   = NaiveDateTime.from_iso8601!("#{should_end}")
             NaiveDateTime.diff(should_end, should_start, :minute)
