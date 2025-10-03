@@ -446,7 +446,7 @@ msgstr ""
 msgid "exclusive (priority)"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:22
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:16
 #: lib/tasker_web/controllers/Tache/js_locales.ex:32
 #, elixir-autogen, elixir-format
 msgid "Edit"
@@ -504,7 +504,7 @@ msgstr ""
 msgid "OPEN_GUIL"
 msgstr ""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:33
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:29
 #: lib/tasker_web/controllers/Tache/js_locales.ex:41
 #, elixir-autogen, elixir-format
 msgid "Sort"

@@ -86,7 +86,7 @@ msgstr "Hors projets"
 msgid "Oops, something went wrong! Please check the errors below."
 msgstr "Un problème est survenu. Vérifiez les points ci-dessous."
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:23
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:17
 #: lib/tasker_web/controllers/Projet/project_html/show.html.heex:1
 #: lib/tasker_web/controllers/Tache/task_html/index.html.heex:13
 #: lib/tasker_web/controllers/Tache/task_html/show.html.heex:12
@@ -178,22 +178,22 @@ msgstr "Blocnotes"
 msgid "Please enter at least a title for the task!"
 msgstr "Merci de donner au moins un titre à cette tâche !"
 
-#: lib/tasker/tache/task_time.ex:206
+#: lib/tasker/tache/task_time.ex:216
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{should_start_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:194
+#: lib/tasker/tache/task_time.ex:204
 #, elixir-autogen, elixir-format
 msgid "cannot be before %{started_at}"
 msgstr "ne peut être avant le"
 
-#: lib/tasker/tache/task_time.ex:179
+#: lib/tasker/tache/task_time.ex:189
 #, elixir-autogen, elixir-format
 msgid "cannot be set: abandonment date already defined"
 msgstr "la date d'abandon est déjà définie !"
 
-#: lib/tasker/tache/task_time.ex:185
+#: lib/tasker/tache/task_time.ex:195
 #, elixir-autogen, elixir-format
 msgid "cannot be set: end date already defined"
 msgstr "la date de fin est déjà définie !"
@@ -278,32 +278,32 @@ msgstr "Incohérences dans les dépendances. Je ne peux pas les enregistrer."
 msgid "Select natures"
 msgstr "Choisir les natures"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:30
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:26
 #, elixir-autogen, elixir-format
 msgid "After next"
 msgstr "Après suivante"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:16
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:18
 #, elixir-autogen, elixir-format
 msgid "Destroy"
 msgstr "Détruire"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:29
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:25
 #, elixir-autogen, elixir-format
 msgid "End (to the end)"
 msgstr "À la fin"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:31
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:27
 #, elixir-autogen, elixir-format
 msgid "Later"
 msgstr "Plus tard"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:17
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:19
 #, elixir-autogen, elixir-format
 msgid "Out of day"
 msgstr "Retirer du jour"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:32
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:28
 #, elixir-autogen, elixir-format
 msgid "Reset order"
 msgstr "Ordre initial"
@@ -333,7 +333,7 @@ msgstr "Achevée"
 msgid "Human Label"
 msgstr "Libellé"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:38
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:30
 #, elixir-autogen, elixir-format
 msgid "Random task"
 msgstr "Tâche au hasard"
@@ -358,7 +358,7 @@ msgstr "Difficulté"
 msgid "Current number of tasks"
 msgstr "Nombre courant de tâches"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:40
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:32
 #: lib/tasker_web/controllers/Tache/js_locales.ex:67
 #, elixir-autogen, elixir-format
 msgid "Filter per project"
@@ -414,7 +414,7 @@ msgstr "Le dossier du projet doit être un chemin absolu."
 msgid "The project folder ‘%{path}’ could not be found."
 msgstr "Le dossier de projet ‘%{path}’ est introuvable."
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:42
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:34
 #: lib/tasker_web/controllers/Tache/js_locales.ex:62
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Filter per nature"
@@ -570,7 +570,7 @@ msgstr "La tâche exclusive « $1 » va commencer dans $2 minutes."
 msgid "The exclusive task « $1 » will start in $2."
 msgstr "La tâche exclusive « $1 » commencera dans $2."
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:39
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:31
 #: lib/tasker_web/controllers/Tache/js_locales.ex:50
 #, elixir-autogen, elixir-format, fuzzy
 msgid "Choose task"
@@ -615,3 +615,18 @@ msgstr "débutera"
 #, elixir-autogen, elixir-format
 msgid "Set current"
 msgstr "en tâche courante"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:38
+#, elixir-autogen, elixir-format
+msgid "Work"
+msgstr "Travailler"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:40
+#, elixir-autogen, elixir-format
+msgid "for (duration)"
+msgstr "pendant"
+
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:41
+#, elixir-autogen, elixir-format
+msgid "until"
+msgstr "jusqu’à"

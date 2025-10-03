@@ -139,7 +139,7 @@ div#current-task-container div#horloge {
 div#current-task-container button.btn {
   cursor:pointer;
 }
-div#current-task-container button.btn:not(.btn-start):not(.btn-stop) {
+div#current-task-container button.btn:not(.btn-start):not(.btn-stop):not(.btn-done) {
   opacity: 0.5
 }
 
@@ -153,10 +153,13 @@ div#current-task-container button[data-state="actif"] {
 }
 
 div#current-task-container div#horloge {
-  position:relative;
-  display:inline-block;
+  position: relative;
+  display: inline-block;
   font-family: Monospace;
-  font-size: 22pt;
+  font-size: 38pt;
+  text-align: center;
+  width: 240px;
+  background-color: inherit;
 }
 /* Contenant pour boutons alternatifs (un affiché/un masqué) */
 div#current-task-container div.bouton {
@@ -170,7 +173,38 @@ div#current-task-container div.bouton button.btn {
 
 div#current-task-container div.buttons.bottom-right {
   right: 0px;
-  bottom: 0px;
+  bottom: -32px;
+}
+div#container-upto {
+  margin-top: 12px;
+  margin-left: 8em;
+  font-size: 12pt;
+  font-family: Arial Narrow;
+  border: 1px solid;
+  width: 208px;
+  border-radius: 4px;
+  padding: 2px;
+}
+
+div#container-upto select {
+  outline: none;
+  appearance: none;
+  border: 1px solid#ccc;
+  padding: 4px 8px;
+  text-align: center;
+  background-color: inherit;
+  color: black;
+}
+div#container-upto input {
+  background-color: inherit;
+  border: 1px solid #CCC;
+  padding: 4px;
+  text-align: center;
+}
+
+div#container-upto select option {
+  text-align: center;
+  color:black;
 }
 
 /* Les DIV contenant les boutons autour de la tâche */

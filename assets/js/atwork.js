@@ -586,13 +586,18 @@ class ClassAtWork {
     this.btnZen.classList[this.zenState?'add':'remove']('on')
   }
 
+  /**
+   * Fonction appelée quand on clique sur le bouton "Démarre" pour
+   * lancer la tâche. Elle met en route le chronomètre et regarde
+   * s'il y a une durée de travail définie.
+   */
   onClickStart(ev){
     this.runningStartTime = Number(new Date())
     sessionStorage.setItem('running-start-time', String(this.runningStartTime))
     this.running = true
     this.toggleStartStopButtons()
   }
-  onClickStop(ev){
+  onClickStop(ev /* undefined quand appelé directement */){
     if ( !this.runningStartTime) {
       // Page rechargée en cours de travail
       this.runningStartTime = Number(sessionStorage.getItem('running-start-time'))
@@ -821,6 +826,10 @@ class ClassAtWork {
     this.btnStart.classList[this.running?'add':'remove']('hidden')
     this.btnStop.classList[this.running?'remove':'add']('hidden')
     if ( this.running ) {
+      // TODO Ici, on pourrait imaginer deux fonctionnement de l'horloge : 
+      // 1) par temps écoulé depuis le départ
+      // 2) par compte à rebours (quand on veut travailler pendant un
+      //    certain temps ou jusqu'à une heure donnée)
       this.horloge.start(this.runningStartTime)
     } else {
       this.horloge.stop()
@@ -870,7 +879,7 @@ class ClassAtWork {
   get btnChooseTask(){return this._btnchoosetk || (this._btnchoosetk = DGet('button.btn-choose-task', this.obj))}
   get btnFilterbyProject(){return this._btnfpp || (this._btnfpp = DGet('button.btn-filter-per-project', this.obj))}
   get btnFilterbyNature(){return this._btnfpn || (this._btnfpn = DGet('button.btn-filter-per-nature', this.obj))}
-  get horloge(){return this._horloge || (this._horloge = new Horloge())}
+  get horloge(){return this._horloge || (this._horloge = new Horloge(this))}
   get obj(){return this._obj || (this._obj || DGet('div#main-task-container'))}
 }
 

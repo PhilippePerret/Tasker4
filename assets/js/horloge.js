@@ -15,8 +15,14 @@ class HorlogeClass {
     return `${h}:${m}:${s}`
   }
 
-  constructor(){
+  static h2s(horl) {
+    let s, m, h;
+    [s, m, h] = horl.split(':').reverse();
+    return (s || 0) + (m || 0) * 60 + (h || 0) * 3600;
+  }
 
+  constructor(owner){
+    this.owner = owner;
   }
 
   show(){this.obj.classList.remove('invisible')}
@@ -33,9 +39,14 @@ class HorlogeClass {
    * @param {Number} z Temps de départ en secondes
    */
   start(z){
+    this.mode = this.getWorkTimeMode();
     this.show();
     this.startTime = z || (new Date()).getTime()
+    if (this.mode === 'countdown') { this.endTime = this.calcEndTime(this.startTime);}
     this.timer = setInterval(this.run.bind(this), 500)
+  }
+  getWorkTimeMode(){
+    return this.uptoField.value ? 'countdown' : 'horloge';
   }
   stop(){
     clearInterval(this.timer)
@@ -44,13 +55,56 @@ class HorlogeClass {
   }
 
   run(){
-    const laps = (new Date()).getTime() - this.startTime
+    let laps;
+    const curTime = (new Date()).getTime();
+    if (this.mode === 'horloge') {
+      laps = curTime  - this.startTime;
+    } else {
+      laps = this.endTime - curTime;
+      if ( laps < 0 ) {
+        // Il faut avertir que le temps est terminé
+        console.log("Le temps de travail est terminé, il faut passer au travail suivant.")
+        // TODO : Enregistrer le temps de travail (où est-ce que ça se fait ?)
+        this.stop();
+        this.owner.onClickStop();
+      } else if ( laps < 10 * 60 * 1000 && !this.alert10minutes ) {
+        // Il faut avertir que le temps va terminer dans 10 minutes
+        console.log("Ce travail doit terminer dans 10 minutes.");
+        this.alert10minutes = true;
+     }
+    }
     this.obj.innerHTML = this.s2h(Math.round(laps / 1000))
   }
   s2h(s){return this.constructor.s2h(s)}
 
   get obj(){return this._obj || (this._obj = DGet('div#horloge'))}
 
+  /**
+   * Calcule le temps de fin en mode compte à rebours
+   * 
+   * @param {Number} fromTime Temps de départ en nombre de secondes
+   */
+  calcEndTime(fromTime){
+    const modeUpto = this.menuUptoType.value; // 'by-duree', 'by-upto'
+    const valuUpto = this.constructor.h2s(this.uptoField.value);
+    switch(modeUpto){
+      case 'by-duree': 
+        return fromTime + valuUpto;
+        break;
+      case 'by-upto':
+        const date = new Date();
+        let h, m;
+        [h, m] = this.uptoField.value.split(':');
+        date.setHours(Number(h), Number(m), 0, 0);
+        return date;
+    } 
+  }
+  get uptoField(){
+    return this._uptofield || (this._uptofield = DGet('input#upto-value'))
+  }
+  get menuUptoType(){
+    return this._menuupto || (this._menuupto = DGet('select#upto-type'))
+  }
 }
 
 window.Horloge = HorlogeClass

@@ -6,9 +6,19 @@
 
   <!-- LIGNE BOUTONS BAS À DROITE -->
   <div class="buttons bottom-right">
-    <button class="btn btn-done main small"><%= dgettext("tasker", "Done (task)") %></button>
+    <button class="btn btn-done small"><%= dgettext("tasker", "Done (task)") %></button>
     <button class="btn btn-start main" style="width:200px;"><%= dgettext("tasker", "Start (work)") %></button>
     <button class="btn btn-stop main hidden" style="width:200px;"><%= dgettext("tasker", "Stop (work)") %></button>
+    <!-- Pour déterminer un temps de travail fixe sur la tâche -->
+    <div id="container-upto" class="btn">
+      <span class="upto-span"><%= dgettext("tasker", "Work") %></span>
+      <select id="upto-type">
+        <option value="by-duree"><%= dgettext("tasker", "for (duration)") %></option>
+        <option value="by-upto"><%= dgettext("tasker", "until") %></option>
+      </select>
+      <input type="text" id="upto-value" placeholder="H:MM" style="width:50px;"/>
+    </div>
+ 
   </div>
   
   <!-- LIGNE BOUTONS BAS À GAUCHE -->
@@ -33,7 +43,7 @@
     <div id="container-filter-per-project"></div>
     <button class="btn btn-filter-per-nature"><%= dgettext("tasker", "Filter per nature") %></button>
     <div id="container-filter-per-nature"></div>
-  </div>
+ </div>
 
   <div id="current-task">
     <span id="current-task-absolute_index">[Index absolu]</span>
