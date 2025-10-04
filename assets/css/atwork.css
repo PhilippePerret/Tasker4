@@ -191,22 +191,30 @@ div#container-upto {
   width: 208px;
   border-radius: 4px;
   padding: 2px;
+  line-height: 1.5em;
+}
+div#container-upto * {
+  font-variant-caps: all-small-caps;
 }
 
 div#container-upto select {
   outline: none;
   appearance: none;
   border: 1px solid#ccc;
-  padding: 4px 8px;
+  border-radius: 2px;
+  padding: 1px 8px 3px;
   text-align: center;
   background-color: inherit;
   color: black;
+  vertical-align: text-bottom;
 }
 div#container-upto input {
   background-color: inherit;
   border: 1px solid #CCC;
-  padding: 4px;
+  padding: 2px;
   text-align: center;
+  vertical-align: text-bottom;
+  border-radius: 2px;
 }
 
 div#container-upto select option {

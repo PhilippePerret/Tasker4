@@ -74,13 +74,11 @@ class HorlogeClass {
       laps = this.endTime - curTime;
       if ( laps < 0 ) {
         // Il faut avertir que le temps est terminé
-        console.log("Le temps de travail est terminé, il faut passer au travail suivant.")
         Flash.notice(LOC('You have reached your work time limit'));
         this.stop();
         this.owner.onClickStop();
       } else if ( laps < 10 * 60 * 1000 && !this.alert10minutes ) {
         // Il faut avertir que le temps va terminer dans 10 minutes
-        console.log("Ce travail doit terminer dans 10 minutes.");
         Flash.notice(LOC('Less than 10 minutes of work remaining on this task.'))
         this.alert10minutes = true;
      }
@@ -98,11 +96,17 @@ class HorlogeClass {
    */
   calcEndTime(fromTime){
     const modeUpto = this.menuUptoType.value; // 'by-duree', 'by-upto'
-    const valuUpto = this.constructor.h2s(this.uptoField.value);
     switch(modeUpto){
       case 'by-duree': 
+        let hours, mins = this.uptoField.value;
+        if (mins.match(/:/)){
+          [hours, mins] = mins.split(':').map(s => Number(s)); 
+          mins = mins * 60 + hours * 3600;
+        } else {
+          mins = Number(mins) * 60;
+        }
+        const valuUpto = mins * 1000; 
         return fromTime + valuUpto;
-        break;
       case 'by-upto':
         const date = new Date();
         let h, m;

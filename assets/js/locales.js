@@ -12,6 +12,10 @@
  * 
  *  lib/tasker_web/controllers/Tache/js_locales.ex
  * 
+ * ATTENTION : Les locales sont stockées en session. Si on ne
+ * recharge pas tout (en quittant le navigateur et en le relançant)
+ * il peut être nécessaire détruire la variable LOCALES stockées.
+ * 
  * @usage
  * 
  *      LOC('key-locale')   // => la traduction
