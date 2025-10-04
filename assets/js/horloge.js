@@ -1,6 +1,17 @@
 'use strict';
 /**
  * Module pour gérer l'horloge affichée
+ * 
+ * 
+ * L'horloge travaille suivant deux modes :
+ * 
+ * -  MODE HORLOGE. C'est le mode normal, avec le temps qui défile
+ *    en indiquant le temps consacré à la tâche.
+ * 
+ * -  MODE COUNTDOWN (compte à rebours), quand une durée de travail
+ *    ou une échéance a été fixée avant la fin de la tâche, dans le
+ *    champ interactif idoine. Dans ce mode, c'est un compte à 
+ *    rebours qui est affiché.
  */
 
 class HorlogeClass {
@@ -64,12 +75,13 @@ class HorlogeClass {
       if ( laps < 0 ) {
         // Il faut avertir que le temps est terminé
         console.log("Le temps de travail est terminé, il faut passer au travail suivant.")
-        // TODO : Enregistrer le temps de travail (où est-ce que ça se fait ?)
+        Flash.notice(LOC('You have reached your work time limit'));
         this.stop();
         this.owner.onClickStop();
       } else if ( laps < 10 * 60 * 1000 && !this.alert10minutes ) {
         // Il faut avertir que le temps va terminer dans 10 minutes
         console.log("Ce travail doit terminer dans 10 minutes.");
+        Flash.notice(LOC('Less than 10 minutes of work remaining on this task.'))
         this.alert10minutes = true;
      }
     }

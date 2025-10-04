@@ -1,4 +1,10 @@
-# Tasker
+# Once Upon a Task
+
+## Run the release
+
+`_build/prod/rel/tasker/bin/tasker start`
+
+## Server
 
 To start your Phoenix server:
 

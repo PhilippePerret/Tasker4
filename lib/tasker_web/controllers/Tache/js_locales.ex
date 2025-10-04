@@ -44,6 +44,9 @@ defmodule TaskerWeb.LocalesJS do
     gettext("Hide list")
     gettext("Array or Table required")
     gettext(", and")
+    gettext("You have reached your work time limit.")
+    gettext("Less than 10 minutes of work remaining on this task.")
+    
 
     # - tasker -
     dgettext("tasker", "The task")

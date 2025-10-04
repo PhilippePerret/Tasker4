@@ -7,6 +7,15 @@
  *  - success
  *  - warning (alerte)
  *  - error
+ * 
+ * 
+ * On appelle le plus souvent cette fonction/classe avec 
+ * LOC('<locale variable>'), par exemple 
+ *  Flash.notice(LOC('la variable texte en anglais'))
+ * 
+ * Les variables LOC se définissent dans le fichier :
+ *  lib/controllers/taches/js_locales.ex (mais voir le fichier
+ * locale.js pour les explication)
  */
 class Flash {
   static init(){

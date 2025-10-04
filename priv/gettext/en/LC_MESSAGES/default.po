@@ -446,7 +446,7 @@ msgstr ""
 msgid "exclusive (priority)"
 msgstr "exclusive"
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:16
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:26
 #: lib/tasker_web/controllers/Tache/js_locales.ex:32
 #, elixir-autogen, elixir-format
 msgid "Edit"
@@ -504,7 +504,7 @@ msgstr "\""
 msgid "OPEN_GUIL"
 msgstr "\""
 
-#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:29
+#: lib/tasker_web/controllers/One_Task_Cycle/one_task_cycle_html/at_work.html.heex:39
 #: lib/tasker_web/controllers/Tache/js_locales.ex:41
 #, elixir-autogen, elixir-format
 msgid "Sort"
@@ -922,4 +922,14 @@ msgstr ""
 #: lib/tasker_web/controllers/Worker/worker_prefs_html.ex:160
 #, elixir-autogen, elixir-format
 msgid "unfound"
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:48
+#, elixir-autogen, elixir-format
+msgid "Less than 10 minutes of work remaining on this task."
+msgstr ""
+
+#: lib/tasker_web/controllers/Tache/js_locales.ex:47
+#, elixir-autogen, elixir-format, fuzzy
+msgid "You have reached your work time limit."
 msgstr ""
