@@ -415,11 +415,18 @@ class ClassAtWork {
   /**
    * Fonction qui affiche la tâche fournie en argument.
    * 
+   * Elle remplit le template défini dans le fichier :
+   *  lib/tasker_web/controllers/
+   *  One_Task_Cycle/one_task_cycle_html/at_work.html.heex
+   * 
    * @param {Object} task Les données de la tâche à afficher
    * 
    */
   showTask(task){
-    this.setField('title', task.title)
+    console.log("Tâche courante : ", task);
+    console.log("PROJECTS : ", PROJECTS);
+    this.setSubField('title', 'curtask-title', task.title);
+    this.setSubField('title', 'curtask-project', PROJECTS[task.project_id].title.toLowerCase());
     this.setField('details', task.task_spec.details || "")
     this.setField('absolute_index', task.absolute_index + 1)
     this.setField('relative_index', task.relative_index + 1)
@@ -434,16 +441,27 @@ class ClassAtWork {
       this.setField(fName, fValue)
     } else this.maskField(fName)
   }
+  setSubField(fName, sfId, value){
+    const tag = this.field(fName).querySelector(`#${sfId}`);
+    this.putInTag(tag, value)
+  }
   setField(fName, fValue){
-    if ( 'string' == typeof fValue || 'number' == typeof fValue) {
-      this.field(fName).innerHTML = fValue || "" //`[${fName} non défini]`
-    } else if (fValue && fValue.length) {
-      this.field(fName).innerHTML = ""
-      fValue.forEach(o => this.field(fName).appendChild(o))
+    const tag = this.field(fName);
+    this.putInTag(tag, fValue);
+ }
+  putInTag(tag, value){
+     if ( 'string' == typeof value || 'number' == typeof value) {
+      // Une valeur string ou numérique
+      tag.innerHTML = value || "" //`[${fName} non défini]`
+    } else if (value && value.length) {
+      // Une liste de valeurs
+      tag.innerHTML = ""
+      value.forEach(o => tag.appendChild(o))
     } else {
-      console.error("Impossible de régler la valeur du champ '%s' à ", fName, fValue)
+      console.error("Impossible de régler la valeur du champ '%s' à ", tag.id, value)
     }
   }
+
   showField(fName){this.field(fName).classList.remove('hidden')}
   maskField(fName){this.field(fName).classList.add('hidden')}
   field(fName){
@@ -794,12 +812,17 @@ class ClassAtWork {
    */
   showTasksAsList(onClickMethod){
     var top = 100, left = 200
-    const tks = TASKS.map(tk => {return tk})
+    const tks = TASKS.map(tk => {
+      if (undefined === tk.project_title){
+        Object.assign(tk, {project_title: PROJECTS[tk.project_id].title});
+      }
+      return tk;
+    });
     tks.reverse().forEach(tk => {
       top += 60
       left += 20
-      const d = DCreate('DIV', {class: 'details', text: tk.task_spec.details, style:'font-size:11pt;'})
-      const t = DCreate('DIV', {class: 'title', text: tk.title, style:'font-size:13pt;'})
+      const d = DCreate('DIV', {class: 'details', text: tk.task_spec.details})
+      const t = DCreate('DIV', {class: 'title', text: `[${tk.project_title}] ${tk.title}`})
       const o = DCreate('DIV', {class: 'task-as-list', style:`top:${top}px;left:${left}px;cursor:pointer;`})
       o.appendChild(t)
       o.appendChild(d)

@@ -50,7 +50,14 @@ div#current-task > div {
 /* Le TITRE de la tâche */
 div#current-task div#current-task-title {
   text-align: left;
+}
+div#current-task div#current-task-title #curtask-title {
   font-size: 18pt;
+}
+div#current-task div#current-task-title #curtask-project {
+  display:block;
+  font-variant: small-caps;
+  font-size: 14pt;
 }
 /* Le DÉTAIL de la tâche */
 div#current-task div#current-task-details {
@@ -281,9 +288,10 @@ div.task-as-list {
 div.task-as-list div.title {
   font-weight: bold;
   margin-bottom:  12px;
+  font-size: 11pt;
 }
 div.task-as-list div.details {
-  font-size: 0.85em;
+  font-size: 9pt;
 }
 
 /* 
