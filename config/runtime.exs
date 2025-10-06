@@ -72,7 +72,17 @@ if config_env() == :prod do
     code_reloader: false,
     check_origin: false,
     debug_errors: true, # POUR BIEN SURVEILLER POUR LE MOMENT
-    secret_key_base: secret_key_base
+    secret_key_base: secret_key_base,
+    # Code ajouté pour essayer de faire passer Electron
+    force_ssl: false,
+    session: [
+      store: :cookie, 
+      key: "_tasker_key",
+      signing_salt: "mon-grain-de-sel",
+      same_site: "None",
+      secure: false
+    ]
+    # /Fin de code ajouté
 
   config :logger, level: :debug
 

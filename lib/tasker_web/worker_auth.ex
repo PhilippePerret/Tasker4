@@ -11,7 +11,15 @@ defmodule TaskerWeb.WorkerAuth do
   # the token expiry itself in WorkerToken.
   @max_age 60 * 60 * 24 * 60
   @remember_me_cookie "_tasker_web_worker_remember_me"
-  @remember_me_options [sign: true, max_age: @max_age, same_site: "Lax"]
+  @remember_me_options [
+    sign: true, 
+    max_age: @max_age, 
+    # Modifié pour essayer de faire passer Electron
+    # same_site: "Lax"
+    same_site: "None",
+    secure: false
+    # /Fin de code modifié
+  ]
 
   @doc """
   Logs the worker in.

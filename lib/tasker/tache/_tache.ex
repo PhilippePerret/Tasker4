@@ -135,7 +135,7 @@ defmodule Tasker.Tache do
     end
   end
   def refresh_bdd_time_path do
-    Path.join([".", ".next_refresh_bdd_time"])
+    Path.join([System.user_home(), "Library", "Application Support", "once-upon-a-task", "next_refresh_bdd_time"])
   end
   @doc """
   Juste pour les tests

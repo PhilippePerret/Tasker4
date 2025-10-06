@@ -1,6 +1,7 @@
 defmodule TaskerWeb.OneTaskCycleController do
   use TaskerWeb, :controller
 
+  import Tasker.DebugHelper
   import Ecto.{Query}
   alias Tasker.Repo
 
@@ -20,20 +21,31 @@ defmodule TaskerWeb.OneTaskCycleController do
   @bod NaiveDateTime.beginning_of_day(@now)
 
   def main(conn, _params) do
-    candidates = get_candidate_tasks(conn.assigns.current_worker.id)
-    if Enum.count(candidates) == 0 do
-      conn
-      |> put_flash(:error, dgettext("tasker", "You need at least one task to work on."))
-      |> redirect(to: ~p"/tasks/new")
-    else
-      render(conn, :at_work, %{
-        projects: projects_as_json_table(),
-        natures: natures_as_json_table(),
-        candidates: Jason.encode!(candidates),
-        alertes: Jason.encode!(get_alerts(conn.assigns.current_worker.id))
-      })
+    try do
+      logme("=== DEBUT main() ===")
+      logme("current_worker: #{inspect(conn.assigns.current_worker)}")
+      candidates = get_candidate_tasks(conn.assigns.current_worker.id)
+      logme("candidates count: #{Enum.count(candidates)}")
+      if Enum.count(candidates) == 0 do
+        logme("Problème aucun candidat trouvé")
+        conn
+        |> put_flash(:error, dgettext("tasker", "You need at least one task to work on."))
+        |> redirect(to: ~p"/tasks/new")
+      else
+        render(conn, :at_work, %{
+          projects: projects_as_json_table(),
+          natures: natures_as_json_table(),
+          candidates: Jason.encode!(candidates),
+          alertes: Jason.encode!(get_alerts(conn.assigns.current_worker.id))
+        })
+      end
+      logme("Tout s'est bien passé dans main()")
+    rescue 
+      e -> 
+        File.write("/tmp/debug_phoenix.log", "ERREUR: #{inspect(e)}\n", [:append])
+        reraise e, __STACKTRACE__
     end
-  end
+ end
 
 
   defp projects_as_json_table do
@@ -97,6 +109,9 @@ defmodule TaskerWeb.OneTaskCycleController do
     # |> IO.inspect(label: "RÉSULT")
     # raise "pour voir"
     tasks = result.rows
+    logme("Nombre (brut) de tâches relevées : #{Enum.count(tasks)}")
+
+    tasks = tasks
     |> Enum.map(fn row -> 
       Enum.zip(result.columns, row) 
       |> Map.new()
