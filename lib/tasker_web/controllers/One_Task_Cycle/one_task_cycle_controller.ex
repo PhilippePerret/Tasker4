@@ -23,11 +23,8 @@ defmodule TaskerWeb.OneTaskCycleController do
   def main(conn, _params) do
     try do
       logme("=== DEBUT main() ===")
-      logme("current_worker: #{inspect(conn.assigns.current_worker)}")
       candidates = get_candidate_tasks(conn.assigns.current_worker.id)
-      logme("candidates count: #{Enum.count(candidates)}")
       if Enum.count(candidates) == 0 do
-        logme("Problème aucun candidat trouvé")
         conn
         |> put_flash(:error, dgettext("tasker", "You need at least one task to work on."))
         |> redirect(to: ~p"/tasks/new")
@@ -39,7 +36,6 @@ defmodule TaskerWeb.OneTaskCycleController do
           alertes: Jason.encode!(get_alerts(conn.assigns.current_worker.id))
         })
       end
-      logme("Tout s'est bien passé dans main()")
     rescue 
       e -> 
         File.write("/tmp/debug_phoenix.log", "ERREUR: #{inspect(e)}\n", [:append])
@@ -179,7 +175,12 @@ defmodule TaskerWeb.OneTaskCycleController do
         true 
       end
     end)
-    # |> IO.inspect(label: "TÂCHES FINALES")
+    # Les mettre en forme
+    |> Enum.map(fn task ->
+      task_spec = %{task.task_spec | details: MDEx.to_html!(task.task_spec.details || "", extension: [tasklist: true])}
+      %{task | task_spec: task_spec}
+    end)
+    |> IO.inspect(label: "TÂCHES FINALES")
 
     # On récupère tous les ids de tâche pour récupérer les
     # dépendances

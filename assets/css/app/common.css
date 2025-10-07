@@ -42,3 +42,10 @@
   opacity: 0.5;
 }
 .explication:hover {opacity: 1}
+
+li:has(input[type="checkbox"]) {
+  list-style: none;
+}
+li input[type="checkbox"] {
+  margin-right: 0.7em;
+}

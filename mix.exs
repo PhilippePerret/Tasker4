@@ -40,6 +40,7 @@ defmodule Tasker.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:philhtml, path: "/Users/philippeperret/Programmes/Phoenix/philhtml"},
       # TODO bump on release to {:phoenix_live_view, "~> 1.0.0"},
+      {:mdex, "~> 0.1"},
       {:phoenix_live_view, "~> 1.0.0-rc.1", override: true},
       {:floki, ">= 0.30.0", only: :test},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
