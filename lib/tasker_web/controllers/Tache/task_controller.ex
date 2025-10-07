@@ -36,7 +36,7 @@ defmodule TaskerWeb.TaskController do
     {:ok, task} ->
       create_or_update_scripts(task_params, task)
       conn
-      |> put_flash(:info, "🥳 " <> dgettext("tasker", "Task created successfully."))
+      |> put_flash(:info, dgettext("tasker", "Task created successfully."))
       |> redirect(to: ~p"/tasks/#{task}/edit")
 
     {:error, %Ecto.Changeset{} = _changeset} ->
@@ -82,7 +82,7 @@ defmodule TaskerWeb.TaskController do
     case Tache.update_task(task, task_params) do
       {:ok, task} ->
         conn
-        |> put_flash(:info, "🥳 " <> dgettext("tasker", "Task updated successfully."))
+        |> put_flash(:info, dgettext("tasker", "Task updated successfully."))
         |> redirect(to: ~p"/tasks/#{task}/edit")
 
       {:error, %Ecto.Changeset{} = changeset} ->

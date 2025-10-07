@@ -40,7 +40,7 @@ class Flash {
   static removeServerMessage(domE, ev){
     // console.info("domE", domE)
     domE.remove()
-    clearTimeout(this.timer)
+    this.timer && clearTimeout(this.timer);
     delete this.timer
   }
 

@@ -117,67 +117,58 @@ th.titre-projet {
 
 div#flash-group {
   position: fixed;
-  background-color: white;
   /* width: 640px; */
   border: 1px solid transparent;
+  outline: 1px solid transparent;
   right: 1em;
-  top: 50px;
+  bottom: 14px;
   max-width: 640px;
-  font-family: PPOptima;
   z-index: 1500;
+}
+div#flash-group * {
+  font-family: 'Arial Unicode MS', 'Arial Narrow';
+  font-size: 11pt;
 }
 
 div#flash-group > div > p {
-  font-family: PPOptima!important;
   font-style: normal!important;
   font-weight: normal!important;
 }
 div#flash-group div.flash-message,
-div#flash-group div#flash-error p {
-  padding:0.3em 1em;
+div#flash-group div#flash-error,
+div#flash-group div#flash-info  {
+  padding: 0px 16px 2px;
+  color: white;
+  cursor: pointer;
 }
+div#flash-group div.flash-message:not(.error) {
+  background-color: deepskyblue;
+}
+div#flash-group div#flash-error,
 div#flash-group div.flash-message.error,
-div#flash-group div#flash-error p {
-  position:relative;
-  color: red!important;
-  background-color: #ffbdbd;
+ div#flash-group div.flash-message.warning {
+  background-color: rgb(227, 26, 26);
 }
-div#flash-group div.flash-message.error:before,
-div#flash-group div#flash-error p:before {
-  content: "🤪 ";
+div#flash-group div#flash-info {
+  background-color: rgb(7, 123, 7);
 }
+
 div#flash-group div.flash-message.error button.close-btn,
 div#flash-group div#flash-error button.close-btn {
   background-color: red;
 }
 
-div#flash-group div#flash-info p.message {
-  position:relative;
-  border-color: green!important;
-  background-color: #CCFFCC;
-  color: green;
-  padding:  0.3em 1em;
-}
 div#flash-group div#flash-info button.close-btn {
   background-color: green;
 }
-div#flash-group div.flash-message.notice {
-  position:relative;
-  border-color: blue!important;
-  background-color: #CCCCFF;
-  color:blue;
-}
+
 div#flash-group div.flash-message.notice button.close-btn {
   background-color: blue;
 }
 div#flash-group div.flash-message.success {
   border-color: green!important;
-  background-color: #CCFFCC;
-  color: green;
 }
-div#flash-group div.flash-message.success:before {
-  content: "🥳 "
-}
+
 div#flash-group button.close-btn {
   all: unset;
   position: absolute;
