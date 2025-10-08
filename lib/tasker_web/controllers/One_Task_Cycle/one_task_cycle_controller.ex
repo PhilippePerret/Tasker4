@@ -38,7 +38,7 @@ defmodule TaskerWeb.OneTaskCycleController do
       end
     rescue 
       e -> 
-        File.write("/tmp/debug_phoenix.log", "ERREUR: #{inspect(e)}\n", [:append])
+        logme("ERREUR : #{inspect(e)}")
         reraise e, __STACKTRACE__
     end
  end

@@ -16,7 +16,7 @@ defmodule TaskerWeb.WorkerAuth do
     max_age: @max_age, 
     # Modifié pour essayer de faire passer Electron
     # same_site: "Lax"
-    same_site: "None",
+    same_site: "Lax",
     secure: false
     # /Fin de code modifié
   ]

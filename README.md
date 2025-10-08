@@ -4,6 +4,16 @@
 
 `_build/prod/rel/tasker/bin/tasker start`
 
+## App macos
+
+Après avoir produit la release (et l'avoir vérifiée peut-être), il faut actualiser l'application mac en jouant : 
+
+~~~bash
+cd "/Users/philippeperret/Programmes/_Election_wrappers_/Once Upon a Task"
+npm run build
+mv ./dist/mac-arm64/once-upon-a-task.app "/Applications/Once Upon a Task.app"
+~~~
+
 ## Server
 
 To start your Phoenix server:
